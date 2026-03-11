@@ -4,10 +4,14 @@ const handler = async (req, res) => {
   }
 
   const { message } = req.body;
+  // This looks for the secret key you saved in Vercel
   const API_KEY = process.env.GEMINI_API_KEY;
 
+  if (!API_KEY) {
+    return res.status(200).json({ reply: "Configuration Error: GEMINI_API_KEY is missing in Vercel Settings." });
+  }
+
   try {
-    // Using the v1beta endpoint which is more reliable for the Flash model
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -22,10 +26,11 @@ const handler = async (req, res) => {
       const aiResponse = data.candidates[0].content.parts[0].text;
       res.status(200).json({ reply: aiResponse });
     } else {
-      res.status(200).json({ reply: "AI Error: " + (data.error?.message || "Please check Vercel Environment Variables") });
+      // This will show us exactly what Google is complaining about
+      res.status(200).json({ reply: "AI Error: " + (data.error?.message || "Invalid API Response") });
     }
   } catch (error) {
-    res.status(500).json({ reply: "Connection failed. Please try again." });
+    res.status(500).json({ reply: "Connection failed. Please push your code again." });
   }
 };
 
