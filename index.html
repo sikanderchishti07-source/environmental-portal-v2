@@ -1049,7 +1049,7 @@ async function sendChat() {
     chatHistory.push({ role: 'user', content: text });
     showTyping();
     try {
-       const res = await fetch('/api/chat', {
+        const res = await fetch('/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ message: text })
@@ -1057,8 +1057,14 @@ async function sendChat() {
         const data = await res.json();
         hideTyping();
         const reply = data.reply || "I'm sorry, I couldn't process that. Please contact us at enviro@aecon-sa.com.";
+        chatHistory.push({ role: 'assistant', content: reply });
+        addMessage(reply, 'assistant');
+    } catch(err) {
+        hideTyping();
+        addMessage("Sorry, I'm having trouble connecting. Please email enviro@aecon-sa.com", 'assistant');
     }
 }
+
 
 function sendQuick(msg) {
     document.getElementById('chatInput').value = msg;
