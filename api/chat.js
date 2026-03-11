@@ -9,8 +9,8 @@ const handler = async (req, res) => {
   }
 
   try {
-    // We use the 'v1beta' endpoint because it is the most compatible with 'gemini-1.5-flash'
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+    // UPDATED: Using the full model path 'models/gemini-1.5-flash-latest'
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -24,8 +24,8 @@ const handler = async (req, res) => {
       const aiResponse = data.candidates[0].content.parts[0].text;
       res.status(200).json({ reply: aiResponse });
     } else {
-      // This will show the exact error message from Google so we can see what's wrong
-      res.status(200).json({ reply: "Google API says: " + (data.error?.message || "Unknown error") });
+      // If it still fails, this will show the exact reason from Google
+      res.status(200).json({ reply: "Google API Error: " + (data.error?.message || "Check model settings") });
     }
   } catch (error) {
     res.status(500).json({ reply: "Connection failed. Please check your internet or redeploy." });
