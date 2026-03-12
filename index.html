@@ -84,6 +84,89 @@
         .range-track { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 9999px; background: #e5e7eb; outline: none; }
         .range-track::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #1a5f5f, #2d8a8a); cursor: pointer; box-shadow: 0 2px 8px rgba(15,61,62,0.4); }
         .result-card { background: linear-gradient(135deg, #0f3d3e 0%, #1a5f5f 100%); color: white; border-radius: 16px; padding: 20px; text-align: center; }
+
+        /* ─── AQI Widget (NEW) ─── */
+        #aqiWidget {
+            position: fixed;
+            bottom: 28px;
+            left: 28px;
+            z-index: 998;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 8px;
+            pointer-events: none;
+        }
+        #aqiDot {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: var(--aqi-color, #eab308);
+            cursor: pointer;
+            pointer-events: all;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: background 0.5s ease, transform 0.2s ease;
+            animation: aqiPulse 2s ease-in-out infinite;
+            position: relative;
+            user-select: none;
+        }
+        #aqiDot:hover { transform: scale(1.1); }
+        #aqiDot .dot-aqi   { font-size: 11px; font-weight: 800; color: white; line-height: 1; }
+        #aqiDot .dot-label { font-size: 7px; font-weight: 600; color: rgba(255,255,255,0.85); letter-spacing: 0.5px; }
+        @keyframes aqiPulse {
+            0%,100% { box-shadow: 0 0 0 0   var(--aqi-color-alpha, rgba(234,179,8,0.6)); }
+            50%      { box-shadow: 0 0 0 12px transparent; }
+        }
+        #aqiCard {
+            background: linear-gradient(135deg, #0a2a2b, #124040);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 16px;
+            width: 220px;
+            color: white;
+            pointer-events: all;
+            transform-origin: bottom left;
+            transform: scale(0) translateY(8px);
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.25s ease;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        #aqiCard.open { transform: scale(1) translateY(0); opacity: 1; }
+        #aqiClose {
+            position: absolute;
+            top: -6px; right: -6px;
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            border: 1px solid rgba(255,255,255,0.25);
+            color: white;
+            font-size: 10px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            pointer-events: all;
+            transition: background 0.2s;
+        }
+        #aqiClose:hover { background: rgba(255,255,255,0.3); }
+        #aqiWidget.expanded #aqiClose { display: flex; }
+        .aqi-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .aqi-live-badge { display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 700; opacity: 0.7; letter-spacing: 1px; }
+        .aqi-live-dot { width: 7px; height: 7px; background: #4ade80; border-radius: 50%; animation: aqiPulse 2s infinite; --aqi-color: #4ade80; --aqi-color-alpha: rgba(74,222,128,0.5); }
+        #aqiCardTime { font-size: 10px; opacity: 0.5; }
+        .aqi-main { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        #aqiCircle { width: 58px; height: 58px; border-radius: 50%; background: var(--aqi-color, #eab308); display: flex; align-items: center; justify-content: center; flex-direction: column; flex-shrink: 0; transition: background 0.5s, box-shadow 0.5s; }
+        #aqiCircle .c-val  { font-size: 20px; font-weight: 800; color: white; line-height: 1; }
+        #aqiCircle .c-unit { font-size: 8px; color: rgba(255,255,255,0.8); }
+        #aqiLabel    { font-size: 14px; font-weight: 700; }
+        #aqiSublabel { font-size: 10px; opacity: 0.6; margin-top: 2px; }
+        .aqi-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+        .aqi-stat { background: rgba(255,255,255,0.08); border-radius: 10px; padding: 7px; text-align: center; }
+        .aqi-stat .sv { font-size: 15px; font-weight: 700; color: #4ade80; transition: color 0.5s; }
+        .aqi-stat .sl { font-size: 9px; opacity: 0.6; margin-top: 1px; }
     </style>
 </head>
 <body class="font-sans text-gray-800 bg-gray-50 overflow-x-hidden">
@@ -155,7 +238,6 @@
                         <i class="fas fa-calculator"></i> Free Calculator
                     </button>
                 </div>
-                <!-- New feature pills -->
                 <div class="flex flex-wrap gap-2 pt-2">
                     <button onclick="openPortal()" class="flex items-center gap-2 px-4 py-2 bg-white/15 backdrop-blur-sm rounded-full text-sm border border-white/30 hover:bg-white/25 transition-all">
                         <i class="fas fa-folder-open text-aecon-gold"></i> Client Portal
@@ -476,7 +558,7 @@
 </section>
 
 <!-- ════════════════════════════════════════════
-     ★ NEW: TOOLS SECTION (Calculator Promo)
+     TOOLS SECTION
 ═════════════════════════════════════════════ -->
 <section id="tools" class="py-24 bg-aecon-light">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -594,11 +676,10 @@
 
 
 <!-- ════════════════════════════════════════════
-     ★ MODAL 1: CLIENT PORTAL
+     MODAL 1: CLIENT PORTAL
 ═════════════════════════════════════════════ -->
 <div id="portalModal" class="modal-overlay" onclick="closeOnOverlay(event,'portalModal')">
     <div class="modal-box w-full max-w-5xl mx-4">
-        <!-- Login Screen -->
         <div id="portalLogin" class="p-10">
             <div class="flex justify-between items-center mb-8">
                 <div class="flex items-center gap-3">
@@ -619,11 +700,8 @@
                 </div>
             </div>
         </div>
-
-        <!-- Dashboard Screen (hidden initially) -->
         <div id="portalDashboard" class="hidden">
             <div class="flex h-[640px]">
-                <!-- Sidebar -->
                 <div class="w-60 bg-gray-50 border-r p-5 flex flex-col gap-1 flex-shrink-0">
                     <div class="flex items-center gap-3 mb-6">
                         <div class="w-10 h-10 bg-gradient-to-br from-aecon-dark to-aecon-accent rounded-lg flex items-center justify-center text-white font-bold">A</div>
@@ -635,11 +713,8 @@
                     <div class="portal-sidebar-item" onclick="showPortalSection('compliance', this)"><i class="fas fa-shield-alt w-4"></i> Compliance</div>
                     <div class="mt-auto portal-sidebar-item text-red-500" onclick="doLogout()"><i class="fas fa-sign-out-alt w-4"></i> Logout</div>
                 </div>
-                <!-- Content -->
                 <div class="flex-1 overflow-y-auto p-7">
                     <button onclick="closeModal('portalModal')" class="absolute top-5 right-5 w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 z-10"><i class="fas fa-times text-gray-500"></i></button>
-
-                    <!-- Overview -->
                     <div id="section-overview" class="portal-section">
                         <h2 class="text-2xl font-bold text-aecon-dark mb-1">Welcome back, Riyadh Cement Co.</h2>
                         <p class="text-gray-500 text-sm mb-6">Last login: March 10, 2025</p>
@@ -655,66 +730,23 @@
                             <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl"><div class="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center"><i class="fas fa-bell text-amber-600 text-xs"></i></div><div class="flex-1"><p class="text-sm font-medium text-gray-800">NCEC permit renewal due in 45 days</p><p class="text-xs text-gray-400">Reminder</p></div></div>
                         </div>
                     </div>
-
-                    <!-- Projects -->
                     <div id="section-projects" class="portal-section hidden">
                         <h2 class="text-2xl font-bold text-aecon-dark mb-6">Project Tracker</h2>
                         <div class="space-y-4">
-                            <div class="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
-                                <div class="flex justify-between items-start mb-3">
-                                    <div><h4 class="font-bold text-aecon-dark">Ambient Air Quality Campaign 2025</h4><p class="text-xs text-gray-400">Started Jan 2025 · AECON Ref: AQ-2025-001</p></div>
-                                    <span class="status-badge status-progress">In Progress</span>
-                                </div>
-                                <div class="progress-bar mb-1"><div class="progress-fill" style="width:72%"></div></div>
-                                <div class="flex justify-between text-xs text-gray-400"><span>72% Complete</span><span>Est. Completion: June 2025</span></div>
-                            </div>
-                            <div class="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
-                                <div class="flex justify-between items-start mb-3">
-                                    <div><h4 class="font-bold text-aecon-dark">Stack Emission Testing — Unit 1, 2, 3</h4><p class="text-xs text-gray-400">Started Feb 2025 · AECON Ref: SE-2025-004</p></div>
-                                    <span class="status-badge status-complete">Complete</span>
-                                </div>
-                                <div class="progress-bar mb-1"><div class="progress-fill" style="width:100%"></div></div>
-                                <div class="flex justify-between text-xs text-gray-400"><span>100% Complete</span><span>Report issued March 2025</span></div>
-                            </div>
-                            <div class="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
-                                <div class="flex justify-between items-start mb-3">
-                                    <div><h4 class="font-bold text-aecon-dark">Environmental Management Plan Update</h4><p class="text-xs text-gray-400">Started Mar 2025 · AECON Ref: EMP-2025-007</p></div>
-                                    <span class="status-badge status-review">In Review</span>
-                                </div>
-                                <div class="progress-bar mb-1"><div class="progress-fill" style="width:40%"></div></div>
-                                <div class="flex justify-between text-xs text-gray-400"><span>40% Complete</span><span>Est. Completion: May 2025</span></div>
-                            </div>
+                            <div class="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm"><div class="flex justify-between items-start mb-3"><div><h4 class="font-bold text-aecon-dark">Ambient Air Quality Campaign 2025</h4><p class="text-xs text-gray-400">Started Jan 2025 · AECON Ref: AQ-2025-001</p></div><span class="status-badge status-progress">In Progress</span></div><div class="progress-bar mb-1"><div class="progress-fill" style="width:72%"></div></div><div class="flex justify-between text-xs text-gray-400"><span>72% Complete</span><span>Est. Completion: June 2025</span></div></div>
+                            <div class="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm"><div class="flex justify-between items-start mb-3"><div><h4 class="font-bold text-aecon-dark">Stack Emission Testing — Unit 1, 2, 3</h4><p class="text-xs text-gray-400">Started Feb 2025 · AECON Ref: SE-2025-004</p></div><span class="status-badge status-complete">Complete</span></div><div class="progress-bar mb-1"><div class="progress-fill" style="width:100%"></div></div><div class="flex justify-between text-xs text-gray-400"><span>100% Complete</span><span>Report issued March 2025</span></div></div>
+                            <div class="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm"><div class="flex justify-between items-start mb-3"><div><h4 class="font-bold text-aecon-dark">Environmental Management Plan Update</h4><p class="text-xs text-gray-400">Started Mar 2025 · AECON Ref: EMP-2025-007</p></div><span class="status-badge status-review">In Review</span></div><div class="progress-bar mb-1"><div class="progress-fill" style="width:40%"></div></div><div class="flex justify-between text-xs text-gray-400"><span>40% Complete</span><span>Est. Completion: May 2025</span></div></div>
                         </div>
                     </div>
-
-                    <!-- Reports -->
                     <div id="section-reports" class="portal-section hidden">
                         <h2 class="text-2xl font-bold text-aecon-dark mb-6">Downloadable Reports</h2>
                         <div class="space-y-3">
-                            <div class="flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all">
-                                <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center"><i class="fas fa-file-pdf text-red-500"></i></div>
-                                <div class="flex-1"><p class="font-semibold text-gray-800 text-sm">Q4 2024 Ambient Air Quality Report</p><p class="text-xs text-gray-400">PDF · 3.2 MB · Issued: March 2025</p></div>
-                                <button onclick="fakeDownload()" class="px-4 py-2 bg-aecon-dark text-white text-xs rounded-lg hover:bg-aecon-accent transition-all font-medium"><i class="fas fa-download mr-1"></i> Download</button>
-                            </div>
-                            <div class="flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all">
-                                <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center"><i class="fas fa-file-pdf text-red-500"></i></div>
-                                <div class="flex-1"><p class="font-semibold text-gray-800 text-sm">Stack Emission Test Report — Unit 1</p><p class="text-xs text-gray-400">PDF · 1.8 MB · Issued: Feb 2025</p></div>
-                                <button onclick="fakeDownload()" class="px-4 py-2 bg-aecon-dark text-white text-xs rounded-lg hover:bg-aecon-accent transition-all font-medium"><i class="fas fa-download mr-1"></i> Download</button>
-                            </div>
-                            <div class="flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all">
-                                <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center"><i class="fas fa-file-excel text-green-600"></i></div>
-                                <div class="flex-1"><p class="font-semibold text-gray-800 text-sm">PM2.5/PM10 Raw Data — Jan–Mar 2025</p><p class="text-xs text-gray-400">Excel · 890 KB · Issued: March 2025</p></div>
-                                <button onclick="fakeDownload()" class="px-4 py-2 bg-aecon-dark text-white text-xs rounded-lg hover:bg-aecon-accent transition-all font-medium"><i class="fas fa-download mr-1"></i> Download</button>
-                            </div>
-                            <div class="flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all">
-                                <div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center"><i class="fas fa-file-pdf text-red-500"></i></div>
-                                <div class="flex-1"><p class="font-semibold text-gray-800 text-sm">Q3 2024 Ambient Air Quality Report</p><p class="text-xs text-gray-400">PDF · 2.9 MB · Issued: Oct 2024 · Previous Version</p></div>
-                                <button onclick="fakeDownload()" class="px-4 py-2 bg-gray-100 text-gray-600 text-xs rounded-lg hover:bg-gray-200 transition-all font-medium"><i class="fas fa-download mr-1"></i> Archive</button>
-                            </div>
+                            <div class="flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all"><div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center"><i class="fas fa-file-pdf text-red-500"></i></div><div class="flex-1"><p class="font-semibold text-gray-800 text-sm">Q4 2024 Ambient Air Quality Report</p><p class="text-xs text-gray-400">PDF · 3.2 MB · Issued: March 2025</p></div><button onclick="fakeDownload()" class="px-4 py-2 bg-aecon-dark text-white text-xs rounded-lg hover:bg-aecon-accent transition-all font-medium"><i class="fas fa-download mr-1"></i> Download</button></div>
+                            <div class="flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all"><div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center"><i class="fas fa-file-pdf text-red-500"></i></div><div class="flex-1"><p class="font-semibold text-gray-800 text-sm">Stack Emission Test Report — Unit 1</p><p class="text-xs text-gray-400">PDF · 1.8 MB · Issued: Feb 2025</p></div><button onclick="fakeDownload()" class="px-4 py-2 bg-aecon-dark text-white text-xs rounded-lg hover:bg-aecon-accent transition-all font-medium"><i class="fas fa-download mr-1"></i> Download</button></div>
+                            <div class="flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all"><div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center"><i class="fas fa-file-excel text-green-600"></i></div><div class="flex-1"><p class="font-semibold text-gray-800 text-sm">PM2.5/PM10 Raw Data — Jan–Mar 2025</p><p class="text-xs text-gray-400">Excel · 890 KB · Issued: March 2025</p></div><button onclick="fakeDownload()" class="px-4 py-2 bg-aecon-dark text-white text-xs rounded-lg hover:bg-aecon-accent transition-all font-medium"><i class="fas fa-download mr-1"></i> Download</button></div>
+                            <div class="flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all"><div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center"><i class="fas fa-file-pdf text-red-500"></i></div><div class="flex-1"><p class="font-semibold text-gray-800 text-sm">Q3 2024 Ambient Air Quality Report</p><p class="text-xs text-gray-400">PDF · 2.9 MB · Issued: Oct 2024 · Previous Version</p></div><button onclick="fakeDownload()" class="px-4 py-2 bg-gray-100 text-gray-600 text-xs rounded-lg hover:bg-gray-200 transition-all font-medium"><i class="fas fa-download mr-1"></i> Archive</button></div>
                         </div>
                     </div>
-
-                    <!-- Compliance -->
                     <div id="section-compliance" class="portal-section hidden">
                         <h2 class="text-2xl font-bold text-aecon-dark mb-6">Compliance Documents</h2>
                         <div class="grid grid-cols-2 gap-4 mb-6">
@@ -734,7 +766,7 @@
 
 
 <!-- ════════════════════════════════════════════
-     ★ MODAL 2: CALCULATOR
+     MODAL 2: CALCULATOR
 ═════════════════════════════════════════════ -->
 <div id="calcModal" class="modal-overlay" onclick="closeOnOverlay(event,'calcModal')">
     <div class="modal-box w-full max-w-3xl mx-4">
@@ -747,71 +779,24 @@
                 <button id="calcTab-compliance" onclick="switchCalcTab('compliance')" class="flex-1 py-3 rounded-xl font-semibold text-sm transition-all calc-tab-active">⚖️ Compliance Checker</button>
                 <button id="calcTab-carbon" onclick="switchCalcTab('carbon')" class="flex-1 py-3 rounded-xl font-semibold text-sm transition-all bg-gray-100 text-gray-700 hover:bg-gray-200">🌿 Carbon Calculator</button>
             </div>
-
-            <!-- Compliance Checker -->
             <div id="calc-compliance">
                 <div class="grid md:grid-cols-2 gap-5 mb-6">
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Industry Type</label>
-                        <select id="compIndustry" onchange="updateCompliance()" class="w-full px-4 py-3 border border-gray-200 rounded-xl outline-none focus:border-aecon-primary bg-gray-50">
-                            <option value="">Select industry...</option>
-                            <option value="cement">Cement / Concrete</option>
-                            <option value="power">Power Generation</option>
-                            <option value="oil">Oil & Gas / Petrochemical</option>
-                            <option value="construction">Construction</option>
-                            <option value="food">Food & Beverage</option>
-                            <option value="pharma">Pharmaceutical</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">Region / Location</label>
-                        <select id="compRegion" onchange="updateCompliance()" class="w-full px-4 py-3 border border-gray-200 rounded-xl outline-none focus:border-aecon-primary bg-gray-50">
-                            <option value="">Select region...</option>
-                            <option value="ksa">Saudi Arabia (NCEC)</option>
-                            <option value="uae">UAE</option>
-                            <option value="intl">International / IFC</option>
-                        </select>
-                    </div>
+                    <div><label class="block text-sm font-semibold text-gray-700 mb-2">Industry Type</label><select id="compIndustry" onchange="updateCompliance()" class="w-full px-4 py-3 border border-gray-200 rounded-xl outline-none focus:border-aecon-primary bg-gray-50"><option value="">Select industry...</option><option value="cement">Cement / Concrete</option><option value="power">Power Generation</option><option value="oil">Oil & Gas / Petrochemical</option><option value="construction">Construction</option><option value="food">Food & Beverage</option><option value="pharma">Pharmaceutical</option></select></div>
+                    <div><label class="block text-sm font-semibold text-gray-700 mb-2">Region / Location</label><select id="compRegion" onchange="updateCompliance()" class="w-full px-4 py-3 border border-gray-200 rounded-xl outline-none focus:border-aecon-primary bg-gray-50"><option value="">Select region...</option><option value="ksa">Saudi Arabia (NCEC)</option><option value="uae">UAE</option><option value="intl">International / IFC</option></select></div>
                 </div>
                 <div id="complianceResults" class="hidden">
-                    <div class="bg-aecon-light rounded-2xl p-6 mb-4">
-                        <h4 class="font-bold text-aecon-dark mb-4 flex items-center gap-2"><i class="fas fa-clipboard-list text-aecon-primary"></i> Applicable Standards</h4>
-                        <div id="complianceList" class="space-y-2"></div>
-                    </div>
-                    <div class="bg-amber-50 rounded-2xl p-4 border border-amber-100">
-                        <p class="text-sm text-amber-800"><i class="fas fa-info-circle mr-2"></i><strong>Disclaimer:</strong> This is an indicative overview. Contact AECON for a full compliance assessment tailored to your facility.</p>
-                    </div>
+                    <div class="bg-aecon-light rounded-2xl p-6 mb-4"><h4 class="font-bold text-aecon-dark mb-4 flex items-center gap-2"><i class="fas fa-clipboard-list text-aecon-primary"></i> Applicable Standards</h4><div id="complianceList" class="space-y-2"></div></div>
+                    <div class="bg-amber-50 rounded-2xl p-4 border border-amber-100"><p class="text-sm text-amber-800"><i class="fas fa-info-circle mr-2"></i><strong>Disclaimer:</strong> This is an indicative overview. Contact AECON for a full compliance assessment tailored to your facility.</p></div>
                     <button onclick="closeModal('calcModal'); document.getElementById('contact').scrollIntoView({behavior:'smooth'})" class="w-full mt-4 py-3 bg-aecon-dark text-white rounded-xl font-bold hover:bg-aecon-accent transition-all">Get a Full Compliance Assessment →</button>
                 </div>
-                <div id="compliancePlaceholder" class="text-center py-10 text-gray-400">
-                    <i class="fas fa-balance-scale text-5xl mb-3 block opacity-30"></i>
-                    <p>Select your industry and region to see applicable standards</p>
-                </div>
+                <div id="compliancePlaceholder" class="text-center py-10 text-gray-400"><i class="fas fa-balance-scale text-5xl mb-3 block opacity-30"></i><p>Select your industry and region to see applicable standards</p></div>
             </div>
-
-            <!-- Carbon Calculator -->
             <div id="calc-carbon" class="hidden">
                 <div class="space-y-5 mb-6">
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">⚡ Electricity Consumption (MWh/year)</label>
-                        <input type="range" id="electricity" class="range-track" min="0" max="50000" value="10000" oninput="updateCarbon()">
-                        <div class="flex justify-between text-xs text-gray-400 mt-1"><span>0</span><span id="elecVal" class="font-bold text-aecon-dark">10,000 MWh</span><span>50,000</span></div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">🚛 Diesel Consumption (litres/year)</label>
-                        <input type="range" id="diesel" class="range-track" min="0" max="500000" value="50000" oninput="updateCarbon()">
-                        <div class="flex justify-between text-xs text-gray-400 mt-1"><span>0</span><span id="dieselVal" class="font-bold text-aecon-dark">50,000 L</span><span>500,000</span></div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">✈️ Business Travel (km/year)</label>
-                        <input type="range" id="travel" class="range-track" min="0" max="500000" value="100000" oninput="updateCarbon()">
-                        <div class="flex justify-between text-xs text-gray-400 mt-1"><span>0</span><span id="travelVal" class="font-bold text-aecon-dark">100,000 km</span><span>500,000</span></div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-gray-700 mb-2">🏭 Process Gas Emissions (tCO₂e/year, if known)</label>
-                        <input type="range" id="process" class="range-track" min="0" max="10000" value="500" oninput="updateCarbon()">
-                        <div class="flex justify-between text-xs text-gray-400 mt-1"><span>0</span><span id="processVal" class="font-bold text-aecon-dark">500 tCO₂e</span><span>10,000</span></div>
-                    </div>
+                    <div><label class="block text-sm font-semibold text-gray-700 mb-2">⚡ Electricity Consumption (MWh/year)</label><input type="range" id="electricity" class="range-track" min="0" max="50000" value="10000" oninput="updateCarbon()"><div class="flex justify-between text-xs text-gray-400 mt-1"><span>0</span><span id="elecVal" class="font-bold text-aecon-dark">10,000 MWh</span><span>50,000</span></div></div>
+                    <div><label class="block text-sm font-semibold text-gray-700 mb-2">🚛 Diesel Consumption (litres/year)</label><input type="range" id="diesel" class="range-track" min="0" max="500000" value="50000" oninput="updateCarbon()"><div class="flex justify-between text-xs text-gray-400 mt-1"><span>0</span><span id="dieselVal" class="font-bold text-aecon-dark">50,000 L</span><span>500,000</span></div></div>
+                    <div><label class="block text-sm font-semibold text-gray-700 mb-2">✈️ Business Travel (km/year)</label><input type="range" id="travel" class="range-track" min="0" max="500000" value="100000" oninput="updateCarbon()"><div class="flex justify-between text-xs text-gray-400 mt-1"><span>0</span><span id="travelVal" class="font-bold text-aecon-dark">100,000 km</span><span>500,000</span></div></div>
+                    <div><label class="block text-sm font-semibold text-gray-700 mb-2">🏭 Process Gas Emissions (tCO₂e/year, if known)</label><input type="range" id="process" class="range-track" min="0" max="10000" value="500" oninput="updateCarbon()"><div class="flex justify-between text-xs text-gray-400 mt-1"><span>0</span><span id="processVal" class="font-bold text-aecon-dark">500 tCO₂e</span><span>10,000</span></div></div>
                 </div>
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     <div class="result-card"><p class="text-2xl font-bold" id="scope1">-</p><p class="text-xs opacity-70 mt-1">Scope 1 (tCO₂e)</p></div>
@@ -827,67 +812,71 @@
 
 
 <!-- ════════════════════════════════════════════
-     ★ AI CHATBOT WIDGET
+     NEW AQI WIDGET — 46px pulsing dot, expands on click
 ═════════════════════════════════════════════ -->
-    <!-- ════════════════════════════════════════════
-     LIVE AQI WIDGET
-═════════════════════════════════════════════ -->
-<div id="aqiWidget" style="position:fixed;bottom:28px;left:28px;z-index:998;width:220px">
-    <div style="background:linear-gradient(135deg,#0a2a2b,#124040);border-radius:20px;padding:16px;box-shadow:0 10px 40px rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);color:white">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-            <div style="display:flex;align-items:center;gap:6px">
-                <span style="width:8px;height:8px;background:#4ade80;border-radius:50%;display:inline-block;animation:pulse 2s infinite"></span>
-                <span style="font-size:10px;font-weight:700;opacity:0.7;letter-spacing:1px">LIVE · RIYADH</span>
+<div id="aqiWidget">
+    <!-- Expanded card (hidden by default, springs open on click) -->
+    <div id="aqiCard">
+        <div class="aqi-header">
+            <div class="aqi-live-badge">
+                <span class="aqi-live-dot"></span>
+                LIVE · RIYADH
             </div>
-            <span id="aqiTime" style="font-size:10px;opacity:0.5">--</span>
+            <span id="aqiCardTime">--</span>
         </div>
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
-            <div id="aqiCircle" style="width:58px;height:58px;border-radius:50%;background:#eab308;display:flex;align-items:center;justify-content:center;flex-direction:column;flex-shrink:0;box-shadow:0 0 20px rgba(234,179,8,0.4);transition:all 0.5s ease">
-                <span id="aqiValue" style="font-size:20px;font-weight:800;line-height:1;color:white">--</span>
-                <span style="font-size:8px;color:rgba(255,255,255,0.8)">AQI</span>
+        <div class="aqi-main">
+            <div id="aqiCircle">
+                <span class="c-val" id="aqiValue">--</span>
+                <span class="c-unit">AQI</span>
             </div>
             <div>
-                <div id="aqiLabel" style="font-size:14px;font-weight:700">Loading...</div>
-                <div style="font-size:10px;opacity:0.6;margin-top:2px">Air Quality Index</div>
+                <div id="aqiLabel">Loading...</div>
+                <div id="aqiSublabel">Air Quality Index</div>
             </div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
-            <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:7px;text-align:center">
-                <div id="aqiPM25" style="font-size:15px;font-weight:700;color:#4ade80">--</div>
-                <div style="font-size:9px;opacity:0.6;margin-top:1px">PM2.5 µg/m³</div>
+        <div class="aqi-stats">
+            <div class="aqi-stat">
+                <div class="sv" id="aqiPM25">--</div>
+                <div class="sl">PM2.5 µg/m³</div>
             </div>
-            <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:7px;text-align:center">
-                <div id="aqiPM10" style="font-size:15px;font-weight:700;color:#4ade80">--</div>
-                <div style="font-size:9px;opacity:0.6;margin-top:1px">PM10 µg/m³</div>
+            <div class="aqi-stat">
+                <div class="sv" id="aqiPM10">--</div>
+                <div class="sl">PM10 µg/m³</div>
             </div>
         </div>
     </div>
+    <!-- 46px pulsing dot -->
+    <div id="aqiDot" onclick="toggleAQI()" title="Live Air Quality · Riyadh">
+        <span class="dot-aqi" id="dotAqiVal">--</span>
+        <span class="dot-label">AQI</span>
+        <div id="aqiClose" onclick="dismissAQI(event)" title="Dismiss">✕</div>
+    </div>
 </div>
+
+
+<!-- ════════════════════════════════════════════
+     AI CHATBOT WIDGET
+═════════════════════════════════════════════ -->
 <div id="chatbotWidget">
     <div id="chatWindow" class="animate-fade-in">
-        <!-- Header -->
         <div class="bg-gradient-to-r from-aecon-dark to-aecon-accent p-4 flex items-center gap-3">
             <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center"><span class="text-aecon-dark font-bold text-sm">AI</span></div>
             <div class="flex-1"><p class="font-bold text-white text-sm">AECON Assistant</p><p class="text-xs text-white/70 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse inline-block"></span> Online</p></div>
             <button onclick="toggleChat()" class="text-white/70 hover:text-white"><i class="fas fa-times"></i></button>
         </div>
-        <!-- Messages -->
         <div id="chatMessages" class="flex-1 p-4 space-y-3 bg-white overflow-y-auto" style="min-height:300px;max-height:360px">
             <div class="flex gap-2"><div class="w-7 h-7 bg-aecon-light rounded-full flex items-center justify-center flex-shrink-0 mt-1"><i class="fas fa-robot text-aecon-primary text-xs"></i></div><div class="chat-msg bot">Hello! I'm AECON's AI assistant. I can answer questions about our environmental services, compliance requirements, and help you get started. How can I help you today?</div></div>
         </div>
-        <!-- Quick Replies -->
         <div id="quickReplies" class="px-4 py-2 bg-gray-50 border-t flex flex-wrap gap-2">
             <button onclick="sendQuick('What services do you offer?')" class="px-3 py-1.5 bg-white border border-gray-200 rounded-full text-xs text-gray-600 hover:border-aecon-primary hover:text-aecon-primary transition-all">Our services</button>
             <button onclick="sendQuick('What compliance standards do you work with?')" class="px-3 py-1.5 bg-white border border-gray-200 rounded-full text-xs text-gray-600 hover:border-aecon-primary hover:text-aecon-primary transition-all">Compliance</button>
             <button onclick="sendQuick('How do I request a quote?')" class="px-3 py-1.5 bg-white border border-gray-200 rounded-full text-xs text-gray-600 hover:border-aecon-primary hover:text-aecon-primary transition-all">Get a quote</button>
         </div>
-        <!-- Input -->
         <div class="p-3 border-t bg-white flex gap-2">
             <input id="chatInput" type="text" placeholder="Ask about our services..." class="flex-1 px-3 py-2 rounded-xl border border-gray-200 text-sm outline-none focus:border-aecon-primary" onkeydown="if(event.key==='Enter') sendChat()">
             <button onclick="sendChat()" class="w-9 h-9 bg-aecon-dark rounded-xl flex items-center justify-center text-white hover:bg-aecon-accent transition-all flex-shrink-0"><i class="fas fa-paper-plane text-xs"></i></button>
         </div>
     </div>
-    <!-- Toggle Button -->
     <button onclick="toggleChat()" id="chatToggleBtn" class="w-16 h-16 bg-gradient-to-br from-aecon-dark to-aecon-accent rounded-full shadow-2xl flex items-center justify-center text-white hover:scale-110 transition-all mt-3 ml-auto relative">
         <i class="fas fa-robot text-2xl"></i>
         <span class="absolute -top-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2 border-white animate-pulse"></span>
@@ -967,113 +956,9 @@ function switchCalcTab(t) {
     document.getElementById('calcTab-compliance').className = 'flex-1 py-3 rounded-xl font-semibold text-sm transition-all ' + (t==='compliance'?'calc-tab-active':'bg-gray-100 text-gray-700 hover:bg-gray-200');
     document.getElementById('calcTab-carbon').className = 'flex-1 py-3 rounded-xl font-semibold text-sm transition-all ' + (t==='carbon'?'calc-tab-active':'bg-gray-100 text-gray-700 hover:bg-gray-200');
     if(t==='carbon') updateCarbon();
-
-// ── Live AQI Widget ──────────────────────────
-async function fetchAQI() {
-    try {
-        const res = await fetch('/api/aqi', {
-            method: 'GET',
-            headers: { 'Accept': 'application/json' }
-        });
-        if (!res.ok) throw new Error('Network error');
-        const data = await res.json();
-        console.log('AQI Data:', data); // check browser console
-        if(data.status === 'ok') {
-            const aqi = data.data.aqi;
-            const pm25 = data.data.iaqi?.pm25?.v ?? 'N/A';
-            const pm10 = data.data.iaqi?.pm10?.v ?? 'N/A';
-            const time = new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
-            document.getElementById('aqiValue').textContent = aqi;
-            document.getElementById('aqiPM25').textContent = pm25;
-            document.getElementById('aqiPM10').textContent = pm10;
-            document.getElementById('aqiTime').textContent = time;
-            let color, label;
-            if(aqi <= 50)       { color='#22c55e'; label='Good 😊'; }
-            else if(aqi <= 100) { color='#eab308'; label='Moderate 😐'; }
-            else if(aqi <= 150) { color='#f97316'; label='Unhealthy*'; }
-            else                { color='#ef4444'; label='Unhealthy ⚠️'; }
-            document.getElementById('aqiCircle').style.background = color;
-            document.getElementById('aqiCircle').style.boxShadow = `0 0 20px ${color}66`;
-            document.getElementById('aqiLabel').textContent = label;
-        } else {
-            document.getElementById('aqiLabel').textContent = 'No data';
-            console.log('AQI status not ok:', data);
-        }
-    } catch(e) {
-        document.getElementById('aqiLabel').textContent = 'Error';
-        console.log('AQI fetch error:', e);
-    }
-}
-fetchAQI();
-setInterval(fetchAQI, 300000);
-    // ── AQI Widget Draggable ──────────────────────
-const aqiWidget = document.getElementById('aqiWidget');
-let isDragging = false, startX, startY, startLeft, startBottom;
-
-aqiWidget.style.cursor = 'grab';
-
-aqiWidget.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    startX = e.clientX;
-    startY = e.clientY;
-    startLeft = aqiWidget.offsetLeft;
-    startBottom = parseInt(aqiWidget.style.bottom) || 28;
-    aqiWidget.style.cursor = 'grabbing';
-    aqiWidget.style.transition = 'none';
-    e.preventDefault();
-});
-
-document.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-    const dx = e.clientX - startX;
-    const dy = e.clientY - startY;
-    const newLeft = startLeft + dx;
-    const newBottom = startBottom - dy;
-    const maxLeft = window.innerWidth - aqiWidget.offsetWidth - 10;
-    const maxBottom = window.innerHeight - aqiWidget.offsetHeight - 10;
-    aqiWidget.style.left = Math.max(10, Math.min(newLeft, maxLeft)) + 'px';
-    aqiWidget.style.bottom = Math.max(10, Math.min(newBottom, maxBottom)) + 'px';
-    aqiWidget.style.right = 'auto';
-});
-
-document.addEventListener('mouseup', () => {
-    if (isDragging) {
-        isDragging = false;
-        aqiWidget.style.cursor = 'grab';
-    }
-});
-
-// Touch support for mobile
-aqiWidget.addEventListener('touchstart', (e) => {
-    const touch = e.touches[0];
-    isDragging = true;
-    startX = touch.clientX;
-    startY = touch.clientY;
-    startLeft = aqiWidget.offsetLeft;
-    startBottom = parseInt(aqiWidget.style.bottom) || 28;
-    e.preventDefault();
-}, { passive: false });
-
-document.addEventListener('touchmove', (e) => {
-    if (!isDragging) return;
-    const touch = e.touches[0];
-    const dx = touch.clientX - startX;
-    const dy = touch.clientY - startY;
-    const newLeft = startLeft + dx;
-    const newBottom = startBottom - dy;
-    const maxLeft = window.innerWidth - aqiWidget.offsetWidth - 10;
-    const maxBottom = window.innerHeight - aqiWidget.offsetHeight - 10;
-    aqiWidget.style.left = Math.max(10, Math.min(newLeft, maxLeft)) + 'px';
-    aqiWidget.style.bottom = Math.max(10, Math.min(newBottom, maxBottom)) + 'px';
-    aqiWidget.style.right = 'auto';
-}, { passive: false });
-
-document.addEventListener('touchend', () => { isDragging = false; });
-
-// ── AI Chatbot ───────────────────────────────
 }
 
-// Compliance
+// ── Compliance ───────────────────────────────
 const complianceData = {
     cement: { ksa: ['NCEC Ambient Air Quality Standards (SAAQS)','NCEC Emission Limits for Cement Plants','US EPA Method 5 — Particulate Stack Testing','PM10, PM2.5, NOx, SO₂, CO monitoring required','Continuous Emission Monitoring System (CEMS) recommended'], uae: ['UAE Federal Law No. 24 on Environment Protection','Abu Dhabi EHS Cement Regulations','PM, NOx, SO₂ emission monitoring'], intl: ['IFC EHS Guidelines for Cement & Lime','WHO Air Quality Guidelines 2021','GHG Protocol — Scope 1 & 2 Reporting'] },
     power: { ksa: ['NCEC SAAQS for power generation zones','NCEC NOx, SO₂ stack emission standards','CEMS installation mandatory >50MW','Saudi Electricity Company grid compliance','Water discharge monitoring if cooling towers'], uae: ['DEWA/ADWEA environmental compliance','UAE Cabinet Decision No. 37/2001'], intl: ['IFC EHS for Thermal Power Plants','World Bank Pollution Prevention Guidelines','GHG emissions reporting (ISO 14064)'] },
@@ -1092,7 +977,7 @@ function updateCompliance() {
     document.getElementById('complianceList').innerHTML = standards.map(s => `<div class="flex items-start gap-2"><i class="fas fa-check-circle text-aecon-primary mt-0.5 flex-shrink-0"></i><span class="text-sm text-gray-700">${s}</span></div>`).join('');
 }
 
-// Carbon
+// ── Carbon ───────────────────────────────────
 function updateCarbon() {
     const elec = +document.getElementById('electricity').value;
     const dies = +document.getElementById('diesel').value;
@@ -1119,6 +1004,76 @@ function updateCarbon() {
     }
 }
 updateCarbon();
+
+// ════════════════════════════════════════════
+// NEW AQI WIDGET — compact dot, spring expand
+// ════════════════════════════════════════════
+(function () {
+    let aqiExpanded = false;
+
+    function aqiColor(v) {
+        if (v <= 50)  return { hex: '#22c55e', alpha: 'rgba(34,197,94,0.55)',  label: 'Good 😊',     stat: '#4ade80' };
+        if (v <= 100) return { hex: '#eab308', alpha: 'rgba(234,179,8,0.55)',  label: 'Moderate 😐',  stat: '#facc15' };
+        if (v <= 150) return { hex: '#f97316', alpha: 'rgba(249,115,22,0.55)', label: 'Unhealthy*',   stat: '#fb923c' };
+        return             { hex: '#ef4444', alpha: 'rgba(239,68,68,0.55)',  label: 'Unhealthy ⚠️', stat: '#f87171' };
+    }
+
+    function applyColor(c) {
+        const w = document.getElementById('aqiWidget');
+        w.style.setProperty('--aqi-color', c.hex);
+        w.style.setProperty('--aqi-color-alpha', c.alpha);
+        const circle = document.getElementById('aqiCircle');
+        circle.style.background  = c.hex;
+        circle.style.boxShadow   = `0 0 20px ${c.alpha}`;
+        document.getElementById('aqiPM25').style.color = c.stat;
+        document.getElementById('aqiPM10').style.color = c.stat;
+    }
+
+    async function fetchAQI() {
+        try {
+            const res  = await fetch('/api/aqi', { headers: { Accept: 'application/json' } });
+            if (!res.ok) throw new Error();
+            const data = await res.json();
+            if (data.status === 'ok') {
+                const aqi  = data.data.aqi;
+                const pm25 = data.data.iaqi?.pm25?.v ?? 'N/A';
+                const pm10 = data.data.iaqi?.pm10?.v ?? 'N/A';
+                const time = new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                const c    = aqiColor(aqi);
+                document.getElementById('dotAqiVal').textContent   = aqi;
+                document.getElementById('aqiValue').textContent    = aqi;
+                document.getElementById('aqiPM25').textContent     = pm25;
+                document.getElementById('aqiPM10').textContent     = pm10;
+                document.getElementById('aqiCardTime').textContent = time;
+                document.getElementById('aqiLabel').textContent    = c.label;
+                applyColor(c);
+            } else {
+                document.getElementById('aqiLabel').textContent = 'No data';
+            }
+        } catch (e) {
+            document.getElementById('aqiLabel').textContent = 'Offline';
+        }
+    }
+
+    fetchAQI();
+    setInterval(fetchAQI, 60000); // refresh every 1 minute
+
+    window.toggleAQI = function () {
+        aqiExpanded = !aqiExpanded;
+        document.getElementById('aqiCard').classList.toggle('open', aqiExpanded);
+        document.getElementById('aqiWidget').classList.toggle('expanded', aqiExpanded);
+    };
+
+    window.dismissAQI = function (e) {
+        e.stopPropagation();
+        document.getElementById('aqiCard').classList.remove('open');
+        aqiExpanded = false;
+        document.getElementById('aqiWidget').classList.remove('expanded');
+        setTimeout(() => {
+            document.getElementById('aqiWidget').style.display = 'none';
+        }, 350);
+    };
+})();
 
 // ── AI Chatbot ───────────────────────────────
 let chatOpen = false;
@@ -1212,7 +1167,6 @@ async function sendChat() {
         addMessage("Sorry, I'm having trouble connecting. Please email enviro@aecon-sa.com", 'assistant');
     }
 }
-
 
 function sendQuick(msg) {
     document.getElementById('chatInput').value = msg;
