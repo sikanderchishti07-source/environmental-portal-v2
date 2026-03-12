@@ -967,6 +967,36 @@ function switchCalcTab(t) {
     document.getElementById('calcTab-compliance').className = 'flex-1 py-3 rounded-xl font-semibold text-sm transition-all ' + (t==='compliance'?'calc-tab-active':'bg-gray-100 text-gray-700 hover:bg-gray-200');
     document.getElementById('calcTab-carbon').className = 'flex-1 py-3 rounded-xl font-semibold text-sm transition-all ' + (t==='carbon'?'calc-tab-active':'bg-gray-100 text-gray-700 hover:bg-gray-200');
     if(t==='carbon') updateCarbon();
+
+// ── Live AQI Widget ──────────────────────────
+async function fetchAQI() {
+    try {
+        const res = await fetch('https://api.waqi.info/feed/riyadh/?token=a75b3351feeb73fe4c97498b3e9fb912f1f8e165');
+        const data = await res.json();
+        if(data.status === 'ok') {
+            const aqi = data.data.aqi;
+            const pm25 = data.data.iaqi?.pm25?.v ?? '--';
+            const pm10 = data.data.iaqi?.pm10?.v ?? '--';
+            const time = new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'});
+            document.getElementById('aqiValue').textContent = aqi;
+            document.getElementById('aqiPM25').textContent = pm25;
+            document.getElementById('aqiPM10').textContent = pm10;
+            document.getElementById('aqiTime').textContent = time;
+            let color, label;
+            if(aqi <= 50)       { color='#22c55e'; label='Good'; }
+            else if(aqi <= 100) { color='#eab308'; label='Moderate'; }
+            else if(aqi <= 150) { color='#f97316'; label='Unhealthy*'; }
+            else                { color='#ef4444'; label='Unhealthy'; }
+            document.getElementById('aqiCircle').style.background = color;
+            document.getElementById('aqiCircle').style.boxShadow = `0 0 20px ${color}66`;
+            document.getElementById('aqiLabel').textContent = label;
+        }
+    } catch(e) { console.log('AQI fetch error:', e); }
+}
+fetchAQI();
+setInterval(fetchAQI, 300000);
+
+// ── AI Chatbot ───────────────────────────────
 }
 
 // Compliance
