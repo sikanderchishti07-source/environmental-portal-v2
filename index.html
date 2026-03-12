@@ -1012,14 +1012,24 @@ function toggleChat() {
     btn.style.marginTop = chatOpen ? '0' : '3px';
 }
 
+function renderMarkdown(text) {
+    return text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/^- (.+)/gm, '<li style="margin-left:12px;list-style:disc">$1</li>')
+        .replace(/(<li.*<\/li>)/s, '<ul style="margin:4px 0">$1</ul>')
+        .replace(/\n\n/g, '<br><br>')
+        .replace(/\n/g, '<br>');
+}
+
 function addMessage(text, role) {
     const container = document.getElementById('chatMessages');
     const isBot = role === 'assistant';
     const div = document.createElement('div');
     div.className = 'flex gap-2' + (isBot ? '' : ' justify-end');
+    const formattedText = isBot ? renderMarkdown(text) : text;
     div.innerHTML = isBot
-        ? `<div class="w-7 h-7 bg-aecon-light rounded-full flex items-center justify-center flex-shrink-0 mt-1"><i class="fas fa-robot text-aecon-primary text-xs"></i></div><div class="chat-msg bot">${text}</div>`
-        : `<div class="chat-msg user">${text}</div>`;
+        ? `<div class="w-7 h-7 bg-aecon-light rounded-full flex items-center justify-center flex-shrink-0 mt-1"><i class="fas fa-robot text-aecon-primary text-xs"></i></div><div class="chat-msg bot">${formattedText}</div>`
+        : `<div class="chat-msg user">${formattedText}</div>`;
     container.appendChild(div);
     container.scrollTop = container.scrollHeight;
 }
