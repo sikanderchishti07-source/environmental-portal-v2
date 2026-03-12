@@ -829,6 +829,40 @@
 <!-- ════════════════════════════════════════════
      ★ AI CHATBOT WIDGET
 ═════════════════════════════════════════════ -->
+    <!-- ════════════════════════════════════════════
+     LIVE AQI WIDGET
+═════════════════════════════════════════════ -->
+<div id="aqiWidget" style="position:fixed;bottom:28px;left:28px;z-index:998;width:220px">
+    <div style="background:linear-gradient(135deg,#0a2a2b,#124040);border-radius:20px;padding:16px;box-shadow:0 10px 40px rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);color:white">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+            <div style="display:flex;align-items:center;gap:6px">
+                <span style="width:8px;height:8px;background:#4ade80;border-radius:50%;display:inline-block;animation:pulse 2s infinite"></span>
+                <span style="font-size:10px;font-weight:700;opacity:0.7;letter-spacing:1px">LIVE · RIYADH</span>
+            </div>
+            <span id="aqiTime" style="font-size:10px;opacity:0.5">--</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px">
+            <div id="aqiCircle" style="width:58px;height:58px;border-radius:50%;background:#eab308;display:flex;align-items:center;justify-content:center;flex-direction:column;flex-shrink:0;box-shadow:0 0 20px rgba(234,179,8,0.4);transition:all 0.5s ease">
+                <span id="aqiValue" style="font-size:20px;font-weight:800;line-height:1;color:white">--</span>
+                <span style="font-size:8px;color:rgba(255,255,255,0.8)">AQI</span>
+            </div>
+            <div>
+                <div id="aqiLabel" style="font-size:14px;font-weight:700">Loading...</div>
+                <div style="font-size:10px;opacity:0.6;margin-top:2px">Air Quality Index</div>
+            </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+            <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:7px;text-align:center">
+                <div id="aqiPM25" style="font-size:15px;font-weight:700;color:#4ade80">--</div>
+                <div style="font-size:9px;opacity:0.6;margin-top:1px">PM2.5 µg/m³</div>
+            </div>
+            <div style="background:rgba(255,255,255,0.08);border-radius:10px;padding:7px;text-align:center">
+                <div id="aqiPM10" style="font-size:15px;font-weight:700;color:#4ade80">--</div>
+                <div style="font-size:9px;opacity:0.6;margin-top:1px">PM10 µg/m³</div>
+            </div>
+        </div>
+    </div>
+</div>
 <div id="chatbotWidget">
     <div id="chatWindow" class="animate-fade-in">
         <!-- Header -->
