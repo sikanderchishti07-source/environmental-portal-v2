@@ -971,7 +971,7 @@ function switchCalcTab(t) {
 // ── Live AQI Widget ──────────────────────────
 async function fetchAQI() {
     try {
-        const res = await fetch('https://api.waqi.info/feed/riyadh/?token=a75b3351feeb73fe4c97498b3e9fb912f1f8e165', {
+        const res = await fetch('/api/aqi', {
             method: 'GET',
             headers: { 'Accept': 'application/json' }
         });
