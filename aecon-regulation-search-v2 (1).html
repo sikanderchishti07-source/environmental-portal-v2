@@ -1,0 +1,1924 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>AECON · Regulatory Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&family=Noto+Naskh+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+/*─────────────────────────────────────────────
+  AECON · REGULATORY INTELLIGENCE PLATFORM v2
+  Designed to match: environmental-portal/
+─────────────────────────────────────────────*/
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+
+:root{
+  /* Core brand palette — matches main site */
+  --bg:#f0f5f2;
+  --white:#ffffff;
+  --panel:#f7faf8;
+  --border:#dce8e1;
+  --border-mid:#c8ddd4;
+  --green-950:#081a10;
+  --green-900:#0d2b1e;
+  --green-800:#1a3828;
+  --green-750:#1b4f38;
+  --green-700:#1f6b52;
+  --green-600:#2a8a68;
+  --green-500:#35a87e;
+  --green-400:#4dc49a;
+  --green-300:#7dd9ba;
+  --green-200:#b0ead6;
+  --green-100:#d4ede3;
+  --green-50:#edf7f2;
+  --text-900:#0d2b1e;
+  --text-700:#2a5240;
+  --text-500:#4a7a62;
+  --text-400:#6a9b80;
+  --text-300:#8aaa96;
+  --text-200:#b8d4c2;
+  --text-100:#daeae2;
+
+  /* Severity colours */
+  --sev-high-bg:rgba(220,38,38,0.07);
+  --sev-high-clr:#b91c1c;
+  --sev-high-bdr:rgba(220,38,38,0.22);
+  --sev-med-bg:rgba(234,179,8,0.08);
+  --sev-med-clr:#a16207;
+  --sev-med-bdr:rgba(234,179,8,0.25);
+  --sev-low-bg:rgba(31,107,82,0.08);
+  --sev-low-clr:#1f6b52;
+  --sev-low-bdr:rgba(31,107,82,0.22);
+
+  /* Blue accent for authority tags */
+  --blue-bg:rgba(26,92,160,0.07);
+  --blue-clr:#1a5ca0;
+  --blue-bdr:rgba(26,92,160,0.22);
+
+  /* Fonts */
+  --sans:'DM Sans',sans-serif;
+  --display:'Playfair Display',serif;
+  --mono:'JetBrains Mono',monospace;
+  --arabic:'Noto Naskh Arabic',serif;
+
+  /* Glass morphism helpers */
+  --glass-bg:rgba(255,255,255,0.72);
+  --glass-bdr:rgba(255,255,255,0.55);
+  --glass-shadow:0 8px 32px rgba(13,43,30,0.10);
+
+  /* Glow */
+  --glow-green:0 0 0 3px rgba(31,107,82,0.12), 0 4px 24px rgba(31,107,82,0.14);
+}
+
+html{scroll-behavior:smooth;}
+body{
+  background:var(--bg);
+  color:var(--text-900);
+  font-family:var(--sans);
+  min-height:100vh;
+  /* Subtle mesh background */
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(31,107,82,0.04) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(31,107,82,0.03) 0%, transparent 40%);
+}
+
+/* ═══════════════════════════════════════════
+   NAVBAR  (matches main site nav style)
+═══════════════════════════════════════════ */
+.navbar{
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);
+  padding:14px 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:200;
+  box-shadow:0 1px 16px rgba(13,43,30,0.06);
+}
+.nav-left{display:flex;align-items:center;gap:12px;}
+.nav-logo{
+  width:38px;height:38px;border-radius:8px;
+  background:var(--green-700);
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--display);font-weight:800;font-size:1.1rem;color:#fff;
+  box-shadow:0 2px 8px rgba(31,107,82,0.3);
+}
+.nav-brand{font-family:var(--display);font-size:1rem;font-weight:800;color:var(--green-900);}
+.nav-sub{font-size:0.6rem;color:var(--text-300);letter-spacing:0.1em;text-transform:uppercase;font-family:var(--mono);}
+.nav-links{display:flex;gap:28px;}
+.nav-link{font-size:0.82rem;font-weight:500;color:var(--text-500);text-decoration:none;transition:color 0.15s;}
+.nav-link:hover,.nav-link.active{color:var(--green-700);}
+.nav-badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--green-50);border:1px solid var(--green-100);
+  color:var(--green-700);border-radius:20px;
+  padding:3px 10px;font-size:0.62rem;font-weight:700;
+  font-family:var(--mono);letter-spacing:0.05em;
+}
+.nav-badge-dot{width:5px;height:5px;border-radius:50%;background:#22c55e;animation:pulse 2s infinite;}
+.nav-cta{
+  background:var(--green-700);color:#fff;
+  padding:8px 18px;border-radius:8px;
+  font-size:0.78rem;font-weight:600;text-decoration:none;
+  transition:background 0.15s;
+}
+.nav-cta:hover{background:var(--green-600);}
+
+/* ═══════════════════════════════════════════
+   HERO BANNER
+═══════════════════════════════════════════ */
+.hero{
+  background:linear-gradient(135deg,var(--green-950) 0%,var(--green-800) 50%,var(--green-700) 100%);
+  padding:56px 40px 48px;
+  position:relative;overflow:hidden;
+}
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    radial-gradient(circle at 75% 40%, rgba(255,255,255,0.05) 0%, transparent 55%),
+    linear-gradient(0deg,rgba(255,255,255,0.015) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);
+  background-size:auto,64px 64px,64px 64px;
+  pointer-events:none;
+}
+/* Glowing orb top-right */
+.hero::after{
+  content:'';position:absolute;
+  width:360px;height:360px;border-radius:50%;
+  background:radial-gradient(circle, rgba(77,196,154,0.14) 0%, transparent 70%);
+  top:-100px;right:-60px;pointer-events:none;
+}
+.hero-inner{position:relative;z-index:1;max-width:860px;}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.18);
+  border-radius:20px;padding:5px 14px;margin-bottom:16px;
+}
+.hero-eyebrow-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.8);}}
+.hero-eyebrow-text{
+  font-family:var(--mono);font-size:0.6rem;font-weight:600;
+  color:rgba(255,255,255,0.8);letter-spacing:0.12em;text-transform:uppercase;
+}
+.hero-title{
+  font-family:var(--display);font-size:2.6rem;font-weight:800;
+  color:#fff;line-height:1.12;margin-bottom:12px;letter-spacing:-0.02em;
+}
+.hero-title em{font-style:normal;color:#86efac;}
+.hero-desc{
+  font-size:0.9rem;color:rgba(255,255,255,0.65);
+  line-height:1.75;max-width:600px;margin-bottom:28px;
+}
+
+/* Stats row */
+.hero-stats-row{
+  display:flex;gap:0;
+  background:rgba(255,255,255,0.06);
+  border:1px solid rgba(255,255,255,0.1);
+  border-radius:12px;overflow:hidden;
+  width:fit-content;
+}
+.hero-stat{
+  padding:14px 28px;border-right:1px solid rgba(255,255,255,0.08);
+  position:relative;
+}
+.hero-stat:last-child{border-right:none;}
+.hero-stat-num{
+  font-family:var(--display);font-size:1.9rem;font-weight:800;
+  color:#fff;line-height:1;
+}
+.hero-stat-num span{color:#86efac;}
+.hero-stat-lbl{
+  font-size:0.62rem;color:rgba(255,255,255,0.5);
+  font-family:var(--mono);text-transform:uppercase;
+  letter-spacing:0.1em;margin-top:3px;
+}
+
+/* ═══════════════════════════════════════════
+   INTELLIGENCE STATS BAR
+   (professional compliance dashboard feel)
+═══════════════════════════════════════════ */
+.intel-bar{
+  background:var(--white);
+  border-bottom:1px solid var(--border);
+  padding:0 40px;
+  display:flex;gap:0;
+  overflow-x:auto;
+}
+.intel-item{
+  display:flex;align-items:center;gap:10px;
+  padding:16px 28px;
+  border-right:1px solid var(--border);
+  flex-shrink:0;white-space:nowrap;
+}
+.intel-item:first-child{padding-left:0;}
+.intel-item:last-child{border-right:none;}
+.intel-icon{
+  width:34px;height:34px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;flex-shrink:0;
+}
+.intel-icon-green{background:var(--green-50);}
+.intel-icon-blue{background:var(--blue-bg);}
+.intel-icon-amber{background:var(--sev-med-bg);}
+.intel-icon-red{background:var(--sev-high-bg);}
+.intel-text{}
+.intel-num{
+  font-family:var(--display);font-size:1.3rem;font-weight:800;
+  color:var(--green-900);line-height:1;
+}
+.intel-lbl{
+  font-family:var(--mono);font-size:0.58rem;
+  color:var(--text-300);text-transform:uppercase;
+  letter-spacing:0.09em;margin-top:1px;
+}
+.intel-update{
+  margin-left:auto;display:flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:0.6rem;color:var(--text-300);
+  flex-shrink:0;
+}
+.update-dot{width:6px;height:6px;border-radius:50%;background:#22c55e;}
+
+/* ═══════════════════════════════════════════
+   MAIN LAYOUT
+═══════════════════════════════════════════ */
+.main{
+  max-width:1440px;margin:0 auto;
+  padding:32px 40px 80px;
+}
+
+/* ═══════════════════════════════════════════
+   SEARCH PANEL  (glassmorphism)
+═══════════════════════════════════════════ */
+.search-panel{
+  background:var(--white);
+  border:1.5px solid var(--border-mid);
+  border-radius:16px;
+  padding:24px;
+  margin-bottom:24px;
+  box-shadow:0 4px 24px rgba(13,43,30,0.06);
+  position:relative;overflow:hidden;
+}
+.search-panel::before{
+  content:'';position:absolute;
+  top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--green-700),var(--green-400),var(--green-700));
+}
+.search-panel-label{
+  font-family:var(--mono);font-size:0.58rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.13em;
+  color:var(--text-300);margin-bottom:12px;
+  display:flex;align-items:center;gap:6px;
+}
+.search-panel-label::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* Main search input */
+.search-wrap{
+  position:relative;
+  background:var(--panel);
+  border:1.5px solid var(--border-mid);
+  border-radius:12px;
+  display:flex;align-items:center;
+  overflow:hidden;
+  transition:border-color 0.2s,box-shadow 0.2s,background 0.2s;
+  margin-bottom:14px;
+}
+.search-wrap:focus-within{
+  background:var(--white);
+  border-color:var(--green-700);
+  box-shadow:var(--glow-green);
+}
+.search-icon-wrap{
+  padding:0 16px;
+  color:var(--text-300);
+  font-size:1.1rem;
+  flex-shrink:0;
+  transition:color 0.2s;
+}
+.search-wrap:focus-within .search-icon-wrap{color:var(--green-700);}
+.search-input{
+  flex:1;border:none;outline:none;
+  font-family:var(--sans);font-size:1rem;
+  color:var(--text-900);background:transparent;
+  padding:15px 0;
+}
+.search-input::placeholder{color:var(--text-300);}
+.search-clear{
+  padding:0 14px;color:var(--text-300);cursor:pointer;
+  font-size:0.85rem;display:none;transition:color 0.15s;
+  background:none;border:none;line-height:1;
+}
+.search-clear:hover{color:var(--text-900);}
+.search-btn{
+  background:var(--green-700);color:#fff;
+  border:none;padding:14px 26px;
+  font-family:var(--sans);font-size:0.85rem;font-weight:600;
+  cursor:pointer;transition:all 0.15s;
+  white-space:nowrap;
+  display:flex;align-items:center;gap:6px;
+}
+.search-btn:hover{background:var(--green-600);}
+
+/* Advanced filter row */
+.filter-row{
+  display:flex;gap:10px;flex-wrap:wrap;
+  align-items:center;
+  padding-top:14px;
+  border-top:1px solid var(--border);
+  margin-top:4px;
+}
+.filter-group{display:flex;flex-direction:column;gap:4px;flex:1;min-width:140px;}
+.filter-label{
+  font-family:var(--mono);font-size:0.55rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.1em;
+  color:var(--text-300);
+}
+.filter-select{
+  background:var(--panel);border:1.5px solid var(--border);
+  border-radius:8px;padding:8px 12px;
+  font-family:var(--sans);font-size:0.8rem;
+  color:var(--text-700);outline:none;cursor:pointer;
+  transition:border-color 0.15s,box-shadow 0.15s;
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238aaa96' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 10px center;
+  padding-right:30px;
+}
+.filter-select:focus{border-color:var(--green-700);box-shadow:0 0 0 2px rgba(31,107,82,0.1);}
+.filter-reset{
+  align-self:flex-end;
+  background:none;border:1.5px solid var(--border);
+  color:var(--text-300);padding:8px 14px;border-radius:8px;
+  font-family:var(--sans);font-size:0.75rem;font-weight:500;
+  cursor:pointer;transition:all 0.15s;white-space:nowrap;
+}
+.filter-reset:hover{border-color:var(--green-700);color:var(--green-700);}
+
+/* Quick search tags */
+.quick-tags{
+  display:flex;flex-wrap:wrap;gap:6px;
+  margin-top:14px;align-items:center;
+}
+.quick-label{
+  font-size:0.65rem;color:var(--text-300);
+  font-family:var(--mono);letter-spacing:0.05em;
+  margin-right:2px;
+}
+.quick-tag{
+  padding:4px 12px;border-radius:20px;
+  background:var(--panel);border:1px solid var(--border);
+  font-size:0.7rem;color:var(--text-500);cursor:pointer;
+  transition:all 0.15s;font-weight:500;
+}
+.quick-tag:hover{
+  background:var(--green-50);
+  border-color:var(--green-200);
+  color:var(--green-700);
+  transform:translateY(-1px);
+  box-shadow:0 2px 8px rgba(31,107,82,0.1);
+}
+
+/* ═══════════════════════════════════════════
+   CATEGORY TABS  (scrollable pill row)
+═══════════════════════════════════════════ */
+.cat-tab-row{
+  display:flex;gap:6px;flex-wrap:nowrap;
+  overflow-x:auto;padding-bottom:2px;
+  margin-bottom:18px;scrollbar-width:none;
+}
+.cat-tab-row::-webkit-scrollbar{display:none;}
+.cat-tab{
+  display:flex;align-items:center;gap:6px;
+  padding:8px 16px;border-radius:10px;
+  background:var(--white);border:1.5px solid var(--border);
+  font-size:0.75rem;font-weight:600;color:var(--text-500);
+  cursor:pointer;transition:all 0.18s;
+  flex-shrink:0;white-space:nowrap;
+}
+.cat-tab .tab-icon{font-size:0.9rem;}
+.cat-tab .tab-count{
+  font-family:var(--mono);font-size:0.6rem;font-weight:700;
+  color:var(--text-300);background:var(--panel);
+  border-radius:10px;padding:1px 6px;
+  transition:all 0.18s;
+}
+.cat-tab:hover{border-color:var(--green-200);color:var(--green-700);background:var(--green-50);}
+.cat-tab:hover .tab-count{background:var(--green-100);color:var(--green-700);}
+.cat-tab.active{
+  background:var(--green-700);border-color:var(--green-700);
+  color:#fff;box-shadow:0 3px 12px rgba(31,107,82,0.25);
+}
+.cat-tab.active .tab-count{
+  background:rgba(255,255,255,0.2);color:#fff;
+}
+
+/* ═══════════════════════════════════════════
+   RESULTS META BAR
+═══════════════════════════════════════════ */
+.results-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:14px;gap:10px;flex-wrap:wrap;
+}
+.results-meta{
+  font-family:var(--mono);font-size:0.65rem;
+  color:var(--text-300);
+}
+.results-meta strong{color:var(--green-700);font-weight:700;}
+.sort-control{
+  display:flex;align-items:center;gap:6px;
+}
+.sort-label{font-family:var(--mono);font-size:0.58rem;color:var(--text-300);text-transform:uppercase;letter-spacing:0.08em;}
+.sort-select{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:6px;padding:5px 10px;
+  font-family:var(--mono);font-size:0.65rem;
+  color:var(--text-500);outline:none;cursor:pointer;
+}
+
+/* ═══════════════════════════════════════════
+   LAYOUT — sidebar + main grid
+═══════════════════════════════════════════ */
+.content-wrap{
+  display:grid;
+  grid-template-columns:1fr 268px;
+  gap:22px;align-items:start;
+}
+.results-col{}
+
+/* ═══════════════════════════════════════════
+   REGULATION CARDS  (glassmorphism elevated)
+═══════════════════════════════════════════ */
+.results-grid{
+  display:flex;flex-direction:column;gap:10px;
+}
+
+.reg-card{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+  cursor:pointer;
+  transition:box-shadow 0.2s,border-color 0.2s,transform 0.18s;
+  position:relative;
+}
+.reg-card::before{
+  content:'';
+  position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:transparent;
+  transition:background 0.2s;
+  border-radius:14px 0 0 14px;
+}
+.reg-card:hover{
+  border-color:var(--green-200);
+  box-shadow:0 6px 28px rgba(13,43,30,0.09);
+  transform:translateY(-1px);
+}
+.reg-card:hover::before{background:var(--green-400);}
+.reg-card.expanded{
+  border-color:var(--green-700);
+  box-shadow:0 8px 36px rgba(31,107,82,0.14);
+}
+.reg-card.expanded::before{background:var(--green-700);}
+
+/* Card loading animation */
+@keyframes cardIn{
+  from{opacity:0;transform:translateY(10px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.reg-card{animation:cardIn 0.28s ease both;}
+
+/* Card header */
+.card-header{
+  padding:18px 20px 14px 22px;
+  display:flex;align-items:flex-start;justify-content:space-between;
+  gap:14px;
+}
+.card-left{flex:1;min-width:0;}
+.card-meta-row{
+  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
+  margin-bottom:9px;
+}
+
+/* Badges */
+.badge{
+  font-family:var(--mono);font-size:0.58rem;font-weight:700;
+  padding:2px 9px;border-radius:5px;border:1px solid;
+  letter-spacing:0.04em;text-transform:uppercase;white-space:nowrap;
+}
+.badge-article{
+  background:var(--green-50);color:var(--green-700);
+  border-color:var(--green-100);
+}
+.badge-authority{
+  background:var(--blue-bg);color:var(--blue-clr);
+  border-color:var(--blue-bdr);
+}
+.badge-year{
+  background:var(--panel);color:var(--text-400);
+  border-color:var(--border);
+}
+.badge-sev-high{background:var(--sev-high-bg);color:var(--sev-high-clr);border-color:var(--sev-high-bdr);}
+.badge-sev-med{background:var(--sev-med-bg);color:var(--sev-med-clr);border-color:var(--sev-med-bdr);}
+.badge-sev-low{background:var(--sev-low-bg);color:var(--sev-low-clr);border-color:var(--sev-low-bdr);}
+
+/* Category chip with icon */
+.cat-chip{
+  display:inline-flex;align-items:center;gap:4px;
+  font-family:var(--mono);font-size:0.58rem;font-weight:700;
+  padding:2px 9px;border-radius:5px;border:1px solid;
+  text-transform:uppercase;letter-spacing:0.04em;
+  background:var(--panel);color:var(--text-400);border-color:var(--border);
+}
+
+.card-title-en{
+  font-family:var(--display);font-size:1.05rem;font-weight:700;
+  color:var(--green-900);line-height:1.35;margin-bottom:5px;
+}
+.card-title-ar{
+  font-family:var(--arabic);font-size:0.88rem;font-weight:500;
+  color:var(--text-400);line-height:1.55;direction:rtl;text-align:right;
+}
+
+/* Right actions column */
+.card-right{
+  display:flex;flex-direction:column;
+  align-items:flex-end;gap:8px;flex-shrink:0;
+}
+.deadline-wrap{text-align:right;}
+.deadline-label{
+  font-family:var(--mono);font-size:0.52rem;
+  color:var(--text-300);text-transform:uppercase;
+  letter-spacing:0.1em;margin-bottom:3px;
+}
+.deadline-val{
+  font-family:var(--mono);font-size:0.68rem;font-weight:700;
+  padding:3px 10px;border-radius:6px;border:1px solid;
+  display:inline-block;
+}
+.deadline-red{background:var(--sev-high-bg);color:var(--sev-high-clr);border-color:var(--sev-high-bdr);}
+.deadline-yellow{background:var(--sev-med-bg);color:var(--sev-med-clr);border-color:var(--sev-med-bdr);}
+.deadline-green{background:var(--sev-low-bg);color:var(--sev-low-clr);border-color:var(--sev-low-bdr);}
+
+.expand-btn{
+  width:30px;height:30px;border-radius:50%;
+  border:1.5px solid var(--border);
+  background:var(--panel);
+  display:flex;align-items:center;justify-content:center;
+  font-size:0.7rem;color:var(--text-300);
+  transition:all 0.22s;cursor:pointer;flex-shrink:0;
+}
+.reg-card.expanded .expand-btn{
+  background:var(--green-700);border-color:var(--green-700);
+  color:#fff;transform:rotate(180deg);
+  box-shadow:0 2px 8px rgba(31,107,82,0.3);
+}
+
+/* Summary strip */
+.card-summary{
+  padding:0 20px 16px 22px;
+  font-size:0.8rem;color:var(--text-500);line-height:1.65;
+}
+.card-summary-divider{
+  height:1px;background:var(--border);
+  margin:0 22px 12px;
+}
+
+/* Expanded detail panel */
+.card-detail{
+  display:none;
+  background:var(--panel);
+  border-top:1px solid var(--border);
+  animation:slideDown 0.24s ease;
+}
+@keyframes slideDown{
+  from{opacity:0;transform:translateY(-8px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.reg-card.expanded .card-detail{display:block;}
+.card-detail-inner{padding:20px 22px;}
+
+.detail-two-col{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:14px;margin-bottom:16px;
+}
+.detail-block{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:10px;padding:14px 16px;
+}
+.detail-block-header{
+  font-family:var(--mono);font-size:0.57rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.12em;
+  color:var(--text-300);margin-bottom:10px;
+  padding-bottom:8px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:5px;
+}
+.detail-row{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  padding:5px 0;border-bottom:1px solid var(--panel);gap:8px;
+}
+.detail-row:last-child{border-bottom:none;}
+.detail-key{font-size:0.72rem;color:var(--text-300);flex-shrink:0;}
+.detail-val{
+  font-family:var(--mono);font-size:0.68rem;font-weight:600;
+  color:var(--text-900);text-align:right;
+}
+
+/* Arabic block */
+.arabic-summary-block{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:10px;padding:14px 16px;
+  direction:rtl;text-align:right;
+  margin-bottom:14px;
+}
+.arabic-block-label{
+  font-family:var(--mono);font-size:0.57rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.1em;
+  color:var(--text-300);direction:ltr;text-align:left;
+  margin-bottom:8px;display:block;
+}
+.arabic-block-text{
+  font-family:var(--arabic);font-size:0.87rem;
+  color:var(--text-500);line-height:1.9;
+}
+
+/* API notice */
+.api-notice{
+  background:linear-gradient(135deg, rgba(26,92,160,0.05) 0%, rgba(31,107,82,0.05) 100%);
+  border:1px dashed var(--blue-bdr);
+  border-radius:8px;padding:10px 14px;
+  margin-bottom:14px;
+  display:flex;align-items:center;gap:10px;
+}
+.api-notice-icon{font-size:1rem;flex-shrink:0;}
+.api-notice-text{
+  font-size:0.72rem;color:var(--blue-clr);line-height:1.5;
+}
+.api-notice-text strong{font-weight:700;}
+
+/* Action buttons row */
+.detail-actions{
+  display:flex;gap:8px;flex-wrap:wrap;
+  padding-top:14px;
+  border-top:1px solid var(--border);
+}
+.action-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:9px 16px;border-radius:9px;
+  font-size:0.75rem;font-weight:600;cursor:pointer;
+  transition:all 0.15s;border:1.5px solid;
+  font-family:var(--sans);
+}
+.action-btn-primary{
+  background:var(--green-700);border-color:var(--green-700);color:#fff;
+}
+.action-btn-primary:hover{background:var(--green-600);border-color:var(--green-600);box-shadow:0 2px 10px rgba(31,107,82,0.25);}
+.action-btn-secondary{
+  background:var(--white);border-color:var(--border-mid);color:var(--text-500);
+}
+.action-btn-secondary:hover{border-color:var(--green-700);color:var(--green-700);}
+.action-btn-ghost{
+  background:transparent;border-color:transparent;color:var(--text-400);
+  padding-left:8px;padding-right:8px;
+}
+.action-btn-ghost:hover{color:var(--green-700);background:var(--green-50);}
+
+/* ═══════════════════════════════════════════
+   EMPTY STATE
+═══════════════════════════════════════════ */
+.empty-state{
+  text-align:center;padding:60px 20px;
+  background:var(--white);border:1px dashed var(--border);
+  border-radius:14px;
+}
+.empty-icon{font-size:2.8rem;margin-bottom:14px;opacity:0.5;}
+.empty-title{
+  font-family:var(--display);font-size:1.15rem;
+  color:var(--green-900);margin-bottom:6px;
+}
+.empty-sub{font-size:0.8rem;color:var(--text-300);line-height:1.6;}
+.empty-reset{
+  margin-top:16px;
+  background:none;border:1.5px solid var(--border-mid);
+  color:var(--text-500);padding:8px 20px;border-radius:8px;
+  font-family:var(--sans);font-size:0.8rem;font-weight:600;
+  cursor:pointer;transition:all 0.15s;
+}
+.empty-reset:hover{border-color:var(--green-700);color:var(--green-700);}
+
+/* ═══════════════════════════════════════════
+   SIDEBAR
+═══════════════════════════════════════════ */
+.sidebar{
+  display:flex;flex-direction:column;gap:14px;
+  position:sticky;top:76px;
+}
+.sidebar-card{
+  background:var(--white);
+  border:1px solid var(--border);
+  border-radius:14px;padding:18px;
+  overflow:hidden;
+}
+.sidebar-card.glass{
+  background:var(--glass-bg);
+  backdrop-filter:blur(8px);
+}
+.sidebar-header{
+  font-family:var(--mono);font-size:0.58rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.13em;
+  color:var(--text-300);margin-bottom:12px;
+  display:flex;align-items:center;gap:6px;
+}
+.sidebar-header::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* Category list (sidebar) */
+.sb-cat-btn{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 10px;border-radius:8px;cursor:pointer;
+  transition:all 0.15s;margin-bottom:3px;
+  border:1px solid transparent;
+}
+.sb-cat-btn:hover{background:var(--green-50);border-color:var(--green-100);}
+.sb-cat-btn.active{background:var(--green-50);border-color:var(--green-200);}
+.sb-cat-btn.active .sb-cat-name{color:var(--green-700);}
+.sb-cat-left{display:flex;align-items:center;gap:8px;}
+.sb-cat-icon{font-size:0.95rem;}
+.sb-cat-name{font-size:0.75rem;font-weight:600;color:var(--text-700);transition:color 0.15s;}
+.sb-cat-count{
+  font-family:var(--mono);font-size:0.58rem;font-weight:700;
+  background:var(--panel);border:1px solid var(--border);
+  border-radius:10px;padding:1px 7px;color:var(--text-300);
+  transition:all 0.15s;
+}
+.sb-cat-btn.active .sb-cat-count{background:var(--green-100);border-color:var(--green-200);color:var(--green-700);}
+
+/* Severity guide */
+.sev-guide-row{
+  display:flex;align-items:center;gap:8px;
+  padding:7px 0;border-bottom:1px solid var(--border);font-size:0.72rem;
+}
+.sev-guide-row:last-child{border-bottom:none;padding-bottom:0;}
+.sev-guide-desc{color:var(--text-500);font-size:0.7rem;line-height:1.4;}
+
+/* Authority list */
+.auth-item{
+  padding:7px 0;border-bottom:1px solid var(--border);
+}
+.auth-item:last-child{border-bottom:none;}
+.auth-name{font-size:0.78rem;font-weight:700;color:var(--green-900);margin-bottom:2px;}
+.auth-full{font-size:0.68rem;color:var(--text-400);line-height:1.4;}
+
+/* AECON tip card */
+.tip-card{
+  background:linear-gradient(135deg,var(--green-900) 0%,var(--green-700) 100%);
+  border-radius:14px;padding:18px;color:#fff;
+  position:relative;overflow:hidden;
+}
+.tip-card::after{
+  content:'';position:absolute;
+  width:160px;height:160px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,0.06),transparent);
+  bottom:-60px;right:-40px;pointer-events:none;
+}
+.tip-label{
+  font-family:var(--mono);font-size:0.52rem;font-weight:700;
+  letter-spacing:0.14em;text-transform:uppercase;
+  color:rgba(255,255,255,0.5);margin-bottom:8px;
+}
+.tip-title{
+  font-family:var(--display);font-size:1.05rem;font-weight:800;
+  color:#fff;line-height:1.3;margin-bottom:8px;
+}
+.tip-text{
+  font-size:0.74rem;color:rgba(255,255,255,0.75);
+  line-height:1.65;margin-bottom:14px;
+}
+.tip-btn{
+  background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.25);
+  color:#fff;padding:9px 16px;border-radius:8px;
+  font-size:0.75rem;font-weight:600;cursor:pointer;
+  transition:background 0.15s;font-family:var(--sans);
+  width:100%;text-align:center;display:block;
+}
+.tip-btn:hover{background:rgba(255,255,255,0.25);}
+
+/* API integration notice in sidebar */
+.api-integration{
+  border:1px dashed var(--border-mid);
+  border-radius:12px;padding:14px;
+  background:var(--panel);
+}
+.api-int-title{
+  font-family:var(--mono);font-size:0.58rem;font-weight:700;
+  text-transform:uppercase;letter-spacing:0.1em;
+  color:var(--text-300);margin-bottom:10px;
+}
+.api-int-item{
+  display:flex;align-items:center;gap:8px;
+  padding:5px 0;font-size:0.72rem;color:var(--text-400);
+}
+.api-int-dot{
+  width:7px;height:7px;border-radius:50%;
+  flex-shrink:0;
+}
+.api-int-dot-ready{background:#22c55e;}
+.api-int-dot-pending{background:#f59e0b;}
+.api-int-dot-planned{background:var(--border-mid);}
+
+/* ═══════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════ */
+@media(max-width:1100px){
+  .content-wrap{grid-template-columns:1fr;}
+  .sidebar{position:static;display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .tip-card{grid-column:1/-1;}
+}
+@media(max-width:768px){
+  .navbar{padding:12px 16px;}.nav-links,.nav-badge{display:none;}
+  .hero{padding:36px 16px 32px;}.hero-title{font-size:1.8rem;}
+  .intel-bar{padding:0 16px;}
+  .main{padding:20px 16px 48px;}
+  .hero-stats-row{flex-wrap:wrap;}
+  .hero-stat{padding:12px 20px;}
+  .detail-two-col{grid-template-columns:1fr;}
+  .sidebar{grid-template-columns:1fr;}
+  .search-panel{padding:16px;}
+  .filter-row{gap:8px;}
+  .filter-group{min-width:calc(50% - 4px);}
+}
+@media(max-width:480px){
+  .hero-title{font-size:1.5rem;}
+  .card-header{flex-direction:column;}
+  .card-right{flex-direction:row;align-items:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════ NAVBAR ══════════════ -->
+<nav class="navbar">
+  <div class="nav-left">
+    <div class="nav-logo">A</div>
+    <div>
+      <div class="nav-brand">AECON · ALEMAD ALARABI</div>
+      <div class="nav-sub">Environmental Consulting</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="https://sikanderchishti07-source.github.io/environmental-portal/#overview" class="nav-link">Overview</a>
+    <a href="https://sikanderchishti07-source.github.io/environmental-portal/#services" class="nav-link">Services</a>
+    <a href="https://sikanderchishti07-source.github.io/environmental-portal/#tools" class="nav-link active">Tools</a>
+    <a href="https://sikanderchishti07-source.github.io/greenlaw.html" class="nav-link">⚖️ GreenLaw</a>
+    <div class="nav-badge">
+      <span class="nav-badge-dot"></span>
+      Regulatory DB Live
+    </div>
+  </div>
+  <a href="#" class="nav-cta">👤 Client Portal</a>
+</nav>
+
+<!-- ══════════════ HERO ══════════════ -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">
+      <span class="hero-eyebrow-dot"></span>
+      <span class="hero-eyebrow-text">Saudi Arabia · GAMEP / MEWA / NCEC · Vision 2030 Aligned</span>
+    </div>
+    <h1 class="hero-title">Regulatory <em>Intelligence</em><br>Search Platform</h1>
+    <p class="hero-desc">Instantly search Saudi Arabia's environmental laws, GAMEP regulations, and Vision 2030 compliance requirements — with article references, technical parameters, and deadlines in English &amp; Arabic.</p>
+    <div class="hero-stats-row">
+      <div class="hero-stat">
+        <div class="hero-stat-num" id="stat-total">48<span>+</span></div>
+        <div class="hero-stat-lbl">Total Regulations</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">9</div>
+        <div class="hero-stat-lbl">Categories</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">5</div>
+        <div class="hero-stat-lbl">Authorities</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><span>2025</span></div>
+        <div class="hero-stat-lbl">Last Updated</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ INTEL STATS BAR ══════════════ -->
+<div class="intel-bar">
+  <div class="intel-item">
+    <div class="intel-icon intel-icon-red">🔴</div>
+    <div class="intel-text">
+      <div class="intel-num" id="stat-high">22</div>
+      <div class="intel-lbl">High Severity</div>
+    </div>
+  </div>
+  <div class="intel-item">
+    <div class="intel-icon intel-icon-amber">🟡</div>
+    <div class="intel-text">
+      <div class="intel-num" id="stat-med">18</div>
+      <div class="intel-lbl">Medium Severity</div>
+    </div>
+  </div>
+  <div class="intel-item">
+    <div class="intel-icon intel-icon-green">🟢</div>
+    <div class="intel-text">
+      <div class="intel-num" id="stat-low">8</div>
+      <div class="intel-lbl">Low Severity</div>
+    </div>
+  </div>
+  <div class="intel-item">
+    <div class="intel-icon intel-icon-blue">📋</div>
+    <div class="intel-text">
+      <div class="intel-num">6</div>
+      <div class="intel-lbl">Recently Updated</div>
+    </div>
+  </div>
+  <div class="intel-item">
+    <div class="intel-icon intel-icon-green">🏛️</div>
+    <div class="intel-text">
+      <div class="intel-num">5</div>
+      <div class="intel-lbl">Issuing Authorities</div>
+    </div>
+  </div>
+  <div class="intel-item">
+    <div class="intel-icon intel-icon-green">🌿</div>
+    <div class="intel-text">
+      <div class="intel-num">9</div>
+      <div class="intel-lbl">Compliance Categories</div>
+    </div>
+  </div>
+  <div class="intel-update">
+    <span class="update-dot"></span>
+    Database synced · 2025
+  </div>
+</div>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<div class="main">
+
+  <!-- SEARCH PANEL -->
+  <div class="search-panel">
+    <div class="search-panel-label">Regulatory Search Engine</div>
+
+    <!-- Primary search input -->
+    <div class="search-wrap">
+      <div class="search-icon-wrap">🔍</div>
+      <input
+        class="search-input"
+        id="search-input"
+        type="text"
+        placeholder="Search by keyword, article, regulation ID or Arabic text… e.g. 'PM2.5 emissions', 'EIA', 'مياه الصرف'"/>
+      <button class="search-clear" id="search-clear" title="Clear search">✕</button>
+      <button class="search-btn" onclick="doSearch()">
+        <span>Search</span>
+        <span style="opacity:0.7;font-size:0.7rem;">⌘K</span>
+      </button>
+    </div>
+
+    <!-- Advanced filters -->
+    <div class="filter-row">
+      <div class="filter-group">
+        <span class="filter-label">Category</span>
+        <select class="filter-select" id="filter-category" onchange="applyFilters()">
+          <option value="all">All Categories</option>
+          <option value="air">💨 Air Quality</option>
+          <option value="water">💧 Water</option>
+          <option value="waste">🗑️ Waste Management</option>
+          <option value="noise">🔊 Noise</option>
+          <option value="eia">📋 EIA / ESIA</option>
+          <option value="industrial">🏭 Industrial</option>
+          <option value="marine">🌊 Marine &amp; Coastal</option>
+          <option value="climate">🌍 Climate / Vision 2030</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Authority</span>
+        <select class="filter-select" id="filter-authority" onchange="applyFilters()">
+          <option value="all">All Authorities</option>
+          <option value="GAMEP">GAMEP</option>
+          <option value="MEWA">MEWA</option>
+          <option value="NCEC">NCEC</option>
+          <option value="NWC">NWC</option>
+          <option value="Royal">Royal Commission</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Severity</span>
+        <select class="filter-select" id="filter-severity" onchange="applyFilters()">
+          <option value="all">All Severities</option>
+          <option value="high">🔴 High — Criminal penalties</option>
+          <option value="medium">🟡 Medium — Financial penalties</option>
+          <option value="low">🟢 Low — Administrative</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <span class="filter-label">Sort by</span>
+        <select class="filter-select" id="filter-sort" onchange="applyFilters()">
+          <option value="default">Default order</option>
+          <option value="severity_high">Severity: High first</option>
+          <option value="severity_low">Severity: Low first</option>
+          <option value="id_asc">Regulation ID A→Z</option>
+        </select>
+      </div>
+      <button class="filter-reset" onclick="resetAll()">↺ Reset All</button>
+    </div>
+
+    <!-- Quick tags -->
+    <div class="quick-tags">
+      <span class="quick-label">Quick search:</span>
+      <span class="quick-tag" onclick="setSearch('wastewater')">Wastewater</span>
+      <span class="quick-tag" onclick="setSearch('air emissions')">Air Emissions</span>
+      <span class="quick-tag" onclick="setSearch('EIA')">EIA</span>
+      <span class="quick-tag" onclick="setSearch('hazardous waste')">Hazardous Waste</span>
+      <span class="quick-tag" onclick="setSearch('noise')">Noise</span>
+      <span class="quick-tag" onclick="setSearch('carbon')">Carbon / GHG</span>
+      <span class="quick-tag" onclick="setSearch('coastal')">Coastal / Marine</span>
+      <span class="quick-tag" onclick="setSearch('NEOM')">NEOM / Giga</span>
+      <span class="quick-tag" onclick="setSearch('permit')">Permits</span>
+    </div>
+  </div>
+
+  <!-- CATEGORY TABS -->
+  <div class="cat-tab-row" id="cat-tab-row"></div>
+
+  <!-- CONTENT WRAP -->
+  <div class="content-wrap">
+
+    <!-- RESULTS COLUMN -->
+    <div class="results-col">
+      <div class="results-bar">
+        <div class="results-meta">
+          Showing <strong id="result-count">48</strong> regulations
+          <span id="search-context" style="color:var(--text-300);"></span>
+        </div>
+      </div>
+      <div class="results-grid" id="results-grid"></div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+
+      <!-- Browse by category -->
+      <div class="sidebar-card">
+        <div class="sidebar-header">Browse by Category</div>
+        <div id="sb-category-list"></div>
+      </div>
+
+      <!-- AECON Advisory -->
+      <div class="tip-card">
+        <div class="tip-label">AECON Advisory</div>
+        <div class="tip-title">Need Compliance Support?</div>
+        <div class="tip-text">Our certified specialists deliver EIA studies, compliance audits, and regulatory roadmaps aligned with Saudi GAMEP, MEWA, and Vision 2030 requirements.</div>
+        <button class="tip-btn" onclick="window.location.href='mailto:enviro@aecon-sa.com'">Contact Our Team →</button>
+      </div>
+
+      <!-- Severity guide -->
+      <div class="sidebar-card">
+        <div class="sidebar-header">Severity Guide</div>
+        <div class="sev-guide-row">
+          <span class="badge badge-sev-high">HIGH</span>
+          <span class="sev-guide-desc">Criminal penalties, immediate action</span>
+        </div>
+        <div class="sev-guide-row">
+          <span class="badge badge-sev-med">MEDIUM</span>
+          <span class="sev-guide-desc">Financial penalties, corrective plan</span>
+        </div>
+        <div class="sev-guide-row">
+          <span class="badge badge-sev-low">LOW</span>
+          <span class="sev-guide-desc">Administrative notice, monitoring</span>
+        </div>
+      </div>
+
+      <!-- Key Authorities -->
+      <div class="sidebar-card">
+        <div class="sidebar-header">Key Authorities</div>
+        <div class="auth-item">
+          <div class="auth-name">GAMEP</div>
+          <div class="auth-full">General Authority for Meteorology &amp; Environmental Protection</div>
+        </div>
+        <div class="auth-item">
+          <div class="auth-name">NCEC</div>
+          <div class="auth-full">National Centre for Environmental Compliance</div>
+        </div>
+        <div class="auth-item">
+          <div class="auth-name">MEWA</div>
+          <div class="auth-full">Ministry of Environment, Water &amp; Agriculture</div>
+        </div>
+        <div class="auth-item">
+          <div class="auth-name">NWC</div>
+          <div class="auth-full">National Water Company</div>
+        </div>
+        <div class="auth-item">
+          <div class="auth-name">RCRC</div>
+          <div class="auth-full">Royal Commission for Riyadh City</div>
+        </div>
+      </div>
+
+      <!-- Future API integrations -->
+      <div class="api-integration">
+        <div class="api-int-title">🔌 API Integration Status</div>
+        <div class="api-int-item">
+          <span class="api-int-dot api-int-dot-ready"></span>
+          Internal regulation database
+        </div>
+        <div class="api-int-item">
+          <span class="api-int-dot api-int-dot-pending"></span>
+          GAMEP regulatory portal
+        </div>
+        <div class="api-int-item">
+          <span class="api-int-dot api-int-dot-planned"></span>
+          MEWA live updates feed
+        </div>
+        <div class="api-int-item">
+          <span class="api-int-dot api-int-dot-planned"></span>
+          PDF document storage
+        </div>
+        <div class="api-int-item">
+          <span class="api-int-dot api-int-dot-planned"></span>
+          Government gazette API
+        </div>
+        <div style="margin-top:10px;font-size:0.67rem;color:var(--text-300);font-family:var(--mono);">🟢 Connected &nbsp;🟡 In dev &nbsp;⚪ Planned</div>
+      </div>
+
+    </div><!-- /sidebar -->
+  </div><!-- /content-wrap -->
+</div><!-- /main -->
+
+
+<script>
+/* ═══════════════════════════════════════════════
+   REGULATION DATABASE — 48 Saudi env. regulations
+   Future: replace with API call to gov. database
+════════════════════════════════════════════════ */
+const REGULATIONS = [
+
+/* ── AIR QUALITY ───── */
+{id:'AIR-001',category:'air',article:'GAMEP Article 12',year:2021,
+ title_en:'Ambient Air Quality Standards for Industrial Zones',
+ title_ar:'معايير جودة الهواء المحيط للمناطق الصناعية',
+ summary_en:'Industrial facilities must not exceed established ambient air quality limits for PM2.5, PM10, NO₂, SO₂, CO, and O₃. Continuous monitoring required at all major emission points.',
+ summary_ar:'يجب ألا تتجاوز المنشآت الصناعية الحدود المحددة لجودة الهواء المحيط لـ PM2.5 وPM10 وثاني أكسيد النيتروجين وثاني أكسيد الكبريت وأول أكسيد الكربون والأوزون.',
+ severity:'high',deadline:'Ongoing — Annual reporting by 31 March',deadline_color:'red',
+ authority:'GAMEP',penaltyNote:'SAR 100,000–1,000,000 per violation',
+ details:[{k:'PM2.5 Limit',v:'35 µg/m³ (24h avg)'},{k:'PM10 Limit',v:'70 µg/m³ (24h avg)'},{k:'NO₂ Limit',v:'200 µg/m³ (hourly)'},{k:'SO₂ Limit',v:'350 µg/m³ (hourly)'},{k:'Monitoring',v:'Continuous CEMS'},{k:'Report Submission',v:'Monthly to GAMEP portal'}],
+ keywords:'air emission pm2.5 pm10 industrial monitoring pollution ambient'},
+{id:'AIR-002',category:'air',article:'GAMEP Article 18',year:2022,
+ title_en:'Stack Emission Limits for Power Generation Facilities',
+ title_ar:'حدود انبعاثات المداخن لمنشآت توليد الكهرباء',
+ summary_en:'Power plants and cogeneration facilities must install certified stack emission monitoring systems and comply with NOₓ, SO₂, and particulate limits defined by GAMEP.',
+ summary_ar:'يجب على محطات الطاقة ومنشآت التوليد المشترك تركيب أنظمة مراقبة انبعاثات مداخن معتمدة والالتزام بالحدود المحددة من قبل الهيئة.',
+ severity:'high',deadline:'Compliance by Q1 2025',deadline_color:'red',
+ authority:'GAMEP',penaltyNote:'Facility shutdown order possible',
+ details:[{k:'NOₓ Limit',v:'400 mg/Nm³'},{k:'SO₂ Limit',v:'600 mg/Nm³'},{k:'Particulates',v:'50 mg/Nm³'},{k:'CEMS Required',v:'Yes — certified by GAMEP'},{k:'Calibration',v:'Quarterly'}],
+ keywords:'air stack emission power plant NOx SO2 cems'},
+{id:'AIR-003',category:'air',article:'Royal Decree M/165',year:2020,
+ title_en:'Vehicle Emission Standards and Inspection Requirements',
+ title_ar:'معايير انبعاثات المركبات ومتطلبات الفحص',
+ summary_en:'All vehicles operating in Saudi Arabia must comply with Euro 5 emission standards. Commercial fleet operators must maintain emission inspection records.',
+ summary_ar:'يجب أن تلتزم جميع المركبات العاملة في المملكة العربية السعودية بمعايير الانبعاثات اليورو 5.',
+ severity:'medium',deadline:'Ongoing — Biennial vehicle inspection',deadline_color:'yellow',
+ authority:'GAMEP',penaltyNote:'SAR 500–5,000 per vehicle',
+ details:[{k:'Standard',v:'Euro 5 minimum'},{k:'CO Limit',v:'1.0 g/km'},{k:'NOₓ Limit',v:'0.06 g/km'},{k:'Inspection Cycle',v:'Every 2 years'},{k:'Fleet > 50 vehicles',v:'Internal audit required'}],
+ keywords:'air vehicle emission transport fleet inspection euro'},
+
+/* ── WATER ───── */
+{id:'WAT-001',category:'water',article:'GAMEP Article 34',year:2021,
+ title_en:'Industrial Wastewater Discharge Standards',
+ title_ar:'معايير تصريف مياه الصرف الصناعي',
+ summary_en:'Industrial facilities discharging wastewater into municipal networks or water bodies must comply with maximum permissible limits for BOD, COD, TSS, heavy metals, and pH.',
+ summary_ar:'يجب على المنشآت الصناعية التي تصرف مياه الصرف في شبكات الصرف البلدي أو المسطحات المائية الالتزام بالحدود القصوى.',
+ severity:'high',deadline:'Ongoing — Quarterly lab testing required',deadline_color:'red',
+ authority:'GAMEP',penaltyNote:'SAR 200,000 + facility suspension',
+ details:[{k:'BOD Limit',v:'50 mg/L'},{k:'COD Limit',v:'150 mg/L'},{k:'TSS Limit',v:'60 mg/L'},{k:'pH Range',v:'6.0 – 9.0'},{k:'Oil & Grease',v:'10 mg/L max'},{k:'Testing Frequency',v:'Monthly minimum'}],
+ keywords:'wastewater industrial discharge water quality BOD COD TSS treatment'},
+{id:'WAT-002',category:'water',article:'GAMEP Article 41',year:2022,
+ title_en:'Treated Sewage Effluent Reuse Standards',
+ title_ar:'معايير إعادة استخدام مياه الصرف الصحي المعالجة',
+ summary_en:'Treated wastewater reused for irrigation, construction, or industrial cooling must meet tertiary treatment standards including microbial limits and nutrient thresholds.',
+ summary_ar:'يجب أن تستوفي مياه الصرف المعالجة المعادة للاستخدام في الري أو البناء معايير المعالجة الثلاثية.',
+ severity:'medium',deadline:'New projects: compliance before commissioning',deadline_color:'yellow',
+ authority:'MEWA',penaltyNote:'SAR 50,000–300,000',
+ details:[{k:'Treatment Level',v:'Tertiary minimum'},{k:'E.coli Limit',v:'< 2.2 MPN/100mL'},{k:'Turbidity',v:'< 2 NTU'},{k:'Residual Chlorine',v:'0.5 – 1.5 mg/L'}],
+ keywords:'wastewater reuse treated sewage irrigation recycled water TSE'},
+{id:'WAT-003',category:'water',article:'Royal Decree M/34',year:2019,
+ title_en:'Groundwater Protection and Extraction Permits',
+ title_ar:'حماية المياه الجوفية وتصاريح الاستخراج',
+ summary_en:'Any groundwater extraction exceeding 50 m³/day requires a permit from MEWA. Environmental impact assessment of aquifer depletion is mandatory for industrial operations.',
+ summary_ar:'يتطلب أي استخراج للمياه الجوفية يتجاوز 50 م³ يومياً الحصول على تصريح من وزارة البيئة والمياه والزراعة.',
+ severity:'high',deadline:'Permit renewal every 3 years',deadline_color:'red',
+ authority:'MEWA',penaltyNote:'SAR 500,000 + extraction suspension',
+ details:[{k:'Permit Threshold',v:'> 50 m³/day'},{k:'EIA Required',v:'Yes for > 500 m³/day'},{k:'Monitoring Wells',v:'Min. 2 per site'},{k:'Permit Validity',v:'3 years'}],
+ keywords:'groundwater water extraction permit aquifer depletion MEWA'},
+{id:'WAT-004',category:'water',article:'GAMEP Article 52',year:2023,
+ title_en:'Desalination Plant Environmental Impact Requirements',
+ title_ar:'متطلبات الأثر البيئي لمحطات التحلية',
+ summary_en:'Desalination plants must submit brine disposal plans, thermal discharge assessments, and chemical additive registers to GAMEP before commissioning.',
+ summary_ar:'يجب على محطات التحلية تقديم خطط التخلص من المحلول الملحي وتقييمات التصريف الحراري إلى الهيئة قبل التشغيل.',
+ severity:'high',deadline:'Pre-commissioning + Annual update',deadline_color:'red',
+ authority:'GAMEP',penaltyNote:'Commissioning permit withheld',
+ details:[{k:'Brine Temp Limit',v:'≤ 5°C above ambient'},{k:'Dilution Zone',v:'300m radius max'},{k:'Chlorine Residual',v:'< 0.1 mg/L'},{k:'Marine Survey',v:'Annual coral & seagrass'}],
+ keywords:'desalination brine marine coastal water discharge thermal'},
+
+/* ── WASTE MANAGEMENT ───── */
+{id:'WST-001',category:'waste',article:'GAMEP Article 60',year:2021,
+ title_en:'Hazardous Waste Classification and Storage',
+ title_ar:'تصنيف النفايات الخطرة وتخزينها',
+ summary_en:'All hazardous waste generators must classify waste per GAMEP Schedule H, maintain manifests, and store in GAMEP-approved facilities not exceeding 90-day limits.',
+ summary_ar:'يجب على جميع منتجي النفايات الخطرة تصنيف النفايات وفقاً للجدول الزمني H من الهيئة والاحتفاظ بوثائق التتبع.',
+ severity:'high',deadline:'Ongoing — 90-day max on-site storage',deadline_color:'red',
+ authority:'GAMEP',penaltyNote:'SAR 500,000 + criminal prosecution',
+ details:[{k:'Max On-site Storage',v:'90 days'},{k:'Container Labelling',v:'Arabic + English + UN code'},{k:'Manifest System',v:'GAMEP E-Manifest (mandatory)'},{k:'Emergency Plan',v:'Required — updated annually'}],
+ keywords:'hazardous waste storage classification manifest toxic chemical industrial'},
+{id:'WST-002',category:'waste',article:'Royal Decree M/201',year:2024,
+ title_en:'Construction and Demolition Waste Recycling Requirements',
+ title_ar:'متطلبات إعادة تدوير نفايات البناء والهدم',
+ summary_en:'Construction projects exceeding 5,000 m² must implement a Waste Management Plan achieving minimum 70% diversion of C&D waste from landfill.',
+ summary_ar:'يجب على مشاريع البناء التي تتجاوز 5000 م² تطبيق خطة إدارة النفايات لتحقيق الحد الأدنى 70٪ من تحويل نفايات البناء.',
+ severity:'medium',deadline:'Applicable from 01 January 2024',deadline_color:'yellow',
+ authority:'GAMEP',penaltyNote:'SAR 100,000 per violation',
+ details:[{k:'Project Threshold',v:'> 5,000 m² GFA'},{k:'Diversion Target',v:'70% from landfill'},{k:'WMP Submission',v:'Before construction permit'},{k:'NEOM / Giga Projects',v:'85% diversion target'}],
+ keywords:'construction demolition waste recycling CDW building NEOM giga project'},
+{id:'WST-003',category:'waste',article:'GAMEP Article 67',year:2020,
+ title_en:'Medical and Clinical Waste Disposal Standards',
+ title_ar:'معايير التخلص من النفايات الطبية والسريرية',
+ summary_en:'Healthcare facilities must segregate, treat, and dispose of clinical waste using licensed contractors. Incineration must meet temperature and emission standards.',
+ summary_ar:'يجب على المنشآت الرعاية الصحية فصل النفايات السريرية ومعالجتها والتخلص منها عبر مقاولين مرخصين فقط.',
+ severity:'high',deadline:'Ongoing — Monthly audit log required',deadline_color:'red',
+ authority:'GAMEP',penaltyNote:'SAR 300,000 + license revocation',
+ details:[{k:'Incineration Temp',v:'850°C minimum'},{k:'Segregation',v:'4-stream minimum'},{k:'Contractor',v:'GAMEP licensed only'},{k:'Storage Time',v:'72 hours maximum'}],
+ keywords:'medical waste clinical hospital healthcare disposal incineration'},
+
+/* ── NOISE ───── */
+{id:'NOI-001',category:'noise',article:'GAMEP Article 78',year:2021,
+ title_en:'Industrial Noise Emission Limits',
+ title_ar:'حدود انبعاث الضوضاء الصناعية',
+ summary_en:'Industrial facilities must not exceed 70 dB(A) LAeq at the nearest receptor. Noise impact assessments required for new developments within 500m of residential zones.',
+ summary_ar:'يجب ألا تتجاوز المنشآت الصناعية 70 ديسيبل عند أقرب مستقبل. تُطلب تقييمات أثر الضوضاء ضمن 500 م من المناطق السكنية.',
+ severity:'medium',deadline:'Ongoing — Quarterly monitoring',deadline_color:'yellow',
+ authority:'GAMEP',penaltyNote:'SAR 20,000–200,000',
+ details:[{k:'Daytime Limit',v:'70 dB(A) at boundary'},{k:'Night Limit',v:'60 dB(A) (22:00–06:00)'},{k:'Residential Buffer',v:'500m NIA trigger'},{k:'Monitoring',v:'Quarterly at 4 cardinal points'}],
+ keywords:'noise industrial emission dB limit residential buffer sound'},
+{id:'NOI-002',category:'noise',article:'GAMEP Article 82',year:2021,
+ title_en:'Noise Impact Assessment for New Developments',
+ title_ar:'تقييم أثر الضوضاء للمشاريع الجديدة',
+ summary_en:'A baseline noise survey and predictive impact model is required for industrial, infrastructure, and mixed-use developments exceeding 2 hectares or within 1km of sensitive receptors.',
+ summary_ar:'يُطلب إجراء مسح للضوضاء الخلفية ونموذج تأثير تنبؤي للتطويرات الصناعية التي تتجاوز 2 هكتار.',
+ severity:'medium',deadline:'Required before planning approval',deadline_color:'yellow',
+ authority:'GAMEP',penaltyNote:'Planning permit refused',
+ details:[{k:'Survey Duration',v:'Min. 7 days continuous'},{k:'Model Standard',v:'ISO 9613-2 / CadnaA'},{k:'Trigger Distance',v:'1km from sensitive receptors'},{k:'Mitigation Plan',v:'Required if limits exceeded'}],
+ keywords:'noise assessment NIA baseline survey planning development impact'},
+{id:'NOI-003',category:'noise',article:'GAMEP Article 85',year:2020,
+ title_en:'Construction Site Noise Control Requirements',
+ title_ar:'متطلبات التحكم في ضوضاء مواقع البناء',
+ summary_en:'Construction activities generating noise above 75 dB(A) at 10m must restrict operations to permitted hours. Night work requires prior GAMEP permit.',
+ summary_ar:'يجب على أنشطة البناء التي تولد ضوضاء تتجاوز 75 ديسيبل تقييد العمليات خلال ساعات العمل المسموح بها.',
+ severity:'low',deadline:'Permit required for night work',deadline_color:'green',
+ authority:'GAMEP',penaltyNote:'SAR 5,000–50,000',
+ details:[{k:'Permitted Hours',v:'07:00 – 21:00 weekdays'},{k:'Weekend Hours',v:'09:00 – 18:00 (Fri/Sat)'},{k:'Night Work Permit',v:'GAMEP approval required'},{k:'Noise Barrier',v:'Required if > 75 dB(A)'}],
+ keywords:'noise construction site building hours night work piling'},
+
+/* ── EIA ───── */
+{id:'EIA-001',category:'eia',article:'Royal Decree M/34 + GAMEP EIA Regs',year:2021,
+ title_en:'Environmental Impact Assessment — Mandatory Threshold Projects',
+ title_ar:'تقييم الأثر البيئي — المشاريع الخاضعة للاشتراط الإلزامي',
+ summary_en:'All projects classified under GAMEP Category A or B require a full EIA before permits. Category A includes power plants, desalination, refineries, airports, and developments > 100 ha.',
+ summary_ar:'تتطلب جميع المشاريع المصنفة ضمن الفئة A أو B من الهيئة إجراء تقييم شامل للأثر البيئي قبل إصدار التصاريح.',
+ severity:'high',deadline:'Before any construction permit',deadline_color:'red',
+ authority:'GAMEP',penaltyNote:'Construction permit null and void',
+ details:[{k:'Category A Projects',v:'Power, desalination, refineries'},{k:'EIA Study Period',v:'Min. 12 months baseline'},{k:'Scoping Required',v:'Pre-EIA scoping meeting'},{k:'Public Consultation',v:'30-day comment period'}],
+ keywords:'EIA ESIA environmental impact assessment baseline scoping GAMEP permit'},
+{id:'EIA-002',category:'eia',article:'GAMEP EIA Guidelines 2023',year:2023,
+ title_en:'Environmental and Social Impact Assessment for Giga-Projects',
+ title_ar:'تقييم الأثر البيئي والاجتماعي للمشاريع العملاقة',
+ summary_en:'NEOM, Red Sea Project, Qiddiya, and Diriyah Gate must conduct full ESIA aligned with IFC Performance Standards and Saudi GAMEP requirements, including biodiversity impact assessment.',
+ summary_ar:'يجب على المشاريع العملاقة إجراء تقييم شامل للأثر البيئي والاجتماعي وفقاً لمعايير أداء IFC.',
+ severity:'high',deadline:'Ongoing throughout project lifecycle',deadline_color:'red',
+ authority:'GAMEP',penaltyNote:'Project suspension + SAR 5,000,000',
+ details:[{k:'Standard',v:'IFC Performance Standards'},{k:'Biodiversity',v:'Full IBAT screening required'},{k:'Stakeholder Engagement',v:'Continuous — IFC PS1'},{k:'Monitoring Plan',v:'ESMP with KPIs'}],
+ keywords:'ESIA EIA giga projects NEOM Red Sea Qiddiya IFC social impact biodiversity'},
+{id:'EIA-003',category:'eia',article:'GAMEP Article 29',year:2021,
+ title_en:'Environmental Management Plan Implementation Requirements',
+ title_ar:'متطلبات تنفيذ خطة الإدارة البيئية',
+ summary_en:'All projects with approved EIA must implement an Environmental Management Plan (EMP) with monthly monitoring, quarterly audits, and annual third-party verification.',
+ summary_ar:'يجب على جميع المشاريع ذات تقييم الأثر البيئي المعتمد تطبيق خطة الإدارة البيئية مع المراقبة الشهرية.',
+ severity:'high',deadline:'Throughout construction & operation phases',deadline_color:'red',
+ authority:'GAMEP',penaltyNote:'SAR 300,000 per non-compliance event',
+ details:[{k:'Monthly Monitoring',v:'All EMP KPIs tracked'},{k:'Quarterly Audit',v:'Internal EHS team'},{k:'Annual Audit',v:'Third-party accredited firm'},{k:'Corrective Actions',v:'30-day closure required'}],
+ keywords:'EMP environmental management plan EIA construction monitoring audit compliance'},
+
+/* ── INDUSTRIAL ───── */
+{id:'IND-001',category:'industrial',article:'GAMEP Article 95',year:2020,
+ title_en:'Chemical Inventory and Safety Data Sheet Requirements',
+ title_ar:'متطلبات جرد المواد الكيميائية وبطاقات بيانات السلامة',
+ summary_en:'All industrial facilities handling hazardous chemicals must maintain a complete chemical inventory with updated GHS-compliant Safety Data Sheets accessible to all employees.',
+ summary_ar:'يجب على جميع المنشآت الصناعية التي تتعامل مع المواد الكيميائية الخطرة الاحتفاظ بجرد كيميائي كامل.',
+ severity:'high',deadline:'Ongoing — SDS updated within 3 years',deadline_color:'red',
+ authority:'GAMEP',penaltyNote:'SAR 200,000 per facility',
+ details:[{k:'GHS Standard',v:'UN GHS Rev. 8 compliant'},{k:'SDS Language',v:'Arabic + English required'},{k:'Review Period',v:'Every 3 years or on change'},{k:'Emergency Services',v:'Copy lodged with Civil Defence'}],
+ keywords:'chemical inventory SDS MSDS industrial hazardous GHS safety data sheet'},
+{id:'IND-002',category:'industrial',article:'Royal Decree M/42',year:2021,
+ title_en:'Environmental Permit for Industrial Facility Operation',
+ title_ar:'التصريح البيئي لتشغيل المنشأة الصناعية',
+ summary_en:'No industrial facility may commence operations without a valid Environmental Operation Permit from GAMEP. Permits are sector-specific with binding environmental conditions.',
+ summary_ar:'لا يجوز لأي منشأة صناعية البدء في التشغيل دون تصريح تشغيل بيئي صالح من الهيئة.',
+ severity:'high',deadline:'Before any industrial operations begin',deadline_color:'red',
+ authority:'GAMEP',penaltyNote:'SAR 1,000,000 + criminal prosecution',
+ details:[{k:'Application Lead Time',v:'Min. 6 months before ops'},{k:'Permit Validity',v:'5 years (renewable)'},{k:'Renewal Application',v:'12 months before expiry'},{k:'Permit Conditions',v:'Legally binding'}],
+ keywords:'industrial permit operation GAMEP license facility environmental approval'},
+{id:'IND-003',category:'industrial',article:'GAMEP Article 101',year:2022,
+ title_en:'Spill Prevention and Emergency Response Plan',
+ title_ar:'خطة منع الانسكابات والاستجابة للطوارئ',
+ summary_en:'Industrial facilities handling > 1,000 litres of liquid hazardous materials must maintain a certified SPCC plan updated every 2 years with annual drills.',
+ summary_ar:'يجب على المنشآت الصناعية التي تتعامل مع أكثر من 1000 لتر من المواد الخطرة السائلة الاحتفاظ بخطة معتمدة للوقاية من الانسكابات.',
+ severity:'high',deadline:'Plan required before permit issuance',deadline_color:'red',
+ authority:'GAMEP',penaltyNote:'SAR 500,000 + criminal liability',
+ details:[{k:'Volume Threshold',v:'> 1,000 L hazardous liquid'},{k:'Plan Validity',v:'2 years'},{k:'Drill Frequency',v:'Minimum annually'},{k:'Secondary Containment',v:'110% of largest vessel'}],
+ keywords:'spill emergency response plan SPCC hazardous liquid containment industrial'},
+
+/* ── MARINE & COASTAL ───── */
+{id:'MAR-001',category:'marine',article:'GAMEP Article 112',year:2021,
+ title_en:'Coastal Development Setback and Buffer Zone Requirements',
+ title_ar:'متطلبات حظر البناء الساحلي ومناطق الحماية',
+ summary_en:'No permanent structures may be built within 200m of the mean high-water mark along Red Sea and Arabian Gulf coastlines without GAMEP coastal zone permit.',
+ summary_ar:'لا يجوز إنشاء منشآت دائمة على بعد 200 م من مستوى الماء المرتفع المتوسط على طول سواحل البحر الأحمر وخليج العرب دون تصريح.',
+ severity:'high',deadline:'Permit required before any coastal works',deadline_color:'red',
+ authority:'GAMEP',penaltyNote:'SAR 2,000,000 + demolition order',
+ details:[{k:'Setback Distance',v:'200m from mean high water'},{k:'MPA Buffer',v:'500m from Marine Protected Areas'},{k:'Permit Type',v:'Coastal Zone Development Permit'},{k:'EIA Requirement',v:'Full marine EIA mandatory'}],
+ keywords:'coastal marine setback buffer zone development Red Sea MPA protected area'},
+{id:'MAR-002',category:'marine',article:'MARPOL / Royal Decree',year:2020,
+ title_en:'Ship and Port Discharge Regulations',
+ title_ar:'لوائح التصريف من السفن والموانئ',
+ summary_en:'All vessels in Saudi territorial waters must comply with MARPOL. Ports must provide waste reception facilities. Bilge water and ballast water discharge strictly regulated.',
+ summary_ar:'يجب على جميع السفن في المياه الإقليمية السعودية الامتثال للوائح ماربول.',
+ severity:'high',deadline:'Ongoing — MARPOL Annex compliance',deadline_color:'red',
+ authority:'GAMEP',penaltyNote:'SAR 1,000,000 + vessel detention',
+ details:[{k:'Oily Water',v:'< 15 ppm (open sea)'},{k:'Bilge Water',v:'No discharge within 12nm'},{k:'Ballast Water',v:'D-2 standard treatment'},{k:'IOPP Certificate',v:'Required for vessels > 400 GT'}],
+ keywords:'marine ship port discharge MARPOL ballast water bilge coastal'},
+{id:'MAR-003',category:'marine',article:'GAMEP Article 118',year:2023,
+ title_en:'Coral Reef and Seagrass Protection in Development Zones',
+ title_ar:'حماية الشعاب المرجانية والأعشاب البحرية',
+ summary_en:'Any development or dredging near coral reef or seagrass habitats requires a Marine Biological Survey, compensation plan, and ongoing ecological monitoring.',
+ summary_ar:'يتطلب أي نشاط تطوير أو حفر بالقرب من موائل الشعاب المرجانية إجراء مسح بيولوجي بحري وخطة تعويض.',
+ severity:'high',deadline:'Pre-works biological survey required',deadline_color:'red',
+ authority:'GAMEP',penaltyNote:'SAR 5,000,000 + project suspension',
+ details:[{k:'Survey Requirement',v:'Pre-works marine biological'},{k:'No-go Zones',v:'50m radius from live coral'},{k:'Compensation Ratio',v:'3:1 (restored : impacted)'},{k:'Monitoring Period',v:'5 years post-construction'}],
+ keywords:'coral reef marine seagrass protection dredging development biological survey'},
+
+/* ── CLIMATE & VISION 2030 ───── */
+{id:'CLI-001',category:'climate',article:'Saudi Green Initiative Framework',year:2023,
+ title_en:'Carbon Emission Reporting — Large Industrial Emitters',
+ title_ar:'متطلبات الإبلاغ عن انبعاثات الكربون',
+ summary_en:'Industrial facilities emitting > 25,000 tCO₂e annually must register with GAMEP National Carbon Registry, submit verified GHG inventory, and report Scope 1 and 2 emissions using ISO 14064.',
+ summary_ar:'يجب على المنشآت الصناعية التي تنبعث منها أكثر من 25000 طن من ثاني أكسيد الكربون سنوياً التسجيل في سجل الكربون الوطني.',
+ severity:'high',deadline:'Annual report by 30 June each year',deadline_color:'red',
+ authority:'GAMEP',penaltyNote:'SAR 500,000 per year unreported',
+ details:[{k:'Reporting Threshold',v:'> 25,000 tCO₂e/year'},{k:'Scope Required',v:'Scope 1 + Scope 2'},{k:'Scope 3',v:'Voluntary (2026 target)'},{k:'Verification',v:'Third-party ISO 14064'}],
+ keywords:'carbon emission GHG greenhouse gas reporting CO2 climate Vision 2030 Scope'},
+{id:'CLI-002',category:'climate',article:'Vision 2030 Circular Carbon Economy',year:2024,
+ title_en:'Renewable Energy Integration for Industrial Parks',
+ title_ar:'متطلبات دمج الطاقة المتجددة للمناطق الصناعية',
+ summary_en:'New industrial parks and special economic zones must demonstrate a minimum 30% renewable energy share in their master energy plan as part of Vision 2030 green economy.',
+ summary_ar:'يجب على المناطق الصناعية الجديدة والمناطق الاقتصادية الخاصة إظهار حصة طاقة متجددة تبلغ 30٪ على الأقل.',
+ severity:'medium',deadline:'All new parks from 2024 onwards',deadline_color:'yellow',
+ authority:'MEWA',penaltyNote:'Development license conditions',
+ details:[{k:'Renewable Share',v:'Minimum 30%'},{k:'Preferred Sources',v:'Solar PV, wind, geothermal'},{k:'Energy Audit',v:'Required every 3 years'},{k:'Target 2030',v:'50% renewable nationally'}],
+ keywords:'renewable energy solar wind industrial Vision 2030 carbon net zero climate'},
+{id:'CLI-003',category:'climate',article:'GAMEP Circular 2024/08',year:2024,
+ title_en:'Environmental Requirements for NEOM and Giga-Project Developers',
+ title_ar:'المتطلبات البيئية لمطوري مشروع نيوم والمشاريع العملاقة',
+ summary_en:'NEOM and all Vision 2030 giga-project developers must achieve net-zero carbon operations by 2030, implement circular economy principles, and publish annual sustainability reports.',
+ summary_ar:'يجب على مطوري مشروع نيوم وجميع المشاريع العملاقة تحقيق الحياد الكربوني بحلول عام 2030.',
+ severity:'high',deadline:'Net-zero target by 2030',deadline_color:'red',
+ authority:'GAMEP',penaltyNote:'Project license conditions',
+ details:[{k:'Carbon Target',v:'Net-zero by 2030'},{k:'Circular Economy',v:'Zero waste to landfill'},{k:'Water Efficiency',v:'100% water recycling'},{k:'Annual Report',v:'Public sustainability disclosure'}],
+ keywords:'NEOM giga project net zero carbon circular economy Vision 2030 sustainability'},
+
+/* ─── Additional regs (filling to 48 total) ─── */
+{id:'AIR-004',category:'air',article:'GAMEP Article 22',year:2022,
+ title_en:'Volatile Organic Compound (VOC) Emission Controls',
+ title_ar:'ضوابط انبعاثات المركبات العضوية المتطايرة',
+ summary_en:'Petrochemical, paint, and solvent-using facilities must install VOC capture systems and comply with total VOC emission thresholds. Leak Detection and Repair (LDAR) programs are mandatory.',
+ summary_ar:'يجب على مرافق البتروكيماويات والطلاء تركيب أنظمة التقاط VOC والامتثال للحدود الإجمالية.',
+ severity:'high',deadline:'LDAR program: quarterly inspection',deadline_color:'red',
+ authority:'GAMEP',penaltyNote:'SAR 150,000 per event',
+ details:[{k:'Total VOC Limit',v:'50 mg/Nm³ (process vent)'},{k:'Benzene Limit',v:'5 mg/Nm³'},{k:'LDAR Program',v:'Quarterly component survey'},{k:'Capture Efficiency',v:'≥ 95% for thermal oxidizers'}],
+ keywords:'VOC volatile organic compound petrochemical LDAR benzene BTEX emission control'},
+{id:'AIR-005',category:'air',article:'GAMEP Article 27',year:2023,
+ title_en:'Dust and Particulate Matter Control for Construction Sites',
+ title_ar:'التحكم في الغبار والجسيمات الدقيقة في مواقع البناء',
+ summary_en:'All construction sites > 1,000 m² must implement a Dust Management Plan including water spraying, hoarding, and real-time PM10 monitoring at site boundaries.',
+ summary_ar:'يجب على جميع مواقع البناء التي تزيد على 1000 م² تنفيذ خطة إدارة الغبار.',
+ severity:'medium',deadline:'Plan required before site clearance',deadline_color:'yellow',
+ authority:'GAMEP',penaltyNote:'SAR 30,000 per violation',
+ details:[{k:'Site Threshold',v:'> 1,000 m²'},{k:'PM10 Monitoring',v:'Continuous at boundaries'},{k:'Water Spraying',v:'≥ 2× daily in dry season'},{k:'Hoarding',v:'3m min. height on perimeter'}],
+ keywords:'dust construction PM10 particulate matter site control spraying hoarding'},
+{id:'WAT-005',category:'water',article:'MEWA Regulation 2022/14',year:2022,
+ title_en:'Water Conservation Requirements for Commercial Buildings',
+ title_ar:'متطلبات ترشيد المياه للمباني التجارية',
+ summary_en:'Commercial buildings > 10,000 m² must install smart metering, greywater recycling systems, and achieve minimum 30% water use reduction versus 2020 baseline.',
+ summary_ar:'يجب على المباني التجارية التي تزيد على 10000 م² تركيب أنظمة قياس ذكية وأنظمة إعادة تدوير المياه الرمادية.',
+ severity:'medium',deadline:'New buildings: comply at commissioning',deadline_color:'yellow',
+ authority:'MEWA',penaltyNote:'SAR 50,000 per audit cycle',
+ details:[{k:'Building Threshold',v:'> 10,000 m² GFA'},{k:'Smart Metering',v:'Sub-metering per floor'},{k:'Greywater Recycling',v:'Toilets + irrigation'},{k:'Water Reduction Target',v:'30% vs 2020 baseline'}],
+ keywords:'water conservation commercial building greywater smart metering efficiency'},
+{id:'WST-004',category:'waste',article:'GAMEP Article 72',year:2022,
+ title_en:'E-Waste and Electrical Equipment Disposal Requirements',
+ title_ar:'متطلبات التخلص من النفايات الإلكترونية والمعدات الكهربائية',
+ summary_en:'Businesses disposing of electronic equipment, batteries, and fluorescent lamps must use GAMEP-registered e-waste recyclers. Take-back schemes mandatory for manufacturers.',
+ summary_ar:'يجب على الشركات التي تتخلص من المعدات الإلكترونية والبطاريات استخدام معيدي تدوير النفايات الإلكترونية المسجلين.',
+ severity:'medium',deadline:'Ongoing — Annual e-waste audit',deadline_color:'yellow',
+ authority:'GAMEP',penaltyNote:'SAR 75,000 per disposal event',
+ details:[{k:'Covered Items',v:'ICT, batteries, lamps, HVAC'},{k:'Recycler',v:'GAMEP registered only'},{k:'Manufacturer',v:'Take-back scheme required'},{k:'Data Destruction',v:'Certified before disposal'}],
+ keywords:'e-waste electronic equipment recycling battery lamp WEEE disposal'},
+{id:'IND-004',category:'industrial',article:'GAMEP Article 108',year:2023,
+ title_en:'Environmental Auditing Requirements for Industrial Facilities',
+ title_ar:'متطلبات المراجعة البيئية للمنشآت الصناعية',
+ summary_en:'Category A industrial facilities must conduct annual third-party environmental compliance audits with certified auditors. Results submitted to GAMEP within 60 days of completion.',
+ summary_ar:'يجب على المنشآت الصناعية من الفئة A إجراء تدقيقات امتثال بيئي سنوية من طرف ثالث.',
+ severity:'high',deadline:'Annual — Submit within 60 days',deadline_color:'red',
+ authority:'GAMEP',penaltyNote:'SAR 200,000 per missed audit',
+ details:[{k:'Audit Frequency',v:'Annual (Category A)'},{k:'Auditor',v:'GAMEP approved third-party'},{k:'Submission',v:'60 days post-completion'},{k:'Corrective Actions',v:'90-day closure plan'}],
+ keywords:'environmental audit compliance industrial third party GAMEP certification'},
+{id:'MAR-004',category:'marine',article:'NCEC Marine Regulation 2023',year:2023,
+ title_en:'Marine Protected Area Buffer Zone Management',
+ title_ar:'إدارة منطقة الحماية البحرية',
+ summary_en:'Activities within 1km of Marine Protected Areas (MPAs) require GAMEP environmental clearance. Anchoring, dredging, and underwater works are prohibited within MPA boundaries.',
+ summary_ar:'تتطلب الأنشطة ضمن 1 كم من المناطق البحرية المحمية الحصول على تصريح بيئي من الهيئة.',
+ severity:'high',deadline:'Clearance before any marine activity',deadline_color:'red',
+ authority:'NCEC',penaltyNote:'SAR 3,000,000 + activity suspension',
+ details:[{k:'MPA Buffer',v:'1km activity restriction zone'},{k:'Prohibited Activities',v:'Anchoring, dredging, dumping'},{k:'Environmental Clearance',v:'Required for all works'},{k:'Monitoring',v:'Real-time AIS vessel tracking'}],
+ keywords:'MPA marine protected area buffer zone anchoring dredging clearance NCEC'},
+{id:'CLI-004',category:'climate',article:'Saudi Green Initiative 2023',year:2023,
+ title_en:'Biodiversity Conservation and Natural Habitat Protection',
+ title_ar:'حفظ التنوع البيولوجي وحماية الموائل الطبيعية',
+ summary_en:'The Saudi Green Initiative mandates no-net-loss of biodiversity for all major developments. Biodiversity Management Plans with offset schemes required for projects in sensitive habitats.',
+ summary_ar:'تُلزم مبادرة السعودية الخضراء بعدم خسارة صافية للتنوع البيولوجي لجميع التطويرات الكبرى.',
+ severity:'high',deadline:'BMP before construction approval',deadline_color:'red',
+ authority:'MEWA',penaltyNote:'SAR 2,000,000 + project suspension',
+ details:[{k:'Principle',v:'No-net-loss of biodiversity'},{k:'BMP Required',v:'For sensitive habitat projects'},{k:'Offset Ratio',v:'Minimum 2:1'},{k:'Baseline Survey',v:'Full ecological assessment'}],
+ keywords:'biodiversity habitat conservation offset Saudi Green Initiative nature ecology'},
+{id:'EIA-004',category:'eia',article:'GAMEP Article 33',year:2022,
+ title_en:'Cumulative Impact Assessment for Industrial Cluster Developments',
+ title_ar:'تقييم التأثير التراكمي لتطوير التجمعات الصناعية',
+ summary_en:'Industrial clusters and economic zones with multiple co-located facilities must commission a Cumulative Environmental Impact Assessment (CEIA) covering shared infrastructure impacts.',
+ summary_ar:'يجب على المجمعات الصناعية والمناطق الاقتصادية إجراء تقييم تراكمي للأثر البيئي يغطي تأثيرات البنية التحتية المشتركة.',
+ severity:'high',deadline:'Before cluster master plan approval',deadline_color:'red',
+ authority:'GAMEP',penaltyNote:'Development license withheld',
+ details:[{k:'CEIA Scope',v:'All facilities + shared infrastructure'},{k:'Air Quality Model',v:'Dispersion modelling required'},{k:'Groundwater',v:'Cumulative extraction assessment'},{k:'Traffic',v:'Cumulative vehicle emissions'}],
+ keywords:'cumulative impact assessment industrial cluster economic zone CEIA infrastructure'},
+{id:'WST-005',category:'waste',article:'GAMEP Article 75',year:2023,
+ title_en:'Landfill Design and Leachate Management Standards',
+ title_ar:'معايير تصميم مدافن النفايات وإدارة الراشح',
+ summary_en:'Engineered landfills must include compacted clay and HDPE liner systems, leachate collection, and landfill gas capture. Environmental monitoring wells required at all permitted landfills.',
+ summary_ar:'يجب أن تتضمن مدافن النفايات الهندسية أنظمة بطانة HDPE وجمع الراشح والتقاط غاز المدفن.',
+ severity:'high',deadline:'Design compliance before licensing',deadline_color:'red',
+ authority:'GAMEP',penaltyNote:'Operating license revoked',
+ details:[{k:'Liner System',v:'Compacted clay + 1.5mm HDPE'},{k:'Leachate Collection',v:'Engineered drainage layer'},{k:'Gas Capture',v:'Required for Class I & II'},{k:'Monitoring Wells',v:'Minimum 4 (up-/downgradient)'}],
+ keywords:'landfill liner leachate gas capture groundwater monitoring municipal solid waste'},
+{id:'IND-005',category:'industrial',article:'GAMEP Article 115',year:2021,
+ title_en:'Environmental Training and Competency Requirements',
+ title_ar:'متطلبات التدريب البيئي والكفاءة',
+ summary_en:'All industrial facilities must have at least one certified Environmental Health & Safety (EHS) officer per site. Annual environmental awareness training is mandatory for all operational staff.',
+ summary_ar:'يجب أن تمتلك جميع المنشآت الصناعية مسؤول صحة وسلامة وبيئة معتمداً واحداً على الأقل لكل موقع.',
+ severity:'medium',deadline:'EHS Officer certified before operations',deadline_color:'yellow',
+ authority:'GAMEP',penaltyNote:'SAR 50,000 per non-compliant facility',
+ details:[{k:'EHS Officer',v:'Certified — NEBOSH / IEMA'},{k:'Staff Training',v:'Annual minimum 8 hours'},{k:'Emergency Drills',v:'Twice yearly minimum'},{k:'Training Records',v:'Retained 5 years'}],
+ keywords:'EHS training environmental officer competency NEBOSH IEMA industrial facility'},
+
+// ... Additional regulations to reach 48+ can be added here
+{id:'AIR-006',category:'air',article:'GAMEP Article 25',year:2023,
+ title_en:'Odour Management Requirements for Industrial Facilities',
+ title_ar:'متطلبات إدارة الروائح للمنشآت الصناعية',
+ summary_en:'Industrial facilities generating detectable odours must quantify emissions in odour units using EN 13725, prepare an Odour Management Plan, and investigate complaints within 48 hours.',
+ summary_ar:'يجب على المنشآت الصناعية التي تولد روائح قابلة للكشف قياس الانبعاثات بوحدات الرائحة.',
+ severity:'medium',deadline:'OMP required before permit renewal',deadline_color:'yellow',
+ authority:'GAMEP',penaltyNote:'SAR 30,000 per complaint upheld',
+ details:[{k:'Measurement',v:'EN 13725 olfactometry'},{k:'Limit',v:'5 ouE/m³ at receptor'},{k:'Complaint Response',v:'48 hours investigation'},{k:'Buffer Zone',v:'Site-specific dispersion model'}],
+ keywords:'odour smell management industrial EN 13725 olfactometry complaint'},
+{id:'EIA-005',category:'eia',article:'GAMEP Article 37',year:2022,
+ title_en:'Heritage and Archaeological Impact Assessment Requirements',
+ title_ar:'متطلبات تقييم الأثر على التراث والآثار',
+ summary_en:'Developments in proximity to heritage sites or areas of archaeological potential must commission a Heritage Impact Assessment (HIA) before ground disturbance permits are issued.',
+ summary_ar:'يجب على المشاريع القريبة من المواقع التراثية إجراء تقييم أثر تراثي قبل إصدار تصاريح الحفر.',
+ severity:'medium',deadline:'HIA before any ground disturbance',deadline_color:'yellow',
+ authority:'GAMEP',penaltyNote:'SAR 1,000,000 + works stopped',
+ details:[{k:'Trigger',v:'Within 2km of heritage site'},{k:'Walkover Survey',v:'Certified archaeologist'},{k:'SAU Approval',v:'Saudi Heritage Authority sign-off'},{k:'Chance Finds',v:'Stop-work procedure required'}],
+ keywords:'heritage archaeology HIA impact assessment ground disturbance cultural'},
+{id:'CLI-005',category:'climate',article:'Vision 2030 / NCCC',year:2024,
+ title_en:'Corporate Sustainability Reporting Requirements',
+ title_ar:'متطلبات تقارير الاستدامة للشركات',
+ summary_en:'Listed companies and large enterprises with turnover > SAR 500M must publish annual ESG/Sustainability reports aligned with GRI Standards and Saudi Exchange Sustainability Reporting Guide.',
+ summary_ar:'يجب على الشركات المدرجة والمؤسسات الكبرى نشر تقارير ESG سنوية متوافقة مع معايير GRI.',
+ severity:'medium',deadline:'Annual — within 4 months of fiscal year end',deadline_color:'yellow',
+ authority:'NCEC',penaltyNote:'Stock exchange disclosure penalty',
+ details:[{k:'Reporting Standard',v:'GRI Standards 2021'},{k:'Company Threshold',v:'Listed or > SAR 500M revenue'},{k:'ESG Topics',v:'E: emissions, water, waste; S: diversity, safety'},{k:'Assurance',v:'Independent assurance recommended'}],
+ keywords:'ESG sustainability reporting GRI corporate disclosure climate social governance'},
+];
+
+/* ═══════════════════════════════════════════════
+   HELPERS
+════════════════════════════════════════════════ */
+const CAT_META = {
+  all:      {icon:'📚',name:'All Regulations'},
+  air:      {icon:'💨',name:'Air Quality'},
+  water:    {icon:'💧',name:'Water'},
+  waste:    {icon:'🗑️',name:'Waste Management'},
+  noise:    {icon:'🔊',name:'Noise'},
+  eia:      {icon:'📋',name:'EIA / ESIA'},
+  industrial:{icon:'🏭',name:'Industrial'},
+  marine:   {icon:'🌊',name:'Marine & Coastal'},
+  climate:  {icon:'🌍',name:'Climate / Vision 2030'},
+};
+
+function severityClass(s){
+  if(s==='high') return 'badge-sev-high';
+  if(s==='medium') return 'badge-sev-med';
+  return 'badge-sev-low';
+}
+function severityLabel(s){
+  if(s==='high') return '🔴 HIGH';
+  if(s==='medium') return '🟡 MEDIUM';
+  return '🟢 LOW';
+}
+function deadlineClass(c){
+  if(c==='red') return 'deadline-red';
+  if(c==='yellow') return 'deadline-yellow';
+  return 'deadline-green';
+}
+function catColor(c){
+  const m={air:'rgba(14,165,233,0.08)',water:'rgba(6,182,212,0.08)',waste:'rgba(161,98,7,0.08)',
+    noise:'rgba(109,40,217,0.08)',eia:'rgba(31,107,82,0.08)',industrial:'rgba(220,38,38,0.08)',
+    marine:'rgba(6,182,212,0.08)',climate:'rgba(21,128,61,0.08)'};
+  return m[c]||'rgba(31,107,82,0.06)';
+}
+
+/* Build category tab row */
+function buildCatTabs(){
+  const row = document.getElementById('cat-tab-row');
+  row.innerHTML = '';
+  ['all',...Object.keys(CAT_META).filter(k=>k!=='all')].forEach(key => {
+    const meta = CAT_META[key];
+    const count = key==='all' ? REGULATIONS.length : REGULATIONS.filter(r=>r.category===key).length;
+    const btn = document.createElement('button');
+    btn.className = 'cat-tab' + (key==='all'?' active':'');
+    btn.dataset.cat = key;
+    btn.innerHTML = `<span class="tab-icon">${meta.icon}</span><span>${meta.name}</span><span class="tab-count">${count}</span>`;
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.cat-tab').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('filter-category').value = key;
+      currentCat = key;
+      renderResults();
+    });
+    row.appendChild(btn);
+  });
+}
+
+/* Build sidebar category list */
+function buildSidebarCats(){
+  const list = document.getElementById('sb-category-list');
+  list.innerHTML = '';
+  ['all',...Object.keys(CAT_META).filter(k=>k!=='all')].forEach(key => {
+    const meta = CAT_META[key];
+    const count = key==='all' ? REGULATIONS.length : REGULATIONS.filter(r=>r.category===key).length;
+    const btn = document.createElement('div');
+    btn.className = 'sb-cat-btn' + (key==='all'?' active':'');
+    btn.innerHTML = `
+      <div class="sb-cat-left">
+        <span class="sb-cat-icon">${meta.icon}</span>
+        <span class="sb-cat-name">${meta.name}</span>
+      </div>
+      <span class="sb-cat-count">${count}</span>`;
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.sb-cat-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      // Sync cat tabs
+      document.querySelectorAll('.cat-tab').forEach(b=>{
+        b.classList.toggle('active', b.dataset.cat===key);
+      });
+      document.getElementById('filter-category').value = key;
+      currentCat = key;
+      renderResults();
+    });
+    list.appendChild(btn);
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   RENDER CARD
+════════════════════════════════════════════════ */
+function renderCard(reg, idx){
+  const catMeta = CAT_META[reg.category] || {icon:'📄',name:reg.category};
+  const delClass = deadlineClass(reg.deadline_color);
+  const sevClass = severityClass(reg.severity);
+
+  return `
+  <div class="reg-card" id="card-${reg.id}" onclick="toggleCard('${reg.id}')"
+       style="animation-delay:${idx * 0.04}s">
+    <div class="card-header">
+      <div class="card-left">
+        <div class="card-meta-row">
+          <span class="badge badge-article">${reg.article}</span>
+          <span class="cat-chip">${catMeta.icon} ${catMeta.name}</span>
+          <span class="badge badge-authority">${reg.authority}</span>
+          <span class="badge badge-year">${reg.year||'—'}</span>
+          <span class="badge ${sevClass}">${severityLabel(reg.severity)}</span>
+        </div>
+        <div class="card-title-en">${reg.title_en}</div>
+        <div class="card-title-ar">${reg.title_ar}</div>
+      </div>
+      <div class="card-right">
+        <div class="deadline-wrap">
+          <div class="deadline-label">Deadline / Status</div>
+          <div class="deadline-val ${delClass}">${reg.deadline.split(' — ')[0]}</div>
+        </div>
+        <div class="expand-btn">▾</div>
+      </div>
+    </div>
+    <div class="card-summary-divider"></div>
+    <div class="card-summary">${reg.summary_en}</div>
+
+    <div class="card-detail">
+      <div class="card-detail-inner">
+        <!-- API placeholder notice -->
+        <div class="api-notice">
+          <span class="api-notice-icon">🔗</span>
+          <span class="api-notice-text">
+            <strong>API-Ready:</strong> This record is structured for direct connection to GAMEP regulatory portal, government gazette APIs, and PDF document storage systems.
+          </span>
+        </div>
+
+        <div class="detail-two-col">
+          <div class="detail-block">
+            <div class="detail-block-header">⚙️ Technical Parameters</div>
+            ${(reg.details||[]).map(d=>`
+              <div class="detail-row">
+                <span class="detail-key">${d.k}</span>
+                <span class="detail-val">${d.v}</span>
+              </div>`).join('')}
+          </div>
+          <div class="detail-block">
+            <div class="detail-block-header">📋 Compliance Info</div>
+            <div class="detail-row"><span class="detail-key">Issuing Authority</span><span class="detail-val">${reg.authority}</span></div>
+            <div class="detail-row"><span class="detail-key">Reference Article</span><span class="detail-val">${reg.article}</span></div>
+            <div class="detail-row"><span class="detail-key">Year Issued</span><span class="detail-val">${reg.year||'—'}</span></div>
+            <div class="detail-row"><span class="detail-key">Severity Level</span><span class="detail-val"><span class="badge ${sevClass}">${severityLabel(reg.severity)}</span></span></div>
+            <div class="detail-row"><span class="detail-key">Deadline</span><span class="detail-val" style="color:${reg.deadline_color==='red'?'var(--sev-high-clr)':reg.deadline_color==='yellow'?'var(--sev-med-clr)':'var(--sev-low-clr)'};">${reg.deadline}</span></div>
+            ${reg.penaltyNote?`<div class="detail-row"><span class="detail-key">Penalties</span><span class="detail-val" style="color:var(--sev-high-clr)">${reg.penaltyNote}</span></div>`:''}
+          </div>
+        </div>
+
+        <div class="arabic-summary-block">
+          <span class="arabic-block-label">Arabic Summary / الملخص بالعربية</span>
+          <div class="arabic-block-text">${reg.summary_ar}</div>
+        </div>
+
+        <div class="detail-actions">
+          <button class="action-btn action-btn-primary" onclick="event.stopPropagation();downloadPDF('${reg.id}')">
+            ⬇ Download Reference PDF
+          </button>
+          <button class="action-btn action-btn-secondary" onclick="event.stopPropagation();copyLink('${reg.id}')">
+            🔗 Copy Link
+          </button>
+          <button class="action-btn action-btn-secondary" onclick="event.stopPropagation();">
+            📩 Ask AECON
+          </button>
+          <button class="action-btn action-btn-ghost" onclick="event.stopPropagation();" title="Opens government source (placeholder)">
+            🏛️ Official Source ↗
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+/* ═══════════════════════════════════════════════
+   TOGGLE EXPAND
+════════════════════════════════════════════════ */
+function toggleCard(id){
+  const card = document.getElementById('card-'+id);
+  // Close others for cleaner UX
+  document.querySelectorAll('.reg-card.expanded').forEach(c=>{
+    if(c.id !== 'card-'+id) c.classList.remove('expanded');
+  });
+  card.classList.toggle('expanded');
+  if(card.classList.contains('expanded')){
+    setTimeout(()=>card.scrollIntoView({behavior:'smooth',block:'nearest'}),100);
+  }
+}
+
+/* ═══════════════════════════════════════════════
+   SEARCH + FILTER STATE
+════════════════════════════════════════════════ */
+let currentSearch = '', currentCat = 'all';
+let currentAuthority = 'all', currentSeverity = 'all', currentSort = 'default';
+
+function applyFilters(){
+  currentCat      = document.getElementById('filter-category').value;
+  currentAuthority= document.getElementById('filter-authority').value;
+  currentSeverity = document.getElementById('filter-severity').value;
+  currentSort     = document.getElementById('filter-sort').value;
+  // Sync cat tabs
+  document.querySelectorAll('.cat-tab').forEach(b=>b.classList.toggle('active',b.dataset.cat===currentCat));
+  document.querySelectorAll('.sb-cat-btn').forEach((b,i)=>{
+    const keys=['all','air','water','waste','noise','eia','industrial','marine','climate'];
+    if(keys[i]) b.classList.toggle('active', keys[i]===currentCat);
+  });
+  renderResults();
+}
+
+function doSearch(){
+  currentSearch = document.getElementById('search-input').value.toLowerCase();
+  renderResults();
+}
+
+function setSearch(q){
+  document.getElementById('search-input').value = q;
+  currentSearch = q.toLowerCase();
+  document.getElementById('search-clear').style.display = 'block';
+  renderResults();
+}
+
+function resetAll(){
+  document.getElementById('search-input').value = '';
+  document.getElementById('filter-category').value = 'all';
+  document.getElementById('filter-authority').value = 'all';
+  document.getElementById('filter-severity').value = 'all';
+  document.getElementById('filter-sort').value = 'default';
+  document.getElementById('search-clear').style.display = 'none';
+  currentSearch = ''; currentCat = 'all';
+  currentAuthority = 'all'; currentSeverity = 'all'; currentSort = 'default';
+  document.querySelectorAll('.cat-tab').forEach(b=>b.classList.toggle('active',b.dataset.cat==='all'));
+  document.querySelectorAll('.sb-cat-btn').forEach((b,i)=>b.classList.toggle('active',i===0));
+  renderResults();
+}
+
+/* Live search on input */
+document.getElementById('search-input').addEventListener('input', function(){
+  currentSearch = this.value.toLowerCase();
+  document.getElementById('search-clear').style.display = this.value ? 'block' : 'none';
+  renderResults();
+});
+document.getElementById('search-input').addEventListener('keydown', e=>{
+  if(e.key==='Enter') doSearch();
+});
+document.getElementById('search-clear').addEventListener('click', function(){
+  document.getElementById('search-input').value = '';
+  currentSearch = '';
+  this.style.display = 'none';
+  renderResults();
+});
+
+/* Keyboard shortcut Cmd/Ctrl+K */
+document.addEventListener('keydown', e=>{
+  if((e.metaKey||e.ctrlKey)&&e.key==='k'){
+    e.preventDefault();
+    document.getElementById('search-input').focus();
+  }
+});
+
+/* ═══════════════════════════════════════════════
+   RENDER RESULTS
+════════════════════════════════════════════════ */
+function renderResults(){
+  let filtered = REGULATIONS.filter(r => {
+    const matchCat  = currentCat==='all' || r.category===currentCat;
+    const matchAuth = currentAuthority==='all' || r.authority.includes(currentAuthority);
+    const matchSev  = currentSeverity==='all' || r.severity===currentSeverity;
+    const q = currentSearch;
+    const matchSearch = !q ||
+      r.title_en.toLowerCase().includes(q) ||
+      r.title_ar.includes(q) ||
+      r.summary_en.toLowerCase().includes(q) ||
+      r.summary_ar.includes(q) ||
+      r.keywords.toLowerCase().includes(q) ||
+      r.article.toLowerCase().includes(q) ||
+      r.authority.toLowerCase().includes(q) ||
+      r.id.toLowerCase().includes(q) ||
+      (r.year && String(r.year).includes(q));
+    return matchCat && matchAuth && matchSev && matchSearch;
+  });
+
+  // Sort
+  if(currentSort==='severity_high'){
+    const order={high:0,medium:1,low:2};
+    filtered.sort((a,b)=>order[a.severity]-order[b.severity]);
+  } else if(currentSort==='severity_low'){
+    const order={low:0,medium:1,high:2};
+    filtered.sort((a,b)=>order[a.severity]-order[b.severity]);
+  } else if(currentSort==='id_asc'){
+    filtered.sort((a,b)=>a.id.localeCompare(b.id));
+  }
+
+  // Update count
+  document.getElementById('result-count').textContent = filtered.length;
+  const ctx = document.getElementById('search-context');
+  ctx.textContent = currentSearch ? ` matching "${currentSearch}"` : '';
+
+  const grid = document.getElementById('results-grid');
+  if(!filtered.length){
+    grid.innerHTML = `
+      <div class="empty-state">
+        <div class="empty-icon">🔍</div>
+        <div class="empty-title">No regulations found</div>
+        <div class="empty-sub">Try different keywords, or clear the filters to see all regulations.</div>
+        <button class="empty-reset" onclick="resetAll()">↺ Clear All Filters</button>
+      </div>`;
+    return;
+  }
+  grid.innerHTML = filtered.map((r, i) => renderCard(r, i)).join('');
+}
+
+/* ═══════════════════════════════════════════════
+   PDF DOWNLOAD
+════════════════════════════════════════════════ */
+function downloadPDF(id){
+  const reg = REGULATIONS.find(r=>r.id===id);
+  if(!reg) return;
+  const catMeta = CAT_META[reg.category]||{icon:'📄',name:reg.category};
+  const w = window.open('', '_blank');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"/>
+  <title>AECON · ${reg.title_en}</title>
+  <style>
+    body{font-family:Georgia,serif;max-width:720px;margin:40px auto;color:#0d2b1e;line-height:1.7;padding:0 20px;}
+    .header{background:linear-gradient(135deg,#0d2b1e,#1f6b52);color:#fff;padding:28px 32px;border-radius:10px;margin-bottom:28px;}
+    .logo{font-size:1.3rem;font-weight:800;margin-bottom:4px;letter-spacing:-0.01em;}
+    .sub{font-size:0.7rem;opacity:0.6;letter-spacing:0.12em;text-transform:uppercase;}
+    h1{font-size:1.4rem;font-weight:700;margin:20px 0 6px;line-height:1.3;}
+    .arabic{direction:rtl;text-align:right;font-size:1rem;color:#4a7a62;margin:8px 0 20px;line-height:1.9;padding:10px 14px;background:#edf7f2;border-radius:6px;}
+    .badge-row{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0;}
+    .badge{padding:3px 10px;border-radius:5px;font-size:0.7rem;font-weight:700;border:1px solid;}
+    .summary-en{background:#f7faf8;border-left:3px solid #1f6b52;padding:14px 16px;margin:16px 0;font-size:0.85rem;border-radius:0 6px 6px 0;}
+    table{width:100%;border-collapse:collapse;margin:16px 0;font-size:0.82rem;}
+    th{background:#f0f5f2;text-align:left;padding:9px 12px;font-size:0.7rem;color:#4a7a62;letter-spacing:0.08em;text-transform:uppercase;border:1px solid #dce8e1;}
+    td{padding:8px 12px;border:1px solid #dce8e1;}
+    td:first-child{color:#4a7a62;width:42%;}
+    .footer{margin-top:36px;padding-top:14px;border-top:1px solid #dce8e1;font-size:0.65rem;color:#8aaa96;line-height:1.7;}
+    @media print{body{margin:0;padding:20px;}}
+  </style></head><body>
+  <div class="header">
+    <div class="logo">AECON · ALEMAD ALARABI</div>
+    <div class="sub">Environmental Regulation Reference · Confidential Internal Use</div>
+  </div>
+  <h1>${reg.title_en}</h1>
+  <div class="arabic">${reg.title_ar}</div>
+  <div class="badge-row">
+    <span class="badge" style="background:#edf7f2;color:#1f6b52;border-color:#d4ede3;">${reg.article}</span>
+    <span class="badge" style="background:#edf7f2;color:#1f6b52;border-color:#d4ede3;">${catMeta.icon} ${catMeta.name}</span>
+    <span class="badge" style="background:#dbeafe;color:#1a5ca0;border-color:#bfdbfe;">${reg.authority}</span>
+    <span class="badge" style="background:${reg.severity==='high'?'#fee2e2;color:#b91c1c;border-color:#fecaca':reg.severity==='medium'?'#fef9c3;color:#a16207;border-color:#fde68a':'#dcfce7;color:#166534;border-color:#bbf7d0'};">${reg.severity.toUpperCase()}</span>
+  </div>
+  <div class="summary-en">${reg.summary_en}</div>
+  <div class="arabic" style="margin-top:0;">${reg.summary_ar}</div>
+  <table>
+    <tr><th colspan="2">Technical Parameters & Compliance Details</th></tr>
+    ${(reg.details||[]).map(d=>`<tr><td>${d.k}</td><td><strong>${d.v}</strong></td></tr>`).join('')}
+    <tr><td>Issuing Authority</td><td><strong>${reg.authority}</strong></td></tr>
+    <tr><td>Compliance Deadline</td><td><strong style="color:${reg.deadline_color==='red'?'#b91c1c':reg.deadline_color==='yellow'?'#a16207':'#166534'};">${reg.deadline}</strong></td></tr>
+    ${reg.penaltyNote?`<tr><td>Penalties</td><td><strong style="color:#b91c1c;">${reg.penaltyNote}</strong></td></tr>`:''}
+  </table>
+  <div class="footer">
+    Generated by AECON Regulatory Intelligence Platform · ${new Date().toLocaleDateString('en-SA')} ·
+    <br/>Regulation ID: ${reg.id} | Category: ${catMeta.name} | Year: ${reg.year||'—'}
+    <br/>⚠️ This document is for reference only. Always verify against official GAMEP/MEWA publications before taking compliance action.
+    <br/>© AECON · ALEMAD ALARABI Environmental Consulting · www.aecon-sa.com
+  </div>
+  </body></html>`);
+  w.document.close();
+  setTimeout(()=>w.print(), 400);
+}
+
+function copyLink(id){
+  const url = window.location.href.split('#')[0] + '#reg-' + id;
+  navigator.clipboard.writeText(url)
+    .then(()=>alert('Regulation link copied to clipboard!\n'+url))
+    .catch(()=>alert('Regulation ID: ' + id));
+}
+
+/* ═══════════════════════════════════════════════
+   UPDATE INTEL BAR STATS
+════════════════════════════════════════════════ */
+function updateIntelStats(){
+  document.getElementById('stat-total').innerHTML = REGULATIONS.length + '<span>+</span>';
+  document.getElementById('stat-high').textContent = REGULATIONS.filter(r=>r.severity==='high').length;
+  document.getElementById('stat-med').textContent  = REGULATIONS.filter(r=>r.severity==='medium').length;
+  document.getElementById('stat-low').textContent  = REGULATIONS.filter(r=>r.severity==='low').length;
+}
+
+/* ═══════════════════════════════════════════════
+   INIT
+════════════════════════════════════════════════ */
+buildCatTabs();
+buildSidebarCats();
+updateIntelStats();
+renderResults();
+</script>
+</body>
+</html>
