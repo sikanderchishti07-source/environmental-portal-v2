@@ -92,8 +92,8 @@
 
     /* MAP */
     .map-wr{position:relative;}
-    #lmap{width:100%;height:62vh;min-height:480px;background:var(--bg);}
-    @media(max-width:768px){#lmap{height:55vh;min-height:380px;}}
+    #lmap{width:100%;height:74vh;min-height:540px;background:var(--bg);}
+    @media(max-width:768px){#lmap{height:62vh;min-height:420px;}}
 
     /* Leaflet overrides */
     .leaflet-control-zoom a{background:var(--bg2)!important;color:var(--text-m)!important;border-color:var(--bmd)!important;}
@@ -461,7 +461,16 @@ function debounce(fn,ms){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>f
 
 /* ── MAP INIT ── */
 function initMap(){
-  map = L.map('lmap',{center:[23.8859,45.0792],zoom:7,zoomControl:false,attributionControl:true});
+  /* KSA bounding box — locks initial view on the Kingdom */
+  const KSA_BOUNDS = L.latLngBounds([16.0, 34.5], [32.5, 56.0]);
+  map = L.map('lmap',{
+    center:[23.5, 45.5],
+    zoom:6,
+    minZoom:5,
+    zoomControl:false,
+    attributionControl:true,
+  });
+  map.fitBounds(KSA_BOUNDS);
   L.control.zoom({position:'bottomright'}).addTo(map);
   tileLayer = L.tileLayer(TILES.dark,{attribution:ATTR.dark,maxZoom:18,subdomains:'abcd'}).addTo(map);
   mkLayer = L.layerGroup().addTo(map);
@@ -480,10 +489,20 @@ function switchTile(style){
 }
 
 /* ── FETCH DATA ── */
+let firstLoad = true;
 async function fetchData(){
   if(!map)return;
-  const b=map.getBounds();
-  const url=`https://api.waqi.info/map/bounds/?token=${WAQI_TOKEN}&latlng=${b.getSouth().toFixed(3)},${b.getWest().toFixed(3)},${b.getNorth().toFixed(3)},${b.getEast().toFixed(3)}`;
+  let s,w,n,e;
+  if(firstLoad){
+    /* Always fetch full KSA + GCC on first load */
+    s=14.0; w=34.0; n=33.0; e=57.0;
+    firstLoad=false;
+  } else {
+    const b=map.getBounds();
+    s=b.getSouth().toFixed(3); w=b.getWest().toFixed(3);
+    n=b.getNorth().toFixed(3); e=b.getEast().toFixed(3);
+  }
+  const url=`https://api.waqi.info/map/bounds/?token=${WAQI_TOKEN}&latlng=${s},${w},${n},${e}`;
   try{
     const r=await fetch(url,{signal:AbortSignal.timeout(8000)});
     if(!r.ok)throw new Error();
