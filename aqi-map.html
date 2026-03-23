@@ -835,12 +835,10 @@ function renderFcstChart(aqi, detail){
    MAP INIT
 ═══════════════════════════════════════════════════════ */
 function initMap(){
-  const KSA=L.latLngBounds([15.5,36.0],[32.5,50.5]);
   map=L.map('lmap',{
     center:[24.0,43.5],zoom:7,
-    minZoom:6,maxZoom:18,
-    zoomControl:false,attributionControl:true,
-    maxBounds:KSA,maxBoundsViscosity:1.0
+    minZoom:5,maxZoom:18,
+    zoomControl:false,attributionControl:true
   });
   map.setView([24.0,43.5],7);
   L.control.zoom({position:'bottomright'}).addTo(map);
