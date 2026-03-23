@@ -884,9 +884,14 @@ async function fetchData(){
     if(d.status==='ok'&&d.data?.length){
       const live=d.data.filter(s=>s.aqi&&s.aqi!=='-').map(s=>{
         const fb=FALLBACK.find(f=>Math.abs(f.lat-(s.lat||0))<.15&&Math.abs(f.lng-(s.lon||0))<.15);
-        return{uid:s.uid,lat:parseFloat(s.lat),lng:parseFloat(s.lon),aqi:parseInt(s.aqi),name:s.station?.name||'Station',city:(s.station?.name||'').split(/[,–\-]/)[0].trim(),t:s.station?.time?.s||new Date().toISOString(),iaqi:fb?.iaqi||synthIAQI(s.aqi)};
+        return{uid:s.uid,lat:parseFloat(s.lat),lng:parseFloat(s.lon),aqi:parseInt(s.aqi),name:s.station?.name||'Station',city:(s.station?.name||'').split(/[,–\-]/)[0].trim(),t:s.station?.time?.s||new Date().toISOString(),iaqi:fb?.iaqi||synthIAQI(s.aqi),live:true};
       }).filter(s=>!isNaN(s.lat)&&!isNaN(s.lng)&&s.lat>=15.5&&s.lat<=32.5&&s.lng>=36.0&&s.lng<=50.5);
-      if(live.length)stations=live;
+      if(live.length){
+        // Keep fallback stations that have no live station within 0.4° (those cities have no WAQI coverage)
+        const covered=FALLBACK.filter(fb=>live.some(lv=>Math.abs(lv.lat-fb.lat)<0.4&&Math.abs(lv.lng-fb.lng)<0.4));
+        const uncovered=FALLBACK.filter(fb=>!covered.includes(fb));
+        stations=[...live,...uncovered];
+      }
     }
   }catch(_){}
   renderAll();updateStats();renderTable();checkAlerts();
@@ -1016,7 +1021,7 @@ async function openPnl(s){
   const lv=lvl(s.aqi);
   document.getElementById('spCity').textContent=s.city||s.name.split(/[,–\-]/)[0].trim();
   document.getElementById('spNm').textContent=s.name;
-  document.getElementById('spTm').textContent='🕐 '+fmtT(s.t);
+  document.getElementById('spTm').textContent=(s.live?'🟢 Live · ':'📍 Fallback · ')+'🕐 '+fmtT(s.t);
   const c=document.getElementById('spCirc');
   c.style.background=`radial-gradient(circle at 38% 32%,${lv.color}cc,${lv.color}88)`;
   c.style.boxShadow=`0 0 28px ${lv.color}55`;
