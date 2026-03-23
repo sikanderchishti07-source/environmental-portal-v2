@@ -835,9 +835,14 @@ function renderFcstChart(aqi, detail){
    MAP INIT
 ═══════════════════════════════════════════════════════ */
 function initMap(){
-  const KSA=L.latLngBounds([16.0,34.5],[32.5,56.0]);
-  map=L.map('lmap',{center:[23.5,45.5],zoom:6,minZoom:5,maxZoom:18,zoomControl:false,attributionControl:true,maxBounds:KSA,maxBoundsViscosity:0.85});
-  map.fitBounds(KSA);
+  const KSA=L.latLngBounds([15.5,36.0],[32.5,55.5]);
+  map=L.map('lmap',{
+    center:[24.5,44.5],zoom:6,
+    minZoom:6,maxZoom:18,
+    zoomControl:false,attributionControl:true,
+    maxBounds:KSA,maxBoundsViscosity:1.0
+  });
+  map.setView([24.5,44.5],6);
   L.control.zoom({position:'bottomright'}).addTo(map);
   tileLayer=L.tileLayer(TILES.dark,{attribution:'© OpenStreetMap © CartoDB',maxZoom:18,subdomains:'abcd'}).addTo(map);
   mkLayer=L.layerGroup().addTo(map);
@@ -862,8 +867,15 @@ function switchTile(style){
 async function fetchData(){
   if(!map)return;
   let s,w,n,e;
-  if(firstLoad){s=16.0;w=34.5;n=32.5;e=56.0;firstLoad=false;}
-  else{const b=map.getBounds();s=b.getSouth().toFixed(3);w=b.getWest().toFixed(3);n=b.getNorth().toFixed(3);e=b.getEast().toFixed(3);}
+  const KSA_S=15.5,KSA_W=36.0,KSA_N=32.5,KSA_E=55.5;
+  if(firstLoad){s=KSA_S;w=KSA_W;n=KSA_N;e=KSA_E;firstLoad=false;}
+  else{
+    const b=map.getBounds();
+    s=Math.max(parseFloat(b.getSouth().toFixed(3)),KSA_S);
+    w=Math.max(parseFloat(b.getWest().toFixed(3)),KSA_W);
+    n=Math.min(parseFloat(b.getNorth().toFixed(3)),KSA_N);
+    e=Math.min(parseFloat(b.getEast().toFixed(3)),KSA_E);
+  }
   const url=`https://api.waqi.info/map/bounds/?token=${WAQI_TOKEN}&latlng=${s},${w},${n},${e}`;
   try{
     const r=await fetch(url,{signal:AbortSignal.timeout(9000)});
