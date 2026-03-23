@@ -7,6 +7,7 @@
   <title>Live AQI Map — AECON Environmental Monitoring</title>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
   <style>
     :root{
       --bg:#09181a;--bg2:#0d2124;--bg3:#112a2e;
@@ -71,7 +72,7 @@
     .srch-wr .si{color:var(--text-f);font-size:11px;}
     .srch-wr .ss{display:none;width:13px;height:13px;border:2px solid var(--border);border-top-color:var(--teal);border-radius:50%;animation:spin .8s linear infinite;}
     .srch-wr.loading .ss{display:block;}.srch-wr.loading .si{display:none;}
-    .sugg-drop{display:none;position:absolute;top:40px;left:0;right:0;z-index:300;background:var(--bg3);border:1px solid var(--bmd);border-top:none;border-radius:0 0 11px 11px;overflow:hidden;overflow-y:auto;max-height:230px;box-shadow:0 10px 28px rgba(0,0,0,.5);}
+    .sugg-drop{display:none;position:absolute;top:40px;left:0;right:0;z-index:600;background:var(--bg3);border:1px solid var(--bmd);border-top:none;border-radius:0 0 11px 11px;overflow:hidden;overflow-y:auto;max-height:230px;box-shadow:0 10px 28px rgba(0,0,0,.5);}
     .sugg-drop.open{display:block;}
     .si-item{padding:9px 14px;display:flex;align-items:center;gap:10px;cursor:pointer;transition:background .15s;font-size:12px;}
     .si-item:hover{background:rgba(45,138,138,.10);}
@@ -91,21 +92,18 @@
 
     /* MAP */
     .map-wr{position:relative;}
-    #gmap{width:100%;height:62vh;min-height:480px;background:var(--bg);}
-    @media(max-width:768px){#gmap{height:55vh;min-height:380px;}}
+    #lmap{width:100%;height:62vh;min-height:480px;background:var(--bg);}
+    @media(max-width:768px){#lmap{height:55vh;min-height:380px;}}
 
-    /* Google Maps UI overrides */
-    .gm-style .gm-style-iw-c{background:var(--bg3)!important;border:1px solid var(--bmd)!important;border-radius:14px!important;box-shadow:0 10px 32px rgba(0,0,0,.7)!important;padding:0!important;max-width:320px!important;}
-    .gm-style .gm-style-iw-d{overflow:visible!important;max-height:none!important;}
-    .gm-style .gm-style-iw-t::after{background:var(--bg3)!important;}
-    .gm-style-iw-chr{background:transparent!important;}
-    .gm-ui-hover-effect span{background-color:var(--text)!important;}
-    .gm-fullscreen-control,.gm-svpc{display:none!important;}
-
-    /* Custom zoom */
-    .map-zoom{position:absolute;bottom:90px;right:12px;z-index:400;display:flex;flex-direction:column;gap:2px;}
-    .mz-btn{width:34px;height:34px;border-radius:8px;background:var(--panel);border:1px solid var(--bmd);color:var(--text-m);font-size:18px;font-weight:300;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .18s;user-select:none;}
-    .mz-btn:hover{color:#fff;background:rgba(45,138,138,.15);border-color:var(--teal);}
+    /* Leaflet overrides */
+    .leaflet-control-zoom a{background:var(--bg2)!important;color:var(--text-m)!important;border-color:var(--bmd)!important;}
+    .leaflet-control-zoom a:hover{background:rgba(45,138,138,.12)!important;color:var(--teal-lt)!important;}
+    .leaflet-control-attribution{background:rgba(9,24,26,.8)!important;color:var(--text-f)!important;font-size:9px!important;}
+    .leaflet-control-attribution a{color:var(--teal)!important;}
+    .leaflet-popup-content-wrapper{background:var(--bg3)!important;color:var(--text)!important;border:1px solid var(--bmd)!important;border-radius:12px!important;box-shadow:0 8px 28px rgba(0,0,0,.6)!important;padding:0!important;}
+    .leaflet-popup-tip{background:var(--bg3)!important;}
+    .leaflet-popup-content{margin:0!important;}
+    .leaflet-container{font-family:'Plus Jakarta Sans',sans-serif!important;}
 
     /* AQI markers */
     .aqi-mk{width:46px;height:46px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:12px;line-height:1;border:2.5px solid rgba(255,255,255,.22);cursor:pointer;position:relative;transition:transform .2s ease;}
@@ -161,9 +159,15 @@
     .ld-t{font-size:12.5px;color:var(--text-m);font-weight:600;}
     .ld-s{font-size:10.5px;color:var(--text-f);}
 
-    /* Heatmap info */
+    /* Heatmap label */
     .heat-lbl{position:absolute;bottom:24px;right:12px;z-index:400;display:none;background:var(--panel);backdrop-filter:blur(12px);border:1px solid var(--border);border-radius:10px;padding:9px 13px;font-size:10.5px;color:var(--text-m);text-align:center;max-width:170px;}
     .heat-lbl.show{display:block;}
+
+    /* Map style switcher overlay */
+    .style-bar{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);z-index:400;background:var(--panel);backdrop-filter:blur(14px);border:1px solid var(--bmd);border-radius:10px;padding:5px;display:flex;gap:3px;box-shadow:0 4px 18px rgba(0,0,0,.45);}
+    .style-btn{padding:5px 12px;border-radius:7px;font-size:10.5px;font-weight:600;border:none;background:transparent;color:var(--text-m);cursor:pointer;transition:all .18s;font-family:inherit;}
+    .style-btn:hover{color:var(--text);background:rgba(45,138,138,.08);}
+    .style-btn.on{background:rgba(45,138,138,.2);color:#fff;border:1px solid var(--teal);}
 
     /* Table */
     .tbl-sec{padding:22px 20px;max-width:1800px;margin:0 auto;}
@@ -221,7 +225,7 @@
       <div>
         <div class="live-badge">LIVE MONITORING</div>
         <h1 class="ph-h1">Real-Time <span>AQI Map</span></h1>
-        <p class="ph-sub">Google Maps · Air Quality Index · Saudi Arabia &amp; GCC Region · WAQI Network</p>
+        <p class="ph-sub">Interactive Map · Air Quality Index · Saudi Arabia &amp; GCC Region · WAQI Network</p>
       </div>
       <div class="ph-act">
         <div class="ph-btns">
@@ -272,24 +276,16 @@
   </div>
   <div class="cd"></div>
   <button class="cb" id="windBtn" onclick="toggleWind()"><i class="fas fa-wind"></i> Wind</button>
-  <div style="flex:1;min-width:8px"></div>
-  <span class="cl">Map Style</span>
-  <div class="pg" id="styleGrp">
-    <button class="pill on" data-style="dark">Dark</button>
-    <button class="pill"    data-style="satellite">Satellite</button>
-    <button class="pill"    data-style="light">Light</button>
-    <button class="pill"    data-style="terrain">Terrain</button>
-  </div>
 </div>
 
 <!-- MAP -->
 <div class="map-wr">
-  <div id="gmap"></div>
+  <div id="lmap"></div>
 
   <div id="map-ld">
     <div class="ld-sp"></div>
     <div class="ld-t">Loading Air Quality Data</div>
-    <div class="ld-s">Connecting to Google Maps &amp; WAQI network…</div>
+    <div class="ld-s">Connecting to WAQI monitoring network…</div>
   </div>
 
   <div class="map-leg">
@@ -340,9 +336,12 @@
     Heatmap — colour intensity = pollution density
   </div>
 
-  <div class="map-zoom">
-    <button class="mz-btn" id="zbIn">+</button>
-    <button class="mz-btn" id="zbOut">−</button>
+  <!-- Map style switcher -->
+  <div class="style-bar">
+    <button class="style-btn on"  data-tile="dark">Dark</button>
+    <button class="style-btn"     data-tile="satellite">Satellite</button>
+    <button class="style-btn"     data-tile="light">Light</button>
+    <button class="style-btn"     data-tile="terrain">Terrain</button>
   </div>
 </div>
 
@@ -377,7 +376,7 @@
     <div class="nav-sq" style="width:30px;height:30px;font-size:13px">A</div>
     <span class="ft-t">AECON – ALEMAD ALARABI Environmental Consultancy</span>
   </div>
-  <span class="ft-t">Data: WAQI · Map: Google Maps · Auto-refreshes every 5 min</span>
+  <span class="ft-t">Data: WAQI · Map: OpenStreetMap / CartoDB · Auto-refreshes every 5 min</span>
   <div style="display:flex;gap:14px">
     <a href="index.html"          class="ft-l">Home</a>
     <a href="Compliance Hub.html" class="ft-l">Compliance Hub</a>
@@ -387,19 +386,18 @@
 
 <div id="toast"><span id="tIco">✓</span><span id="tMsg">Done</span></div>
 
+<!-- LIBS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.heat/0.2.0/leaflet-heat.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.7.1/jspdf.plugin.autotable.min.js"></script>
 
 <script>
-/* ── LIVE KEYS ── */
-const CFG = {
-  WAQI_TOKEN:  'a75b3351feeb73fe4c97498b3e9fb912f1f8e165',
-  USE_BACKEND: false,
-  REFRESH_SEC: 300,
-  CENTER:      { lat: 24.7136, lng: 46.6753 },
-  ZOOM:        6,
-};
+/* ── CONFIG ── */
+const WAQI_TOKEN = 'a75b3351feeb73fe4c97498b3e9fb912f1f8e165';
+const REFRESH_SEC = 300;
 
+/* ── AQI LEVELS ── */
 const LEVELS = [
   { max:  50, color:'#00e400', bg:'rgba(0,80,0,.22)',    dk:true,  label:'Good',                 short:'Good',    desc:'Air quality is satisfactory and poses little or no risk.' },
   { max: 100, color:'#f5c518', bg:'rgba(80,65,0,.22)',   dk:true,  label:'Moderate',             short:'Mod.',    desc:'Acceptable quality. Some pollutants may affect sensitive groups.' },
@@ -409,10 +407,24 @@ const LEVELS = [
   { max: 500, color:'#7e0023', bg:'rgba(40,0,14,.28)',   dk:false, label:'Hazardous',            short:'Hazd.',   desc:'Health emergency — entire population likely to be affected.' },
 ];
 
+/* ── MAP TILE LAYERS ── */
+const TILES = {
+  dark:      'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+  satellite: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+  light:     'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+  terrain:   'https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png',
+};
+const ATTR = {
+  dark:      '© OpenStreetMap © CartoDB',
+  satellite: '© Esri World Imagery',
+  light:     '© OpenStreetMap © CartoDB',
+  terrain:   '© OpenTopoMap',
+};
+
+/* ── FALLBACK STATIONS ── */
 const FALLBACK = [
   { uid:'ruh1',lat:24.7136,lng:46.6753,aqi:87, name:'Riyadh – Al Maather St.',      city:'Riyadh',    t:'2025-03-23 10:00',iaqi:{pm25:{v:28.3},pm10:{v:44.1},no2:{v:12.4},so2:{v:5.1},o3:{v:38.7},co:{v:0.9}} },
   { uid:'ruh2',lat:24.8500,lng:46.7200,aqi:72, name:'Riyadh – King Fahad Road',      city:'Riyadh',    t:'2025-03-23 10:00',iaqi:{pm25:{v:22.1},pm10:{v:38.5},no2:{v:9.2}, so2:{v:3.8},o3:{v:44.1},co:{v:0.7}} },
-  { uid:'ruh3',lat:24.5900,lng:46.8000,aqi:65, name:'Riyadh – South District',       city:'Riyadh',    t:'2025-03-23 10:00',iaqi:{pm25:{v:19.8},pm10:{v:34.6},no2:{v:8.4}, so2:{v:3.2},o3:{v:49.7},co:{v:0.7}} },
   { uid:'jed1',lat:21.4858,lng:39.1925,aqi:62, name:'Jeddah – Al Corniche',          city:'Jeddah',    t:'2025-03-23 10:00',iaqi:{pm25:{v:18.4},pm10:{v:31.2},no2:{v:7.8}, so2:{v:2.9},o3:{v:52.3},co:{v:0.6}} },
   { uid:'dam1',lat:26.4207,lng:50.0888,aqi:74, name:'Dammam – Corniche',             city:'Dammam',    t:'2025-03-23 10:00',iaqi:{pm25:{v:23.5},pm10:{v:39.8},no2:{v:10.1},so2:{v:4.5},o3:{v:41.2},co:{v:0.8}} },
   { uid:'jub1',lat:27.0174,lng:49.6580,aqi:118,name:'Jubail Industrial City',         city:'Jubail',    t:'2025-03-23 10:00',iaqi:{pm25:{v:42.7},pm10:{v:68.9},no2:{v:24.8},so2:{v:18.3},o3:{v:28.1},co:{v:1.4}} },
@@ -430,46 +442,16 @@ const FALLBACK = [
   { uid:'doh1',lat:25.2854,lng:51.5310,aqi:85, name:'Doha – West Bay',               city:'Doha',      t:'2025-03-23 10:00',iaqi:{pm25:{v:27.3},pm10:{v:45.8},no2:{v:13.2},so2:{v:6.8}, o3:{v:36.9},co:{v:0.9}} },
   { uid:'bah1',lat:26.2285,lng:50.5860,aqi:92, name:'Manama – Seef District',        city:'Manama',    t:'2025-03-23 10:00',iaqi:{pm25:{v:30.4},pm10:{v:49.7},no2:{v:14.8},so2:{v:8.1}, o3:{v:34.2},co:{v:1.0}} },
   { uid:'mct1',lat:23.5880,lng:58.3829,aqi:58, name:'Muscat – Qurm District',        city:'Muscat',    t:'2025-03-23 10:00',iaqi:{pm25:{v:17.1},pm10:{v:29.8},no2:{v:7.2}, so2:{v:2.7},o3:{v:55.8},co:{v:0.6}} },
+  { uid:'ruh3',lat:24.5900,lng:46.8000,aqi:65, name:'Riyadh – South District',       city:'Riyadh',    t:'2025-03-23 10:00',iaqi:{pm25:{v:19.8},pm10:{v:34.6},no2:{v:8.4}, so2:{v:3.2},o3:{v:49.7},co:{v:0.7}} },
 ];
 
-const DARK_STYLE=[
-  {elementType:'geometry',stylers:[{color:'#0d2124'}]},
-  {elementType:'labels.text.stroke',stylers:[{color:'#0a1c1e'}]},
-  {elementType:'labels.text.fill',stylers:[{color:'#3a7a7a'}]},
-  {featureType:'administrative',elementType:'geometry.stroke',stylers:[{color:'#1a4a4e'}]},
-  {featureType:'administrative.country',elementType:'geometry.stroke',stylers:[{color:'#2d6060'},{weight:1.5}]},
-  {featureType:'administrative.province',elementType:'geometry.stroke',stylers:[{color:'#1a3a3a'},{weight:.8}]},
-  {featureType:'administrative.locality',elementType:'labels.text.fill',stylers:[{color:'#3aadad'}]},
-  {featureType:'landscape.natural',elementType:'geometry',stylers:[{color:'#0a1e20'}]},
-  {featureType:'landscape.man_made',elementType:'geometry',stylers:[{color:'#0f2a2e'}]},
-  {featureType:'poi',elementType:'geometry',stylers:[{color:'#0f2a2e'}]},
-  {featureType:'poi',elementType:'labels',stylers:[{visibility:'off'}]},
-  {featureType:'poi.park',elementType:'geometry',stylers:[{color:'#0c2418'}]},
-  {featureType:'road',elementType:'geometry',stylers:[{color:'#142e32'}]},
-  {featureType:'road',elementType:'geometry.stroke',stylers:[{color:'#0d2124'}]},
-  {featureType:'road',elementType:'labels.text.fill',stylers:[{color:'#4a8888'}]},
-  {featureType:'road.highway',elementType:'geometry',stylers:[{color:'#1a3e42'}]},
-  {featureType:'road.highway',elementType:'geometry.stroke',stylers:[{color:'#0f2a2e'}]},
-  {featureType:'road.highway',elementType:'labels.text.fill',stylers:[{color:'#2d8a8a'}]},
-  {featureType:'transit',elementType:'geometry',stylers:[{color:'#0f2a2e'}]},
-  {featureType:'water',elementType:'geometry',stylers:[{color:'#061420'}]},
-  {featureType:'water',elementType:'labels.text.fill',stylers:[{color:'#1a4a5a'}]},
-];
-const LIGHT_STYLE=[
-  {featureType:'all',elementType:'geometry',stylers:[{saturation:-25},{lightness:8}]},
-  {featureType:'water',elementType:'geometry',stylers:[{color:'#b8d8e8'}]},
-  {featureType:'road.highway',elementType:'geometry',stylers:[{color:'#d4ede8'}]},
-  {featureType:'poi',elementType:'all',stylers:[{visibility:'simplified'}]},
-  {featureType:'landscape',elementType:'geometry',stylers:[{color:'#f0f4f1'}]},
-];
+/* ── STATE ── */
+let map, tileLayer, mkLayer, heatLayer, windLayer;
+let stations=[...FALLBACK], activePoll='aqi', activeLyr='markers';
+let windOn=false, sortState={col:'aqi',dir:'asc'}, cdSec=REFRESH_SEC, cdTimer=null;
+let suggestions=[], activeTile='dark';
 
-/* STATE */
-let gmap,heatLayer,advMarkers=[],windMarkers=[];
-let stations=[...FALLBACK],activePoll='aqi',activeLyr='markers';
-let windOn=false,sortState={col:'aqi',dir:'asc'},cdSec=CFG.REFRESH_SEC,cdTimer=null;
-let suggestions=[];
-
-/* HELPERS */
+/* ── HELPERS ── */
 function lvl(v){const n=parseInt(v);if(isNaN(n))return LEVELS[0];return LEVELS.find(l=>n<=l.max)||LEVELS[LEVELS.length-1];}
 function pollColor(k,v){const R={pm25:[12,35.4,55.4,150.4,250.4],pm10:[54,154,254,354,424],no2:[53,100,360,649,1249],so2:[35,75,185,304,604],o3:[54,70,85,105,200],co:[4.4,9.4,12.4,15.4,30.4]};if(!R[k])return lvl(v).color;const i=R[k].findIndex(m=>v<=m);return LEVELS[i===-1?LEVELS.length-1:Math.min(i,LEVELS.length-1)].color;}
 function synthIAQI(aqi){const v=parseInt(aqi)||0;return{pm25:{v:+(v*.30+Math.random()*4).toFixed(1)},pm10:{v:+(v*.52+Math.random()*7).toFixed(1)},no2:{v:+(v*.14+Math.random()*3).toFixed(1)},so2:{v:+(v*.07+Math.random()*2).toFixed(1)},o3:{v:+(Math.max(0,80-v*.15+Math.random()*5)).toFixed(1)},co:{v:+(v*.01+Math.random()*.18).toFixed(2)}};}
@@ -477,30 +459,31 @@ function fmtT(s){try{return new Date((s||'').replace(' ','T')).toLocaleString('e
 function hexRgb(h){const r=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(h);return r?[parseInt(r[1],16),parseInt(r[2],16),parseInt(r[3],16)]:[45,138,138];}
 function debounce(fn,ms){let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),ms);};}
 
-/* GOOGLE MAPS INIT */
-window.initGoogleMaps=function(){
-  gmap=new google.maps.Map(document.getElementById('gmap'),{
-    center:CFG.CENTER,zoom:CFG.ZOOM,mapTypeId:'roadmap',
-    disableDefaultUI:true,gestureHandling:'greedy',styles:DARK_STYLE,
-  });
-  document.getElementById('zbIn').onclick=()=>gmap.setZoom(gmap.getZoom()+1);
-  document.getElementById('zbOut').onclick=()=>gmap.setZoom(gmap.getZoom()-1);
-  gmap.addListener('idle',debounce(fetchData,800));
-  renderAll();updateStats();renderTable();
-  fetchData();
-};
-
-function setStyle(style){
-  if(!gmap)return;
-  if(style==='satellite'||style==='terrain'){gmap.setMapTypeId(style==='terrain'?'terrain':'satellite');gmap.setOptions({styles:[]});}
-  else{gmap.setMapTypeId('roadmap');gmap.setOptions({styles:style==='light'?LIGHT_STYLE:DARK_STYLE});}
+/* ── MAP INIT ── */
+function initMap(){
+  map = L.map('lmap',{center:[24.7136,46.6753],zoom:6,zoomControl:false,attributionControl:true});
+  L.control.zoom({position:'bottomright'}).addTo(map);
+  tileLayer = L.tileLayer(TILES.dark,{attribution:ATTR.dark,maxZoom:18,subdomains:'abcd'}).addTo(map);
+  mkLayer = L.layerGroup().addTo(map);
+  map.on('moveend', debounce(fetchData, 700));
 }
 
+/* ── TILE SWITCHER ── */
+function switchTile(style){
+  activeTile=style;
+  if(tileLayer){map.removeLayer(tileLayer);}
+  const sub = (style==='dark'||style==='light') ? 'abcd' : '';
+  tileLayer = L.tileLayer(TILES[style],{attribution:ATTR[style],maxZoom:18,subdomains:sub}).addTo(map);
+  tileLayer.bringToBack();
+  // Re-render markers on top
+  renderAll();
+}
+
+/* ── FETCH DATA ── */
 async function fetchData(){
-  if(!gmap)return;
-  const b=gmap.getBounds();if(!b)return;
-  const ne=b.getNorthEast(),sw=b.getSouthWest();
-  const url=`https://api.waqi.info/map/bounds/?token=${CFG.WAQI_TOKEN}&latlng=${sw.lat().toFixed(3)},${sw.lng().toFixed(3)},${ne.lat().toFixed(3)},${ne.lng().toFixed(3)}`;
+  if(!map)return;
+  const b=map.getBounds();
+  const url=`https://api.waqi.info/map/bounds/?token=${WAQI_TOKEN}&latlng=${b.getSouth().toFixed(3)},${b.getWest().toFixed(3)},${b.getNorth().toFixed(3)},${b.getEast().toFixed(3)}`;
   try{
     const r=await fetch(url,{signal:AbortSignal.timeout(8000)});
     if(!r.ok)throw new Error();
@@ -518,16 +501,18 @@ async function fetchData(){
   hideLoader();
 }
 
+/* ── RENDER ── */
 function renderAll(){
-  clearMarkers();clearHeatmap();clearWind();
-  if(!gmap)return;
+  if(mkLayer){mkLayer.clearLayers();}
+  if(heatLayer){map.removeLayer(heatLayer);heatLayer=null;}
+  if(windLayer){map.removeLayer(windLayer);windLayer=null;}
+  if(!map)return;
   if(activeLyr!=='heatmap')buildMarkers();
   if(activeLyr!=='markers')buildHeatmap();
   if(windOn)buildWind();
   document.getElementById('heatLbl').classList.toggle('show',activeLyr==='heatmap');
 }
 
-function clearMarkers(){advMarkers.forEach(m=>{try{m.setMap?m.setMap(null):m.map=null;}catch(_){}});advMarkers=[];}
 function buildMarkers(){
   stations.forEach(s=>{
     const lv=lvl(s.aqi);
@@ -536,39 +521,37 @@ function buildMarkers(){
     const tc=dk?'#000':'#fff';
     const el=document.createElement('div');
     el.innerHTML=`<div class="aqi-mk" style="background:radial-gradient(circle at 38% 32%,${dc}cc,${dc}88);box-shadow:0 3px 14px ${dc}66,0 2px 8px rgba(0,0,0,.5)"><div class="mk-ring" style="color:${dc}"></div><span style="color:${tc}">${dv}</span><span class="mk-s" style="color:${tc}">${activePoll.toUpperCase()}</span></div>`;
-    el.addEventListener('click',()=>openPnl(s));
-    try{
-      const {AdvancedMarkerElement}=google.maps.marker;
-      advMarkers.push(new AdvancedMarkerElement({map:gmap,position:{lat:s.lat,lng:s.lng},content:el,title:s.name}));
-    }catch(_){
-      const url='data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 46 46"><defs><radialGradient id="g" cx="38%" cy="32%"><stop offset="0%" stop-color="${dc}cc"/><stop offset="100%" stop-color="${dc}88"/></radialGradient></defs><circle cx="23" cy="23" r="20" fill="url(#g)" stroke="rgba(255,255,255,.2)" stroke-width="2.5"/><text x="23" y="21" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-weight="800" font-size="13" fill="${tc}">${dv}</text><text x="23" y="31" text-anchor="middle" dominant-baseline="middle" font-family="sans-serif" font-weight="700" font-size="6.5" fill="${tc}" opacity=".85">${activePoll.toUpperCase()}</text></svg>`);
-      const m=new google.maps.Marker({map:gmap,position:{lat:s.lat,lng:s.lng},icon:{url,anchor:new google.maps.Point(23,23)},title:s.name});
-      m.addListener('click',()=>openPnl(s));advMarkers.push(m);
-    }
+    const icon=L.divIcon({className:'leaflet-custom-icon',html:el.innerHTML,iconSize:[46,46],iconAnchor:[23,23]});
+    const marker=L.marker([s.lat,s.lng],{icon});
+    marker.on('click',()=>openPnl(s));
+    mkLayer.addLayer(marker);
   });
 }
 
-function clearHeatmap(){if(heatLayer){heatLayer.setMap(null);heatLayer=null;}}
 function buildHeatmap(){
-  if(!google.maps.visualization)return;
-  const pts=stations.filter(s=>!isNaN(s.aqi)).map(s=>{const v=activePoll==='aqi'?s.aqi:(s.iaqi?.[activePoll]?.v||s.aqi);return{location:new google.maps.LatLng(s.lat,s.lng),weight:Math.min(1,v/300)};});
-  heatLayer=new google.maps.visualization.HeatmapLayer({data:pts,map:gmap,radius:60,opacity:.7,gradient:['rgba(0,228,0,0)','rgba(0,228,0,.6)','rgba(245,197,24,.7)','rgba(255,126,0,.75)','rgba(255,51,51,.8)','rgba(143,63,151,.85)','rgba(126,0,35,1)']});
+  const pts=stations.filter(s=>!isNaN(s.aqi)).map(s=>{
+    const v=activePoll==='aqi'?s.aqi:(s.iaqi?.[activePoll]?.v||s.aqi);
+    return[s.lat,s.lng,Math.min(1,v/300)];
+  });
+  heatLayer=L.heatLayer(pts,{radius:50,blur:38,maxZoom:13,gradient:{0:'#00e400',.25:'#f5c518',.5:'#ff7e00',.75:'#ff3333',1:'#7e0023'}}).addTo(map);
 }
 
-function clearWind(){windMarkers.forEach(m=>{try{m.setMap?m.setMap(null):m.map=null;}catch(_){}});windMarkers=[];}
 function buildWind(){
-  if(!gmap)return;
   const D=['↑','↗','→','↘','↓','↙','←','↖'];
+  const wl=L.layerGroup();
   stations.forEach(s=>{
     const ch=D[Math.floor(Math.random()*8)];
     const el=document.createElement('div');
-    el.style.cssText='font-size:15px;color:rgba(58,173,173,.8);text-shadow:0 0 10px rgba(45,138,138,.55);pointer-events:none;';
+    el.style.cssText='font-size:16px;color:rgba(58,173,173,.8);text-shadow:0 0 10px rgba(45,138,138,.55);pointer-events:none;';
     el.textContent=ch;
-    try{const {AdvancedMarkerElement}=google.maps.marker;windMarkers.push(new AdvancedMarkerElement({map:gmap,position:{lat:s.lat+.06,lng:s.lng+.06},content:el}));}
-    catch(_){const m=new google.maps.Marker({map:gmap,position:{lat:s.lat+.06,lng:s.lng+.06},icon:{url:'data:image/svg+xml,'+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><text y="16" font-size="16" fill="rgba(58,173,173,.8)">${ch}</text></svg>`),anchor:new google.maps.Point(10,10)},clickable:false});windMarkers.push(m);}
+    const icon=L.divIcon({className:'leaflet-custom-icon',html:el.outerHTML,iconSize:[20,20],iconAnchor:[10,10]});
+    wl.addLayer(L.marker([s.lat+.06,s.lng+.06],{icon,interactive:false}));
   });
+  windLayer=wl;
+  wl.addTo(map);
 }
 
+/* ── STATION PANEL ── */
 function openPnl(s){
   const lv=lvl(s.aqi);
   document.getElementById('spCity').textContent=s.city||s.name.split(/[,–\-]/)[0].trim();
@@ -593,6 +576,7 @@ function openPnl(s){
 }
 function closePnl(){document.getElementById('stnPnl').classList.remove('open');}
 
+/* ── STATS ── */
 function updateStats(){
   const vals=stations.map(s=>s.aqi).filter(v=>!isNaN(v));if(!vals.length)return;
   const avg=Math.round(vals.reduce((a,b)=>a+b,0)/vals.length);
@@ -607,6 +591,7 @@ function updateStats(){
   ['mmG','mmM','mmS','mmU','mmV'].forEach((id,i)=>document.getElementById(id).textContent=cats[i]);
 }
 
+/* ── TABLE ── */
 function renderTable(data){
   const rows=(data||stations).slice().sort((a,b)=>{const d=sortState.dir==='asc'?1:-1;if(sortState.col==='aqi')return(a.aqi-b.aqi)*d;if(sortState.col==='name')return(a.name||'').localeCompare(b.name||'')*d;return 0;});
   document.getElementById('tblCnt').textContent=rows.length+' stations';
@@ -619,20 +604,20 @@ function renderTable(data){
 }
 function sortTbl(col){sortState.dir=sortState.col===col&&sortState.dir==='asc'?'desc':'asc';sortState.col=col;renderTable();}
 function filterTbl(q){renderTable(stations.filter(s=>s.name.toLowerCase().includes(q.toLowerCase())));}
-function focusStn(lat,lng){if(!gmap)return;gmap.panTo({lat,lng});gmap.setZoom(11);const s=stations.find(x=>x.lat===lat&&x.lng===lng);if(s)openPnl(s);}
+function focusStn(lat,lng){if(!map)return;map.setView([lat,lng],11,{animate:true});const s=stations.find(x=>x.lat===lat&&x.lng===lng);if(s)openPnl(s);}
 
-/* SEARCH */
+/* ── SEARCH ── */
 let srchT;
 document.getElementById('srchIn').addEventListener('input',function(){
   clearTimeout(srchT);const q=this.value.trim();if(q.length<2){closeSugg();return;}
   const local=stations.filter(s=>s.name.toLowerCase().includes(q.toLowerCase())).slice(0,6);
-  if(local.length){suggestions=local.map(s=>({name:s.name,sub:`AQI ${s.aqi}`,fn:()=>{gmap?.panTo({lat:s.lat,lng:s.lng});gmap?.setZoom(11);openPnl(s);}}));showSugg();}
+  if(local.length){suggestions=local.map(s=>({name:s.name,sub:`AQI ${s.aqi}`,fn:()=>{map?.setView([s.lat,s.lng],11);openPnl(s);}}));showSugg();}
   else{srchT=setTimeout(()=>waqiSearch(q),450);}
 });
 async function waqiSearch(q){
   document.getElementById('srchWr').classList.add('loading');
-  try{const r=await fetch(`https://api.waqi.info/search/?token=${CFG.WAQI_TOKEN}&keyword=${encodeURIComponent(q)}`);const d=await r.json();
-  if(d.status==='ok'){suggestions=d.data.slice(0,6).map(s=>({name:s.station?.name||q,sub:`AQI ${s.aqi} · ${s.station?.country||''}`,fn:()=>{if(s.station?.geo)gmap?.panTo({lat:s.station.geo[0],lng:s.station.geo[1]});closeSugg();}}));showSugg();}}catch(_){}
+  try{const r=await fetch(`https://api.waqi.info/search/?token=${WAQI_TOKEN}&keyword=${encodeURIComponent(q)}`);const d=await r.json();
+  if(d.status==='ok'){suggestions=d.data.slice(0,6).map(s=>({name:s.station?.name||q,sub:`AQI ${s.aqi} · ${s.station?.country||''}`,fn:()=>{if(s.station?.geo)map?.setView(s.station.geo,11);closeSugg();}}));showSugg();}}catch(_){}
   document.getElementById('srchWr').classList.remove('loading');
 }
 function showSugg(){document.getElementById('srchSugg').innerHTML=suggestions.map((s,i)=>`<div class="si-item" onclick="pickSugg(${i})"><div class="si-ico">📍</div><div><div class="si-n">${s.name}</div><div class="si-s">${s.sub}</div></div></div>`).join('');document.getElementById('srchSugg').classList.add('open');}
@@ -640,18 +625,18 @@ function pickSugg(i){if(suggestions[i])suggestions[i].fn();document.getElementBy
 function closeSugg(){document.getElementById('srchSugg').classList.remove('open');}
 document.addEventListener('click',e=>{if(!e.target.closest('#srchWr'))closeSugg();});
 
-/* PILL LISTENERS */
+/* ── PILL LISTENERS ── */
 document.getElementById('pollGrp').addEventListener('click',e=>{const p=e.target.closest('[data-poll]');if(!p)return;document.querySelectorAll('[data-poll]').forEach(x=>x.classList.remove('on'));p.classList.add('on');activePoll=p.dataset.poll;renderAll();});
 document.getElementById('lyrGrp').addEventListener('click',e=>{const p=e.target.closest('[data-lyr]');if(!p)return;document.querySelectorAll('[data-lyr]').forEach(x=>x.classList.remove('on'));p.classList.add('on');activeLyr=p.dataset.lyr;renderAll();});
-document.getElementById('styleGrp').addEventListener('click',e=>{const p=e.target.closest('[data-style]');if(!p)return;document.querySelectorAll('[data-style]').forEach(x=>x.classList.remove('on'));p.classList.add('on');setStyle(p.dataset.style);});
-function toggleWind(){windOn=!windOn;document.getElementById('windBtn').classList.toggle('on',windOn);if(!windOn)clearWind();else buildWind();}
+document.querySelectorAll('[data-tile]').forEach(btn=>{btn.addEventListener('click',()=>{document.querySelectorAll('[data-tile]').forEach(x=>x.classList.remove('on'));btn.classList.add('on');switchTile(btn.dataset.tile);});});
+function toggleWind(){windOn=!windOn;document.getElementById('windBtn').classList.toggle('on',windOn);if(!windOn&&windLayer){map.removeLayer(windLayer);windLayer=null;}else if(windOn)buildWind();}
 
-/* COUNTDOWN */
-function startCountdown(){clearInterval(cdTimer);cdSec=CFG.REFRESH_SEC;cdTimer=setInterval(()=>{cdSec--;const m=Math.floor(cdSec/60),s=String(cdSec%60).padStart(2,'0');document.getElementById('countdown').textContent=`${m}:${s}`;if(cdSec<=0){cdSec=CFG.REFRESH_SEC;fetchData();}},1000);}
+/* ── COUNTDOWN ── */
+function startCountdown(){clearInterval(cdTimer);cdSec=REFRESH_SEC;cdTimer=setInterval(()=>{cdSec--;const m=Math.floor(cdSec/60),s=String(cdSec%60).padStart(2,'0');document.getElementById('countdown').textContent=`${m}:${s}`;if(cdSec<=0){cdSec=REFRESH_SEC;fetchData();}},1000);}
 function manualRefresh(){const ico=document.getElementById('refIco');ico.style.animation='spin .8s linear infinite';fetchData().finally(()=>{setTimeout(()=>ico.style.animation='',700);startCountdown();toast('✓','Data refreshed','var(--green)');});}
 function hideLoader(){const el=document.getElementById('map-ld');el.classList.add('gone');setTimeout(()=>el.style.display='none',550);}
 
-/* PDF */
+/* ── PDF ── */
 async function generatePDF(){
   const btn=document.getElementById('pdfBtn');btn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Generating…';btn.disabled=true;
   try{
@@ -661,7 +646,7 @@ async function generatePDF(){
     doc.setFont('helvetica','normal');doc.setFontSize(13);doc.setTextColor(135,201,168);doc.text('Real-Time Air Quality Index Report — Saudi Arabia & GCC',M,26);
     doc.setFontSize(8);doc.setTextColor(160,210,200);
     doc.text(`Generated: ${now.toLocaleString('en-SA',{dateStyle:'full',timeStyle:'short'})}`,M,34);
-    doc.text('Data Source: WAQI Monitoring Network · Google Maps · AECON AQI Dashboard',M,39);
+    doc.text('Data Source: WAQI Monitoring Network · AECON AQI Dashboard',M,39);
     const vals=stations.map(s=>s.aqi).filter(v=>!isNaN(v)),avg=Math.round(vals.reduce((a,b)=>a+b,0)/(vals.length||1));
     doc.setFillColor(232,244,244);doc.roundedRect(M,50,W-M*2,28,3,3,'F');
     doc.setTextColor(15,61,62);doc.setFont('helvetica','bold');doc.setFontSize(9.5);doc.text('SUMMARY STATISTICS',M+5,58);
@@ -681,14 +666,13 @@ async function generatePDF(){
 
 function toast(ico,msg,col){document.getElementById('tIco').textContent=ico;document.getElementById('tMsg').textContent=msg;document.getElementById('tIco').style.color=col||'var(--green)';const t=document.getElementById('toast');t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3400);}
 
-document.addEventListener('DOMContentLoaded',startCountdown);
+/* ── BOOT ── */
+document.addEventListener('DOMContentLoaded',()=>{
+  initMap();
+  renderAll();updateStats();renderTable();
+  fetchData();
+  startCountdown();
+});
 </script>
-
-<!-- GOOGLE MAPS API — LIVE KEY -->
-<script
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDnSRDfNGgbnt1zgwd2vgegVbs7QLjb6vM&libraries=visualization,marker&callback=initGoogleMaps&loading=async"
-  async defer>
-</script>
-
 </body>
 </html>
