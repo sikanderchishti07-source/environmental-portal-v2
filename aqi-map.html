@@ -835,14 +835,14 @@ function renderFcstChart(aqi, detail){
    MAP INIT
 ═══════════════════════════════════════════════════════ */
 function initMap(){
-  const KSA=L.latLngBounds([15.5,36.0],[32.5,55.5]);
+  const KSA=L.latLngBounds([15.5,36.0],[32.5,50.5]);
   map=L.map('lmap',{
-    center:[24.5,44.5],zoom:6,
+    center:[24.0,43.5],zoom:7,
     minZoom:6,maxZoom:18,
     zoomControl:false,attributionControl:true,
     maxBounds:KSA,maxBoundsViscosity:1.0
   });
-  map.setView([24.5,44.5],6);
+  map.setView([24.0,43.5],7);
   L.control.zoom({position:'bottomright'}).addTo(map);
   tileLayer=L.tileLayer(TILES.dark,{attribution:'© OpenStreetMap © CartoDB',maxZoom:18,subdomains:'abcd'}).addTo(map);
   mkLayer=L.layerGroup().addTo(map);
@@ -867,7 +867,7 @@ function switchTile(style){
 async function fetchData(){
   if(!map)return;
   let s,w,n,e;
-  const KSA_S=15.5,KSA_W=36.0,KSA_N=32.5,KSA_E=55.5;
+  const KSA_S=15.5,KSA_W=36.0,KSA_N=32.5,KSA_E=50.5;
   if(firstLoad){s=KSA_S;w=KSA_W;n=KSA_N;e=KSA_E;firstLoad=false;}
   else{
     const b=map.getBounds();
@@ -885,7 +885,7 @@ async function fetchData(){
       const live=d.data.filter(s=>s.aqi&&s.aqi!=='-').map(s=>{
         const fb=FALLBACK.find(f=>Math.abs(f.lat-(s.lat||0))<.15&&Math.abs(f.lng-(s.lon||0))<.15);
         return{uid:s.uid,lat:parseFloat(s.lat),lng:parseFloat(s.lon),aqi:parseInt(s.aqi),name:s.station?.name||'Station',city:(s.station?.name||'').split(/[,–\-]/)[0].trim(),t:s.station?.time?.s||new Date().toISOString(),iaqi:fb?.iaqi||synthIAQI(s.aqi)};
-      }).filter(s=>!isNaN(s.lat)&&!isNaN(s.lng)&&s.lat>=16.0&&s.lat<=32.5&&s.lng>=34.5&&s.lng<=56.0);
+      }).filter(s=>!isNaN(s.lat)&&!isNaN(s.lng)&&s.lat>=15.5&&s.lat<=32.5&&s.lng>=36.0&&s.lng<=50.5);
       if(live.length)stations=live;
     }
   }catch(_){}
@@ -1145,7 +1145,7 @@ document.getElementById('srchIn').addEventListener('input',function(){
 async function waqiSearch(q){
   document.getElementById('srchWr').classList.add('loading');
   try{const r=await fetch(`https://api.waqi.info/search/?token=${WAQI_TOKEN}&keyword=${encodeURIComponent(q)}`);const d=await r.json();
-  if(d.status==='ok'){const ksaOnly=d.data.filter(s=>{const geo=s.station?.geo;return geo&&geo[0]>=16.0&&geo[0]<=32.5&&geo[1]>=34.5&&geo[1]<=56.0;});suggestions=ksaOnly.slice(0,6).map(s=>({name:s.station?.name||q,sub:`AQI ${s.aqi} · Saudi Arabia`,fn:()=>{if(s.station?.geo)map?.setView(s.station.geo,11);closeSugg();}}));if(suggestions.length)showSugg();}}catch(_){}
+  if(d.status==='ok'){const ksaOnly=d.data.filter(s=>{const geo=s.station?.geo;return geo&&geo[0]>=15.5&&geo[0]<=32.5&&geo[1]>=36.0&&geo[1]<=50.5;});suggestions=ksaOnly.slice(0,6).map(s=>({name:s.station?.name||q,sub:`AQI ${s.aqi} · Saudi Arabia`,fn:()=>{if(s.station?.geo)map?.setView(s.station.geo,11);closeSugg();}}));if(suggestions.length)showSugg();}}catch(_){}
   document.getElementById('srchWr').classList.remove('loading');
 }
 function showSugg(){document.getElementById('srchSugg').innerHTML=suggestions.map((s,i)=>`<div class="si-item" onclick="pickSugg(${i})"><div class="si-ico">📍</div><div><div class="si-n">${s.name}</div><div class="si-s">${s.sub}</div></div></div>`).join('');document.getElementById('srchSugg').classList.add('open');}
