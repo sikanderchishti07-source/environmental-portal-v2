@@ -380,7 +380,7 @@
       <div>
         <div class="live-badge">LIVE MONITORING</div>
         <h1 class="ph-h1">Real-Time <span>AQI Map</span></h1>
-        <p class="ph-sub">Interactive Map · Air Quality Index · Saudi Arabia &amp; GCC · WAQI Network · Forecast · Industrial Sources</p>
+        <p class="ph-sub">Interactive Map · Air Quality Index · Kingdom of Saudi Arabia · WAQI Network · Forecast · Industrial Sources</p>
       </div>
       <div class="ph-act">
         <div class="ph-btns">
@@ -443,7 +443,7 @@
   <div id="map-ld">
     <div class="ld-sp"></div>
     <div class="ld-t">Loading Air Quality Data</div>
-    <div class="ld-s">Fetching KSA &amp; GCC stations from WAQI network…</div>
+    <div class="ld-s">Fetching KSA stations from WAQI network…</div>
   </div>
 
   <!-- Legend -->
@@ -649,8 +649,6 @@ const SOURCES = [
   { lat:21.3700, lng:39.1200, name:'Jeddah Cement Company',         type:'Cement Manufacturing', icon:'🏗️' },
   { lat:26.9667, lng:49.5670, name:'SABIC Al Jubail Complex',        type:'Petrochemical Manufacturing', icon:'🧪' },
   { lat:24.6877, lng:46.7219, name:'Riyadh Refinery (SATORP)',      type:'Oil Refinery', icon:'🛢️' },
-  { lat:26.3500, lng:50.1500, name:'ALBA Aluminium Smelter',        type:'Aluminium Smelting (Bahrain)', icon:'🏭' },
-  { lat:25.3500, lng:56.3000, name:'Fujairah Power & Desalination', type:'Power & Water', icon:'⚡' },
   { lat:21.4000, lng:39.2000, name:'SWCC Jeddah Desalination',      type:'Desalination Plant', icon:'💧' },
   { lat:27.5000, lng:41.7000, name:'Hail Cement Company',           type:'Cement Manufacturing', icon:'🏗️' },
 ];
@@ -662,8 +660,6 @@ const OFFICES = [
   { lat:24.7136, lng:46.6753, name:'AECON — Riyadh HQ',   address:'3083 North Ring Rd, Al Muruj District, Riyadh 12284', phone:'+966 11 512 4979', email:'enviro@aecon-sa.com', type:'Head Office' },
   { lat:21.4858, lng:39.1925, name:'AECON — Jeddah',       address:'Al Andalus District, Jeddah, KSA',       phone:'+966 12 XXX XXXX', email:'jeddah@aecon-sa.com',  type:'Branch Office' },
   { lat:26.4207, lng:50.0888, name:'AECON — Dammam',       address:'Al Shatea District, Dammam, KSA',        phone:'+966 13 XXX XXXX', email:'dammam@aecon-sa.com',  type:'Branch Office' },
-  { lat:30.0444, lng:31.2357, name:'AECON — Cairo',         address:'Nasr City, Cairo, Egypt',                phone:'+20 2 XXX XXXX',   email:'cairo@aecon-sa.com',   type:'International Office' },
-  { lat:45.4642, lng:9.1900,  name:'AECON — Milan',         address:'Via della Moscova, Milan, Italy',        phone:'+39 02 XXX XXXX',  email:'milan@aecon-sa.com',   type:'International Office' },
 ];
 
 /* ═══════════════════════════════════════════════════════
@@ -683,13 +679,12 @@ const FALLBACK = [
   { uid:'tab1',lat:28.3838,lng:36.5565,aqi:44, name:'Tabuk – North Region',       city:'Tabuk',     t:'2025-03-23 10:00',iaqi:{pm25:{v:11.4},pm10:{v:22.1},no2:{v:4.8}, so2:{v:1.5},o3:{v:66.2},co:{v:0.4}} },
   { uid:'neo1',lat:28.0000,lng:35.5000,aqi:22, name:'NEOM – Tabuk Coastline',     city:'NEOM',      t:'2025-03-23 10:00',iaqi:{pm25:{v:5.2}, pm10:{v:10.8},no2:{v:2.1}, so2:{v:0.8},o3:{v:81.3},co:{v:0.2}} },
   { uid:'has1',lat:25.4200,lng:49.7000,aqi:88, name:'Al Ahsa – Eastern KSA',      city:'Al Ahsa',   t:'2025-03-23 10:00',iaqi:{pm25:{v:29.1},pm10:{v:47.3},no2:{v:13.8},so2:{v:7.4}, o3:{v:37.8},co:{v:0.9}} },
-  { uid:'kwt1',lat:29.3797,lng:47.9774,aqi:103,name:'Kuwait City – Shuwaikh',     city:'Kuwait',    t:'2025-03-23 10:00',iaqi:{pm25:{v:36.4},pm10:{v:58.2},no2:{v:18.5},so2:{v:12.1},o3:{v:32.7},co:{v:1.2}} },
-  { uid:'dxb1',lat:25.2048,lng:55.2708,aqi:78, name:'Dubai – Business Bay',       city:'Dubai',     t:'2025-03-23 10:00',iaqi:{pm25:{v:24.8},pm10:{v:41.3},no2:{v:11.6},so2:{v:5.2}, o3:{v:40.1},co:{v:0.8}} },
-  { uid:'auh1',lat:24.4539,lng:54.3773,aqi:71, name:'Abu Dhabi – Al Raha',        city:'Abu Dhabi', t:'2025-03-23 10:00',iaqi:{pm25:{v:21.9},pm10:{v:37.8},no2:{v:10.3},so2:{v:4.8}, o3:{v:43.5},co:{v:0.8}} },
-  { uid:'doh1',lat:25.2854,lng:51.5310,aqi:85, name:'Doha – West Bay',            city:'Doha',      t:'2025-03-23 10:00',iaqi:{pm25:{v:27.3},pm10:{v:45.8},no2:{v:13.2},so2:{v:6.8}, o3:{v:36.9},co:{v:0.9}} },
-  { uid:'bah1',lat:26.2285,lng:50.5860,aqi:92, name:'Manama – Seef District',     city:'Manama',    t:'2025-03-23 10:00',iaqi:{pm25:{v:30.4},pm10:{v:49.7},no2:{v:14.8},so2:{v:8.1}, o3:{v:34.2},co:{v:1.0}} },
-  { uid:'mct1',lat:23.5880,lng:58.3829,aqi:58, name:'Muscat – Qurm District',     city:'Muscat',    t:'2025-03-23 10:00',iaqi:{pm25:{v:17.1},pm10:{v:29.8},no2:{v:7.2}, so2:{v:2.7},o3:{v:55.8},co:{v:0.6}} },
   { uid:'ruh3',lat:24.5900,lng:46.8000,aqi:65, name:'Riyadh – South District',    city:'Riyadh',    t:'2025-03-23 10:00',iaqi:{pm25:{v:19.8},pm10:{v:34.6},no2:{v:8.4}, so2:{v:3.2},o3:{v:49.7},co:{v:0.7}} },
+  { uid:'ruh4',lat:24.7400,lng:46.5800,aqi:79, name:'Riyadh – Al Olaya District', city:'Riyadh',    t:'2025-03-23 10:00',iaqi:{pm25:{v:25.1},pm10:{v:41.8},no2:{v:11.9},so2:{v:4.6},o3:{v:43.2},co:{v:0.8}} },
+  { uid:'qat1',lat:25.6500,lng:49.9200,aqi:77, name:'Qatif – Eastern Province',   city:'Qatif',     t:'2025-03-23 10:00',iaqi:{pm25:{v:24.2},pm10:{v:40.1},no2:{v:11.3},so2:{v:5.1},o3:{v:42.8},co:{v:0.8}} },
+  { uid:'nji1',lat:17.4934,lng:44.1300,aqi:41, name:'Najran – Southern Region',   city:'Najran',    t:'2025-03-23 10:00',iaqi:{pm25:{v:10.4},pm10:{v:20.2},no2:{v:4.1}, so2:{v:1.4},o3:{v:68.7},co:{v:0.4}} },
+  { uid:'jiz1',lat:16.8892,lng:42.5611,aqi:36, name:'Jizan – Coastal Region',     city:'Jizan',     t:'2025-03-23 10:00',iaqi:{pm25:{v:9.1}, pm10:{v:18.5},no2:{v:3.7}, so2:{v:1.2},o3:{v:71.3},co:{v:0.3}} },
+  { uid:'bur1',lat:24.0000,lng:38.5000,aqi:52, name:'Buraidah – Al Qassim',       city:'Buraidah',  t:'2025-03-23 10:00',iaqi:{pm25:{v:14.7},pm10:{v:26.9},no2:{v:6.1}, so2:{v:2.0},o3:{v:60.4},co:{v:0.5}} },
 ];
 
 /* ═══════════════════════════════════════════════════════
@@ -810,7 +805,7 @@ function renderFcstChart(aqi, detail){
 ═══════════════════════════════════════════════════════ */
 function initMap(){
   const KSA=L.latLngBounds([16.0,34.5],[32.5,56.0]);
-  map=L.map('lmap',{center:[23.5,45.5],zoom:6,minZoom:4,zoomControl:false,attributionControl:true});
+  map=L.map('lmap',{center:[23.5,45.5],zoom:6,minZoom:5,maxZoom:18,zoomControl:false,attributionControl:true,maxBounds:KSA,maxBoundsViscosity:0.85});
   map.fitBounds(KSA);
   L.control.zoom({position:'bottomright'}).addTo(map);
   tileLayer=L.tileLayer(TILES.dark,{attribution:'© OpenStreetMap © CartoDB',maxZoom:18,subdomains:'abcd'}).addTo(map);
@@ -836,7 +831,7 @@ function switchTile(style){
 async function fetchData(){
   if(!map)return;
   let s,w,n,e;
-  if(firstLoad){s=14.0;w=34.0;n=33.0;e=57.0;firstLoad=false;}
+  if(firstLoad){s=16.0;w=34.5;n=32.5;e=56.0;firstLoad=false;}
   else{const b=map.getBounds();s=b.getSouth().toFixed(3);w=b.getWest().toFixed(3);n=b.getNorth().toFixed(3);e=b.getEast().toFixed(3);}
   const url=`https://api.waqi.info/map/bounds/?token=${WAQI_TOKEN}&latlng=${s},${w},${n},${e}`;
   try{
@@ -847,7 +842,7 @@ async function fetchData(){
       const live=d.data.filter(s=>s.aqi&&s.aqi!=='-').map(s=>{
         const fb=FALLBACK.find(f=>Math.abs(f.lat-(s.lat||0))<.15&&Math.abs(f.lng-(s.lon||0))<.15);
         return{uid:s.uid,lat:parseFloat(s.lat),lng:parseFloat(s.lon),aqi:parseInt(s.aqi),name:s.station?.name||'Station',city:(s.station?.name||'').split(/[,–\-]/)[0].trim(),t:s.station?.time?.s||new Date().toISOString(),iaqi:fb?.iaqi||synthIAQI(s.aqi)};
-      }).filter(s=>!isNaN(s.lat)&&!isNaN(s.lng));
+      }).filter(s=>!isNaN(s.lat)&&!isNaN(s.lng)&&s.lat>=16.0&&s.lat<=32.5&&s.lng>=34.5&&s.lng<=56.0);
       if(live.length)stations=live;
     }
   }catch(_){}
@@ -1107,7 +1102,7 @@ document.getElementById('srchIn').addEventListener('input',function(){
 async function waqiSearch(q){
   document.getElementById('srchWr').classList.add('loading');
   try{const r=await fetch(`https://api.waqi.info/search/?token=${WAQI_TOKEN}&keyword=${encodeURIComponent(q)}`);const d=await r.json();
-  if(d.status==='ok'){suggestions=d.data.slice(0,6).map(s=>({name:s.station?.name||q,sub:`AQI ${s.aqi} · ${s.station?.country||''}`,fn:()=>{if(s.station?.geo)map?.setView(s.station.geo,11);closeSugg();}}));showSugg();}}catch(_){}
+  if(d.status==='ok'){const ksaOnly=d.data.filter(s=>{const geo=s.station?.geo;return geo&&geo[0]>=16.0&&geo[0]<=32.5&&geo[1]>=34.5&&geo[1]<=56.0;});suggestions=ksaOnly.slice(0,6).map(s=>({name:s.station?.name||q,sub:`AQI ${s.aqi} · Saudi Arabia`,fn:()=>{if(s.station?.geo)map?.setView(s.station.geo,11);closeSugg();}}));if(suggestions.length)showSugg();}}catch(_){}
   document.getElementById('srchWr').classList.remove('loading');
 }
 function showSugg(){document.getElementById('srchSugg').innerHTML=suggestions.map((s,i)=>`<div class="si-item" onclick="pickSugg(${i})"><div class="si-ico">📍</div><div><div class="si-n">${s.name}</div><div class="si-s">${s.sub}</div></div></div>`).join('');document.getElementById('srchSugg').classList.add('open');}
@@ -1138,7 +1133,7 @@ async function generatePDF(){
     const {jsPDF}=window.jspdf,doc=new jsPDF({orientation:'portrait',unit:'mm',format:'a4'}),W=210,M=18,now=new Date();
     doc.setFillColor(15,61,62);doc.rect(0,0,W,44,'F');
     doc.setTextColor(255,255,255);doc.setFont('helvetica','bold');doc.setFontSize(20);doc.text('AECON Environmental Consultancy',M,17);
-    doc.setFont('helvetica','normal');doc.setFontSize(13);doc.setTextColor(135,201,168);doc.text('Real-Time Air Quality Index Report — Saudi Arabia & GCC',M,26);
+    doc.setFont('helvetica','normal');doc.setFontSize(13);doc.setTextColor(135,201,168);doc.text('Real-Time Air Quality Index Report — Kingdom of Saudi Arabia',M,26);
     doc.setFontSize(8);doc.setTextColor(160,210,200);doc.text(`Generated: ${now.toLocaleString('en-SA',{dateStyle:'full',timeStyle:'short'})}`,M,34);doc.text('Data: WAQI Network · AECON AQI Dashboard · enviro@aecon-sa.com',M,39);
     const vals=stations.map(s=>s.aqi).filter(v=>!isNaN(v)),avg=Math.round(vals.reduce((a,b)=>a+b,0)/(vals.length||1));
     doc.setFillColor(232,244,244);doc.roundedRect(M,50,W-M*2,28,3,3,'F');
