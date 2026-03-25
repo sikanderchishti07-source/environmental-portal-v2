@@ -207,206 +207,146 @@
     /* ============================================================
        9. INTERACTIVE SERVICES SECTION
        ============================================================ */
-
-    /* ── Section shell ──────────────────────────────────────────────── */
-    .isvc-section {
-      padding:    90px 0 110px;
-      background: #f5f6f7;
-      position:   relative;
-      overflow:   hidden;
-    }
-    .isvc-section::before {
-      content:          '';
-      position:         absolute;
-      inset:            0;
-      background-image: radial-gradient(rgba(15,61,62,.055) 1px, transparent 1px);
-      background-size:  28px 28px;
-      pointer-events:   none;
-    }
-
-    /* ── Header ─────────────────────────────────────────────────────── */
+    .isvc-section { padding: 90px 0 110px; background: #f5f6f7; position: relative; overflow: hidden; }
+    .isvc-section::before { content: ''; position: absolute; inset: 0; background-image: radial-gradient(rgba(15,61,62,.055) 1px, transparent 1px); background-size: 28px 28px; pointer-events: none; }
     .isvc-header { text-align: center; padding: 0 24px; margin-bottom: 64px; position: relative; z-index: 1; }
-    .showcase-eyebrow {
-      display: inline-flex; align-items: center; gap: 8px;
-      font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
-      color: #1a5f5f; background: rgba(26,95,95,.08);
-      padding: 6px 16px; border-radius: 999px; margin-bottom: 16px;
-    }
-    .showcase-eyebrow::before {
-      content: ''; width: 6px; height: 6px; border-radius: 50%;
-      background: #2d8a8a; animation: se-pulse 2s infinite; flex-shrink: 0;
-    }
+    .showcase-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #1a5f5f; background: rgba(26,95,95,.08); padding: 6px 16px; border-radius: 999px; margin-bottom: 16px; }
+    .showcase-eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #2d8a8a; animation: se-pulse 2s infinite; flex-shrink: 0; }
     @keyframes se-pulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.5; transform:scale(1.3); } }
 
-    /* ── Main two-column layout ─────────────────────────────────────── */
-    .isvc-layout {
-      max-width:  1280px;
-      margin:     0 auto;
-      padding:    0 clamp(16px, 4vw, 48px);
-      display:    grid;
-      grid-template-columns: 400px 1fr;
-      gap:        28px;
-      align-items: stretch;
-      position:   relative;
-      z-index:    1;
-    }
+    .isvc-layout { max-width: 1280px; margin: 0 auto; padding: 0 clamp(16px,4vw,48px); display: grid; grid-template-columns: 390px 1fr; gap: 24px; align-items: start; position: relative; z-index: 1; }
 
-    /* ── LEFT: tab list ─────────────────────────────────────────────── */
-    .isvc-tabs { display: flex; flex-direction: column; gap: 8px; }
-
-    .isvc-tab {
-      position:      relative;
-      display:       flex;
-      align-items:   center;
-      gap:           16px;
-      padding:       18px 20px;
-      background:    #fff;
-      border-radius: 16px;
-      border:        1.5px solid rgba(15,61,62,.07);
-      cursor:        pointer;
-      transition:    background .3s ease, border-color .3s ease, box-shadow .3s ease, transform .25s ease;
-      overflow:      hidden;
-      user-select:   none;
-    }
-    .isvc-tab:hover        { border-color: rgba(45,138,138,.3); box-shadow: 0 6px 24px rgba(15,61,62,.1); transform: translateX(4px); }
-    .isvc-tab.active       { border-color: #1a5f5f; box-shadow: 0 8px 32px rgba(15,61,62,.14); transform: translateX(6px); }
-    .isvc-tab::before {
-      content: ''; position: absolute; left: 0; top: 12px; bottom: 12px;
-      width: 3px; border-radius: 0 3px 3px 0;
-      background: linear-gradient(180deg, #1a5f5f, #2d8a8a);
-      transform: scaleY(0); transform-origin: center;
-      transition: transform .3s cubic-bezier(.34,1.4,.64,1);
-    }
+    /* ── Tabs ── */
+    .isvc-tabs { display: flex; flex-direction: column; gap: 7px; }
+    .isvc-tab { position: relative; display: flex; align-items: center; gap: 14px; padding: 16px 18px; background: #fff; border-radius: 15px; border: 1.5px solid rgba(15,61,62,.07); cursor: pointer; transition: border-color .25s, box-shadow .25s, transform .25s; overflow: hidden; user-select: none; }
+    .isvc-tab:hover  { border-color: rgba(45,138,138,.3); box-shadow: 0 4px 20px rgba(15,61,62,.09); transform: translateX(3px); }
+    .isvc-tab.active { border-color: #1a5f5f; box-shadow: 0 6px 28px rgba(15,61,62,.13); transform: translateX(5px); }
+    .isvc-tab::before { content: ''; position: absolute; left: 0; top: 14px; bottom: 14px; width: 3px; border-radius: 0 3px 3px 0; background: linear-gradient(180deg,#1a5f5f,#2d8a8a); transform: scaleY(0); transform-origin: center; transition: transform .3s cubic-bezier(.34,1.4,.64,1); }
     .isvc-tab.active::before { transform: scaleY(1); }
-    .isvc-tab:hover::before  { transform: scaleY(0.5); opacity: 0.5; }
+    .isvc-tab:hover::before  { transform: scaleY(.45); opacity: .5; }
     .isvc-tab.active:hover::before { transform: scaleY(1); opacity: 1; }
-
-    .isvc-tab-num {
-      width: 36px; height: 36px; border-radius: 10px;
-      background: rgba(15,61,62,.07);
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'DM Sans', sans-serif; font-size: 0.8rem; font-weight: 700;
-      color: #5a7a6a; flex-shrink: 0;
-      transition: background .3s ease, color .3s ease;
-    }
-    .isvc-tab.active .isvc-tab-num { background: linear-gradient(135deg, #1a5f5f, #2d8a8a); color: #fff; }
-
-    .isvc-tab-icon {
-      width: 42px; height: 42px; border-radius: 12px;
-      background: rgba(45,138,138,.1);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.1rem; color: #2d8a8a; flex-shrink: 0;
-      transition: background .3s ease, transform .3s ease;
-    }
-    .isvc-tab.active .isvc-tab-icon { background: rgba(45,138,138,.18); transform: scale(1.08); }
-
+    .isvc-tab-num { width: 34px; height: 34px; border-radius: 9px; background: rgba(15,61,62,.07); display: flex; align-items: center; justify-content: center; font-family: 'DM Sans',sans-serif; font-size: 0.78rem; font-weight: 700; color: #5a7a6a; flex-shrink: 0; transition: background .25s, color .25s; }
+    .isvc-tab.active .isvc-tab-num { background: linear-gradient(135deg,#1a5f5f,#2d8a8a); color: #fff; }
+    .isvc-tab-icon { width: 40px; height: 40px; border-radius: 11px; background: rgba(45,138,138,.1); display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #2d8a8a; flex-shrink: 0; transition: background .25s, transform .25s; }
+    .isvc-tab.active .isvc-tab-icon { background: rgba(45,138,138,.18); transform: scale(1.07); }
     .isvc-tab-body { flex: 1; min-width: 0; }
-    .isvc-tab-name {
-      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9rem; font-weight: 700;
-      color: #0f3d3e; margin-bottom: 2px;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .isvc-tab-short {
-      font-family: 'DM Sans', sans-serif; font-size: 0.74rem; color: #8aaa99; line-height: 1.4;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .isvc-tab-chevron {
-      width: 28px; height: 28px; border-radius: 8px; background: rgba(15,61,62,.05);
-      display: flex; align-items: center; justify-content: center;
-      color: #8aaa99; font-size: 0.72rem; flex-shrink: 0;
-      transition: background .3s, color .3s, transform .3s;
-    }
+    .isvc-tab-name { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 0.87rem; font-weight: 700; color: #0f3d3e; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .isvc-tab-short { font-family: 'DM Sans',sans-serif; font-size: 0.72rem; color: #8aaa99; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .isvc-tab-chevron { width: 26px; height: 26px; border-radius: 7px; background: rgba(15,61,62,.05); display: flex; align-items: center; justify-content: center; color: #8aaa99; font-size: 0.68rem; flex-shrink: 0; transition: background .25s, color .25s, transform .3s; }
     .isvc-tab.active .isvc-tab-chevron { background: rgba(45,138,138,.15); color: #1a5f5f; }
 
-    /* ── RIGHT: detail panel wrapper ────────────────────────────────── */
-    .isvc-panel-wrap {
-      position: relative; border-radius: 24px; overflow: hidden;
-      background: #fff; box-shadow: 0 12px 48px rgba(15,61,62,.12);
-      min-height: 580px;
-    }
-    .isvc-panel {
-      position: absolute; inset: 0;
-      display: grid; grid-template-rows: 260px 1fr;
-      opacity: 0; transform: translateX(28px) scale(0.985);
-      transition: opacity .45s cubic-bezier(.4,0,.2,1), transform .45s cubic-bezier(.4,0,.2,1);
-      pointer-events: none;
-    }
-    .isvc-panel.active  { opacity: 1; transform: translateX(0) scale(1); pointer-events: all; position: relative; }
-    .isvc-panel.exit    { opacity: 0; transform: translateX(-20px) scale(0.99); }
-
-    .isvc-panel-img { position: relative; height: 260px; overflow: hidden; flex-shrink: 0; }
-    .isvc-panel-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 8s ease; display: block; }
+    /* ── Panel wrap ── */
+    .isvc-panel-wrap { position: relative; border-radius: 22px; overflow: hidden; background: #fff; box-shadow: 0 10px 44px rgba(15,61,62,.12); min-height: 600px; }
+    .isvc-panel { position: absolute; inset: 0; display: flex; flex-direction: column; opacity: 0; transform: translateX(24px) scale(0.987); transition: opacity .42s cubic-bezier(.4,0,.2,1), transform .42s cubic-bezier(.4,0,.2,1); pointer-events: none; }
+    .isvc-panel.active { opacity: 1; transform: translateX(0) scale(1); pointer-events: all; position: relative; }
+    .isvc-panel.exit   { opacity: 0; transform: translateX(-18px) scale(0.992); pointer-events: none; position: absolute; }
+    .isvc-panel-img { position: relative; height: 255px; overflow: hidden; flex-shrink: 0; }
+    .isvc-panel-img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 8s ease; }
     .isvc-panel.active .isvc-panel-img img { transform: scale(1.04); }
-    .isvc-panel-img-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(180deg, rgba(5,22,22,.18) 0%, rgba(5,22,22,.0) 40%, rgba(5,22,22,.72) 100%);
-    }
-    .isvc-panel-badge {
-      position: absolute; top: 18px; left: 20px;
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 6px 14px; border-radius: 999px;
-      font-family: 'DM Sans', sans-serif; font-size: 0.68rem; font-weight: 700;
-      letter-spacing: 0.1em; text-transform: uppercase; color: #fff;
-      backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.25);
-    }
-    .isvc-panel-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
-    .isvc-panel-watermark {
-      position: absolute; bottom: -10px; right: 20px;
-      font-family: 'Playfair Display', serif; font-size: 7rem; font-weight: 900;
-      color: rgba(255,255,255,.07); line-height: 1; user-select: none; pointer-events: none;
-    }
-
-    .isvc-panel-body { padding: 28px 32px 24px; display: flex; flex-direction: column; gap: 18px; overflow-y: auto; }
-
-    .isvc-panel-title-row { display: flex; align-items: flex-start; gap: 14px; }
-    .isvc-panel-icon-large {
-      width: 52px; height: 52px; border-radius: 14px;
-      background: linear-gradient(135deg, #e8f4f4, #d0eaea);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem; color: #1a5f5f; flex-shrink: 0; margin-top: 2px;
-    }
-    .isvc-panel-title { font-family: 'Plus Jakarta Sans', sans-serif; font-size: clamp(1.2rem, 2vw, 1.6rem); font-weight: 800; color: #0f3d3e; line-height: 1.2; letter-spacing: -0.02em; }
-    .isvc-panel-subtitle { font-family: 'DM Sans', sans-serif; font-size: 0.82rem; color: #8aaa99; margin-top: 4px; font-weight: 500; }
-    .isvc-panel-desc { font-family: 'DM Sans', sans-serif; font-size: 0.88rem; color: #4a6a5a; line-height: 1.75; }
-
-    .isvc-features { display: grid; grid-template-columns: 1fr 1fr; gap: 7px 14px; }
-    .isvc-feature-item { display: flex; align-items: flex-start; gap: 9px; padding: 9px 11px; background: rgba(232,244,244,.6); border-radius: 10px; border: 1px solid rgba(45,138,138,.1); transition: background .2s; }
+    .isvc-panel-img-overlay { position: absolute; inset: 0; background: linear-gradient(180deg,rgba(5,22,22,.15) 0%,rgba(5,22,22,0) 40%,rgba(5,22,22,.75) 100%); }
+    .isvc-panel-badge { position: absolute; top: 16px; left: 18px; display: inline-flex; align-items: center; gap: 5px; padding: 5px 13px; border-radius: 999px; font-family: 'DM Sans',sans-serif; font-size: 0.67rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #fff; backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,.25); }
+    .isvc-panel-badge::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor; flex-shrink: 0; }
+    .isvc-panel-watermark { position: absolute; bottom: -8px; right: 18px; font-family: 'Playfair Display',serif; font-size: 6.5rem; font-weight: 900; color: rgba(255,255,255,.07); line-height: 1; pointer-events: none; user-select: none; }
+    .isvc-panel-body { padding: 26px 30px 22px; display: flex; flex-direction: column; gap: 16px; flex: 1; overflow-y: auto; }
+    .isvc-panel-title-row { display: flex; align-items: flex-start; gap: 13px; }
+    .isvc-panel-icon-large { width: 50px; height: 50px; border-radius: 13px; background: linear-gradient(135deg,#e8f4f4,#d0eaea); display: flex; align-items: center; justify-content: center; font-size: 1.35rem; color: #1a5f5f; flex-shrink: 0; margin-top: 2px; }
+    .isvc-panel-title { font-family: 'Plus Jakarta Sans',sans-serif; font-size: clamp(1.15rem,1.9vw,1.55rem); font-weight: 800; color: #0f3d3e; line-height: 1.2; letter-spacing: -0.02em; }
+    .isvc-panel-subtitle { font-family: 'DM Sans',sans-serif; font-size: 0.8rem; color: #8aaa99; margin-top: 4px; font-weight: 500; }
+    .isvc-panel-desc { font-family: 'DM Sans',sans-serif; font-size: 0.86rem; color: #4a6a5a; line-height: 1.75; }
+    .isvc-features { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 12px; }
+    .isvc-feature-item { display: flex; align-items: flex-start; gap: 8px; padding: 8px 10px; background: rgba(232,244,244,.6); border-radius: 9px; border: 1px solid rgba(45,138,138,.1); transition: background .2s; }
     .isvc-feature-item:hover { background: rgba(232,244,244,1); }
-    .isvc-feature-check { width: 18px; height: 18px; border-radius: 5px; background: linear-gradient(135deg, #1a5f5f, #2d8a8a); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
-    .isvc-feature-check i { color: #fff; font-size: 0.5rem; }
-    .isvc-feature-text { font-family: 'DM Sans', sans-serif; font-size: 0.77rem; color: #2a4a3a; line-height: 1.45; font-weight: 500; }
-
-    .isvc-stats-row { display: flex; gap: 10px; }
-    .isvc-stat-chip { flex: 1; padding: 11px 14px; background: #0f3d3e; border-radius: 12px; text-align: center; }
-    .isvc-stat-chip .sc-val { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.2rem; font-weight: 800; color: #d4a574; line-height: 1; margin-bottom: 3px; }
-    .isvc-stat-chip .sc-lbl { font-family: 'DM Sans', sans-serif; font-size: 0.62rem; color: rgba(255,255,255,.5); letter-spacing: 0.05em; text-transform: uppercase; }
-
-    .isvc-cta-row { display: flex; gap: 10px; flex-wrap: wrap; padding-top: 2px; }
-    .isvc-btn-primary { display: inline-flex; align-items: center; gap: 7px; padding: 11px 22px; background: linear-gradient(135deg, #1a5f5f 0%, #2d8a8a 100%); color: #fff; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.83rem; font-weight: 700; border-radius: 999px; border: none; cursor: pointer; text-decoration: none; transition: all .25s ease; box-shadow: 0 4px 16px rgba(26,95,95,.28); }
-    .isvc-btn-primary:hover { background: linear-gradient(135deg, #0f3d3e 0%, #1a5f5f 100%); box-shadow: 0 6px 22px rgba(26,95,95,.42); transform: translateY(-1px); }
-    .isvc-btn-ghost { display: inline-flex; align-items: center; gap: 7px; padding: 11px 22px; background: transparent; color: #1a5f5f; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.83rem; font-weight: 700; border-radius: 999px; border: 2px solid rgba(26,95,95,.22); cursor: pointer; text-decoration: none; transition: all .25s ease; }
-    .isvc-btn-ghost:hover { background: rgba(26,95,95,.07); border-color: rgba(26,95,95,.5); }
-
-    .isvc-progress-bar { position: absolute; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, #1a5f5f, #2d8a8a, #d4a574); border-radius: 0 3px 0 0; transition: width .4s ease; z-index: 10; }
-
-    .isvc-reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+    .isvc-feature-check { width: 17px; height: 17px; border-radius: 5px; background: linear-gradient(135deg,#1a5f5f,#2d8a8a); display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .isvc-feature-check i { color: #fff; font-size: 0.48rem; }
+    .isvc-feature-text { font-family: 'DM Sans',sans-serif; font-size: 0.75rem; color: #2a4a3a; line-height: 1.45; font-weight: 500; }
+    .isvc-stats-row { display: flex; gap: 9px; }
+    .isvc-stat-chip { flex: 1; padding: 10px 12px; background: #0f3d3e; border-radius: 11px; text-align: center; }
+    .isvc-stat-chip .sc-val { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.15rem; font-weight: 800; color: #d4a574; line-height: 1; margin-bottom: 2px; }
+    .isvc-stat-chip .sc-lbl { font-family: 'DM Sans',sans-serif; font-size: 0.6rem; color: rgba(255,255,255,.45); letter-spacing: .05em; text-transform: uppercase; }
+    .isvc-cta-row { display: flex; gap: 9px; flex-wrap: wrap; }
+    .isvc-btn-primary { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; background: linear-gradient(135deg,#1a5f5f,#2d8a8a); color: #fff; font-family: 'Plus Jakarta Sans',sans-serif; font-size: 0.81rem; font-weight: 700; border-radius: 999px; border: none; cursor: pointer; text-decoration: none; transition: all .22s ease; box-shadow: 0 4px 14px rgba(26,95,95,.25); }
+    .isvc-btn-primary:hover { background: linear-gradient(135deg,#0f3d3e,#1a5f5f); box-shadow: 0 6px 20px rgba(26,95,95,.4); transform: translateY(-1px); }
+    .isvc-btn-ghost { display: inline-flex; align-items: center; gap: 6px; padding: 10px 20px; background: transparent; color: #1a5f5f; font-family: 'Plus Jakarta Sans',sans-serif; font-size: 0.81rem; font-weight: 700; border-radius: 999px; border: 2px solid rgba(26,95,95,.2); cursor: pointer; text-decoration: none; transition: all .22s ease; }
+    .isvc-btn-ghost:hover { background: rgba(26,95,95,.07); border-color: rgba(26,95,95,.45); }
+    .isvc-progress-bar { position: absolute; top: 0; left: 0; height: 3px; background: linear-gradient(90deg,#1a5f5f,#2d8a8a,#d4a574); border-radius: 0 3px 0 0; transition: width .4s ease; z-index: 10; }
+    .isvc-reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s ease; }
     .isvc-reveal.visible { opacity: 1; transform: translateY(0); }
     .isvc-reveal-delay-1 { transition-delay: .15s; }
 
-    @media (max-width: 900px) {
+    /* Mobile accordion */
+    .isvc-accordion-content { display: none; }
+    @media (max-width: 960px) {
       .isvc-layout { grid-template-columns: 1fr; gap: 0; }
       .isvc-panel-wrap { display: none; }
-      .isvc-tab { flex-direction: column; align-items: stretch; gap: 0; padding: 0; transform: none !important; }
-      .isvc-tab-trigger { display: flex; align-items: center; gap: 12px; padding: 15px 18px; width: 100%; }
-      .isvc-tab-chevron { margin-left: auto; }
+      .isvc-tabs { gap: 6px; }
+      .isvc-tab { flex-direction: column; align-items: stretch; gap: 0; padding: 0; transform: none !important; border-radius: 13px; }
+      .isvc-tab::before { display: none; }
+      .isvc-tab-trigger { display: flex !important; align-items: center; gap: 12px; padding: 14px 16px; width: 100%; }
+      .isvc-tab-chevron { margin-left: auto; transition: transform .3s ease, background .25s, color .25s; }
       .isvc-tab.active .isvc-tab-chevron { transform: rotate(90deg); }
-      .isvc-accordion-content { max-height: 0; overflow: hidden; transition: max-height .5s cubic-bezier(.4,0,.2,1); }
-      .isvc-tab.active .isvc-accordion-content { max-height: 1100px; }
-      .isvc-acc-img { width: 100%; height: 200px; object-fit: cover; display: block; }
-      .isvc-acc-body { padding: 20px 18px 22px; }
+      .isvc-accordion-content { display: block; max-height: 0; overflow: hidden; transition: max-height .5s cubic-bezier(.4,0,.2,1); }
+      .isvc-tab.active .isvc-accordion-content { max-height: 1200px; }
+      .isvc-acc-img { width: 100%; height: 190px; object-fit: cover; display: block; }
+      .isvc-acc-body { padding: 18px 16px 20px; }
       .isvc-features { grid-template-columns: 1fr; }
-      .isvc-btn-primary, .isvc-btn-ghost { padding: 10px 18px; font-size: 0.8rem; flex: 1; justify-content: center; }
+      .isvc-btn-primary, .isvc-btn-ghost { flex: 1; justify-content: center; font-size: 0.78rem; }
     }
+
+    /* ============================================================
+       9b. FOOTER STYLES
+       ============================================================ */
+    .footer-top-rule { height: 1px; background: linear-gradient(90deg,transparent 0%,rgba(45,138,138,.5) 25%,rgba(212,165,116,.6) 55%,rgba(45,138,138,.5) 75%,transparent 100%); }
+    .footer-cta-strip { background: rgba(255,255,255,.04); border-bottom: 1px solid rgba(255,255,255,.07); }
+    .footer-col-title { font-family: 'Plus Jakarta Sans',sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: #d4a574; margin-bottom: 18px; padding-bottom: 10px; position: relative; }
+    .footer-col-title::after { content: ''; position: absolute; bottom: 0; left: 0; width: 28px; height: 1.5px; background: #d4a574; border-radius: 2px; opacity: .7; }
+    .footer-link-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0; }
+    .footer-link-list li a, .footer-link-list li button { display: flex; align-items: center; gap: 9px; padding: 7px 0; font-family: 'DM Sans',sans-serif; font-size: .84rem; font-weight: 400; color: rgba(255,255,255,.5); text-decoration: none; background: none; border: none; cursor: pointer; width: 100%; text-align: left; border-bottom: 1px solid rgba(255,255,255,.04); transition: color .22s ease, padding-left .22s ease; line-height: 1.4; }
+    .footer-link-list li:last-child a, .footer-link-list li:last-child button { border-bottom: none; }
+    .footer-link-list li a:hover, .footer-link-list li button:hover { color: rgba(255,255,255,.92); padding-left: 6px; }
+    .footer-link-list li a .fl-icon, .footer-link-list li button .fl-icon { width: 18px; height: 18px; border-radius: 5px; background: rgba(45,138,138,.15); display: inline-flex; align-items: center; justify-content: center; font-size: .6rem; color: #2d8a8a; flex-shrink: 0; transition: background .22s, color .22s; }
+    .footer-link-list li a:hover .fl-icon, .footer-link-list li button:hover .fl-icon { background: rgba(45,138,138,.32); color: #7dd3d3; }
+    .footer-live-chip { display: inline-flex; align-items: center; gap: 4px; padding: 1px 6px; background: rgba(74,222,128,.12); border: 1px solid rgba(74,222,128,.3); border-radius: 999px; font-family: 'DM Sans',sans-serif; font-size: .56rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: #4ade80; margin-left: auto; }
+    .footer-live-chip::before { content: ''; width: 4px; height: 4px; background: #4ade80; border-radius: 50%; flex-shrink: 0; animation: ftLivePulse 2s ease-in-out infinite; }
+    @keyframes ftLivePulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.35; transform:scale(1.5); } }
+    .footer-cert-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
+    .footer-cert-badge { display: inline-flex; align-items: center; gap: 5px; padding: 4px 10px; background: rgba(45,138,138,.1); border: 1px solid rgba(45,138,138,.22); border-radius: 6px; font-family: 'DM Sans',sans-serif; font-size: .64rem; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: rgba(45,170,170,.9); transition: background .2s; }
+    .footer-cert-badge:hover { background: rgba(45,138,138,.2); }
+    .footer-cert-badge i { font-size: .58rem; opacity: .8; }
+    .footer-social-row { display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+    .footer-social-btn { width: 36px; height: 36px; border-radius: 9px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.45); font-size: .82rem; text-decoration: none; transition: all .22s ease; }
+    .footer-social-btn:hover { background: rgba(45,138,138,.22); border-color: rgba(45,138,138,.5); color: #7dd3d3; transform: translateY(-2px); }
+    .footer-social-btn.wa:hover { background: rgba(37,211,102,.15); border-color: rgba(37,211,102,.4); color: #25D366; }
+    .footer-contact-row { display: flex; align-items: flex-start; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,.05); }
+    .footer-contact-row:last-child { border-bottom: none; }
+    .footer-contact-icon-box { width: 28px; height: 28px; background: rgba(45,138,138,.14); border: 1px solid rgba(45,138,138,.2); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: .65rem; color: #2d8a8a; flex-shrink: 0; margin-top: 1px; }
+    .footer-contact-label { font-family: 'DM Sans',sans-serif; font-size: .6rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.25); margin-bottom: 1px; }
+    .footer-contact-value { font-family: 'DM Sans',sans-serif; font-size: .8rem; color: rgba(255,255,255,.52); line-height: 1.45; transition: color .2s; }
+    .footer-contact-row:hover .footer-contact-value { color: rgba(255,255,255,.78); }
+    .footer-contact-value a { color: inherit; text-decoration: none; transition: color .2s; }
+    .footer-contact-value a:hover { color: #7dd3d3; }
+    .footer-bottom-bar { border-top: 1px solid rgba(255,255,255,.07); }
+    .footer-legal-btn { background: none; border: none; font-family: 'DM Sans',sans-serif; font-size: .72rem; color: rgba(255,255,255,.22); cursor: pointer; text-decoration: none; padding: 2px 8px; border-radius: 4px; transition: color .18s, background .18s; display: inline-block; }
+    .footer-legal-btn:hover { color: rgba(255,255,255,.55); background: rgba(255,255,255,.05); }
+    .footer-legal-sep { display: inline-block; width: 1px; height: 10px; background: rgba(255,255,255,.12); vertical-align: middle; }
+    .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; gap: clamp(24px,3.5vw,52px); align-items: start; }
+    @media (max-width: 1100px) {
+      .footer-grid { grid-template-columns: 1fr 1fr 1fr; gap: 36px 32px; }
+      .footer-brand-col { grid-column: 1/-1; display: grid; grid-template-columns: auto 1fr; gap: 0 36px; }
+      .footer-brand-desc-block { grid-column: 1/-1; }
+    }
+    @media (max-width: 700px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; gap: 32px 24px; }
+      .footer-brand-col { grid-column: 1/-1; display: block; }
+      .footer-contact-col { grid-column: 1/-1; }
+      .footer-cta-strip-inner { flex-direction: column; align-items: flex-start; }
+      .footer-cta-strip-btns { width: 100%; }
+      .footer-cta-strip-btn { flex: 1; justify-content: center; }
+    }
+    @media (max-width: 480px) {
+      .footer-grid { grid-template-columns: 1fr; }
+      .footer-bottom-inner { flex-direction: column; align-items: flex-start; gap: 12px; }
+    }
+    #navbar .flex.items-center.space-x-3 { cursor: pointer; }
 
     /* ============================================================
        10. TECHNOLOGY / EQUIPMENT CARDS
@@ -777,52 +717,34 @@
 
 <!-- ============================================================
      SERVICES — INTERACTIVE SPLIT-PANEL
-     Click a service tab on the left to reveal the full detail
-     panel on the right. Mobile collapses to an accordion.
      ============================================================ -->
 <section id="services" class="isvc-section">
-
-  <!-- Section header -->
   <div class="isvc-header">
     <div class="showcase-eyebrow">Our Expertise</div>
-    <h2 style="font-size:clamp(2rem,5vw,3.2rem);font-weight:800;letter-spacing:-0.04em;color:#0f3d3e;line-height:1.15;margin-bottom:14px;font-family:'Plus Jakarta Sans',sans-serif;">
-      Solutions for <em style="font-style:normal;color:#2d8a8a;">every</em><br>environmental challenge
-    </h2>
-    <p style="font-size:1rem;color:#5a7a6a;max-width:480px;margin:0 auto;line-height:1.7;font-family:'DM Sans',sans-serif;">
-      Full-spectrum environmental monitoring and consultancy across the Kingdom of Saudi Arabia.
-    </p>
+    <h2 style="font-size:clamp(2rem,5vw,3.2rem);font-weight:800;letter-spacing:-0.04em;color:#0f3d3e;line-height:1.15;margin-bottom:14px;font-family:'Plus Jakarta Sans',sans-serif;">Solutions for <em style="font-style:normal;color:#2d8a8a;">every</em><br>environmental challenge</h2>
+    <p style="font-size:1rem;color:#5a7a6a;max-width:480px;margin:0 auto;line-height:1.7;font-family:'DM Sans',sans-serif;">Full-spectrum environmental monitoring and consultancy across the Kingdom of Saudi Arabia.</p>
   </div>
 
-  <!-- Main two-column layout -->
   <div class="isvc-layout">
-
-    <!-- LEFT: Service tab list -->
+    <!-- LEFT: tabs -->
     <div class="isvc-tabs isvc-reveal" id="isvcTabs">
 
-      <div class="isvc-tab active" data-svc="0" onclick="selectService(0)">
-        <div class="isvc-tab-trigger" style="display:flex;align-items:center;gap:12px;">
-          <div class="isvc-tab-num">01</div>
-          <div class="isvc-tab-icon"><i class="fas fa-wind"></i></div>
-          <div class="isvc-tab-body">
-            <div class="isvc-tab-name">Ambient Air Quality</div>
-            <div class="isvc-tab-short">PM2.5, PM10, NO₂, SO₂ &amp; ozone</div>
-          </div>
+      <div class="isvc-tab active" onclick="selectService(0)">
+        <div class="isvc-tab-trigger" style="display:flex;align-items:center;gap:12px;width:100%;">
+          <div class="isvc-tab-num">01</div><div class="isvc-tab-icon"><i class="fas fa-wind"></i></div>
+          <div class="isvc-tab-body"><div class="isvc-tab-name">Ambient Air Quality</div><div class="isvc-tab-short">PM2.5, PM10, NO₂, SO₂ &amp; ozone</div></div>
           <div class="isvc-tab-chevron"><i class="fas fa-chevron-right"></i></div>
         </div>
         <div class="isvc-accordion-content">
-          <img class="isvc-acc-img" src="https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800&h=400&fit=crop&q=80" alt="Ambient Air Quality" onerror="this.src='https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&h=400&fit=crop'"/>
+          <img class="isvc-acc-img" src="https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800&h=400&fit=crop&q=80" alt="Ambient Air Quality"/>
           <div class="isvc-acc-body" id="isvc-acc-body-0"></div>
         </div>
       </div>
 
-      <div class="isvc-tab" data-svc="1" onclick="selectService(1)">
-        <div class="isvc-tab-trigger" style="display:flex;align-items:center;gap:12px;">
-          <div class="isvc-tab-num">02</div>
-          <div class="isvc-tab-icon"><i class="fas fa-smog"></i></div>
-          <div class="isvc-tab-body">
-            <div class="isvc-tab-name">Stack Emission Testing</div>
-            <div class="isvc-tab-short">US EPA Method 5/9 · Industrial stacks</div>
-          </div>
+      <div class="isvc-tab" onclick="selectService(1)">
+        <div class="isvc-tab-trigger" style="display:flex;align-items:center;gap:12px;width:100%;">
+          <div class="isvc-tab-num">02</div><div class="isvc-tab-icon"><i class="fas fa-smog"></i></div>
+          <div class="isvc-tab-body"><div class="isvc-tab-name">Stack Emission Testing</div><div class="isvc-tab-short">US EPA Method 5/9 · Industrial stacks</div></div>
           <div class="isvc-tab-chevron"><i class="fas fa-chevron-right"></i></div>
         </div>
         <div class="isvc-accordion-content">
@@ -831,14 +753,10 @@
         </div>
       </div>
 
-      <div class="isvc-tab" data-svc="2" onclick="selectService(2)">
-        <div class="isvc-tab-trigger" style="display:flex;align-items:center;gap:12px;">
-          <div class="isvc-tab-num">03</div>
-          <div class="isvc-tab-icon"><i class="fas fa-building"></i></div>
-          <div class="isvc-tab-body">
-            <div class="isvc-tab-name">Indoor Air Quality</div>
-            <div class="isvc-tab-short">TVOC, formaldehyde, CO₂ profiling</div>
-          </div>
+      <div class="isvc-tab" onclick="selectService(2)">
+        <div class="isvc-tab-trigger" style="display:flex;align-items:center;gap:12px;width:100%;">
+          <div class="isvc-tab-num">03</div><div class="isvc-tab-icon"><i class="fas fa-building"></i></div>
+          <div class="isvc-tab-body"><div class="isvc-tab-name">Indoor Air Quality</div><div class="isvc-tab-short">TVOC, formaldehyde, CO₂ profiling</div></div>
           <div class="isvc-tab-chevron"><i class="fas fa-chevron-right"></i></div>
         </div>
         <div class="isvc-accordion-content">
@@ -847,14 +765,10 @@
         </div>
       </div>
 
-      <div class="isvc-tab" data-svc="3" onclick="selectService(3)">
-        <div class="isvc-tab-trigger" style="display:flex;align-items:center;gap:12px;">
-          <div class="isvc-tab-num">04</div>
-          <div class="isvc-tab-icon"><i class="fas fa-mountain"></i></div>
-          <div class="isvc-tab-body">
-            <div class="isvc-tab-name">Environmental Impact Assessment</div>
-            <div class="isvc-tab-short">EIA/ESIA · NCEC/IFC standards</div>
-          </div>
+      <div class="isvc-tab" onclick="selectService(3)">
+        <div class="isvc-tab-trigger" style="display:flex;align-items:center;gap:12px;width:100%;">
+          <div class="isvc-tab-num">04</div><div class="isvc-tab-icon"><i class="fas fa-mountain"></i></div>
+          <div class="isvc-tab-body"><div class="isvc-tab-name">Environmental Impact Assessment</div><div class="isvc-tab-short">EIA/ESIA · NCEC / IFC standards</div></div>
           <div class="isvc-tab-chevron"><i class="fas fa-chevron-right"></i></div>
         </div>
         <div class="isvc-accordion-content">
@@ -863,14 +777,10 @@
         </div>
       </div>
 
-      <div class="isvc-tab" data-svc="4" onclick="selectService(4)">
-        <div class="isvc-tab-trigger" style="display:flex;align-items:center;gap:12px;">
-          <div class="isvc-tab-num">05</div>
-          <div class="isvc-tab-icon"><i class="fas fa-tint"></i></div>
-          <div class="isvc-tab-body">
-            <div class="isvc-tab-name">Water &amp; Soil Analysis</div>
-            <div class="isvc-tab-short">Heavy metals, VOCs · ISO/IEC 17025</div>
-          </div>
+      <div class="isvc-tab" onclick="selectService(4)">
+        <div class="isvc-tab-trigger" style="display:flex;align-items:center;gap:12px;width:100%;">
+          <div class="isvc-tab-num">05</div><div class="isvc-tab-icon"><i class="fas fa-tint"></i></div>
+          <div class="isvc-tab-body"><div class="isvc-tab-name">Water &amp; Soil Analysis</div><div class="isvc-tab-short">Heavy metals, VOCs · ISO/IEC 17025</div></div>
           <div class="isvc-tab-chevron"><i class="fas fa-chevron-right"></i></div>
         </div>
         <div class="isvc-accordion-content">
@@ -879,14 +789,10 @@
         </div>
       </div>
 
-      <div class="isvc-tab" data-svc="5" onclick="selectService(5)">
-        <div class="isvc-tab-trigger" style="display:flex;align-items:center;gap:12px;">
-          <div class="isvc-tab-num">06</div>
-          <div class="isvc-tab-icon"><i class="fas fa-leaf"></i></div>
-          <div class="isvc-tab-body">
-            <div class="isvc-tab-name">Environmental Management Plans</div>
-            <div class="isvc-tab-short">EMP design · ISO 14001 audit support</div>
-          </div>
+      <div class="isvc-tab" onclick="selectService(5)">
+        <div class="isvc-tab-trigger" style="display:flex;align-items:center;gap:12px;width:100%;">
+          <div class="isvc-tab-num">06</div><div class="isvc-tab-icon"><i class="fas fa-leaf"></i></div>
+          <div class="isvc-tab-body"><div class="isvc-tab-name">Environmental Management Plans</div><div class="isvc-tab-short">EMP design · ISO 14001 audit support</div></div>
           <div class="isvc-tab-chevron"><i class="fas fa-chevron-right"></i></div>
         </div>
         <div class="isvc-accordion-content">
@@ -897,72 +803,35 @@
 
     </div><!-- /isvc-tabs -->
 
-    <!-- RIGHT: Detail panel (desktop only) -->
+    <!-- RIGHT: detail panel (desktop) -->
     <div class="isvc-panel-wrap isvc-reveal isvc-reveal-delay-1" id="isvcPanelWrap">
       <div class="isvc-progress-bar" id="isvcProgressBar" style="width:16.66%"></div>
 
       <div class="isvc-panel active" id="isvc-panel-0">
-        <div class="isvc-panel-img">
-          <img src="https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=1200&h=600&fit=crop&q=80" alt="Ambient Air Quality" onerror="this.src='https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1200&h=600&fit=crop'"/>
-          <div class="isvc-panel-img-overlay"></div>
-          <div class="isvc-panel-badge" style="background:rgba(45,138,138,.55);">24 / 7 Monitoring</div>
-          <div class="isvc-panel-watermark">01</div>
-        </div>
+        <div class="isvc-panel-img"><img src="https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=1200&h=520&fit=crop&q=80" alt="Ambient Air Quality" onerror="this.src='https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1200&h=520&fit=crop'"/><div class="isvc-panel-img-overlay"></div><div class="isvc-panel-badge" style="background:rgba(45,138,138,.55);">24/7 Monitoring</div><div class="isvc-panel-watermark">01</div></div>
         <div class="isvc-panel-body" id="isvc-panel-body-0"></div>
       </div>
-
       <div class="isvc-panel" id="isvc-panel-1">
-        <div class="isvc-panel-img">
-          <img src="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=1200&h=600&fit=crop&q=80" alt="Stack Emission Testing" onerror="this.src='https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1200&h=600&fit=crop'"/>
-          <div class="isvc-panel-img-overlay"></div>
-          <div class="isvc-panel-badge" style="background:rgba(180,80,30,.6);">EPA Certified</div>
-          <div class="isvc-panel-watermark">02</div>
-        </div>
+        <div class="isvc-panel-img"><img src="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=1200&h=520&fit=crop&q=80" alt="Stack Emission" onerror="this.src='https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=1200&h=520&fit=crop'"/><div class="isvc-panel-img-overlay"></div><div class="isvc-panel-badge" style="background:rgba(180,80,30,.6);">EPA Certified</div><div class="isvc-panel-watermark">02</div></div>
         <div class="isvc-panel-body" id="isvc-panel-body-1"></div>
       </div>
-
       <div class="isvc-panel" id="isvc-panel-2">
-        <div class="isvc-panel-img">
-          <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=600&fit=crop&q=80" alt="Indoor Air Quality" onerror="this.src='https://images.unsplash.com/photo-1497366754035-f200581f0b4c?w=1200&h=600&fit=crop'"/>
-          <div class="isvc-panel-img-overlay"></div>
-          <div class="isvc-panel-badge" style="background:rgba(90,40,160,.55);">IAQ Assessment</div>
-          <div class="isvc-panel-watermark">03</div>
-        </div>
+        <div class="isvc-panel-img"><img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&h=520&fit=crop&q=80" alt="Indoor Air" onerror="this.src='https://images.unsplash.com/photo-1497366754035-f200581f0b4c?w=1200&h=520&fit=crop'"/><div class="isvc-panel-img-overlay"></div><div class="isvc-panel-badge" style="background:rgba(90,40,160,.55);">IAQ Assessment</div><div class="isvc-panel-watermark">03</div></div>
         <div class="isvc-panel-body" id="isvc-panel-body-2"></div>
       </div>
-
       <div class="isvc-panel" id="isvc-panel-3">
-        <div class="isvc-panel-img">
-          <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&h=600&fit=crop&q=80" alt="EIA" onerror="this.src='https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1200&h=600&fit=crop'"/>
-          <div class="isvc-panel-img-overlay"></div>
-          <div class="isvc-panel-badge" style="background:rgba(20,100,50,.6);">NCEC / IFC</div>
-          <div class="isvc-panel-watermark">04</div>
-        </div>
+        <div class="isvc-panel-img"><img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1200&h=520&fit=crop&q=80" alt="EIA" onerror="this.src='https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=1200&h=520&fit=crop'"/><div class="isvc-panel-img-overlay"></div><div class="isvc-panel-badge" style="background:rgba(20,100,50,.6);">NCEC / IFC</div><div class="isvc-panel-watermark">04</div></div>
         <div class="isvc-panel-body" id="isvc-panel-body-3"></div>
       </div>
-
       <div class="isvc-panel" id="isvc-panel-4">
-        <div class="isvc-panel-img">
-          <img src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1200&h=600&fit=crop&q=80" alt="Water Analysis" onerror="this.src='https://images.unsplash.com/photo-1559825481-12a05cc00344?w=1200&h=600&fit=crop'"/>
-          <div class="isvc-panel-img-overlay"></div>
-          <div class="isvc-panel-badge" style="background:rgba(26,70,160,.55);">ISO/IEC 17025</div>
-          <div class="isvc-panel-watermark">05</div>
-        </div>
+        <div class="isvc-panel-img"><img src="https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=1200&h=520&fit=crop&q=80" alt="Water Analysis" onerror="this.src='https://images.unsplash.com/photo-1559825481-12a05cc00344?w=1200&h=520&fit=crop'"/><div class="isvc-panel-img-overlay"></div><div class="isvc-panel-badge" style="background:rgba(26,70,160,.55);">ISO/IEC 17025</div><div class="isvc-panel-watermark">05</div></div>
         <div class="isvc-panel-body" id="isvc-panel-body-4"></div>
       </div>
-
       <div class="isvc-panel" id="isvc-panel-5">
-        <div class="isvc-panel-img">
-          <img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=1200&h=600&fit=crop&q=80" alt="Environmental Management" onerror="this.src='https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=1200&h=600&fit=crop'"/>
-          <div class="isvc-panel-img-overlay"></div>
-          <div class="isvc-panel-badge" style="background:rgba(45,138,138,.55);">ISO 14001</div>
-          <div class="isvc-panel-watermark">06</div>
-        </div>
+        <div class="isvc-panel-img"><img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=1200&h=520&fit=crop&q=80" alt="Environmental Management" onerror="this.src='https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=1200&h=520&fit=crop'"/><div class="isvc-panel-img-overlay"></div><div class="isvc-panel-badge" style="background:rgba(45,138,138,.55);">ISO 14001</div><div class="isvc-panel-watermark">06</div></div>
         <div class="isvc-panel-body" id="isvc-panel-body-5"></div>
       </div>
-
     </div><!-- /isvc-panel-wrap -->
-
   </div><!-- /isvc-layout -->
 </section>
 
@@ -1365,22 +1234,156 @@
 
 
 <!-- ============================================================
-     FOOTER
+     FOOTER — ENHANCED
      ============================================================ -->
-<footer class="bg-aecon-dark text-white py-12 border-t border-white/10">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid md:grid-cols-4 gap-8 mb-8">
-      <div>
-        <div class="flex items-center space-x-3 mb-4"><div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-aecon-dark font-bold text-xl">A</div><div><h3 class="text-xl font-bold">AECON</h3><p class="text-xs text-gray-400">ALEMAD ALARABI</p></div></div>
-        <p class="text-gray-400 text-sm">Environmental Excellence for a Sustainable Future</p>
+<footer class="bg-aecon-dark text-white" style="background:#0f3d3e;">
+
+  <div class="footer-top-rule"></div>
+
+  <!-- CTA strip -->
+  <div class="footer-cta-strip">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-7">
+      <div class="footer-cta-strip-inner flex flex-wrap items-center justify-between gap-5">
+        <div>
+          <p style="font-size:0.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#d4a574;margin-bottom:4px;font-family:'DM Sans',sans-serif;">Start Your Project</p>
+          <p style="font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(.95rem,1.8vw,1.15rem);font-weight:700;color:#fff;letter-spacing:-.01em;">Ready to discuss your environmental monitoring requirements?</p>
+        </div>
+        <div class="footer-cta-strip-btns flex flex-wrap gap-3">
+          <a href="#contact" class="footer-cta-strip-btn"
+             style="display:inline-flex;align-items:center;gap:7px;padding:10px 22px;background:linear-gradient(135deg,#1a5f5f,#2d8a8a);color:#fff;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;letter-spacing:.02em;border-radius:999px;text-decoration:none;cursor:pointer;transition:all .22s ease;box-shadow:0 4px 18px rgba(45,138,138,.3);white-space:nowrap;"
+             onmouseover="this.style.boxShadow='0 6px 26px rgba(45,138,138,.5)';this.style.transform='translateY(-1px)'"
+             onmouseout="this.style.boxShadow='0 4px 18px rgba(45,138,138,.3)';this.style.transform='translateY(0)'">
+            <i class="fas fa-paper-plane" style="font-size:.75rem;"></i> Request Consultation
+          </a>
+          <a href="https://wa.me/966503361798?text=Hi+AECON%2C+I+need+an+environmental+service+quote" target="_blank" rel="noopener" class="footer-cta-strip-btn"
+             style="display:inline-flex;align-items:center;gap:7px;padding:10px 22px;background:transparent;color:#87a878;font-family:'DM Sans',sans-serif;font-size:.82rem;font-weight:600;border-radius:999px;border:1.5px solid rgba(135,168,120,.35);text-decoration:none;transition:all .22s ease;white-space:nowrap;"
+             onmouseover="this.style.background='rgba(135,168,120,.1)';this.style.borderColor='rgba(135,168,120,.6)'"
+             onmouseout="this.style.background='transparent';this.style.borderColor='rgba(135,168,120,.35)'">
+            <i class="fab fa-whatsapp" style="font-size:.88rem;"></i> WhatsApp Us
+          </a>
+        </div>
       </div>
-      <div><h4 class="font-bold mb-4">Services</h4><ul class="space-y-2 text-sm text-gray-400"><li><a href="#" class="hover:text-white transition-colors">Air Quality Monitoring</a></li><li><a href="#" class="hover:text-white transition-colors">Stack Emission Testing</a></li><li><a href="#" class="hover:text-white transition-colors">Environmental Consultancy</a></li><li><a href="#" class="hover:text-white transition-colors">Laboratory Analysis</a></li></ul></div>
-      <div><h4 class="font-bold mb-4">Tools</h4><ul class="space-y-2 text-sm text-gray-400"><li><button onclick="openPortal()"             class="hover:text-white transition-colors text-left">Client Portal</button></li><li><button onclick="openCalculator('compliance')" class="hover:text-white transition-colors text-left">Compliance Checker</button></li><li><button onclick="openCalculator('carbon')"    class="hover:text-white transition-colors text-left">Carbon Calculator</button></li><li><a href="#env-news-section" class="hover:text-white transition-colors">News Bulletin</a></li></ul></div>
-      <div><h4 class="font-bold mb-4">Connect</h4><div class="flex space-x-4"><a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-aecon-accent transition-all"><i class="fab fa-linkedin-in"></i></a><a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-aecon-accent transition-all"><i class="fab fa-twitter"></i></a><a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-aecon-accent transition-all"><i class="fab fa-facebook-f"></i></a></div></div>
     </div>
-    <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
-      <p>© 2025 AECON – ALEMAD ALARABI Environmental Consultancy. All rights reserved.</p>
-      <p class="mt-2 md:mt-0">Prepared by: Sikander Chishti, Environmental Engineer</p>
+  </div>
+
+  <!-- Main grid -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-12">
+    <div class="footer-grid">
+
+      <!-- Brand col -->
+      <div class="footer-brand-col">
+        <a href="#" id="footerLogoAnchor" aria-label="AECON — back to top"
+           style="display:inline-flex;align-items:center;gap:12px;text-decoration:none;margin-bottom:18px;cursor:pointer;">
+          <div style="width:44px;height:44px;background:linear-gradient(135deg,#1a5f5f,#2d8a8a);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:1.25rem;font-weight:800;color:#fff;flex-shrink:0;box-shadow:0 4px 14px rgba(45,138,138,.35);transition:transform .25s,box-shadow .25s;"
+               onmouseover="this.style.transform='scale(1.07)';this.style.boxShadow='0 6px 20px rgba(45,138,138,.5)'"
+               onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 14px rgba(45,138,138,.35)'">A</div>
+          <div>
+            <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.2rem;font-weight:800;color:#fff;letter-spacing:.02em;line-height:1.1;">AECON</div>
+            <div style="font-family:'DM Sans',sans-serif;font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#2d8a8a;margin-top:3px;">Alemad Alarabi</div>
+          </div>
+        </a>
+        <div class="footer-brand-desc-block">
+          <p style="font-family:'DM Sans',sans-serif;font-size:.82rem;line-height:1.75;color:rgba(255,255,255,.45);margin-bottom:0;">Leading environmental consultancy in Riyadh, KSA. Delivering precision air quality monitoring, stack emission testing, EIA, and compliance services across the Kingdom and Middle East since 2014.</p>
+          <div class="footer-cert-row">
+            <span class="footer-cert-badge"><i class="fas fa-award"></i> ISO/IEC 17025</span>
+            <span class="footer-cert-badge"><i class="fas fa-leaf"></i> ISO 14001</span>
+            <span class="footer-cert-badge"><i class="fas fa-globe-americas"></i> US EPA</span>
+            <span class="footer-cert-badge"><i class="fas fa-shield-alt"></i> NCEC</span>
+          </div>
+          <div class="footer-social-row">
+            <a href="#" class="footer-social-btn" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" class="footer-social-btn" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="footer-social-btn" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="https://wa.me/966503361798" target="_blank" rel="noopener" class="footer-social-btn wa" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Company col -->
+      <div>
+        <h4 class="footer-col-title">Company</h4>
+        <ul class="footer-link-list">
+          <li><a href="#overview"><span class="fl-icon"><i class="fas fa-chevron-right"></i></span>Overview</a></li>
+          <li><a href="#technology"><span class="fl-icon"><i class="fas fa-chevron-right"></i></span>Technology</a></li>
+          <li><a href="#process"><span class="fl-icon"><i class="fas fa-chevron-right"></i></span>Our Process</a></li>
+          <li><a href="#clients"><span class="fl-icon"><i class="fas fa-chevron-right"></i></span>Clients</a></li>
+          <li><a href="#env-news-section"><span class="fl-icon"><i class="fas fa-chevron-right"></i></span>News</a></li>
+          <li><a href="index_arabic.html"><span class="fl-icon"><i class="fas fa-chevron-right"></i></span>العربية</a></li>
+        </ul>
+      </div>
+
+      <!-- Services col -->
+      <div>
+        <h4 class="footer-col-title">Services</h4>
+        <ul class="footer-link-list">
+          <li><a href="#services"><span class="fl-icon"><i class="fas fa-chevron-right"></i></span>Ambient Air Quality</a></li>
+          <li><a href="#services"><span class="fl-icon"><i class="fas fa-chevron-right"></i></span>Stack Emission Testing</a></li>
+          <li><a href="#services"><span class="fl-icon"><i class="fas fa-chevron-right"></i></span>Indoor Air Quality</a></li>
+          <li><a href="#services"><span class="fl-icon"><i class="fas fa-chevron-right"></i></span>Impact Assessment</a></li>
+          <li><a href="#services"><span class="fl-icon"><i class="fas fa-chevron-right"></i></span>Water &amp; Soil Analysis</a></li>
+          <li><a href="#services"><span class="fl-icon"><i class="fas fa-chevron-right"></i></span>Environmental Mgmt Plans</a></li>
+        </ul>
+      </div>
+
+      <!-- Tools col -->
+      <div>
+        <h4 class="footer-col-title">Tools &amp; Resources</h4>
+        <ul class="footer-link-list">
+          <li><button onclick="typeof openPortal==='function'&&openPortal()"><span class="fl-icon"><i class="fas fa-chevron-right"></i></span>Client Portal</button></li>
+          <li><button onclick="typeof openCalculator==='function'&&openCalculator('compliance')"><span class="fl-icon"><i class="fas fa-chevron-right"></i></span>Compliance Checker</button></li>
+          <li><button onclick="typeof openCalculator==='function'&&openCalculator('carbon')"><span class="fl-icon"><i class="fas fa-chevron-right"></i></span>Carbon Calculator</button></li>
+          <li><a href="Compliance Hub.html"><span class="fl-icon"><i class="fas fa-chevron-right"></i></span>Compliance Hub</a></li>
+          <li><a href="aqi-map.html"><span class="fl-icon"><i class="fas fa-chevron-right"></i></span>Live AQI Map<span class="footer-live-chip">Live</span></a></li>
+          <li><a href="#env-news-section"><span class="fl-icon"><i class="fas fa-chevron-right"></i></span>News Bulletin</a></li>
+        </ul>
+      </div>
+
+      <!-- Contact col -->
+      <div class="footer-contact-col">
+        <h4 class="footer-col-title">Contact</h4>
+        <div class="footer-contact-row">
+          <div class="footer-contact-icon-box"><i class="fas fa-map-marker-alt"></i></div>
+          <div><div class="footer-contact-label">Head Office</div><div class="footer-contact-value">3083 North Ring Rd<br>Al Muruj · Riyadh 12284, KSA</div></div>
+        </div>
+        <div class="footer-contact-row">
+          <div class="footer-contact-icon-box"><i class="fas fa-envelope"></i></div>
+          <div><div class="footer-contact-label">Email</div><div class="footer-contact-value"><a href="mailto:enviro@aecon-sa.com">enviro@aecon-sa.com</a></div></div>
+        </div>
+        <div class="footer-contact-row">
+          <div class="footer-contact-icon-box"><i class="fas fa-phone"></i></div>
+          <div><div class="footer-contact-label">Phone</div><div class="footer-contact-value"><a href="tel:+966115124979">+966 11 512 4979</a></div></div>
+        </div>
+        <div class="footer-contact-row">
+          <div class="footer-contact-icon-box"><i class="fab fa-whatsapp"></i></div>
+          <div><div class="footer-contact-label">WhatsApp</div><div class="footer-contact-value"><a href="https://wa.me/966503361798" target="_blank" rel="noopener">+966 50 336 1798</a></div></div>
+        </div>
+        <div class="footer-contact-row">
+          <div class="footer-contact-icon-box"><i class="fas fa-code-branch"></i></div>
+          <div><div class="footer-contact-label">Branches</div><div class="footer-contact-value">Jeddah · Dammam · Cairo · Milan</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="footer-bottom-bar">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-5">
+      <div class="footer-bottom-inner flex flex-wrap items-center justify-between gap-4">
+        <div style="display:flex;flex-direction:column;gap:3px;">
+          <p style="font-family:'DM Sans',sans-serif;font-size:.74rem;color:rgba(255,255,255,.25);">© 2025 AECON – ALEMAD ALARABI Environmental Consultancy. All rights reserved.</p>
+          <p style="font-family:'DM Sans',sans-serif;font-size:.66rem;color:rgba(255,255,255,.16);">Prepared by: <span style="color:rgba(45,138,138,.6);">Sikander Chishti</span>, Environmental Engineer</p>
+        </div>
+        <div style="display:flex;align-items:center;flex-wrap:wrap;gap:2px;">
+          <a href="#" class="footer-legal-btn">Privacy Policy</a>
+          <span class="footer-legal-sep"></span>
+          <a href="#" class="footer-legal-btn">Terms of Use</a>
+          <span class="footer-legal-sep"></span>
+          <a href="#" class="footer-legal-btn">Sitemap</a>
+          <span class="footer-legal-sep"></span>
+          <a href="index_arabic.html" class="footer-legal-btn" style="color:rgba(45,138,138,.55);">🌐 العربية</a>
+        </div>
+      </div>
     </div>
   </div>
 </footer>
@@ -1906,217 +1909,150 @@
 
 
 <!-- ============================================================
-     JAVASCRIPT — INTERACTIVE SERVICES
+     JAVASCRIPT — INTERACTIVE SERVICES (fixed)
      ============================================================ -->
 <script>
 (function() {
   'use strict';
 
-  /* ── 1. SERVICE DATA ──────────────────────────────────────────────── */
   var SERVICES = [
     {
-      title:    'Ambient Air Quality Monitoring',
-      subtitle: '24/7 real-time environmental surveillance',
-      icon:     'fas fa-wind',
-      desc:     'AECON deploys state-of-the-art Beta Attenuation Monitors (BAM) and reference-grade gas analysers to continuously measure criteria pollutants across industrial, urban, and sensitive receptor zones. All data streams are telemetrically transmitted to our monitoring centre for immediate regulatory reporting and public health protection.',
-      features: [
-        'PM2.5, PM10 & TSP via BAM/gravimetric samplers',
-        'NO₂, SO₂, CO & ozone — continuous gas analysers',
-        'Real-time telemetric data acquisition & dashboards',
-        '24/7 alarm management & exceedance notifications',
-        'NCEC SAAQS & WHO AQG 2021 compliance reporting',
-        'Meteorological station integration (wind, temp, RH)'
-      ],
-      stats: [{ val:'300+', lbl:'Monitoring Sites' }, { val:'24/7', lbl:'Live Data Feed' }, { val:'SAAQS', lbl:'Compliant' }]
+      title: 'Ambient Air Quality Monitoring', subtitle: '24/7 real-time environmental surveillance', icon: 'fas fa-wind',
+      desc: 'AECON deploys state-of-the-art Beta Attenuation Monitors (BAM) and reference-grade gas analysers to continuously measure criteria pollutants across industrial, urban, and sensitive receptor zones. All data streams are telemetrically transmitted to our monitoring centre for immediate regulatory reporting and public health protection.',
+      features: ['PM2.5, PM10 & TSP via BAM/gravimetric samplers','NO₂, SO₂, CO & ozone — continuous gas analysers','Real-time telemetric data acquisition & dashboards','24/7 alarm management & exceedance notifications','NCEC SAAQS & WHO AQG 2021 compliance reporting','Meteorological station integration (wind, temp, RH)'],
+      stats: [{val:'300+',lbl:'Monitoring Sites'},{val:'24/7',lbl:'Live Data Feed'},{val:'SAAQS',lbl:'Compliant'}]
     },
     {
-      title:    'Stack Emission Testing',
-      subtitle: 'EPA-certified isokinetic source testing',
-      icon:     'fas fa-smog',
-      desc:     'Our qualified stack-testing teams conduct isokinetic sampling on industrial flue gas stacks using US EPA Methods 1–17, NCEC emission protocols, and EN ISO procedures. We serve cement, power generation, oil & gas, chemicals and waste-to-energy facilities, delivering LDAR programmes, CEMS installation, and complete compliance documentation.',
-      features: [
-        'US EPA Methods 1, 4, 5, 9, 17 & NCEC equivalent',
-        'Particulate matter, opacity & opacity audit (Method 9)',
-        'HCl, HF, SO₃, NOx, CO, CO₂, O₂ flue-gas analysis',
-        'CEMS calibration, validation & RATA testing',
-        'Mercury speciation & heavy metals (Methods 29/30B)',
-        'Full permit-ready reports with QA/QC documentation'
-      ],
-      stats: [{ val:'500+', lbl:'Stack Tests Done' }, { val:'EPA', lbl:'Certified Methods' }, { val:'CEMS', lbl:'Validation' }]
+      title: 'Stack Emission Testing', subtitle: 'EPA-certified isokinetic source testing', icon: 'fas fa-smog',
+      desc: 'Our qualified stack-testing teams conduct isokinetic sampling on industrial flue gas stacks using US EPA Methods 1–17, NCEC emission protocols, and EN ISO procedures. We serve cement, power generation, oil & gas, chemicals and waste-to-energy facilities, delivering LDAR programmes, CEMS installation, and complete compliance documentation.',
+      features: ['US EPA Methods 1, 4, 5, 9, 17 & NCEC equivalent','Particulate matter, opacity & opacity audit (Method 9)','HCl, HF, SO₃, NOx, CO, CO₂, O₂ flue-gas analysis','CEMS calibration, validation & RATA testing','Mercury speciation & heavy metals (Methods 29/30B)','Full permit-ready reports with QA/QC documentation'],
+      stats: [{val:'500+',lbl:'Stack Tests Done'},{val:'EPA',lbl:'Certified Methods'},{val:'CEMS',lbl:'Validation'}]
     },
     {
-      title:    'Indoor Air Quality Assessment',
-      subtitle: 'TVOC, microbial & comfort parameter profiling',
-      icon:     'fas fa-building',
-      desc:     'AECON conducts comprehensive IAQ surveys for offices, hospitals, schools, hotels, and residential developments. We quantify TVOC, formaldehyde, CO₂, CO, temperature, humidity, particulates and biological contaminants, benchmarking against ASHRAE 62.1, WHO and NCEC IAQ guidelines to protect occupant health and productivity.',
-      features: [
-        'TVOC & formaldehyde (ISO 16000 methods)',
-        'CO₂, CO, temperature, relative humidity profiling',
-        'PM2.5, PM10 & bioaerosol (mould/bacteria) sampling',
-        'Radon and volatile organic compound speciation',
-        'Ventilation system assessment & HVAC auditing',
-        'Health-risk assessment & remediation recommendations'
-      ],
-      stats: [{ val:'150+', lbl:'IAQ Surveys' }, { val:'ASHRAE', lbl:'62.1 Compliant' }, { val:'WHO', lbl:'Benchmarked' }]
+      title: 'Indoor Air Quality Assessment', subtitle: 'TVOC, microbial & comfort parameter profiling', icon: 'fas fa-building',
+      desc: 'AECON conducts comprehensive IAQ surveys for offices, hospitals, schools, hotels, and residential developments. We quantify TVOC, formaldehyde, CO₂, CO, temperature, humidity, particulates and biological contaminants, benchmarking against ASHRAE 62.1, WHO and NCEC IAQ guidelines to protect occupant health and productivity.',
+      features: ['TVOC & formaldehyde (ISO 16000 methods)','CO₂, CO, temperature, relative humidity profiling','PM2.5, PM10 & bioaerosol (mould/bacteria) sampling','Radon and volatile organic compound speciation','Ventilation system assessment & HVAC auditing','Health-risk assessment & remediation recommendations'],
+      stats: [{val:'150+',lbl:'IAQ Surveys'},{val:'ASHRAE',lbl:'62.1 Compliant'},{val:'WHO',lbl:'Benchmarked'}]
     },
     {
-      title:    'Environmental Impact Assessment',
-      subtitle: 'EIA/ESIA — NCEC, IFC & Equator Principles',
-      icon:     'fas fa-mountain',
-      desc:     'AECON prepares statutory Environmental Impact Assessments (EIA) and Environmental & Social Impact Assessments (ESIA) for industrial plants, infrastructure corridors, coastal developments, and mega-projects aligned with Saudi Vision 2030. Our multi-disciplinary team covers air, noise, water, ecology, socio-economics and cumulative impacts through to regulatory submission.',
-      features: [
-        'Scoping, baseline characterisation & data collection',
-        'Air dispersion modelling (AERMOD, CALPUFF)',
-        'Noise impact assessment & prediction modelling',
-        'Marine & freshwater ecology surveys',
-        'Social impact assessment & stakeholder engagement',
-        'Environmental Management & Monitoring Plans (EMMP)'
-      ],
-      stats: [{ val:'80+', lbl:'EIA Projects' }, { val:'NCEC', lbl:'Approved' }, { val:'IFC', lbl:'Aligned' }]
+      title: 'Environmental Impact Assessment', subtitle: 'EIA/ESIA — NCEC, IFC & Equator Principles', icon: 'fas fa-mountain',
+      desc: 'AECON prepares statutory Environmental Impact Assessments (EIA) and Environmental & Social Impact Assessments (ESIA) for industrial plants, infrastructure corridors, coastal developments, and mega-projects aligned with Saudi Vision 2030. Our multi-disciplinary team covers air, noise, water, ecology, socio-economics and cumulative impacts through to regulatory submission.',
+      features: ['Scoping, baseline characterisation & data collection','Air dispersion modelling (AERMOD, CALPUFF)','Noise impact assessment & prediction modelling','Marine & freshwater ecology surveys','Social impact assessment & stakeholder engagement','Environmental Management & Monitoring Plans (EMMP)'],
+      stats: [{val:'80+',lbl:'EIA Projects'},{val:'NCEC',lbl:'Approved'},{val:'IFC',lbl:'Aligned'}]
     },
     {
-      title:    'Water & Soil Analysis',
-      subtitle: 'Accredited laboratory — ISO/IEC 17025',
-      icon:     'fas fa-tint',
-      desc:     'Our ISO/IEC 17025-accredited laboratory analyses groundwater, surface water, marine water, wastewater, drinking water, and soil/sediment samples using internationally validated methods. We determine physical, chemical, and microbiological parameters from sub-ppb trace metals to full organic panels, supporting regulatory compliance, due diligence, and remediation projects.',
-      features: [
-        'Heavy metals by ICP-MS (sub-ppb detection limits)',
-        'VOC, SVOC, PAHs & TPH by GC-MS/FID',
-        'Physicochemical: pH, EC, TDS, BOD, COD, nutrients',
-        'Microbiological: E. coli, TCC, Legionella, coliforms',
-        'Soil contamination & remediation baseline surveys',
-        'Chain-of-custody documentation & LIMS reporting'
-      ],
-      stats: [{ val:'17025', lbl:'ISO Accredited' }, { val:'200+', lbl:'Parameters Tested' }, { val:'ppt', lbl:'Detection Limits' }]
+      title: 'Water & Soil Analysis', subtitle: 'Accredited laboratory — ISO/IEC 17025', icon: 'fas fa-tint',
+      desc: 'Our ISO/IEC 17025-accredited laboratory analyses groundwater, surface water, marine water, wastewater, drinking water, and soil/sediment samples using internationally validated methods. We determine physical, chemical, and microbiological parameters from sub-ppb trace metals to full organic panels, supporting regulatory compliance, due diligence, and remediation projects.',
+      features: ['Heavy metals by ICP-MS (sub-ppb detection limits)','VOC, SVOC, PAHs & TPH by GC-MS/FID','Physicochemical: pH, EC, TDS, BOD, COD, nutrients','Microbiological: E. coli, TCC, Legionella, coliforms','Soil contamination & remediation baseline surveys','Chain-of-custody documentation & LIMS reporting'],
+      stats: [{val:'17025',lbl:'ISO Accredited'},{val:'200+',lbl:'Parameters Tested'},{val:'ppt',lbl:'Detection Limits'}]
     },
     {
-      title:    'Environmental Management Plans',
-      subtitle: 'ISO 14001 · EMP design · Emergency response',
-      icon:     'fas fa-leaf',
-      desc:     'AECON develops bespoke Environmental Management Plans (EMP), Environmental Monitoring & Management Plans (EMMP), and ISO 14001 Environmental Management Systems (EMS) for clients across construction, operation, and decommissioning phases. We also prepare Emergency Response Plans (ERP), spill contingency plans, and support clients through NCEC and third-party audits.',
-      features: [
-        'Site-specific EMP/EMMP development & implementation',
-        'ISO 14001:2015 gap analysis, design & certification support',
-        'Emergency Response Plans & spill contingency procedures',
-        'Environmental compliance auditing & gap reporting',
-        'Waste management plans & hazardous materials protocols',
-        'Staff environmental training & awareness programmes'
-      ],
-      stats: [{ val:'120+', lbl:'EMP Projects' }, { val:'ISO', lbl:'14001 Certified' }, { val:'KSA', lbl:'NCEC Approved' }]
+      title: 'Environmental Management Plans', subtitle: 'ISO 14001 · EMP design · Emergency response', icon: 'fas fa-leaf',
+      desc: 'AECON develops bespoke Environmental Management Plans (EMP), Environmental Monitoring & Management Plans (EMMP), and ISO 14001 Environmental Management Systems (EMS) for clients across construction, operation, and decommissioning phases. We also prepare Emergency Response Plans (ERP), spill contingency plans, and support clients through NCEC and third-party audits.',
+      features: ['Site-specific EMP/EMMP development & implementation','ISO 14001:2015 gap analysis, design & certification support','Emergency Response Plans & spill contingency procedures','Environmental compliance auditing & gap reporting','Waste management plans & hazardous materials protocols','Staff environmental training & awareness programmes'],
+      stats: [{val:'120+',lbl:'EMP Projects'},{val:'ISO',lbl:'14001 Certified'},{val:'KSA',lbl:'NCEC Approved'}]
     }
   ];
 
-  /* ── 2. HTML BUILDERS ────────────────────────────────────────────── */
-  function buildFeatures(features) {
-    return features.map(function(f) {
-      return '<div class="isvc-feature-item">'
-           + '<div class="isvc-feature-check"><i class="fas fa-check"></i></div>'
-           + '<span class="isvc-feature-text">' + f + '</span>'
-           + '</div>';
-    }).join('');
-  }
-
-  function buildStats(stats) {
-    return stats.map(function(s) {
-      return '<div class="isvc-stat-chip">'
-           + '<div class="sc-val">' + s.val + '</div>'
-           + '<div class="sc-lbl">' + s.lbl + '</div>'
-           + '</div>';
-    }).join('');
-  }
-
-  function buildPanelBody(svc) {
-    return '<div class="isvc-panel-title-row">'
-         +   '<div class="isvc-panel-icon-large"><i class="' + svc.icon + '"></i></div>'
-         +   '<div>'
-         +     '<div class="isvc-panel-title">' + svc.title + '</div>'
-         +     '<div class="isvc-panel-subtitle">' + svc.subtitle + '</div>'
-         +   '</div>'
-         + '</div>'
-         + '<p class="isvc-panel-desc">' + svc.desc + '</p>'
-         + '<div class="isvc-features">' + buildFeatures(svc.features) + '</div>'
-         + '<div class="isvc-stats-row">' + buildStats(svc.stats) + '</div>'
+  function buildBody(svc) {
+    var feat = svc.features.map(function(f){ return '<div class="isvc-feature-item"><div class="isvc-feature-check"><i class="fas fa-check"></i></div><span class="isvc-feature-text">'+f+'</span></div>'; }).join('');
+    var stats = svc.stats.map(function(s){ return '<div class="isvc-stat-chip"><div class="sc-val">'+s.val+'</div><div class="sc-lbl">'+s.lbl+'</div></div>'; }).join('');
+    return '<div class="isvc-panel-title-row"><div class="isvc-panel-icon-large"><i class="'+svc.icon+'"></i></div><div><div class="isvc-panel-title">'+svc.title+'</div><div class="isvc-panel-subtitle">'+svc.subtitle+'</div></div></div>'
+         + '<p class="isvc-panel-desc">'+svc.desc+'</p>'
+         + '<div class="isvc-features">'+feat+'</div>'
+         + '<div class="isvc-stats-row">'+stats+'</div>'
          + '<div class="isvc-cta-row">'
-         +   '<a href="#contact" class="isvc-btn-primary" onclick="document.getElementById(\'contact\').scrollIntoView({behavior:\'smooth\'});return false;">'
-         +     '<i class="fas fa-paper-plane" style="font-size:0.78rem;"></i> Get a Quote'
-         +   '</a>'
-         +   '<a href="#contact" class="isvc-btn-ghost" onclick="document.getElementById(\'contact\').scrollIntoView({behavior:\'smooth\'});return false;">'
-         +     'Learn More <i class="fas fa-arrow-right" style="font-size:0.72rem;"></i>'
-         +   '</a>'
+         + '<a href="#contact" class="isvc-btn-primary" onclick="document.getElementById(\'contact\').scrollIntoView({behavior:\'smooth\'});return false;"><i class="fas fa-paper-plane" style="font-size:.76rem;"></i> Get a Quote</a>'
+         + '<a href="#contact" class="isvc-btn-ghost" onclick="document.getElementById(\'contact\').scrollIntoView({behavior:\'smooth\'});return false;">Learn More <i class="fas fa-arrow-right" style="font-size:.7rem;"></i></a>'
          + '</div>';
   }
 
-  /* ── 3. INJECT HTML INTO ALL PANEL & ACCORDION BODIES ───────────── */
+  /* Inject content */
   SERVICES.forEach(function(svc, i) {
-    var panelBody = document.getElementById('isvc-panel-body-' + i);
-    if (panelBody) panelBody.innerHTML = buildPanelBody(svc);
-    var accBody = document.getElementById('isvc-acc-body-' + i);
-    if (accBody) accBody.innerHTML = buildPanelBody(svc);
+    var pb = document.getElementById('isvc-panel-body-' + i);
+    if (pb) pb.innerHTML = buildBody(svc);
+    var ab = document.getElementById('isvc-acc-body-' + i);
+    if (ab) ab.innerHTML = buildBody(svc);
   });
 
-  /* ── 4. SELECTION LOGIC ──────────────────────────────────────────── */
-  var currentIdx  = 0;
-  var isAnimating = false;
-  var progressBar = document.getElementById('isvcProgressBar');
-  var tabs        = document.querySelectorAll('.isvc-tab');
-  var autoTimer   = null;
-  var AUTO_DELAY  = 6000;
+  /* State */
+  var cur = 0, busy = false, timer = null;
+  var tabs = document.querySelectorAll('.isvc-tab');
+  var bar  = document.getElementById('isvcProgressBar');
 
   window.selectService = function(idx) {
-    if (idx === currentIdx || isAnimating) return;
-    isAnimating = true;
+    if (idx === cur || busy) return;
+    busy = true;
 
-    tabs.forEach(function(t) { t.classList.remove('active'); });
-    tabs[idx].classList.add('active');
+    /* Update tabs */
+    tabs.forEach(function(t){ t.classList.remove('active'); });
+    if (tabs[idx]) tabs[idx].classList.add('active');
 
-    if (progressBar) {
-      progressBar.style.width = ((idx + 1) / SERVICES.length * 100) + '%';
-    }
+    /* Progress bar */
+    if (bar) bar.style.width = ((idx + 1) / SERVICES.length * 100) + '%';
 
-    var outPanel = document.getElementById('isvc-panel-' + currentIdx);
-    var inPanel  = document.getElementById('isvc-panel-' + idx);
+    /* Panels */
+    var out = document.getElementById('isvc-panel-' + cur);
+    var inn = document.getElementById('isvc-panel-' + idx);
+    if (out) { out.classList.remove('active'); out.classList.add('exit'); }
+    if (inn) { void inn.offsetWidth; inn.classList.remove('exit'); inn.classList.add('active'); }
 
-    if (outPanel) { outPanel.classList.remove('active'); outPanel.classList.add('exit'); }
-    if (inPanel)  { inPanel.classList.remove('exit'); void inPanel.offsetWidth; inPanel.classList.add('active'); }
-
-    var prevIdx = currentIdx;
-    setTimeout(function() {
-      var old = document.getElementById('isvc-panel-' + prevIdx);
+    var prev = cur; cur = idx;
+    setTimeout(function(){
+      var old = document.getElementById('isvc-panel-' + prev);
       if (old) old.classList.remove('exit');
-      isAnimating = false;
-    }, 480);
+      busy = false;
+    }, 450);
 
-    currentIdx = idx;
-    resetAutoAdvance();
+    startAuto();
   };
 
-  /* ── 5. AUTO-ADVANCE ─────────────────────────────────────────────── */
-  function resetAutoAdvance() {
-    clearInterval(autoTimer);
-    autoTimer = setInterval(function() {
-      selectService((currentIdx + 1) % SERVICES.length);
-    }, AUTO_DELAY);
+  function startAuto() {
+    clearInterval(timer);
+    timer = setInterval(function(){ selectService((cur + 1) % SERVICES.length); }, 6000);
   }
 
-  var wrap   = document.getElementById('isvcPanelWrap');
-  var tabsEl = document.getElementById('isvcTabs');
-  [wrap, tabsEl].forEach(function(el) {
+  /* Pause auto on hover */
+  ['isvcPanelWrap','isvcTabs'].forEach(function(id){
+    var el = document.getElementById(id);
     if (!el) return;
-    el.addEventListener('mouseenter', function() { clearInterval(autoTimer); });
-    el.addEventListener('mouseleave', resetAutoAdvance);
+    el.addEventListener('mouseenter', function(){ clearInterval(timer); });
+    el.addEventListener('mouseleave', startAuto);
   });
 
-  resetAutoAdvance();
+  startAuto();
 
-  /* ── 6. SCROLL-REVEAL ────────────────────────────────────────────── */
-  var revealEls = document.querySelectorAll('.isvc-reveal');
-  var revealObs = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e) {
-      if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
-    });
+  /* Scroll reveal */
+  var obs = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ if (e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
   }, { threshold: 0.08 });
-  revealEls.forEach(function(el) { revealObs.observe(el); });
+  document.querySelectorAll('.isvc-reveal').forEach(function(el){ obs.observe(el); });
 
+})();
+</script>
+
+<!-- ============================================================
+     JAVASCRIPT — FOOTER LOGO + SMOOTH SCROLL
+     ============================================================ -->
+<script>
+(function(){
+  function goHome(e) {
+    e.preventDefault();
+    var p = window.location.pathname;
+    var home = p === '/' || p === '' || /index(__|\.html?)?$/i.test(p) || p.endsWith('/');
+    if (home) { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+    else       { window.location.href = '/'; }
+  }
+  var fl = document.getElementById('footerLogoAnchor');
+  if (fl) fl.addEventListener('click', goHome);
+  var nb = document.querySelector('nav .flex.items-center.space-x-3');
+  if (nb && !nb.dataset.lp) { nb.dataset.lp = '1'; nb.style.cursor = 'pointer'; nb.addEventListener('click', goHome); }
+  document.querySelectorAll('footer a[href^="#"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      var t = document.querySelector(a.getAttribute('href'));
+      if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    });
+  });
 })();
 </script>
 
