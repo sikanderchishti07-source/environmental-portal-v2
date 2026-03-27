@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<!-- RTL: lang="ar" dir="rtl" applied to root element -->
+<!-- Language Switcher -->
+<a href="index.html"
+   style="display:inline-flex;align-items:center;gap:8px;padding:8px 18px;
+          border-radius:999px;border:2px solid #1a5f5f;color:#1a5f5f;
+          font-weight:700;font-size:13px;text-decoration:none;
+          transition:all 0.2s ease;background:white;"
+   onmouseover="this.style.background='#1a5f5f';this.style.color='white'"
+   onmouseout="this.style.background='white';this.style.color='#1a5f5f'">
+  <span style="font-size:18px;">🌐</span>
+  <span>English</span>
+</a>
+
+<div class="flex items-center gap-3">
+    <button onclick="openPortal()" ...>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="إيكون - الشركة الرائدة في الاستشارات البيئية بالمملكة العربية السعودية. رصد جودة الهواء، اختبارات انبعاثات المداخن، تقييم الأثر البيئي، وخدمات الامتثال في المملكة والشرق الأوسط.">
+    <title>إيكون - التميز البيئي | رصد جودة الهواء</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Arabic font: Cairo — professional, highly readable, designed for Arabic & Latin -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Bulletin fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    /* RTL: font-family updated to Cairo first for Arabic priority */
+                    fontFamily: { sans: ['Cairo', 'Plus Jakarta Sans', 'sans-serif'] },
+                    colors: {
+                        aecon: {
+                            dark: '#0f3d3e', primary: '#1a5f5f',
+                            accent: '#2d8a8a', light: '#e8f4f4',
+                            gold: '#d4a574', sage: '#87a878'
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'slide-up': 'slideUp 0.8s ease-out forwards',
+                        'fade-in': 'fadeIn 0.3s ease-out forwards',
+                        'slide-in-right': 'slideInRight 0.4s ease-out forwards',
+                    },
+                    keyframes: {
+                        float: { '0%,100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-20px)' } },
+                        slideUp: { '0%': { opacity: '0', transform: 'translateY(30px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+                        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+                        /* RTL: slide-in from left instead of right */
+                        slideInRight: { '0%': { opacity: '0', transform: 'translateX(-20px)' }, '100%': { opacity: '1', transform: 'translateX(0)' } },
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* ── Global RTL base ── */
+        *, *::before, *::after { box-sizing: border-box; }
+        body { font-family: 'Cairo', sans-serif; direction: rtl; text-align: right; }
+
+        .glass-card { background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); }
+        .gradient-text { background: linear-gradient(135deg, #0f3d3e 0%, #2d8a8a 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero-gradient { background: linear-gradient(135deg, #0f3d3e 0%, #1a5f5f 50%, #2d8a8a 100%); }
+        .service-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(15,61,62,0.15); }
+        .process-line { background: linear-gradient(90deg, #0f3d3e 0%, #2d8a8a 50%, #87a878 100%); }
+        .stat-number { background: linear-gradient(135deg, #0f3d3e 0%, #2d8a8a 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; }
+        .wave-bg { background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23e8f4f4' fill-opacity='0.5' d='M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,154.7C960,171,1056,181,1152,165.3C1248,149,1344,107,1392,85.3L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E"); background-size: cover; background-position: bottom; }
+        .particle { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.1); animation: float 10s infinite; }
+        .scroll-reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .scroll-reveal.active { opacity: 1; transform: translateY(0); }
+        .tab-active { background: linear-gradient(135deg, #0f3d3e 0%, #1a5f5f 100%); color: white; }
+        .equipment-card { transition: all 0.3s ease; }
+        .equipment-card:hover { transform: scale(1.05); border-color: #2d8a8a; }
+
+        /* ── Modal ── */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); z-index: 1000; display: none; align-items: center; justify-content: center; }
+        .modal-overlay.active { display: flex; }
+        .modal-box { background: white; border-radius: 24px; max-width: 90vw; max-height: 90vh; overflow-y: auto; box-shadow: 0 40px 100px rgba(0,0,0,0.3); animation: slideUp 0.4s ease-out; }
+
+        /* ── Chatbot ── */
+        #chatbotWidget { position: fixed; bottom: 28px; left: 28px; z-index: 999; } /* RTL: moved to left */
+        #chatWindow { width: 380px; max-height: 560px; display: none; flex-direction: column; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(15,61,62,0.3); animation: slideInRight 0.3s ease-out; }
+        #chatWindow.open { display: flex; }
+        .chat-msg { max-width: 80%; padding: 10px 14px; border-radius: 18px; font-size: 14px; line-height: 1.7; font-family: 'Cairo', sans-serif; }
+        .chat-msg.bot { background: #e8f4f4; color: #0f3d3e; border-bottom-right-radius: 4px; } /* RTL: flip radius */
+        .chat-msg.user { background: linear-gradient(135deg, #0f3d3e, #2d8a8a); color: white; border-bottom-left-radius: 4px; margin-right: auto; } /* RTL: margin-right */
+        .typing-indicator span { width: 7px; height: 7px; border-radius: 50%; background: #2d8a8a; display: inline-block; animation: bounce 1.2s infinite; }
+        .typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes bounce { 0%,60%,100% { transform: translateY(0); } 30% { transform: translateY(-8px); } }
+
+        /* ── Portal ── */
+        .portal-sidebar-item { padding: 12px 16px; border-radius: 12px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; color: #4b5563; }
+        .portal-sidebar-item:hover, .portal-sidebar-item.active { background: #e8f4f4; color: #0f3d3e; }
+        .portal-sidebar-item.active { font-weight: 700; }
+        .progress-bar { height: 6px; border-radius: 9999px; background: #e5e7eb; overflow: hidden; }
+        .progress-fill { height: 100%; border-radius: 9999px; background: linear-gradient(90deg, #1a5f5f, #2d8a8a); transition: width 1s ease; }
+        .status-badge { padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+        .status-complete { background: #d1fae5; color: #065f46; }
+        .status-progress { background: #fef3c7; color: #92400e; }
+        .status-review { background: #dbeafe; color: #1e40af; }
+
+        /* ── Calculator ── */
+        .calc-tab-active { background: linear-gradient(135deg, #0f3d3e, #1a5f5f); color: white; }
+        .range-track { -webkit-appearance: none; appearance: none; width: 100%; height: 6px; border-radius: 9999px; background: #e5e7eb; outline: none; direction: ltr; } /* RTL: sliders need ltr for correct UX */
+        .range-track::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(135deg, #1a5f5f, #2d8a8a); cursor: pointer; box-shadow: 0 2px 8px rgba(15,61,62,0.4); }
+        .result-card { background: linear-gradient(135deg, #0f3d3e 0%, #1a5f5f 100%); color: white; border-radius: 16px; padding: 20px; text-align: center; }
+
+        /* ── AQI Widget — RTL: placed bottom-right ── */
+        #aqiWidget {
+            position: fixed; bottom: 28px; right: 28px; z-index: 998;
+            display: flex; flex-direction: column; align-items: flex-end; gap: 8px; pointer-events: none;
+        }
+        #aqiDot {
+            width: 46px; height: 46px; border-radius: 50%; background: var(--aqi-color, #eab308);
+            cursor: pointer; pointer-events: all; display: flex; align-items: center; justify-content: center;
+            flex-direction: column; transition: background 0.5s ease, transform 0.2s ease;
+            animation: aqiPulse 2s ease-in-out infinite; position: relative; user-select: none;
+        }
+        #aqiDot:hover { transform: scale(1.1); }
+        #aqiDot .dot-aqi   { font-size: 11px; font-weight: 800; color: white; line-height: 1; }
+        #aqiDot .dot-label { font-size: 7px; font-weight: 600; color: rgba(255,255,255,0.85); letter-spacing: 0.5px; }
+        @keyframes aqiPulse {
+            0%,100% { box-shadow: 0 0 0 0 var(--aqi-color-alpha, rgba(234,179,8,0.6)); }
+            50%      { box-shadow: 0 0 0 12px transparent; }
+        }
+        /* RTL: AQI card opens from right */
+        #aqiCard {
+            background: linear-gradient(135deg, #0a2a2b, #124040); border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px; padding: 16px; width: 220px; color: white; pointer-events: all;
+            transform-origin: bottom right;
+            transform: scale(0) translateY(8px); opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.25s ease;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5); direction: rtl; text-align: right;
+        }
+        #aqiCard.open { transform: scale(1) translateY(0); opacity: 1; }
+        #aqiClose {
+            position: absolute; top: -6px; left: -6px; width: 20px; height: 20px; border-radius: 50%; /* RTL: left */
+            background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.25); color: white;
+            font-size: 10px; display: none; align-items: center; justify-content: center;
+            cursor: pointer; pointer-events: all; transition: background 0.2s;
+        }
+        #aqiClose:hover { background: rgba(255,255,255,0.3); }
+        #aqiWidget.expanded #aqiClose { display: flex; }
+        .aqi-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+        .aqi-live-badge { display: flex; align-items: center; gap: 5px; font-size: 10px; font-weight: 700; opacity: 0.7; letter-spacing: 1px; }
+        .aqi-live-dot { width: 7px; height: 7px; background: #4ade80; border-radius: 50%; animation: aqiPulse 2s infinite; --aqi-color: #4ade80; --aqi-color-alpha: rgba(74,222,128,0.5); }
+        #aqiCardTime { font-size: 10px; opacity: 0.5; }
+        .aqi-main { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; flex-direction: row-reverse; } /* RTL */
+        #aqiCircle { width: 58px; height: 58px; border-radius: 50%; background: var(--aqi-color, #eab308); display: flex; align-items: center; justify-content: center; flex-direction: column; flex-shrink: 0; transition: background 0.5s, box-shadow 0.5s; }
+        #aqiCircle .c-val  { font-size: 20px; font-weight: 800; color: white; line-height: 1; }
+        #aqiCircle .c-unit { font-size: 8px; color: rgba(255,255,255,0.8); }
+        #aqiLabel    { font-size: 14px; font-weight: 700; }
+        #aqiSublabel { font-size: 10px; opacity: 0.6; margin-top: 2px; }
+        .aqi-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+        .aqi-stat { background: rgba(255,255,255,0.08); border-radius: 10px; padding: 7px; text-align: center; }
+        .aqi-stat .sv { font-size: 15px; font-weight: 700; color: #4ade80; transition: color 0.5s; }
+        .aqi-stat .sl { font-size: 9px; opacity: 0.6; margin-top: 1px; }
+
+        /* ══════════════════════════════════════════
+           ENVIRONMENTAL NEWS BULLETIN — CSS
+        ══════════════════════════════════════════ */
+        :root {
+          --aecon-page-bg:    #f0f4f1;
+          --aecon-card-bg:    #ffffff;
+          --aecon-hero:       #1a5c47;
+          --aecon-hero-mid:   #1f6b52;
+          --aecon-teal:       #1f6b52;
+          --aecon-teal-dark:  #164d3c;
+          --aecon-teal-light: #2d8a68;
+          --aecon-text:       #1e3d32;
+          --aecon-muted:      #5a7a6a;
+          --aecon-faint:      #8aaa99;
+          --aecon-stat:       #2a6e54;
+          --aecon-border:     rgba(31,107,82,0.13);
+          --aecon-border-md:  rgba(31,107,82,0.22);
+        }
+        #env-news-section {
+          font-family: 'Cairo', 'DM Sans', sans-serif;
+          background: var(--aecon-page-bg);
+          color: var(--aecon-text);
+          position: relative;
+          overflow: hidden;
+          direction: rtl;
+          text-align: right;
+        }
+        .ticker-wrap {
+          background: var(--aecon-hero);
+          border-bottom: 1px solid rgba(255,255,255,0.07);
+          overflow: hidden; white-space: nowrap; padding: 10px 0;
+        }
+        /* RTL: ticker scrolls right-to-left direction stays same visually */
+        .ticker-track { display: inline-block; animation: scroll-ticker 70s linear infinite; }
+        .ticker-track:hover { animation-play-state: paused; }
+        @keyframes scroll-ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .section-title {
+          font-family: 'Cairo', 'Playfair Display', Georgia, serif;
+          font-weight: 900; letter-spacing: -0.02em; color: var(--aecon-text);
+        }
+        .live-dot {
+          width: 8px; height: 8px; background: var(--aecon-teal-light);
+          border-radius: 50%; flex-shrink: 0; animation: pulse-dot 2s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+          0%, 100% { box-shadow: 0 0 0 0 rgba(45,138,104,0.55); }
+          50%       { box-shadow: 0 0 0 7px rgba(45,138,104,0); }
+        }
+        .filter-pill {
+          font-family: 'Cairo', 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 500;
+          padding: 6px 16px; border-radius: 999px; border: 1.5px solid var(--aecon-border-md);
+          cursor: pointer; transition: all 0.22s ease;
+          background: var(--aecon-card-bg); color: var(--aecon-muted);
+        }
+        .filter-pill:hover { border-color: var(--aecon-teal); color: var(--aecon-teal); background: rgba(31,107,82,0.05); }
+        .filter-pill.active { background: var(--aecon-teal); color: #ffffff; border-color: var(--aecon-teal); box-shadow: 0 4px 14px rgba(31,107,82,0.28); }
+        .news-card {
+          background: var(--aecon-card-bg); border: 1px solid var(--aecon-border);
+          border-radius: 16px; overflow: hidden;
+          transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+          animation: card-enter 0.55s ease both; position: relative;
+          box-shadow: 0 2px 14px rgba(31,107,82,0.07);
+        }
+        .news-card:hover { transform: translateY(-5px); box-shadow: 0 18px 50px rgba(31,107,82,0.14), 0 0 0 1px rgba(31,107,82,0.18); border-color: rgba(31,107,82,0.22); }
+        @keyframes card-enter { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .news-card:nth-child(1) { animation-delay: 0.05s; }
+        .news-card:nth-child(2) { animation-delay: 0.12s; }
+        .news-card:nth-child(3) { animation-delay: 0.19s; }
+        .news-card:nth-child(4) { animation-delay: 0.26s; }
+        .news-card:nth-child(5) { animation-delay: 0.33s; }
+        .news-card:nth-child(6) { animation-delay: 0.40s; }
+        .card-img-wrap { position: relative; height: 200px; overflow: hidden; }
+        .card-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.55s ease; }
+        .news-card:hover .card-img-wrap img { transform: scale(1.05); }
+        .card-img-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 45%, rgba(255,255,255,0.55) 100%); }
+        /* RTL: badge on right side */
+        .card-badge { position: absolute; top: 12px; right: 12px; font-family: 'Cairo', 'DM Sans', sans-serif; font-size: 0.67rem; font-weight: 600; letter-spacing: 0.04em; padding: 4px 11px; border-radius: 999px; backdrop-filter: blur(10px); }
+        /* RTL: source on left side */
+        .card-source { position: absolute; bottom: 10px; left: 12px; font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; color: rgba(255,255,255,0.8); letter-spacing: 0.04em; text-shadow: 0 1px 4px rgba(0,0,0,0.45); }
+        .card-body { padding: 18px 20px 20px; }
+        .card-title { font-family: 'Cairo', sans-serif; font-weight: 700; font-size: 1rem; line-height: 1.6; color: var(--aecon-text); margin-bottom: 9px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .card-desc { font-size: 0.85rem; color: var(--aecon-muted); line-height: 1.7; margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--aecon-border); flex-direction: row-reverse; } /* RTL */
+        .card-time { font-family: 'JetBrains Mono', monospace; font-size: 0.63rem; color: var(--aecon-faint); letter-spacing: 0.04em; }
+        .read-more { display: inline-flex; align-items: center; gap: 5px; font-size: 0.78rem; font-weight: 600; color: var(--aecon-teal); text-decoration: none; transition: gap 0.2s ease, color 0.2s ease; flex-direction: row-reverse; } /* RTL: arrow flipped */
+        .read-more:hover { gap: 9px; color: var(--aecon-teal-dark); }
+        .news-card.featured .card-img-wrap { height: 240px; }
+        .news-card.featured .card-title    { font-size: 1.18rem; }
+        .skeleton { background: linear-gradient(90deg, #e6ece8 25%, #d6e4da 50%, #e6ece8 75%); background-size: 200% 100%; animation: shimmer 1.6s infinite; border-radius: 16px; }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .refresh-btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 18px; border-radius: 999px; border: 1.5px solid var(--aecon-border-md); background: var(--aecon-card-bg); color: var(--aecon-teal); font-family: 'Cairo', 'DM Sans', sans-serif; font-size: 0.78rem; font-weight: 600; cursor: pointer; letter-spacing: 0.02em; transition: all 0.22s ease; box-shadow: 0 2px 8px rgba(31,107,82,0.08); }
+        .refresh-btn:hover { background: var(--aecon-teal); color: #ffffff; border-color: var(--aecon-teal); box-shadow: 0 4px 16px rgba(31,107,82,0.28); }
+
+        /* RTL: flip icon margins */
+        .fa-arrow-right { transform: scaleX(-1); }
+        .read-more svg { transform: scaleX(-1); }
+
+        /* RTL: portal sidebar on the right */
+        #portalDashboard .flex { flex-direction: row-reverse; }
+
+        /* RTL: input placeholder align */
+        input::placeholder, textarea::placeholder { text-align: right; }
+        select { text-align: right; }
+
+        /* RTL: nav spacing fix */
+        .space-x-8 > * + * { margin-right: 2rem; margin-left: 0; }
+        .space-x-3 > * + * { margin-right: 0.75rem; margin-left: 0; }
+        .space-x-4 > * + * { margin-right: 1rem; margin-left: 0; }
+        .space-x-2 > * + * { margin-right: 0.5rem; margin-left: 0; }
+    </style>
+</head>
+<body class="font-sans text-gray-800 bg-gray-50 overflow-x-hidden">
+
+<!-- ════════════════════════════════════════════
+     شريط التنقل
+═════════════════════════════════════════════ -->
+<nav class="fixed w-full z-50 transition-all duration-300" id="navbar">
+    <div class="glass-card shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- RTL: logo on the right -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-aecon-dark to-aecon-accent rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg">إ</div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-aecon-dark tracking-tight">إيكون</h1>
+                        <p class="text-xs text-aecon-accent font-medium">الإمداد العربي</p>
+                    </div>
+                </div>
+                <!-- RTL: nav links -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="#overview" class="text-gray-700 hover:text-aecon-primary font-medium transition-colors">نظرة عامة</a>
+                    <a href="#services" class="text-gray-700 hover:text-aecon-primary font-medium transition-colors">خدماتنا</a>
+                    <a href="#technology" class="text-gray-700 hover:text-aecon-primary font-medium transition-colors">التقنية</a>
+                    <a href="#process" class="text-gray-700 hover:text-aecon-primary font-medium transition-colors">المنهجية</a>
+                    <a href="#clients" class="text-gray-700 hover:text-aecon-primary font-medium transition-colors">العملاء</a>
+                    <a href="#tools" class="text-gray-700 hover:text-aecon-primary font-medium transition-colors">الأدوات</a>
+                    <a href="#env-news-section" class="text-gray-700 hover:text-aecon-primary font-medium transition-colors">الأخبار</a>
+                    <a href="Compliance Hub.html" class="text-gray-700 hover:text-aecon-primary font-medium transition-colors">مركز الامتثال</a>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button onclick="openPortal()" class="hidden md:flex items-center gap-2 px-5 py-2.5 bg-aecon-dark text-white rounded-full font-semibold text-sm hover:bg-aecon-accent transition-all">
+                        <i class="fas fa-user-circle"></i> بوابة العملاء
+                    </button>
+                    <button class="md:hidden text-aecon-dark text-2xl" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- RTL: Mobile menu -->
+    <div id="mobileMenu" class="hidden md:hidden glass-card border-t">
+        <div class="px-4 pt-2 pb-6 space-y-2">
+            <a href="#overview" class="block px-3 py-2 text-gray-700 hover:text-aecon-primary">نظرة عامة</a>
+            <a href="#services" class="block px-3 py-2 text-gray-700 hover:text-aecon-primary">خدماتنا</a>
+            <a href="#technology" class="block px-3 py-2 text-gray-700 hover:text-aecon-primary">التقنية</a>
+            <a href="#process" class="block px-3 py-2 text-gray-700 hover:text-aecon-primary">المنهجية</a>
+            <a href="#tools" class="block px-3 py-2 text-gray-700 hover:text-aecon-primary">الأدوات</a>
+            <a href="#env-news-section" class="block px-3 py-2 text-gray-700 hover:text-aecon-primary">الأخبار</a>
+            <a href="Compliance Hub.html" class="block px-3 py-2 text-gray-700 hover:text-aecon-primary">مركز الامتثال</a>
+            <button onclick="openPortal()" class="w-full text-right px-3 py-2 text-aecon-primary font-bold">بوابة العملاء</button>
+        </div>
+    </div>
+</nav>
+
+<!-- ════════════════════════════════════════════
+     قسم البطولة (Hero)
+═════════════════════════════════════════════ -->
+<section class="relative min-h-screen flex items-center hero-gradient overflow-hidden">
+    <div id="particles" class="absolute inset-0 overflow-hidden"></div>
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <div class="text-white space-y-8 animate-slide-up">
+                <div class="inline-flex items-center space-x-2 px-4 py-2 bg-white/10 rounded-full backdrop-blur-sm border border-white/20">
+                    <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                    <span class="text-sm font-medium">نُقدّم التميز منذ عام 2014</span>
+                </div>
+                <h1 class="text-5xl lg:text-7xl font-bold leading-tight">
+                    رصد <span class="text-aecon-gold">جودة الهواء</span><br>والاستشارات<br>البيئية
+                </h1>
+                <p class="text-xl text-gray-200 max-w-lg leading-relaxed">
+                    نقدّم حلول رصد بيئي دقيقة في جميع أنحاء المملكة العربية السعودية بأحدث التقنيات والخبرة التنظيمية.
+                </p>
+                <div class="flex flex-wrap gap-4">
+                    <a href="#services" class="px-8 py-4 bg-white text-aecon-dark rounded-full font-bold hover:bg-aecon-gold hover:text-white transition-all transform hover:scale-105 shadow-xl">استكشف خدماتنا</a>
+                    <button onclick="openCalculator()" class="px-8 py-4 border-2 border-white text-white rounded-full font-bold hover:bg-white hover:text-aecon-dark transition-all flex items-center gap-2">
+                        <i class="fas fa-calculator"></i> حاسبة مجانية
+                    </button>
+                </div>
+                <div class="flex flex-wrap gap-2 pt-2">
+                    <button onclick="openPortal()" class="flex items-center gap-2 px-4 py-2 bg-white/15 backdrop-blur-sm rounded-full text-sm border border-white/30 hover:bg-white/25 transition-all">
+                        <i class="fas fa-folder-open text-aecon-gold"></i> بوابة العملاء
+                    </button>
+                    <button onclick="openCalculator()" class="flex items-center gap-2 px-4 py-2 bg-white/15 backdrop-blur-sm rounded-full text-sm border border-white/30 hover:bg-white/25 transition-all">
+                        <i class="fas fa-leaf text-green-300"></i> حاسبة الكربون
+                    </button>
+                    <a href="#env-news-section" class="flex items-center gap-2 px-4 py-2 bg-white/15 backdrop-blur-sm rounded-full text-sm border border-white/30 hover:bg-white/25 transition-all">
+                        <i class="fas fa-newspaper text-aecon-gold"></i> نشرة الأخبار
+                    </a>
+                    <span class="flex items-center gap-2 px-4 py-2 bg-white/15 backdrop-blur-sm rounded-full text-sm border border-white/30">
+                        <i class="fas fa-robot text-aecon-gold"></i> المساعد الذكي متاح
+                    </span>
+                </div>
+            </div>
+            <div class="relative hidden lg:block">
+                <img src="https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=800&h=600&fit=crop" alt="الرصد البيئي" class="rounded-3xl shadow-2xl transform hover:scale-105 transition-transform duration-700 object-cover h-[500px] w-full">
+                <div class="absolute -bottom-6 -right-6 bg-white rounded-2xl p-6 shadow-2xl animate-float"> <!-- RTL: -right-6 -->
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center text-green-600"><i class="fas fa-leaf text-xl"></i></div>
+                        <div><p class="text-2xl font-bold text-aecon-dark">+1000</p><p class="text-sm text-gray-600">مشروع مُنجَز</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="absolute bottom-0 left-0 right-0">
+        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 120L60 110C120 100 240 80 360 70C480 60 600 60 720 65C840 70 960 80 1080 85C1200 90 1320 90 1380 90L1440 90V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="#f9fafb"/>
+        </svg>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     الإحصائيات
+═════════════════════════════════════════════ -->
+<section class="py-20 bg-gray-50 -mt-20 relative z-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow text-center group">
+                <div class="text-4xl font-bold stat-number mb-2 group-hover:scale-110 transition-transform inline-block">+10</div>
+                <p class="text-gray-600 font-medium">سنوات خبرة</p>
+            </div>
+            <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow text-center group">
+                <div class="text-4xl font-bold stat-number mb-2 group-hover:scale-110 transition-transform inline-block">+1000</div>
+                <p class="text-gray-600 font-medium">مشروع مُنجَز</p>
+            </div>
+            <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow text-center group">
+                <div class="text-4xl font-bold stat-number mb-2 group-hover:scale-110 transition-transform inline-block">+50</div>
+                <p class="text-gray-600 font-medium">متخصص بيئي</p>
+            </div>
+            <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow text-center group">
+                <div class="text-4xl font-bold stat-number mb-2 group-hover:scale-110 transition-transform inline-block">5</div>
+                <p class="text-gray-600 font-medium">مكاتب إقليمية</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     نبذة عن الشركة
+═════════════════════════════════════════════ -->
+<section id="overview" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-16 items-center">
+            <div class="scroll-reveal">
+                <div class="inline-block px-4 py-2 bg-aecon-light rounded-full text-aecon-primary font-semibold text-sm mb-6">عن إيكون</div>
+                <h2 class="text-4xl font-bold text-aecon-dark mb-6 leading-tight">التميز البيئي من أجل <span class="text-aecon-accent">مستقبل مستدام</span></h2>
+                <p class="text-gray-600 text-lg leading-relaxed mb-6">إيكون شركة استشارات بيئية رائدة مقرّها الرياض بالمملكة العربية السعودية، تقدّم حلولاً بيئية متكاملة للعملاء في القطاعات الصناعية والبنية التحتية والتطوير. يضم فريقنا مهندسين وعلماء ومتخصصين ميدانيين في البيئة.</p>
+                <div class="space-y-4 mb-8">
+                    <div class="flex items-start space-x-4">
+                        <div class="w-6 h-6 rounded-full bg-aecon-primary flex items-center justify-center flex-shrink-0 mt-1"><i class="fas fa-check text-white text-xs"></i></div>
+                        <div><h4 class="font-bold text-aecon-dark">رسالتنا</h4><p class="text-gray-600">تقديم استشارات بيئية عالمية المستوى تضمن التنمية المستدامة من خلال التميز العلمي والامتثال التنظيمي.</p></div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="w-6 h-6 rounded-full bg-aecon-accent flex items-center justify-center flex-shrink-0 mt-1"><i class="fas fa-check text-white text-xs"></i></div>
+                        <div><h4 class="font-bold text-aecon-dark">رؤيتنا</h4><p class="text-gray-600">أن نكون الشريك البيئي الأكثر موثوقية في منطقة الشرق الأوسط.</p></div>
+                    </div>
+                </div>
+                <div class="flex flex-wrap gap-3">
+                    <span class="px-4 py-2 bg-aecon-light text-aecon-primary rounded-lg font-medium text-sm">معتمد ISO</span>
+                    <span class="px-4 py-2 bg-aecon-light text-aecon-primary rounded-lg font-medium text-sm">متوافق مع NCEC</span>
+                    <span class="px-4 py-2 bg-aecon-light text-aecon-primary rounded-lg font-medium text-sm">مناهج US EPA</span>
+                </div>
+            </div>
+            <div class="relative scroll-reveal">
+                <div class="absolute -inset-4 bg-gradient-to-r from-aecon-primary to-aecon-accent rounded-3xl opacity-20 blur-2xl"></div>
+                <div class="relative bg-white rounded-3xl shadow-2xl overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1532601224476-15c79f2f7a51?w=600&h=400&fit=crop" alt="حضورنا" class="w-full h-64 object-cover">
+                    <div class="p-8">
+                        <h3 class="text-2xl font-bold text-aecon-dark mb-6">حضورنا الجغرافي</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl"><div class="flex items-center space-x-3"><i class="fas fa-building text-aecon-primary"></i><span class="font-medium">المقر الرئيسي</span></div><span class="text-gray-600">الرياض، المملكة العربية السعودية</span></div>
+                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl"><div class="flex items-center space-x-3"><i class="fas fa-code-branch text-aecon-accent"></i><span class="font-medium">الفروع</span></div><span class="text-gray-600">جدة، الدمام</span></div>
+                            <div class="flex items-center justify-between p-4 bg-gray-50 rounded-xl"><div class="flex items-center space-x-3"><i class="fas fa-globe text-aecon-sage"></i><span class="font-medium">دولياً</span></div><span class="text-gray-600">القاهرة، ميلانو</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     الخدمات
+═════════════════════════════════════════════ -->
+<section id="services" class="py-24 bg-gray-50 wave-bg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 scroll-reveal">
+            <div class="inline-block px-4 py-2 bg-aecon-light rounded-full text-aecon-primary font-semibold text-sm mb-4">خبراتنا</div>
+            <h2 class="text-4xl font-bold text-aecon-dark mb-4">خدمات الاستشارات البيئية</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">حلول بيئية شاملة للمشاريع الصناعية والتنموية</p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-4 mb-12 scroll-reveal">
+            <button onclick="switchTab('ambient')" id="tab-ambient" class="tab-active px-6 py-3 rounded-full font-medium transition-all shadow-lg">جودة الهواء المحيط</button>
+            <button onclick="switchTab('stack')" id="tab-stack" class="px-6 py-3 rounded-full font-medium bg-white text-gray-700 hover:bg-gray-100 transition-all shadow-md">اختبارات انبعاثات المداخن</button>
+            <button onclick="switchTab('indoor')" id="tab-indoor" class="px-6 py-3 rounded-full font-medium bg-white text-gray-700 hover:bg-gray-100 transition-all shadow-md">جودة الهواء الداخلي</button>
+        </div>
+        <div id="content-ambient" class="service-content scroll-reveal">
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+                <div class="grid md:grid-cols-2">
+                    <div class="p-12">
+                        <div class="w-16 h-16 bg-gradient-to-br from-aecon-primary to-aecon-accent rounded-2xl flex items-center justify-center text-white text-2xl mb-6"><i class="fas fa-wind"></i></div>
+                        <h3 class="text-3xl font-bold text-aecon-dark mb-6">رصد جودة الهواء المحيط</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-center space-x-3"><i class="fas fa-check-circle text-aecon-primary"></i><span class="text-gray-700">رصد الجسيمات PM10 وPM2.5 والـ TSP</span></li>
+                            <li class="flex items-center space-x-3"><i class="fas fa-check-circle text-aecon-primary"></i><span class="text-gray-700">قياس NO₂ وSO₂ وCO وO₃</span></li>
+                            <li class="flex items-center space-x-3"><i class="fas fa-check-circle text-aecon-primary"></i><span class="text-gray-700">تقييم المركبات العضوية المتطايرة والبنزين</span></li>
+                            <li class="flex items-center space-x-3"><i class="fas fa-check-circle text-aecon-primary"></i><span class="text-gray-700">الربط بالمعاملات الأرصادية الجوية</span></li>
+                            <li class="flex items-center space-x-3"><i class="fas fa-check-circle text-aecon-primary"></i><span class="text-gray-700">تسجيل بيانات مستمر في الوقت الفعلي</span></li>
+                            <li class="flex items-center space-x-3"><i class="fas fa-check-circle text-aecon-primary"></i><span class="text-gray-700">مراقبة الخط الأساسي والحملات الدورية</span></li>
+                        </ul>
+                    </div>
+                    <div class="relative h-full min-h-[400px]">
+                        <img src="https://images.unsplash.com/photo-1621451537084-482c73073a0f?w=600&h=500&fit=crop" alt="رصد الهواء المحيط" class="absolute inset-0 w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-r from-aecon-dark/80 to-transparent flex items-end p-12"><div class="text-white"><p class="text-5xl font-bold mb-2">24/7</p><p class="text-lg">مراقبة مستمرة</p></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="content-stack" class="service-content hidden scroll-reveal">
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+                <div class="grid md:grid-cols-2">
+                    <div class="p-12">
+                        <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center text-white text-2xl mb-6"><i class="fas fa-industry"></i></div>
+                        <h3 class="text-3xl font-bold text-aecon-dark mb-6">اختبارات انبعاثات المداخن</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-center space-x-3"><i class="fas fa-check-circle text-orange-500"></i><span class="text-gray-700">مسوحات انبعاثات المصادر الثابتة</span></li>
+                            <li class="flex items-center space-x-3"><i class="fas fa-check-circle text-orange-500"></i><span class="text-gray-700">الامتثال لطريقتَي US EPA 5 و9</span></li>
+                            <li class="flex items-center space-x-3"><i class="fas fa-check-circle text-orange-500"></i><span class="text-gray-700">اختبارات الجسيمات والغازات والعتامة</span></li>
+                            <li class="flex items-center space-x-3"><i class="fas fa-check-circle text-orange-500"></i><span class="text-gray-700">منشآت الأسمنت والطاقة والصناعة</span></li>
+                            <li class="flex items-center space-x-3"><i class="fas fa-check-circle text-orange-500"></i><span class="text-gray-700">اختبارات ما قبل وأثناء التشغيل</span></li>
+                            <li class="flex items-center space-x-3"><i class="fas fa-check-circle text-orange-500"></i><span class="text-gray-700">تقارير دعم رخص التشغيل التنظيمية</span></li>
+                        </ul>
+                    </div>
+                    <div class="relative h-full min-h-[400px]">
+                        <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?w=600&h=500&fit=crop" alt="اختبارات المداخن" class="absolute inset-0 w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-r from-orange-900/80 to-transparent flex items-end p-12"><div class="text-white"><p class="text-5xl font-bold mb-2">EPA</p><p class="text-lg">مناهج معتمدة</p></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="content-indoor" class="service-content hidden scroll-reveal">
+            <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+                <div class="grid md:grid-cols-2">
+                    <div class="p-12">
+                        <div class="w-16 h-16 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-2xl flex items-center justify-center text-white text-2xl mb-6"><i class="fas fa-building"></i></div>
+                        <h3 class="text-3xl font-bold text-aecon-dark mb-6">جودة الهواء الداخلي (IAQ)</h3>
+                        <ul class="space-y-4">
+                            <li class="flex items-center space-x-3"><i class="fas fa-check-circle text-purple-500"></i><span class="text-gray-700">تقييمات جودة الهواء في بيئات العمل</span></li>
+                            <li class="flex items-center space-x-3"><i class="fas fa-check-circle text-purple-500"></i><span class="text-gray-700">رصد التعرض للمواد الكيميائية الخطرة</span></li>
+                            <li class="flex items-center space-x-3"><i class="fas fa-check-circle text-purple-500"></i><span class="text-gray-700">تقييم كفاءة أنظمة التهوية</span></li>
+                            <li class="flex items-center space-x-3"><i class="fas fa-check-circle text-purple-500"></i><span class="text-gray-700">قياس TVOC والفورمالديهيد وCO₂</span></li>
+                            <li class="flex items-center space-x-3"><i class="fas fa-check-circle text-purple-500"></i><span class="text-gray-700">تقييمات بيئة العمل وتأثير الضجيج</span></li>
+                            <li class="flex items-center space-x-3"><i class="fas fa-check-circle text-purple-500"></i><span class="text-gray-700">تقارير تقييم مخاطر الصحة (HRA)</span></li>
+                        </ul>
+                    </div>
+                    <div class="relative h-full min-h-[400px]">
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&h=500&fit=crop" alt="جودة الهواء الداخلي" class="absolute inset-0 w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-r from-purple-900/80 to-transparent flex items-end p-12"><div class="text-white"><p class="text-5xl font-bold mb-2">آمن</p><p class="text-lg">بيئات عمل صحية</p></div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6 mt-12 scroll-reveal">
+            <div class="service-card bg-white p-8 rounded-2xl shadow-lg transition-all duration-300 border border-gray-100">
+                <div class="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center text-blue-600 text-xl mb-4"><i class="fas fa-file-alt"></i></div>
+                <h4 class="text-xl font-bold text-aecon-dark mb-3">تقييم الأثر البيئي</h4>
+                <p class="text-gray-600 text-sm">دراسات EIA/ESIA شاملة للمشاريع الصناعية والبحرية والحضرية وفق متطلبات المركز الوطني لرقابة الالتزام البيئي ومعايير IFC.</p>
+            </div>
+            <div class="service-card bg-white p-8 rounded-2xl shadow-lg transition-all duration-300 border border-gray-100">
+                <div class="w-14 h-14 bg-green-100 rounded-xl flex items-center justify-center text-green-600 text-xl mb-4"><i class="fas fa-clipboard-check"></i></div>
+                <h4 class="text-xl font-bold text-aecon-dark mb-3">خطط الإدارة البيئية</h4>
+                <p class="text-gray-600 text-sm">تصميم وتنفيذ خطط الإدارة البيئية وخطط الاستجابة للطوارئ ودعم تدقيق ISO 14001.</p>
+            </div>
+            <div class="service-card bg-white p-8 rounded-2xl shadow-lg transition-all duration-300 border border-gray-100">
+                <div class="w-14 h-14 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600 text-xl mb-4"><i class="fas fa-flask"></i></div>
+                <h4 class="text-xl font-bold text-aecon-dark mb-3">تحليل المياه والتربة</h4>
+                <p class="text-gray-600 text-sm">اختبارات معتمدة للمعادن الثقيلة والمركبات العضوية المتطايرة والمعاملات الميكروبيولوجية والتحليل الفيزيائي والكيميائي.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     التقنية والمعدات
+═════════════════════════════════════════════ -->
+<section id="technology" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 scroll-reveal">
+            <div class="inline-block px-4 py-2 bg-aecon-light rounded-full text-aecon-primary font-semibold text-sm mb-4">معدات متطورة</div>
+            <h2 class="text-4xl font-bold text-aecon-dark mb-4">تقنيات ومعدات أنظمة رصد جودة الهواء</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">أجهزة قياس حديثة من الجيل الأحدث لبيانات بيئية دقيقة وموثوقة</p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 scroll-reveal">
+            <div class="equipment-card bg-gray-50 p-6 rounded-2xl border-2 border-transparent hover:border-aecon-primary cursor-pointer group"><div class="w-full h-40 bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl mb-4 flex items-center justify-center group-hover:from-aecon-light group-hover:to-aecon-primary/20 transition-all"><i class="fas fa-microscope text-4xl text-gray-400 group-hover:text-aecon-primary transition-colors"></i></div><h4 class="font-bold text-aecon-dark mb-2">أجهزة رصد PM2.5/PM10</h4><p class="text-sm text-gray-600">أجهزة امتصاص بيتا (BAM) وعيّنات الوزن وفق معايير US EPA</p></div>
+            <div class="equipment-card bg-gray-50 p-6 rounded-2xl border-2 border-transparent hover:border-aecon-primary cursor-pointer group"><div class="w-full h-40 bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl mb-4 flex items-center justify-center group-hover:from-aecon-light group-hover:to-aecon-primary/20 transition-all"><i class="fas fa-atom text-4xl text-gray-400 group-hover:text-aecon-primary transition-colors"></i></div><h4 class="font-bold text-aecon-dark mb-2">أنظمة GC/MS</h4><p class="text-sm text-gray-600">تحليل المركبات العضوية المتطايرة وBTEX وTPH بأنظمة GC-FID/MS</p></div>
+            <div class="equipment-card bg-gray-50 p-6 rounded-2xl border-2 border-transparent hover:border-aecon-primary cursor-pointer group"><div class="w-full h-40 bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl mb-4 flex items-center justify-center group-hover:from-aecon-light group-hover:to-aecon-primary/20 transition-all"><i class="fas fa-wind text-4xl text-gray-400 group-hover:text-aecon-primary transition-colors"></i></div><h4 class="font-bold text-aecon-dark mb-2">محللات الغازات</h4><p class="text-sm text-gray-600">مستشعرات كيميائية كهربائية وأشعة فوق بنفسجية لـ NO₂ وSO₂ وCO وO₃</p></div>
+            <div class="equipment-card bg-gray-50 p-6 rounded-2xl border-2 border-transparent hover:border-aecon-primary cursor-pointer group"><div class="w-full h-40 bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl mb-4 flex items-center justify-center group-hover:from-aecon-light group-hover:to-aecon-primary/20 transition-all"><i class="fas fa-satellite-dish text-4xl text-gray-400 group-hover:text-aecon-primary transition-colors"></i></div><h4 class="font-bold text-aecon-dark mb-2">مسجّلات بيانات آنية</h4><p class="text-sm text-gray-600">أنظمة استحواذ بيانات تيليمترية تبث مؤشرات جودة الهواء لحظياً</p></div>
+            <div class="equipment-card bg-gray-50 p-6 rounded-2xl border-2 border-transparent hover:border-aecon-primary cursor-pointer group"><div class="w-full h-40 bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl mb-4 flex items-center justify-center group-hover:from-aecon-light group-hover:to-aecon-primary/20 transition-all"><i class="fas fa-cloud-sun text-4xl text-gray-400 group-hover:text-aecon-primary transition-colors"></i></div><h4 class="font-bold text-aecon-dark mb-2">محطات الأرصاد الجوية</h4><p class="text-sm text-gray-600">محطات طقس أوتوماتيكية لقياس الرياح ودرجة الحرارة والرطوبة والإشعاع الشمسي</p></div>
+            <div class="equipment-card bg-gray-50 p-6 rounded-2xl border-2 border-transparent hover:border-aecon-primary cursor-pointer group"><div class="w-full h-40 bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl mb-4 flex items-center justify-center group-hover:from-aecon-light group-hover:to-aecon-primary/20 transition-all"><i class="fas fa-smog text-4xl text-gray-400 group-hover:text-aecon-primary transition-colors"></i></div><h4 class="font-bold text-aecon-dark mb-2">أجهزة أخذ عينات المداخن</h4><p class="text-sm text-gray-600">قطارات أخذ عينات أيزوكينيتية وفق US EPA Method 5/17</p></div>
+            <div class="equipment-card bg-gray-50 p-6 rounded-2xl border-2 border-transparent hover:border-aecon-primary cursor-pointer group"><div class="w-full h-40 bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl mb-4 flex items-center justify-center group-hover:from-aecon-light group-hover:to-aecon-primary/20 transition-all"><i class="fas fa-vial text-4xl text-gray-400 group-hover:text-aecon-primary transition-colors"></i></div><h4 class="font-bold text-aecon-dark mb-2">مطيافية ICP-MS</h4><p class="text-sm text-gray-600">جهاز PerkinElmer NexION لتحليل المعادن الثقيلة بتركيزات فائقة الدقة</p></div>
+            <div class="equipment-card bg-gray-50 p-6 rounded-2xl border-2 border-transparent hover:border-aecon-primary cursor-pointer group"><div class="w-full h-40 bg-gradient-to-br from-gray-200 to-gray-300 rounded-xl mb-4 flex items-center justify-center group-hover:from-aecon-light group-hover:to-aecon-primary/20 transition-all"><i class="fas fa-mobile-alt text-4xl text-gray-400 group-hover:text-aecon-primary transition-colors"></i></div><h4 class="font-bold text-aecon-dark mb-2">أجهزة رصد ميداني محمولة</h4><p class="text-sm text-gray-600">كاشفات متعددة الغازات محمولة باليد وعيّنات هواء شخصية</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     المنهجية والعملية
+═════════════════════════════════════════════ -->
+<section id="process" class="py-24 bg-aecon-dark text-white relative overflow-hidden">
+    <div class="absolute inset-0 opacity-10"><div class="absolute top-0 left-0 w-96 h-96 bg-aecon-accent rounded-full blur-3xl"></div><div class="absolute bottom-0 right-0 w-96 h-96 bg-aecon-gold rounded-full blur-3xl"></div></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-16 scroll-reveal">
+            <div class="inline-block px-4 py-2 bg-white/10 rounded-full text-aecon-gold font-semibold text-sm mb-4 backdrop-blur-sm">منهجيتنا</div>
+            <h2 class="text-4xl font-bold mb-4">عملية جمع البيانات والرصد البيئي</h2>
+            <p class="text-gray-300 max-w-2xl mx-auto">سير عمل منهجي قائم على المعايير من التعبئة الميدانية حتى تقارير الامتثال</p>
+        </div>
+        <div class="relative">
+            <div class="hidden md:block absolute top-1/2 left-0 right-0 h-1 process-line rounded-full transform -translate-y-1/2"></div>
+            <div class="grid md:grid-cols-5 gap-8">
+                <div class="relative scroll-reveal group"><div class="w-20 h-20 mx-auto bg-white rounded-2xl flex items-center justify-center text-3xl font-bold text-aecon-dark shadow-xl mb-6 transform group-hover:scale-110 group-hover:rotate-3 transition-all z-10 relative">١</div><div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all"><h4 class="font-bold text-lg mb-2 text-aecon-gold">تحديد نطاق المشروع</h4><p class="text-sm text-gray-300">تحديد أهداف الرصد والمتطلبات التنظيمية ومواقع المستقبلات وفق NCEC/ISO</p></div></div>
+                <div class="relative scroll-reveal group"><div class="w-20 h-20 mx-auto bg-white rounded-2xl flex items-center justify-center text-3xl font-bold text-aecon-dark shadow-xl mb-6 transform group-hover:scale-110 group-hover:rotate-3 transition-all z-10 relative">٢</div><div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all"><h4 class="font-bold text-lg mb-2 text-aecon-gold">تقييم الموقع</h4><p class="text-sm text-gray-300">الاستطلاع الميداني وتقييم الأوضاع القائمة وقياسات التركيز الخلفي</p></div></div>
+                <div class="relative scroll-reveal group"><div class="w-20 h-20 mx-auto bg-white rounded-2xl flex items-center justify-center text-3xl font-bold text-aecon-dark shadow-xl mb-6 transform group-hover:scale-110 group-hover:rotate-3 transition-all z-10 relative">٣</div><div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all"><h4 class="font-bold text-lg mb-2 text-aecon-gold">تركيب المعدات</h4><p class="text-sm text-gray-300">تنصيب وضبط أجهزة الرصد المحيطة ومحطات الأرصاد وأجهزة أخذ العينات</p></div></div>
+                <div class="relative scroll-reveal group"><div class="w-20 h-20 mx-auto bg-white rounded-2xl flex items-center justify-center text-3xl font-bold text-aecon-dark shadow-xl mb-6 transform group-hover:scale-110 group-hover:rotate-3 transition-all z-10 relative">٤</div><div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all"><h4 class="font-bold text-lg mb-2 text-aecon-gold">جمع العينات</h4><p class="text-sm text-gray-300">جمع منهجي لعينات الهواء وتشغيل اختبارات المداخن وتسجيل البيانات الآنية</p></div></div>
+                <div class="relative scroll-reveal group"><div class="w-20 h-20 mx-auto bg-white rounded-2xl flex items-center justify-center text-3xl font-bold text-aecon-dark shadow-xl mb-6 transform group-hover:scale-110 group-hover:rotate-3 transition-all z-10 relative">٥</div><div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition-all"><h4 class="font-bold text-lg mb-2 text-aecon-gold">التحليل المختبري</h4><p class="text-sm text-gray-300">تحليل معتمد لعينات الفلاتر للجسيمات والمعادن والمركبات العضوية مع ضبط الجودة</p></div></div>
+            </div>
+        </div>
+        <div class="mt-20 bg-white/5 rounded-3xl p-8 backdrop-blur-sm border border-white/10 scroll-reveal">
+            <h3 class="text-2xl font-bold mb-8 text-center">سير عمل إعداد التقارير</h3>
+            <div class="flex flex-wrap justify-center gap-4">
+                <div class="flex items-center space-x-2 bg-white/10 px-6 py-3 rounded-full"><i class="fas fa-database text-aecon-gold"></i><span>استحواذ البيانات</span></div>
+                <i class="fas fa-arrow-left text-aecon-gold self-center hidden md:block"></i> <!-- RTL: left arrow -->
+                <div class="flex items-center space-x-2 bg-white/10 px-6 py-3 rounded-full"><i class="fas fa-search text-aecon-gold"></i><span>التحقق QA/QC</span></div>
+                <i class="fas fa-arrow-left text-aecon-gold self-center hidden md:block"></i>
+                <div class="flex items-center space-x-2 bg-white/10 px-6 py-3 rounded-full"><i class="fas fa-chart-line text-aecon-gold"></i><span>التحليل الإحصائي</span></div>
+                <i class="fas fa-arrow-left text-aecon-gold self-center hidden md:block"></i>
+                <div class="flex items-center space-x-2 bg-white/10 px-6 py-3 rounded-full"><i class="fas fa-map-marked-alt text-aecon-gold"></i><span>رسم الخرائط المكانية</span></div>
+                <i class="fas fa-arrow-left text-aecon-gold self-center hidden md:block"></i>
+                <div class="flex items-center space-x-2 bg-aecon-gold text-aecon-dark px-6 py-3 rounded-full font-bold"><i class="fas fa-file-contract"></i><span>إصدار التقرير النهائي</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     الامتثال والمعايير
+═════════════════════════════════════════════ -->
+<section class="py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 scroll-reveal">
+            <h2 class="text-4xl font-bold text-aecon-dark mb-4">معايير الامتثال واللوائح التنظيمية</h2>
+            <p class="text-gray-600">ضمان الانسجام الكامل مع الأطر الوطنية والدولية</p>
+        </div>
+        <div class="grid md:grid-cols-3 gap-8 scroll-reveal">
+            <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-aecon-primary hover:transform hover:-translate-y-2 transition-all"><div class="w-16 h-16 bg-aecon-light rounded-2xl flex items-center justify-center text-aecon-primary text-2xl mb-6"><i class="fas fa-flag"></i></div><h3 class="text-xl font-bold text-aecon-dark mb-4">NCEC — المملكة العربية السعودية</h3><ul class="space-y-2 text-gray-600 text-sm"><li>• المركز الوطني لرقابة الالتزام البيئي</li><li>• معايير جودة الهواء المحيط السعودية (SAAQS)</li><li>• حدود الانبعاثات للمصادر الصناعية</li><li>• متطلبات الرصد البيئي</li></ul></div>
+            <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-blue-500 hover:transform hover:-translate-y-2 transition-all"><div class="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 text-2xl mb-6"><i class="fas fa-globe-americas"></i></div><h3 class="text-xl font-bold text-aecon-dark mb-4">المعايير الدولية</h3><ul class="space-y-2 text-gray-600 text-sm"><li>• إرشادات جودة الهواء WHO 2021</li><li>• معايير NAAQS لـ US EPA</li><li>• معايير IFC البيئية والاجتماعية</li><li>• مبادئ خط الاستواء (EP)</li></ul></div>
+            <div class="bg-white p-8 rounded-2xl shadow-lg border-t-4 border-green-500 hover:transform hover:-translate-y-2 transition-all"><div class="w-16 h-16 bg-green-50 rounded-2xl flex items-center justify-center text-green-600 text-2xl mb-6"><i class="fas fa-certificate"></i></div><h3 class="text-xl font-bold text-aecon-dark mb-4">شهادات ISO</h3><ul class="space-y-2 text-gray-600 text-sm"><li>• ISO/IEC 17025 — اعتماد المختبرات</li><li>• ISO 14001 — الإدارة البيئية</li><li>• ISO 14644 — معايير هواء الغرف النظيفة</li><li>• ISO 9001 — إدارة الجودة</li></ul></div>
+        </div>
+        <div class="mt-12 bg-gradient-to-r from-aecon-dark to-aecon-primary rounded-3xl p-8 text-white scroll-reveal">
+            <div class="grid md:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">إرشادات جودة الهواء WHO 2021</h3>
+                    <p class="text-gray-200 mb-6">تتوافق برامج رصد إيكون مع أحدث توصيات منظمة الصحة العالمية لحماية الصحة العامة.</p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-xl"><span class="block text-3xl font-bold">5 µg/m³</span><span class="text-sm text-gray-300">PM2.5 (سنوياً)</span></div>
+                        <div class="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-xl"><span class="block text-3xl font-bold">15 µg/m³</span><span class="text-sm text-gray-300">PM10 (سنوياً)</span></div>
+                    </div>
+                </div>
+                <div class="relative"><img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=500&h=300&fit=crop" alt="المختبر" class="rounded-2xl shadow-2xl opacity-90"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     العملاء والمشاريع
+═════════════════════════════════════════════ -->
+<section id="clients" class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 scroll-reveal">
+            <div class="inline-block px-4 py-2 bg-aecon-light rounded-full text-aecon-primary font-semibold text-sm mb-4">يثق بنا قادة الصناعة</div>
+            <h2 class="text-4xl font-bold text-aecon-dark mb-4">المشاريع الرئيسية ومحفظة العملاء</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">سجل حافل عبر أبرز برامج التنمية الوطنية في المملكة العربية السعودية</p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 scroll-reveal">
+            <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer"><img src="https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=400&h=300&fit=crop" alt="مصنع الأسمنت" class="w-full h-64 object-cover transform group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-gradient-to-t from-aecon-dark via-aecon-dark/50 to-transparent opacity-90"></div><div class="absolute bottom-0 left-0 right-0 p-6 text-white"><div class="flex items-center space-x-2 mb-2"><i class="fas fa-industry text-aecon-gold"></i><span class="text-sm font-medium text-aecon-gold">صناعي</span></div><h3 class="text-xl font-bold mb-2">مصنع أسمنت الرياض</h3><p class="text-sm text-gray-300">رصد شامل لجودة الهواء المحيط وانبعاثات المداخن وفق مناهج US EPA</p></div></div>
+            <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer"><img src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?w=400&h=300&fit=crop" alt="حديقة الملك سلمان" class="w-full h-64 object-cover transform group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-gradient-to-t from-aecon-dark via-aecon-dark/50 to-transparent opacity-90"></div><div class="absolute bottom-0 left-0 right-0 p-6 text-white"><div class="flex items-center space-x-2 mb-2"><i class="fas fa-tree text-aecon-gold"></i><span class="text-sm font-medium text-aecon-gold">التطوير الحضري</span></div><h3 class="text-xl font-bold mb-2">حديقة الملك سلمان</h3><p class="text-sm text-gray-300">الرصد البيئي لأكبر مشروع حديقة حضرية في الرياض</p></div></div>
+            <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer"><img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=300&fit=crop" alt="مشروع البحر الأحمر" class="w-full h-64 object-cover transform group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-gradient-to-t from-aecon-dark via-aecon-dark/50 to-transparent opacity-90"></div><div class="absolute bottom-0 left-0 right-0 p-6 text-white"><div class="flex items-center space-x-2 mb-2"><i class="fas fa-water text-aecon-gold"></i><span class="text-sm font-medium text-aecon-gold">السياحة</span></div><h3 class="text-xl font-bold mb-2">مشروع البحر الأحمر</h3><p class="text-sm text-gray-300">تقييم الأثر البيئي لمشروع سياحي ضخم يشمل البيئة البحرية وجودة الهواء</p></div></div>
+            <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer"><img src="https://images.unsplash.com/photo-1533106958155-d2d702b46d8a?w=400&h=300&fit=crop" alt="قدية" class="w-full h-64 object-cover transform group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-gradient-to-t from-aecon-dark via-aecon-dark/50 to-transparent opacity-90"></div><div class="absolute bottom-0 left-0 right-0 p-6 text-white"><div class="flex items-center space-x-2 mb-2"><i class="fas fa-rocket text-aecon-gold"></i><span class="text-sm font-medium text-aecon-gold">الترفيه</span></div><h3 class="text-xl font-bold mb-2">مدينة قدية الترفيهية</h3><p class="text-sm text-gray-300">رصد جودة الهواء لأحد أكبر وجهات الترفيه في العالم</p></div></div>
+            <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer"><img src="https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=400&h=300&fit=crop" alt="محطة الطاقة" class="w-full h-64 object-cover transform group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-gradient-to-t from-aecon-dark via-aecon-dark/50 to-transparent opacity-90"></div><div class="absolute bottom-0 left-0 right-0 p-6 text-white"><div class="flex items-center space-x-2 mb-2"><i class="fas fa-bolt text-aecon-gold"></i><span class="text-sm font-medium text-aecon-gold">الطاقة</span></div><h3 class="text-xl font-bold mb-2">محطة طاقة القصيم</h3><p class="text-sm text-gray-300">الامتثال البيئي لمحطة الدورة المركبة ونظام CEMS</p></div></div>
+            <div class="group relative overflow-hidden rounded-2xl shadow-lg cursor-pointer"><img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=400&h=300&fit=crop" alt="المنافذ الحدودية" class="w-full h-64 object-cover transform group-hover:scale-110 transition-transform duration-500"><div class="absolute inset-0 bg-gradient-to-t from-aecon-dark via-aecon-dark/50 to-transparent opacity-90"></div><div class="absolute bottom-0 left-0 right-0 p-6 text-white"><div class="flex items-center space-x-2 mb-2"><i class="fas fa-border-all text-aecon-gold"></i><span class="text-sm font-medium text-aecon-gold">البنية التحتية</span></div><h3 class="text-xl font-bold mb-2">12 منفذاً حدودياً برياً</h3><p class="text-sm text-gray-300">إعداد دراسات تقييم الأثر البيئي لمرافق المنافذ الحدودية الوطنية</p></div></div>
+        </div>
+        <div class="mt-16 grid md:grid-cols-4 gap-6 scroll-reveal">
+            <div class="text-center p-6 bg-gray-50 rounded-2xl"><i class="fas fa-industry text-4xl text-aecon-primary mb-4"></i><h4 class="font-bold text-aecon-dark mb-2">الصناعة والطاقة</h4><p class="text-sm text-gray-600">أسمنت الرياض، محطة القصيم، مشاريع أرامكو السعودية</p></div>
+            <div class="text-center p-6 bg-gray-50 rounded-2xl"><i class="fas fa-city text-4xl text-aecon-accent mb-4"></i><h4 class="font-bold text-aecon-dark mb-2">مشاريع التطوير الكبرى</h4><p class="text-sm text-gray-600">قدية، البحر الأحمر، حديقة الملك سلمان، نيوم</p></div>
+            <div class="text-center p-6 bg-gray-50 rounded-2xl"><i class="fas fa-landmark text-4xl text-blue-600 mb-4"></i><h4 class="font-bold text-aecon-dark mb-2">القطاع الحكومي</h4><p class="text-sm text-gray-600">شركة المياه الوطنية، NCEC، وزارة البيئة</p></div>
+            <div class="text-center p-6 bg-gray-50 rounded-2xl"><i class="fas fa-globe text-4xl text-aecon-sage mb-4"></i><h4 class="font-bold text-aecon-dark mb-2">دولياً</h4><p class="text-sm text-gray-600">5 عواصم الإمارات، SAIL، SIRC المملكة</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     الأدوات الرقمية
+═════════════════════════════════════════════ -->
+<section id="tools" class="py-24 bg-aecon-light">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 scroll-reveal">
+            <div class="inline-block px-4 py-2 bg-white rounded-full text-aecon-primary font-semibold text-sm mb-4 shadow">أدوات مجانية عبر الإنترنت</div>
+            <h2 class="text-4xl font-bold text-aecon-dark mb-4">أدوات الامتثال والكربون</h2>
+            <p class="text-gray-600 max-w-2xl mx-auto">استخدم أدواتنا التفاعلية المجانية لتقدير متطلبات الامتثال وبصمتك الكربونية</p>
+        </div>
+        <div class="grid md:grid-cols-2 gap-8 scroll-reveal">
+            <div class="bg-white rounded-3xl p-10 shadow-xl border border-aecon-light hover:shadow-2xl transition-all group cursor-pointer" onclick="openCalculator('compliance')">
+                <div class="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center text-white text-2xl mb-6 group-hover:scale-110 transition-transform"><i class="fas fa-balance-scale"></i></div>
+                <h3 class="text-2xl font-bold text-aecon-dark mb-3">فاحص الامتثال التنظيمي</h3>
+                <p class="text-gray-600 mb-6">اختر قطاعك وموقعك لمعرفة معايير NCEC وWHO وUS EPA المنطبقة على عملياتك فوراً.</p>
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium">معايير NCEC</span>
+                    <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium">إرشادات WHO</span>
+                    <span class="px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium">مناهج US EPA</span>
+                </div>
+                <button class="w-full py-3 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition-all">افحص متطلبات الامتثال ←</button>
+            </div>
+            <div class="bg-white rounded-3xl p-10 shadow-xl border border-aecon-light hover:shadow-2xl transition-all group cursor-pointer" onclick="openCalculator('carbon')">
+                <div class="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-700 rounded-2xl flex items-center justify-center text-white text-2xl mb-6 group-hover:scale-110 transition-transform"><i class="fas fa-leaf"></i></div>
+                <h3 class="text-2xl font-bold text-aecon-dark mb-3">حاسبة البصمة الكربونية</h3>
+                <p class="text-gray-600 mb-6">قدّر انبعاثات الكربون لمنظمتك عبر فئات النطاقات 1 و2 و3 بأداتنا التفاعلية.</p>
+                <div class="flex flex-wrap gap-2 mb-6">
+                    <span class="px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-medium">النطاق 1، 2 و3</span>
+                    <span class="px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-medium">المخرجات tCO₂e</span>
+                    <span class="px-3 py-1 bg-green-50 text-green-700 rounded-full text-xs font-medium">نصائح للتخفيض</span>
+                </div>
+                <button class="w-full py-3 bg-green-600 text-white rounded-xl font-bold hover:bg-green-700 transition-all">احسب البصمة الكربونية ←</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     نشرة الأخبار البيئية
+═════════════════════════════════════════════ -->
+<section id="env-news-section">
+  <!-- شريط الأخبار العاجلة -->
+  <div class="ticker-wrap">
+    <div class="ticker-track" id="ticker-track">
+      <span class="inline-flex items-center gap-3 px-6"
+        style="font-family:'Cairo',sans-serif; font-size:0.75rem; color:rgba(255,255,255,0.8);">
+        <span style="width:7px;height:7px;background:#5de08a;border-radius:50%;display:inline-block;
+               animation:pulse-dot 2s ease-in-out infinite;flex-shrink:0;"></span>
+        <span style="color:#a8f0c8; font-weight:700; letter-spacing:0.1em; font-size:0.68rem;">عاجل</span>
+        <span style="color:rgba(255,255,255,0.5);">·</span>
+        جارٍ تحميل آخر الأخبار البيئية للمملكة العربية السعودية&hellip;
+      </span>
+    </div>
+  </div>
+
+  <!-- رأس القسم -->
+  <div class="px-6 md:px-12 pt-14 pb-6">
+    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+      <div>
+        <div class="flex items-center gap-2 mb-3">
+          <div class="live-dot"></div>
+          <span style="font-size:0.72rem; font-weight:600; color:var(--aecon-teal); letter-spacing:0.08em; text-transform:uppercase;">
+            بث مباشر &middot; يتجدد تلقائياً كل 45 دقيقة
+          </span>
+        </div>
+        <h2 class="section-title text-4xl md:text-5xl mb-2">
+          نشرة <span style="color:var(--aecon-teal);">الأخبار البيئية</span>
+        </h2>
+        <p style="font-size:0.85rem; color:var(--aecon-muted);">
+          المملكة العربية السعودية والشرق الأوسط &middot; معلومات بيئية مُختارة
+        </p>
+      </div>
+      <div class="flex flex-col items-start md:items-end gap-3">
+        <div class="flex flex-wrap gap-2">
+          <button class="filter-pill active" data-topic="all">جميع المواضيع</button>
+          <button class="filter-pill" data-topic="air quality">جودة الهواء</button>
+          <button class="filter-pill" data-topic="sustainability">الاستدامة</button>
+          <button class="filter-pill" data-topic="climate">المناخ</button>
+          <button class="filter-pill" data-topic="water">المياه</button>
+        </div>
+        <div class="flex items-center gap-3">
+          <span id="last-updated" style="font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--aecon-faint); letter-spacing:0.04em;">
+            جارٍ جلب الأخبار&hellip;
+          </span>
+          <button class="refresh-btn" onclick="loadNews(true)">
+            <svg id="refresh-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+              <path d="M3 3v5h5"/>
+            </svg>
+            تحديث
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- صف الإحصائيات -->
+  <div class="px-6 md:px-12 pb-10">
+    <div class="flex gap-4 flex-wrap">
+      <div class="bg-white rounded-2xl px-6 py-4 text-center min-w-[100px]" style="border:1px solid var(--aecon-border); box-shadow:0 2px 10px rgba(31,107,82,0.07);">
+        <div id="stat-count" style="font-family:'Cairo',sans-serif; font-size:1.7rem; font-weight:700; color:var(--aecon-stat); line-height:1;">—</div>
+        <div style="font-size:0.68rem; color:var(--aecon-muted); text-transform:uppercase; letter-spacing:0.07em; margin-top:3px;">مقال</div>
+      </div>
+      <div class="bg-white rounded-2xl px-6 py-4 text-center min-w-[100px]" style="border:1px solid var(--aecon-border); box-shadow:0 2px 10px rgba(31,107,82,0.07);">
+        <div id="stat-sources" style="font-family:'Cairo',sans-serif; font-size:1.7rem; font-weight:700; color:var(--aecon-stat); line-height:1;">—</div>
+        <div style="font-size:0.68rem; color:var(--aecon-muted); text-transform:uppercase; letter-spacing:0.07em; margin-top:3px;">مصدر</div>
+      </div>
+      <div class="bg-white rounded-2xl px-6 py-4 text-center min-w-[100px]" style="border:1px solid var(--aecon-border); box-shadow:0 2px 10px rgba(31,107,82,0.07);">
+        <div style="font-family:'Cairo',sans-serif; font-size:1.7rem; font-weight:700; color:var(--aecon-stat); line-height:1;">KSA</div>
+        <div style="font-size:0.68rem; color:var(--aecon-muted); text-transform:uppercase; letter-spacing:0.07em; margin-top:3px;">المنطقة</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- شبكة الأخبار -->
+  <div class="px-6 md:px-12 pb-16">
+    <div id="skeleton-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="skeleton" style="height:390px;"></div>
+      <div class="skeleton" style="height:390px;"></div>
+      <div class="skeleton" style="height:390px;"></div>
+      <div class="skeleton" style="height:390px;"></div>
+      <div class="skeleton" style="height:390px;"></div>
+      <div class="skeleton" style="height:390px;"></div>
+    </div>
+    <div id="news-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" style="display:none;"></div>
+    <div id="news-error" style="display:none; text-align:center; padding:60px 20px;">
+      <div style="font-size:2.5rem; margin-bottom:12px;">&#128225;</div>
+      <div style="font-family:'Cairo',sans-serif; font-size:1.25rem; color:var(--aecon-text); margin-bottom:8px;">تعذّر جلب الأخبار المباشرة</div>
+      <div style="font-size:0.82rem; color:var(--aecon-muted); margin-bottom:24px;">يتم عرض مقالات مختارة. تحقق من مفتاح API أو الاتصال بالشبكة.</div>
+      <button onclick="loadNews(true)" style="padding:10px 28px; border-radius:999px; background:var(--aecon-teal); color:#fff; font-weight:600; font-size:0.84rem; cursor:pointer; border:none; box-shadow:0 4px 16px rgba(31,107,82,0.3);">إعادة المحاولة</button>
+    </div>
+  </div>
+
+  <!-- تذييل القسم -->
+  <div class="px-6 md:px-12 pb-10" style="border-top:1px solid var(--aecon-border);">
+    <div class="flex flex-wrap items-center justify-between gap-3 pt-6">
+      <p style="font-size:0.7rem; color:var(--aecon-faint); font-family:'JetBrains Mono',monospace; letter-spacing:0.04em;">
+        مدعوم بـ GNews API &middot; صور عبر Unsplash &middot; إيكون - الإمداد العربي للاستشارات البيئية
+      </p>
+      <p id="next-refresh-label" style="font-size:0.7rem; color:var(--aecon-faint); font-family:'JetBrains Mono',monospace; letter-spacing:0.04em;">
+        التحديث القادم: &mdash;
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     لماذا إيكون؟
+═════════════════════════════════════════════ -->
+<section class="py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-16 scroll-reveal"><h2 class="text-4xl font-bold text-aecon-dark mb-4">لماذا تختار إيكون؟</h2><p class="text-gray-600">ميزتنا التنافسية في الاستشارات البيئية</p></div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 scroll-reveal">
+            <div class="bg-gray-50 p-8 rounded-2xl shadow text-center group hover:bg-aecon-dark hover:text-white transition-all duration-300"><div class="w-16 h-16 mx-auto bg-aecon-light rounded-full flex items-center justify-center text-aecon-primary text-2xl mb-4 group-hover:bg-white group-hover:text-aecon-dark transition-all"><i class="fas fa-award"></i></div><h4 class="font-bold text-lg mb-2">مختبر معتمد</h4><p class="text-sm text-gray-600 group-hover:text-gray-300">معتمد ISO/IEC 17025 لنتائج مقبولة قانونياً</p></div>
+            <div class="bg-gray-50 p-8 rounded-2xl shadow text-center group hover:bg-aecon-dark hover:text-white transition-all duration-300"><div class="w-16 h-16 mx-auto bg-aecon-light rounded-full flex items-center justify-center text-aecon-primary text-2xl mb-4 group-hover:bg-white group-hover:text-aecon-dark transition-all"><i class="fas fa-map-marker-alt"></i></div><h4 class="font-bold text-lg mb-2">انتشار وطني</h4><p class="text-sm text-gray-600 group-hover:text-gray-300">5 مكاتب في المملكة والقاهرة وميلانو لتغطية شاملة</p></div>
+            <div class="bg-gray-50 p-8 rounded-2xl shadow text-center group hover:bg-aecon-dark hover:text-white transition-all duration-300"><div class="w-16 h-16 mx-auto bg-aecon-light rounded-full flex items-center justify-center text-aecon-primary text-2xl mb-4 group-hover:bg-white group-hover:text-aecon-dark transition-all"><i class="fas fa-cogs"></i></div><h4 class="font-bold text-lg mb-2">حلول متكاملة</h4><p class="text-sm text-gray-600 group-hover:text-gray-300">من الرصد الأساسي حتى التقديم للجهات التنظيمية</p></div>
+            <div class="bg-gray-50 p-8 rounded-2xl shadow text-center group hover:bg-aecon-dark hover:text-white transition-all duration-300"><div class="w-16 h-16 mx-auto bg-aecon-light rounded-full flex items-center justify-center text-aecon-primary text-2xl mb-4 group-hover:bg-white group-hover:text-aecon-dark transition-all"><i class="fas fa-users"></i></div><h4 class="font-bold text-lg mb-2">فريق متخصص</h4><p class="text-sm text-gray-600 group-hover:text-gray-300">أكثر من 50 مهندساً وعالماً بيئياً مؤهلاً</p></div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     تواصل معنا
+═════════════════════════════════════════════ -->
+<section id="contact" class="py-24 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-2 gap-16">
+            <div class="scroll-reveal">
+                <div class="inline-block px-4 py-2 bg-aecon-light rounded-full text-aecon-primary font-semibold text-sm mb-6">تواصل معنا</div>
+                <h2 class="text-4xl font-bold text-aecon-dark mb-6">تواصل مع إيكون اليوم</h2>
+                <p class="text-gray-600 text-lg mb-8">نحن مستعدون لدعم متطلبات الرصد البيئي والامتثال لديك. تواصل مع فريق المتخصصين لدينا اليوم.</p>
+                <div class="space-y-6">
+                    <div class="flex items-start space-x-4"><div class="w-12 h-12 bg-aecon-light rounded-xl flex items-center justify-center text-aecon-primary flex-shrink-0"><i class="fas fa-map-marker-alt text-xl"></i></div><div><h4 class="font-bold text-aecon-dark mb-1">المقر الرئيسي</h4><p class="text-gray-600">3083 طريق الدائري الشمالي، 8241 حي المروج<br>الرياض 12284، المملكة العربية السعودية</p></div></div>
+                    <div class="flex items-start space-x-4"><div class="w-12 h-12 bg-aecon-light rounded-xl flex items-center justify-center text-aecon-primary flex-shrink-0"><i class="fas fa-envelope text-xl"></i></div><div><h4 class="font-bold text-aecon-dark mb-1">البريد الإلكتروني</h4><p class="text-gray-600"><a href="mailto:enviro@aecon-sa.com" class="hover:text-aecon-primary transition-colors">enviro@aecon-sa.com</a></p></div></div>
+                    <div class="flex items-start space-x-4"><div class="w-12 h-12 bg-aecon-light rounded-xl flex items-center justify-center text-aecon-primary flex-shrink-0"><i class="fas fa-phone text-xl"></i></div><div><h4 class="font-bold text-aecon-dark mb-1">هاتف</h4><p class="text-gray-600" dir="ltr">+966 11 512 4979</p></div></div>
+                    <div class="flex items-start space-x-4"><div class="w-12 h-12 bg-aecon-light rounded-xl flex items-center justify-center text-aecon-primary flex-shrink-0"><i class="fas fa-globe text-xl"></i></div><div><h4 class="font-bold text-aecon-dark mb-1">الموقع الإلكتروني</h4><p class="text-gray-600">www.aecon-sa.com</p></div></div>
+                </div>
+            </div>
+            <div class="scroll-reveal">
+                <div class="bg-white rounded-3xl p-8 shadow-xl">
+                    <h3 class="text-2xl font-bold text-aecon-dark mb-6">طلب استشارة</h3>
+                    <div class="space-y-4">
+                        <div class="grid md:grid-cols-2 gap-4">
+                            <input type="text" placeholder="الاسم الأول" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-aecon-primary focus:ring-2 focus:ring-aecon-primary/20 outline-none transition-all">
+                            <input type="text" placeholder="اسم العائلة" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-aecon-primary focus:ring-2 focus:ring-aecon-primary/20 outline-none transition-all">
+                        </div>
+                        <input type="email" placeholder="البريد الإلكتروني" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-aecon-primary focus:ring-2 focus:ring-aecon-primary/20 outline-none transition-all">
+                        <input type="tel" placeholder="رقم الهاتف" dir="ltr" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-aecon-primary focus:ring-2 focus:ring-aecon-primary/20 outline-none transition-all text-right">
+                        <select class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-aecon-primary outline-none transition-all text-gray-600">
+                            <option value="">اختر الخدمة المطلوبة</option>
+                            <option>رصد جودة الهواء المحيط</option>
+                            <option>اختبارات انبعاثات المداخن</option>
+                            <option>جودة الهواء الداخلي</option>
+                            <option>تقييم الأثر البيئي</option>
+                            <option>خدمات أخرى</option>
+                        </select>
+                        <textarea placeholder="أخبرنا عن مشروعك..." rows="4" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-aecon-primary outline-none transition-all resize-none"></textarea>
+                        <button onclick="alert('شكراً لك! سيتواصل معك فريقنا قريباً.')" class="w-full py-4 bg-aecon-dark text-white rounded-xl font-bold hover:bg-aecon-accent transition-all shadow-lg">إرسال الرسالة</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ════════════════════════════════════════════
+     تذييل الصفحة
+═════════════════════════════════════════════ -->
+<footer class="bg-aecon-dark text-white py-12 border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid md:grid-cols-4 gap-8 mb-8">
+            <div>
+                <div class="flex items-center space-x-3 mb-4"><div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-aecon-dark font-bold text-xl">إ</div><div><h3 class="text-xl font-bold">إيكون</h3><p class="text-xs text-gray-400">الإمداد العربي</p></div></div>
+                <p class="text-gray-400 text-sm">التميز البيئي من أجل مستقبل مستدام</p>
+            </div>
+            <div><h4 class="font-bold mb-4">الخدمات</h4><ul class="space-y-2 text-sm text-gray-400"><li><a href="#" class="hover:text-white transition-colors">رصد جودة الهواء</a></li><li><a href="#" class="hover:text-white transition-colors">اختبارات انبعاثات المداخن</a></li><li><a href="#" class="hover:text-white transition-colors">الاستشارات البيئية</a></li><li><a href="#" class="hover:text-white transition-colors">التحليل المختبري</a></li></ul></div>
+            <div><h4 class="font-bold mb-4">الأدوات</h4><ul class="space-y-2 text-sm text-gray-400"><li><button onclick="openPortal()" class="hover:text-white transition-colors text-right">بوابة العملاء</button></li><li><button onclick="openCalculator('compliance')" class="hover:text-white transition-colors text-right">فاحص الامتثال</button></li><li><button onclick="openCalculator('carbon')" class="hover:text-white transition-colors text-right">حاسبة الكربون</button></li><li><a href="#env-news-section" class="hover:text-white transition-colors">نشرة الأخبار</a></li></ul></div>
+            <div><h4 class="font-bold mb-4">تواصل معنا</h4><div class="flex space-x-4"><a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-aecon-accent transition-all"><i class="fab fa-linkedin-in"></i></a><a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-aecon-accent transition-all"><i class="fab fa-twitter"></i></a><a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-aecon-accent transition-all"><i class="fab fa-facebook-f"></i></a></div></div>
+        </div>
+        <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
+            <p>© 2025 إيكون - الإمداد العربي للاستشارات البيئية. جميع الحقوق محفوظة.</p>
+            <p class="mt-2 md:mt-0">إعداد: سكندر شيشتي، مهندس بيئي</p>
+        </div>
+    </div>
+</footer>
+
+
+<!-- ════════════════════════════════════════════
+     النموذج 1: بوابة العملاء
+═════════════════════════════════════════════ -->
+<div id="portalModal" class="modal-overlay" onclick="closeOnOverlay(event,'portalModal')">
+    <div class="modal-box w-full max-w-5xl mx-4">
+        <div id="portalLogin" class="p-10">
+            <div class="flex justify-between items-center mb-8">
+                <div class="flex items-center gap-3">
+                    <div class="w-12 h-12 bg-gradient-to-br from-aecon-dark to-aecon-accent rounded-xl flex items-center justify-center text-white font-bold text-xl">إ</div>
+                    <div><h2 class="text-2xl font-bold text-aecon-dark">بوابة العملاء</h2><p class="text-sm text-gray-500">وصول آمن إلى وثائق مشروعك</p></div>
+                </div>
+                <button onclick="closeModal('portalModal')" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200"><i class="fas fa-times text-gray-500"></i></button>
+            </div>
+            <div class="max-w-md mx-auto">
+                <div class="bg-aecon-light rounded-2xl p-8">
+                    <h3 class="text-xl font-bold text-aecon-dark mb-6 text-center">تسجيل الدخول إلى حسابك</h3>
+                    <div class="space-y-4">
+                        <div><label class="block text-sm font-medium text-gray-700 mb-1">البريد الإلكتروني</label><input type="email" id="portalEmail" placeholder="you@company.com" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-aecon-primary outline-none bg-white"></div>
+                        <div><label class="block text-sm font-medium text-gray-700 mb-1">كلمة المرور</label><input type="password" id="portalPass" placeholder="••••••••" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-aecon-primary outline-none bg-white"></div>
+                        <button onclick="doLogin()" class="w-full py-3 bg-aecon-dark text-white rounded-xl font-bold hover:bg-aecon-accent transition-all">تسجيل الدخول</button>
+                        <p class="text-center text-xs text-gray-500">تجريبي: استخدم أي بريد إلكتروني + كلمة المرور "demo123"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="portalDashboard" class="hidden">
+            <!-- RTL: flex-row-reverse applied via CSS above -->
+            <div class="flex h-[640px]" style="flex-direction:row-reverse;">
+                <div class="w-60 bg-gray-50 border-r p-5 flex flex-col gap-1 flex-shrink-0">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-10 h-10 bg-gradient-to-br from-aecon-dark to-aecon-accent rounded-lg flex items-center justify-center text-white font-bold">إ</div>
+                        <div><p class="font-bold text-sm text-aecon-dark">بوابة إيكون</p><p class="text-xs text-gray-400">لوحة تحكم العميل</p></div>
+                    </div>
+                    <div class="portal-sidebar-item active" onclick="showPortalSection('overview', this)"><i class="fas fa-th-large w-4"></i> نظرة عامة</div>
+                    <div class="portal-sidebar-item" onclick="showPortalSection('projects', this)"><i class="fas fa-tasks w-4"></i> المشاريع</div>
+                    <div class="portal-sidebar-item" onclick="showPortalSection('reports', this)"><i class="fas fa-file-pdf w-4"></i> التقارير</div>
+                    <div class="portal-sidebar-item" onclick="showPortalSection('compliance', this)"><i class="fas fa-shield-alt w-4"></i> الامتثال</div>
+                    <div class="mt-auto portal-sidebar-item text-red-500" onclick="doLogout()"><i class="fas fa-sign-out-alt w-4"></i> تسجيل الخروج</div>
+                </div>
+                <div class="flex-1 overflow-y-auto p-7 relative">
+                    <button onclick="closeModal('portalModal')" class="absolute top-5 left-5 w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 z-10"><i class="fas fa-times text-gray-500"></i></button>
+                    <div id="section-overview" class="portal-section">
+                        <h2 class="text-2xl font-bold text-aecon-dark mb-1">أهلاً بك، شركة أسمنت الرياض</h2>
+                        <p class="text-gray-500 text-sm mb-6">آخر تسجيل دخول: 10 مارس 2025</p>
+                        <div class="grid grid-cols-3 gap-4 mb-8">
+                            <div class="bg-aecon-light rounded-2xl p-5 text-center"><p class="text-3xl font-bold text-aecon-dark">4</p><p class="text-sm text-gray-600 mt-1">مشاريع نشطة</p></div>
+                            <div class="bg-blue-50 rounded-2xl p-5 text-center"><p class="text-3xl font-bold text-blue-700">12</p><p class="text-sm text-gray-600 mt-1">تقارير متاحة</p></div>
+                            <div class="bg-green-50 rounded-2xl p-5 text-center"><p class="text-3xl font-bold text-green-700">✓</p><p class="text-sm text-gray-600 mt-1">حالة الامتثال</p></div>
+                        </div>
+                        <h3 class="font-bold text-aecon-dark mb-3">النشاط الأخير</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl"><div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center"><i class="fas fa-file-pdf text-blue-600 text-xs"></i></div><div class="flex-1"><p class="text-sm font-medium text-gray-800">رُفع تقرير جودة الهواء للربع الرابع 2024</p><p class="text-xs text-gray-400">8 مارس 2025</p></div></div>
+                            <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl"><div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center"><i class="fas fa-check text-green-600 text-xs"></i></div><div class="flex-1"><p class="text-sm font-medium text-gray-800">اكتمل اختبار المداخن — الوحدة 3</p><p class="text-xs text-gray-400">5 مارس 2025</p></div></div>
+                            <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl"><div class="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center"><i class="fas fa-bell text-amber-600 text-xs"></i></div><div class="flex-1"><p class="text-sm font-medium text-gray-800">تجديد ترخيص NCEC خلال 45 يوماً</p><p class="text-xs text-gray-400">تذكير</p></div></div>
+                        </div>
+                    </div>
+                    <div id="section-projects" class="portal-section hidden">
+                        <h2 class="text-2xl font-bold text-aecon-dark mb-6">متابعة المشاريع</h2>
+                        <div class="space-y-4">
+                            <div class="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm"><div class="flex justify-between items-start mb-3"><div><h4 class="font-bold text-aecon-dark">حملة جودة الهواء المحيط 2025</h4><p class="text-xs text-gray-400">بدأت يناير 2025 · مرجع إيكون: AQ-2025-001</p></div><span class="status-badge status-progress">جارٍ التنفيذ</span></div><div class="progress-bar mb-1"><div class="progress-fill" style="width:72%"></div></div><div class="flex justify-between text-xs text-gray-400"><span>مكتمل 72%</span><span>الإنجاز المتوقع: يونيو 2025</span></div></div>
+                            <div class="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm"><div class="flex justify-between items-start mb-3"><div><h4 class="font-bold text-aecon-dark">اختبارات انبعاثات المداخن — الوحدات 1، 2، 3</h4><p class="text-xs text-gray-400">بدأت فبراير 2025 · مرجع إيكون: SE-2025-004</p></div><span class="status-badge status-complete">مكتمل</span></div><div class="progress-bar mb-1"><div class="progress-fill" style="width:100%"></div></div><div class="flex justify-between text-xs text-gray-400"><span>مكتمل 100%</span><span>صدر التقرير مارس 2025</span></div></div>
+                            <div class="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm"><div class="flex justify-between items-start mb-3"><div><h4 class="font-bold text-aecon-dark">تحديث خطة الإدارة البيئية</h4><p class="text-xs text-gray-400">بدأت مارس 2025 · مرجع إيكون: EMP-2025-007</p></div><span class="status-badge status-review">قيد المراجعة</span></div><div class="progress-bar mb-1"><div class="progress-fill" style="width:40%"></div></div><div class="flex justify-between text-xs text-gray-400"><span>مكتمل 40%</span><span>الإنجاز المتوقع: مايو 2025</span></div></div>
+                        </div>
+                    </div>
+                    <div id="section-reports" class="portal-section hidden">
+                        <h2 class="text-2xl font-bold text-aecon-dark mb-6">التقارير القابلة للتحميل</h2>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all"><div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center"><i class="fas fa-file-pdf text-red-500"></i></div><div class="flex-1"><p class="font-semibold text-gray-800 text-sm">تقرير جودة الهواء المحيط — الربع الرابع 2024</p><p class="text-xs text-gray-400">PDF · 3.2 MB · صدر: مارس 2025</p></div><button onclick="fakeDownload()" class="px-4 py-2 bg-aecon-dark text-white text-xs rounded-lg hover:bg-aecon-accent transition-all font-medium"><i class="fas fa-download ml-1"></i> تحميل</button></div>
+                            <div class="flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all"><div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center"><i class="fas fa-file-pdf text-red-500"></i></div><div class="flex-1"><p class="font-semibold text-gray-800 text-sm">تقرير اختبار انبعاثات المداخن — الوحدة 1</p><p class="text-xs text-gray-400">PDF · 1.8 MB · صدر: فبراير 2025</p></div><button onclick="fakeDownload()" class="px-4 py-2 bg-aecon-dark text-white text-xs rounded-lg hover:bg-aecon-accent transition-all font-medium"><i class="fas fa-download ml-1"></i> تحميل</button></div>
+                            <div class="flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all"><div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center"><i class="fas fa-file-excel text-green-600"></i></div><div class="flex-1"><p class="font-semibold text-gray-800 text-sm">بيانات PM2.5/PM10 الخام — يناير–مارس 2025</p><p class="text-xs text-gray-400">Excel · 890 KB · صدر: مارس 2025</p></div><button onclick="fakeDownload()" class="px-4 py-2 bg-aecon-dark text-white text-xs rounded-lg hover:bg-aecon-accent transition-all font-medium"><i class="fas fa-download ml-1"></i> تحميل</button></div>
+                            <div class="flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all"><div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center"><i class="fas fa-file-pdf text-red-500"></i></div><div class="flex-1"><p class="font-semibold text-gray-800 text-sm">تقرير جودة الهواء المحيط — الربع الثالث 2024</p><p class="text-xs text-gray-400">PDF · 2.9 MB · صدر: أكتوبر 2024 · نسخة سابقة</p></div><button onclick="fakeDownload()" class="px-4 py-2 bg-gray-100 text-gray-600 text-xs rounded-lg hover:bg-gray-200 transition-all font-medium"><i class="fas fa-download ml-1"></i> أرشيف</button></div>
+                        </div>
+                    </div>
+                    <div id="section-compliance" class="portal-section hidden">
+                        <h2 class="text-2xl font-bold text-aecon-dark mb-6">وثائق الامتثال</h2>
+                        <div class="grid grid-cols-2 gap-4 mb-6">
+                            <div class="bg-green-50 border border-green-200 rounded-2xl p-5"><div class="flex items-center gap-3 mb-2"><i class="fas fa-check-circle text-green-500 text-xl"></i><span class="font-bold text-green-700">ترخيص NCEC</span></div><p class="text-xs text-gray-500">ساري حتى ديسمبر 2025</p></div>
+                            <div class="bg-amber-50 border border-amber-200 rounded-2xl p-5"><div class="flex items-center gap-3 mb-2"><i class="fas fa-exclamation-circle text-amber-500 text-xl"></i><span class="font-bold text-amber-700">تدقيق ISO 14001</span></div><p class="text-xs text-gray-500">خلال 45 يوماً</p></div>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-xl shadow-sm"><div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center"><i class="fas fa-file-pdf text-red-500"></i></div><div class="flex-1"><p class="font-semibold text-gray-800 text-sm">رخصة بيئية NCEC 2024</p><p class="text-xs text-gray-400">وثيقة امتثال · تنتهي ديسمبر 2025</p></div><button onclick="fakeDownload()" class="px-4 py-2 bg-aecon-dark text-white text-xs rounded-lg hover:bg-aecon-accent transition-all font-medium"><i class="fas fa-download ml-1"></i> تحميل</button></div>
+                            <div class="flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-xl shadow-sm"><div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center"><i class="fas fa-file-pdf text-red-500"></i></div><div class="flex-1"><p class="font-semibold text-gray-800 text-sm">تقرير تدقيق ISO 14001 — 2024</p><p class="text-xs text-gray-400">وثيقة امتثال · صدر سبتمبر 2024</p></div><button onclick="fakeDownload()" class="px-4 py-2 bg-aecon-dark text-white text-xs rounded-lg hover:bg-aecon-accent transition-all font-medium"><i class="fas fa-download ml-1"></i> تحميل</button></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     النموذج 2: الحاسبة
+═════════════════════════════════════════════ -->
+<div id="calcModal" class="modal-overlay" onclick="closeOnOverlay(event,'calcModal')">
+    <div class="modal-box w-full max-w-3xl mx-4">
+        <div class="p-8">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold text-aecon-dark">الأدوات البيئية</h2>
+                <button onclick="closeModal('calcModal')" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200"><i class="fas fa-times text-gray-500"></i></button>
+            </div>
+            <div class="flex gap-3 mb-8">
+                <button id="calcTab-compliance" onclick="switchCalcTab('compliance')" class="flex-1 py-3 rounded-xl font-semibold text-sm transition-all calc-tab-active">⚖️ فاحص الامتثال</button>
+                <button id="calcTab-carbon" onclick="switchCalcTab('carbon')" class="flex-1 py-3 rounded-xl font-semibold text-sm transition-all bg-gray-100 text-gray-700 hover:bg-gray-200">🌿 حاسبة الكربون</button>
+            </div>
+            <div id="calc-compliance">
+                <div class="grid md:grid-cols-2 gap-5 mb-6">
+                    <div><label class="block text-sm font-semibold text-gray-700 mb-2">نوع الصناعة</label><select id="compIndustry" onchange="updateCompliance()" class="w-full px-4 py-3 border border-gray-200 rounded-xl outline-none focus:border-aecon-primary bg-gray-50"><option value="">اختر الصناعة...</option><option value="cement">الأسمنت / الخرسانة</option><option value="power">توليد الطاقة</option><option value="oil">النفط والغاز / البتروكيماويات</option><option value="construction">البناء والإنشاء</option><option value="food">الغذاء والمشروبات</option><option value="pharma">الصناعات الدوائية</option></select></div>
+                    <div><label class="block text-sm font-semibold text-gray-700 mb-2">المنطقة / الموقع</label><select id="compRegion" onchange="updateCompliance()" class="w-full px-4 py-3 border border-gray-200 rounded-xl outline-none focus:border-aecon-primary bg-gray-50"><option value="">اختر المنطقة...</option><option value="ksa">المملكة العربية السعودية (NCEC)</option><option value="uae">الإمارات العربية المتحدة</option><option value="intl">دولي / IFC</option></select></div>
+                </div>
+                <div id="complianceResults" class="hidden">
+                    <div class="bg-aecon-light rounded-2xl p-6 mb-4"><h4 class="font-bold text-aecon-dark mb-4 flex items-center gap-2"><i class="fas fa-clipboard-list text-aecon-primary"></i> المعايير المنطبقة</h4><div id="complianceList" class="space-y-2"></div></div>
+                    <div class="bg-amber-50 rounded-2xl p-4 border border-amber-100"><p class="text-sm text-amber-800"><i class="fas fa-info-circle ml-2"></i><strong>إخلاء مسؤولية:</strong> هذا مؤشر استرشادي. تواصل مع إيكون للحصول على تقييم امتثال مُخصَّص لمنشأتك.</p></div>
+                    <button onclick="closeModal('calcModal'); document.getElementById('contact').scrollIntoView({behavior:'smooth'})" class="w-full mt-4 py-3 bg-aecon-dark text-white rounded-xl font-bold hover:bg-aecon-accent transition-all">احصل على تقييم امتثال كامل ←</button>
+                </div>
+                <div id="compliancePlaceholder" class="text-center py-10 text-gray-400"><i class="fas fa-balance-scale text-5xl mb-3 block opacity-30"></i><p>اختر قطاعك ومنطقتك لعرض المعايير المنطبقة</p></div>
+            </div>
+            <div id="calc-carbon" class="hidden">
+                <div class="space-y-5 mb-6">
+                    <div><label class="block text-sm font-semibold text-gray-700 mb-2">⚡ استهلاك الكهرباء (MWh/سنة)</label><input type="range" id="electricity" class="range-track" min="0" max="50000" value="10000" oninput="updateCarbon()"><div class="flex justify-between text-xs text-gray-400 mt-1"><span>0</span><span id="elecVal" class="font-bold text-aecon-dark">10,000 MWh</span><span>50,000</span></div></div>
+                    <div><label class="block text-sm font-semibold text-gray-700 mb-2">🚛 استهلاك الديزل (لتر/سنة)</label><input type="range" id="diesel" class="range-track" min="0" max="500000" value="50000" oninput="updateCarbon()"><div class="flex justify-between text-xs text-gray-400 mt-1"><span>0</span><span id="dieselVal" class="font-bold text-aecon-dark">50,000 لتر</span><span>500,000</span></div></div>
+                    <div><label class="block text-sm font-semibold text-gray-700 mb-2">✈️ السفر للعمل (كم/سنة)</label><input type="range" id="travel" class="range-track" min="0" max="500000" value="100000" oninput="updateCarbon()"><div class="flex justify-between text-xs text-gray-400 mt-1"><span>0</span><span id="travelVal" class="font-bold text-aecon-dark">100,000 كم</span><span>500,000</span></div></div>
+                    <div><label class="block text-sm font-semibold text-gray-700 mb-2">🏭 انبعاثات غاز العمليات (tCO₂e/سنة إن وُجدت)</label><input type="range" id="process" class="range-track" min="0" max="10000" value="500" oninput="updateCarbon()"><div class="flex justify-between text-xs text-gray-400 mt-1"><span>0</span><span id="processVal" class="font-bold text-aecon-dark">500 tCO₂e</span><span>10,000</span></div></div>
+                </div>
+                <div class="grid grid-cols-3 gap-4 mb-4">
+                    <div class="result-card"><p class="text-2xl font-bold" id="scope1">-</p><p class="text-xs opacity-70 mt-1">النطاق 1 (tCO₂e)</p></div>
+                    <div class="result-card"><p class="text-2xl font-bold" id="scope2">-</p><p class="text-xs opacity-70 mt-1">النطاق 2 (tCO₂e)</p></div>
+                    <div class="result-card" style="background:linear-gradient(135deg,#1a5f5f,#2d8a8a)"><p class="text-2xl font-bold" id="totalCarbon">-</p><p class="text-xs opacity-70 mt-1">الإجمالي (tCO₂e)</p></div>
+                </div>
+                <div id="carbonTip" class="hidden bg-green-50 border border-green-200 rounded-xl p-4 text-sm text-green-800 mb-4"></div>
+                <button onclick="closeModal('calcModal'); document.getElementById('contact').scrollIntoView({behavior:'smooth'})" class="w-full py-3 bg-aecon-dark text-white rounded-xl font-bold hover:bg-aecon-accent transition-all">احصل على خطة تخفيض الكربون ←</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     أداة مؤشر جودة الهواء AQI
+═════════════════════════════════════════════ -->
+<div id="aqiWidget">
+    <div id="aqiCard">
+        <div class="aqi-header">
+            <div class="aqi-live-badge"><span class="aqi-live-dot"></span>مباشر · الرياض</div>
+            <span id="aqiCardTime">--</span>
+        </div>
+        <div class="aqi-main">
+            <div id="aqiCircle"><span class="c-val" id="aqiValue">--</span><span class="c-unit">AQI</span></div>
+            <div><div id="aqiLabel">جارٍ التحميل...</div><div id="aqiSublabel">مؤشر جودة الهواء</div></div>
+        </div>
+        <div class="aqi-stats">
+            <div class="aqi-stat"><div class="sv" id="aqiPM25">--</div><div class="sl">PM2.5 µg/m³</div></div>
+            <div class="aqi-stat"><div class="sv" id="aqiPM10">--</div><div class="sl">PM10 µg/m³</div></div>
+        </div>
+    </div>
+    <div id="aqiDot" onclick="toggleAQI()" title="جودة الهواء المباشرة · الرياض">
+        <span class="dot-aqi" id="dotAqiVal">--</span>
+        <span class="dot-label">AQI</span>
+        <div id="aqiClose" onclick="dismissAQI(event)" title="إغلاق">✕</div>
+    </div>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     المساعد الذكي (Chatbot)
+═════════════════════════════════════════════ -->
+<div id="chatbotWidget">
+    <div id="chatWindow" class="animate-fade-in">
+        <div class="bg-gradient-to-r from-aecon-dark to-aecon-accent p-4 flex items-center gap-3">
+            <div class="w-10 h-10 bg-white rounded-full flex items-center justify-content"><span class="text-aecon-dark font-bold text-sm m-auto">ذكاء</span></div>
+            <div class="flex-1"><p class="font-bold text-white text-sm">مساعد إيكون الذكي</p><p class="text-xs text-white/70 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse inline-block"></span> متصل</p></div>
+            <button onclick="toggleChat()" class="text-white/70 hover:text-white"><i class="fas fa-times"></i></button>
+        </div>
+        <div id="chatMessages" class="flex-1 p-4 space-y-3 bg-white overflow-y-auto" style="min-height:300px;max-height:360px">
+            <div class="flex gap-2"><div class="w-7 h-7 bg-aecon-light rounded-full flex items-center justify-center flex-shrink-0 mt-1"><i class="fas fa-robot text-aecon-primary text-xs"></i></div><div class="chat-msg bot">مرحباً! أنا المساعد الذكي لشركة إيكون. يمكنني الإجابة عن أسئلتك حول خدماتنا البيئية ومتطلبات الامتثال ومساعدتك في البدء. كيف يمكنني مساعدتك اليوم؟</div></div>
+        </div>
+        <div id="quickReplies" class="px-4 py-2 bg-gray-50 border-t flex flex-wrap gap-2">
+            <button onclick="sendQuick('What services do you offer?')" class="px-3 py-1.5 bg-white border border-gray-200 rounded-full text-xs text-gray-600 hover:border-aecon-primary hover:text-aecon-primary transition-all">خدماتنا</button>
+            <button onclick="sendQuick('What compliance standards do you work with?')" class="px-3 py-1.5 bg-white border border-gray-200 rounded-full text-xs text-gray-600 hover:border-aecon-primary hover:text-aecon-primary transition-all">الامتثال</button>
+            <button onclick="sendQuick('How do I request a quote?')" class="px-3 py-1.5 bg-white border border-gray-200 rounded-full text-xs text-gray-600 hover:border-aecon-primary hover:text-aecon-primary transition-all">طلب عرض سعر</button>
+        </div>
+        <div class="p-3 border-t bg-white flex gap-2">
+            <button onclick="sendChat()" class="w-9 h-9 bg-aecon-dark rounded-xl flex items-center justify-center text-white hover:bg-aecon-accent transition-all flex-shrink-0"><i class="fas fa-paper-plane text-xs"></i></button>
+            <input id="chatInput" type="text" placeholder="اسأل عن خدماتنا..." class="flex-1 px-3 py-2 rounded-xl border border-gray-200 text-sm outline-none focus:border-aecon-primary" onkeydown="if(event.key==='Enter') sendChat()">
+        </div>
+    </div>
+    <button onclick="toggleChat()" id="chatToggleBtn" class="w-16 h-16 bg-gradient-to-br from-aecon-dark to-aecon-accent rounded-full shadow-2xl flex items-center justify-center text-white hover:scale-110 transition-all mt-3 mr-auto relative"> <!-- RTL: mr-auto -->
+        <i class="fas fa-robot text-2xl"></i>
+        <span class="absolute -top-1 -left-1 w-5 h-5 bg-green-400 rounded-full border-2 border-white animate-pulse"></span>
+    </button>
+</div>
+
+
+<!-- ════════════════════════════════════════════
+     JavaScript — الموقع الرئيسي (بدون تعديل)
+═════════════════════════════════════════════ -->
+<script>
+// ── جزيئات الخلفية ──────────────────────────
+function createParticles() {
+    const c = document.getElementById('particles');
+    for (let i = 0; i < 20; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.cssText = `width:${Math.random()*10+5}px;height:${Math.random()*10+5}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-delay:${Math.random()*5}s;animation-duration:${Math.random()*10+10}s`;
+        c.appendChild(p);
+    }
+}
+createParticles();
+
+// ── تبويبات الخدمات ──────────────────────────
+function switchTab(t) {
+    document.querySelectorAll('.service-content').forEach(e => e.classList.add('hidden'));
+    document.getElementById('content-'+t).classList.remove('hidden');
+    document.querySelectorAll('[id^="tab-"]').forEach(b => { b.classList.remove('tab-active'); b.classList.add('bg-white','text-gray-700'); });
+    const btn = document.getElementById('tab-'+t);
+    btn.classList.add('tab-active'); btn.classList.remove('bg-white','text-gray-700');
+}
+
+// ── القائمة المتحركة ─────────────────────────
+function toggleMobileMenu() { document.getElementById('mobileMenu').classList.toggle('hidden'); }
+
+// ── كشف التمرير ──────────────────────────────
+const obs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); }), {threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+document.querySelectorAll('.scroll-reveal').forEach(e => obs.observe(e));
+
+// ── شريط التنقل عند التمرير ──────────────────
+window.addEventListener('scroll', () => document.getElementById('navbar').querySelector('.glass-card').classList.toggle('shadow-lg', window.scrollY > 50));
+
+// ── التمرير السلس ────────────────────────────
+document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); const t = document.querySelector(a.getAttribute('href')); if(t) { t.scrollIntoView({behavior:'smooth'}); document.getElementById('mobileMenu').classList.add('hidden'); } }));
+
+// ── مساعدات النوافذ المنبثقة ─────────────────
+function closeOnOverlay(e, id) { if(e.target === document.getElementById(id)) closeModal(id); }
+function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+// ── بوابة العملاء ─────────────────────────────
+function openPortal() { document.getElementById('portalModal').classList.add('active'); document.getElementById('portalLogin').classList.remove('hidden'); document.getElementById('portalDashboard').classList.add('hidden'); }
+function doLogin() {
+    const pass = document.getElementById('portalPass').value;
+    if(pass === 'demo123') {
+        document.getElementById('portalLogin').classList.add('hidden');
+        document.getElementById('portalDashboard').classList.remove('hidden');
+        setTimeout(() => document.querySelectorAll('.progress-fill').forEach(el => { el.style.width = el.style.width; }), 200);
+    } else { alert('كلمة المرور غير صحيحة. استخدم "demo123" للنسخة التجريبية.'); }
+}
+function doLogout() { document.getElementById('portalDashboard').classList.add('hidden'); document.getElementById('portalLogin').classList.remove('hidden'); }
+function showPortalSection(name, el) {
+    document.querySelectorAll('.portal-section').forEach(s => s.classList.add('hidden'));
+    document.getElementById('section-'+name).classList.remove('hidden');
+    document.querySelectorAll('.portal-sidebar-item').forEach(i => i.classList.remove('active'));
+    if (el) el.classList.add('active');
+}
+function fakeDownload() { alert('في النسخة الفعلية، سيتم تحميل المستند من وحدة التخزين الآمنة الخاصة بك.'); }
+
+// ── الحاسبة ───────────────────────────────────
+function openCalculator(tab) {
+    document.getElementById('calcModal').classList.add('active');
+    if(tab) switchCalcTab(tab);
+}
+function switchCalcTab(t) {
+    document.getElementById('calc-compliance').classList.toggle('hidden', t !== 'compliance');
+    document.getElementById('calc-carbon').classList.toggle('hidden', t !== 'carbon');
+    document.getElementById('calcTab-compliance').className = 'flex-1 py-3 rounded-xl font-semibold text-sm transition-all ' + (t==='compliance'?'calc-tab-active':'bg-gray-100 text-gray-700 hover:bg-gray-200');
+    document.getElementById('calcTab-carbon').className = 'flex-1 py-3 rounded-xl font-semibold text-sm transition-all ' + (t==='carbon'?'calc-tab-active':'bg-gray-100 text-gray-700 hover:bg-gray-200');
+    if(t==='carbon') updateCarbon();
+}
+
+// ── بيانات الامتثال ───────────────────────────
+const complianceData = {
+    cement: { ksa: ['معايير جودة الهواء المحيط السعودية (SAAQS) - NCEC','حدود انبعاثات مصانع الأسمنت - NCEC','US EPA Method 5 — اختبارات مداخن الجسيمات','رصد PM10 وPM2.5 وNOx وSO₂ وCO إلزامي','يُنصح بنظام رصد الانبعاثات المستمر (CEMS)'], uae: ['قانون الاتحادي الإماراتي رقم 24 لحماية البيئة','لوائح بيئية لمصانع الأسمنت - هيئة الصحة والسلامة أبوظبي','رصد PM وNOx وSO₂ والانبعاثات'], intl: ['إرشادات IFC الصحة والسلامة والبيئة - الأسمنت والجير','إرشادات جودة الهواء WHO 2021','بروتوكول الغازات الدفيئة — تقارير النطاق 1 و2'] },
+    power: { ksa: ['معايير NCEC لجودة الهواء في مناطق توليد الطاقة','معايير انبعاثات NOx وSO₂ - NCEC','تركيب CEMS إلزامي لمحطات >50 ميغاواط','الامتثال البيئي لشركة السعودية للكهرباء','رصد تصريف المياه عند وجود أبراج تبريد'], uae: ['الامتثال البيئي لـ DEWA/ADWEA','قرار مجلس وزراء إمارات رقم 37/2001'], intl: ['إرشادات IFC للمحطات الحرارية','إرشادات البنك الدولي للوقاية من التلوث','تقارير الغازات الدفيئة (ISO 14064)'] },
+    oil: { ksa: ['معايير HSE - NCEC / أرامكو السعودية','حدود انبعاثات VOC وH₂S - NCEC','الرصد المستمر للشعلات','معايير أرامكو السعودية للسلامة (SAES)','رصد BTEX المحيطي حول المنشآت'], uae: ['نظام إدارة HSE - ADNOC','قانون اتحادي إماراتي رقم 24'], intl: ['إرشادات IFC للعمليات النفطية والغازية العليا','دليل قطاع النفط والغاز - بروتوكول الغازات الدفيئة','ملحق MARPOL VI للعمليات البحرية'] },
+    construction: { ksa: ['إرشادات إدارة الغبار - NCEC','متطلبات استدامة رؤية 2030 السعودية','رصد PM10/TSP عند حدود الموقع','رصد جودة المياه للجريان السطحي'], uae: ['معايير الضجيج والغبار للبناء - بلدية دبي','لوائح البيئة الإماراتية لمواقع البناء'], intl: ['إرشادات IFC للصحة والسلامة والبيئة العامة','مبادئ خط الاستواء لتمويل المشاريع','نظام إدارة بيئية ISO 14001'] },
+    food: { ksa: ['معايير انبعاثات تصنيع الأغذية - NCEC','الامتثال لهيئة الغذاء والدواء السعودية (SFDA)','معايير تصريف المياه (NCEC)','إدارة مواد التبريد (F-Gas)'], uae: ['سلامة الغذاء - بلدية دبي','قرار مجلس وزراء إمارات رقم 12/2016'], intl: ['إرشادات IFC للغذاء والمشروبات','ممارسات التصنيع الجيد WHO'] },
+    pharma: { ksa: ['انبعاثات الهواء والمواد الكيميائية - NCEC','متطلبات منشآت GMP - SFDA','معايير هواء الغرف النظيفة ISO 14644','حدود انبعاثات HAPs والمركبات العضوية المتطايرة'], uae: ['GMP - وزارة الصحة الإماراتية','لوائح هيئة الصحة في دبي'], intl: ['ICH Q7 للمكونات الدوائية الفعّالة','إرشادات IFC للصناعات الدوائية','نظام إدارة بيئية ISO 14001'] }
+};
+function updateCompliance() {
+    const ind = document.getElementById('compIndustry').value;
+    const reg = document.getElementById('compRegion').value;
+    if(!ind || !reg) { document.getElementById('complianceResults').classList.add('hidden'); document.getElementById('compliancePlaceholder').classList.remove('hidden'); return; }
+    const standards = complianceData[ind]?.[reg] || [];
+    document.getElementById('compliancePlaceholder').classList.add('hidden');
+    document.getElementById('complianceResults').classList.remove('hidden');
+    document.getElementById('complianceList').innerHTML = standards.map(s => `<div class="flex items-start gap-2"><i class="fas fa-check-circle text-aecon-primary mt-0.5 flex-shrink-0"></i><span class="text-sm text-gray-700">${s}</span></div>`).join('');
+}
+
+// ── حاسبة الكربون ─────────────────────────────
+function updateCarbon() {
+    const elec = +document.getElementById('electricity').value;
+    const dies = +document.getElementById('diesel').value;
+    const trav = +document.getElementById('travel').value;
+    const proc = +document.getElementById('process').value;
+    document.getElementById('elecVal').textContent = elec.toLocaleString('ar-SA') + ' MWh';
+    document.getElementById('dieselVal').textContent = dies.toLocaleString('ar-SA') + ' لتر';
+    document.getElementById('travelVal').textContent = trav.toLocaleString('ar-SA') + ' كم';
+    document.getElementById('processVal').textContent = proc.toLocaleString('ar-SA') + ' tCO₂e';
+    const s1 = Math.round(dies * 0.00268 + proc);
+    const s2 = Math.round(elec * 0.45);
+    const s3 = Math.round(trav * 0.00019);
+    const total = s1 + s2 + s3;
+    document.getElementById('scope1').textContent = s1.toLocaleString('ar-SA');
+    document.getElementById('scope2').textContent = s2.toLocaleString('ar-SA');
+    document.getElementById('totalCarbon').textContent = total.toLocaleString('ar-SA');
+    const tip = document.getElementById('carbonTip');
+    if(total > 0) {
+        tip.classList.remove('hidden');
+        let msg = '💡 ';
+        if(s2 > s1) msg += `أكبر مصادر انبعاثاتك هي الكهرباء (النطاق 2: ${s2.toLocaleString('ar-SA')} tCO₂e). فكّر في الطاقة المتجددة أو الألواح الشمسية لتخفيض كبير في هذه الانبعاثات.`;
+        else msg += `أكبر مصادر انبعاثاتك هي الوقود المباشر (النطاق 1: ${s1.toLocaleString('ar-SA')} tCO₂e). يمكن أن يؤدي تكهرب الأسطول أو التحويل إلى وقود بديل إلى تخفيضات جوهرية.`;
+        tip.textContent = msg;
+    }
+}
+updateCarbon();
+
+// ── أداة مؤشر جودة الهواء AQI ─────────────────
+(function () {
+    let aqiExpanded = false;
+    function aqiColor(v) {
+        if (v <= 50)  return { hex: '#22c55e', alpha: 'rgba(34,197,94,0.55)',  label: 'جيد 😊',          stat: '#4ade80' };
+        if (v <= 100) return { hex: '#eab308', alpha: 'rgba(234,179,8,0.55)',  label: 'مقبول 😐',         stat: '#facc15' };
+        if (v <= 150) return { hex: '#f97316', alpha: 'rgba(249,115,22,0.55)', label: 'غير صحي للفئات الحساسة', stat: '#fb923c' };
+        return             { hex: '#ef4444', alpha: 'rgba(239,68,68,0.55)',  label: 'غير صحي ⚠️',      stat: '#f87171' };
+    }
+    function applyColor(c) {
+        const w = document.getElementById('aqiWidget');
+        w.style.setProperty('--aqi-color', c.hex);
+        w.style.setProperty('--aqi-color-alpha', c.alpha);
+        const circle = document.getElementById('aqiCircle');
+        circle.style.background  = c.hex;
+        circle.style.boxShadow   = `0 0 20px ${c.alpha}`;
+        document.getElementById('aqiPM25').style.color = c.stat;
+        document.getElementById('aqiPM10').style.color = c.stat;
+    }
+    async function fetchAQI() {
+        try {
+            const res  = await fetch('/api/aqi', { headers: { Accept: 'application/json' } });
+            if (!res.ok) throw new Error();
+            const data = await res.json();
+            if (data.status === 'ok') {
+                const aqi  = data.data.aqi;
+                const pm25 = data.data.iaqi?.pm25?.v ?? 'N/A';
+                const pm10 = data.data.iaqi?.pm10?.v ?? 'N/A';
+                const time = new Date().toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' });
+                const c    = aqiColor(aqi);
+                document.getElementById('dotAqiVal').textContent   = aqi;
+                document.getElementById('aqiValue').textContent    = aqi;
+                document.getElementById('aqiPM25').textContent     = pm25;
+                document.getElementById('aqiPM10').textContent     = pm10;
+                document.getElementById('aqiCardTime').textContent = time;
+                document.getElementById('aqiLabel').textContent    = c.label;
+                applyColor(c);
+            } else { document.getElementById('aqiLabel').textContent = 'لا توجد بيانات'; }
+        } catch (e) { document.getElementById('aqiLabel').textContent = 'غير متصل'; }
+    }
+    fetchAQI();
+    setInterval(fetchAQI, 60000);
+    window.toggleAQI = function () {
+        aqiExpanded = !aqiExpanded;
+        document.getElementById('aqiCard').classList.toggle('open', aqiExpanded);
+        document.getElementById('aqiWidget').classList.toggle('expanded', aqiExpanded);
+    };
+    window.dismissAQI = function (e) {
+        e.stopPropagation();
+        document.getElementById('aqiCard').classList.remove('open');
+        aqiExpanded = false;
+        document.getElementById('aqiWidget').classList.remove('expanded');
+        setTimeout(() => { document.getElementById('aqiWidget').style.display = 'none'; }, 350);
+    };
+})();
+
+// ── المساعد الذكي ──────────────────────────────
+let chatOpen = false;
+let chatHistory = [];
+const SYSTEM_PROMPT = `أنت المساعد الذكي المحترف لشركة إيكون - الإمداد العربي للاستشارات البيئية، ومقرها الرياض بالمملكة العربية السعودية.`;
+
+function toggleChat() {
+    chatOpen = !chatOpen;
+    const win = document.getElementById('chatWindow');
+    const btn = document.getElementById('chatToggleBtn');
+    win.classList.toggle('open', chatOpen);
+    btn.style.marginTop = chatOpen ? '0' : '3px';
+}
+function renderMarkdown(text) {
+    return text
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/^- (.+)/gm, '<li style="margin-right:12px;list-style:disc">$1</li>')
+        .replace(/(<li.*<\/li>)/s, '<ul style="margin:4px 0">$1</ul>')
+        .replace(/\n\n/g, '<br><br>')
+        .replace(/\n/g, '<br>');
+}
+function addMessage(text, role) {
+    const container = document.getElementById('chatMessages');
+    const isBot = role === 'assistant';
+    const div = document.createElement('div');
+    div.className = 'flex gap-2' + (isBot ? '' : ' justify-start'); /* RTL: justify-start for user */
+    const formattedText = isBot ? renderMarkdown(text) : text;
+    div.innerHTML = isBot
+        ? `<div class="w-7 h-7 bg-aecon-light rounded-full flex items-center justify-center flex-shrink-0 mt-1"><i class="fas fa-robot text-aecon-primary text-xs"></i></div><div class="chat-msg bot">${formattedText}</div>`
+        : `<div class="chat-msg user">${formattedText}</div>`;
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+}
+function showTyping() {
+    const container = document.getElementById('chatMessages');
+    const div = document.createElement('div');
+    div.id = 'typingIndicator';
+    div.className = 'flex gap-2';
+    div.innerHTML = `<div class="w-7 h-7 bg-aecon-light rounded-full flex items-center justify-center flex-shrink-0"><i class="fas fa-robot text-aecon-primary text-xs"></i></div><div class="chat-msg bot typing-indicator"><span></span><span></span><span></span></div>`;
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+}
+function hideTyping() { const t = document.getElementById('typingIndicator'); if(t) t.remove(); }
+async function sendChat() {
+    const input = document.getElementById('chatInput');
+    const text = input.value.trim();
+    if(!text) return;
+    input.value = '';
+    document.getElementById('quickReplies').style.display = 'none';
+    addMessage(text, 'user');
+    chatHistory.push({ role: 'user', content: text });
+    showTyping();
+    try {
+        const res = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: text }) });
+        const data = await res.json();
+        hideTyping();
+        const reply = data.reply || "عذراً، لم أتمكن من معالجة طلبك. يرجى التواصل معنا على enviro@aecon-sa.com";
+        chatHistory.push({ role: 'assistant', content: reply });
+        addMessage(reply, 'assistant');
+    } catch(err) {
+        hideTyping();
+        addMessage("عذراً، أواجه مشكلة في الاتصال. يرجى مراسلتنا على enviro@aecon-sa.com", 'assistant');
+    }
+}
+function sendQuick(msg) { document.getElementById('chatInput').value = msg; sendChat(); }
+</script>
+
+<!-- ════════════════════════════════════════════
+     JavaScript — نشرة الأخبار البيئية (بدون تعديل وظيفي)
+═════════════════════════════════════════════ -->
+<script>
+const CONFIG = {
+  GNEWS_API_KEY: 'aa10790c9a07c8f488147dcc45b6ded9',
+  ARTICLE_COUNT: 6,
+  REFRESH_MS:    45 * 60 * 1000,
+};
+
+const TOPIC_IMAGES = {
+  air: [
+    'https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800&q=80',
+    'https://images.unsplash.com/photo-1569952266837-07ce4f964a5e?w=800&q=80',
+    'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80',
+  ],
+  water: [
+    'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=800&q=80',
+    'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=800&q=80',
+    'https://images.unsplash.com/photo-1559825481-12a05cc00344?w=800&q=80',
+  ],
+  climate: [
+    'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800&q=80',
+    'https://images.unsplash.com/photo-1547683905-f686c993aae5?w=800&q=80',
+    'https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=800&q=80',
+  ],
+  energy: [
+    'https://images.unsplash.com/photo-1509391366360-2e959784a276?w=800&q=80',
+    'https://images.unsplash.com/photo-1466611653911-95081537e5b7?w=800&q=80',
+    'https://images.unsplash.com/photo-1548337138-e87d889cc369?w=800&q=80',
+  ],
+  green: [
+    'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&q=80',
+    'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=800&q=80',
+    'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&q=80',
+  ],
+  desert: [
+    'https://images.unsplash.com/photo-1509316785289-025f5b846b35?w=800&q=80',
+    'https://images.unsplash.com/photo-1534447677768-be436bb09401?w=800&q=80',
+    'https://images.unsplash.com/photo-1512632578888-169bbbc64f33?w=800&q=80',
+  ],
+  regulation: [
+    'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=800&q=80',
+    'https://images.unsplash.com/photo-1568992687947-868a62a9f521?w=800&q=80',
+    'https://images.unsplash.com/photo-1521791136064-7986c2920216?w=800&q=80',
+  ],
+  default: [
+    'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=800&q=80',
+    'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&q=80',
+    'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&q=80',
+  ],
+};
+
+const CATEGORIES = {
+  'air':        { label: '💨 جودة الهواء',   bg: 'rgba(26,92,160,0.13)',  color: '#1a5ca0', imgKey: 'air' },
+  'water':      { label: '💧 المياه',         bg: 'rgba(26,92,160,0.11)',  color: '#1a6ca0', imgKey: 'water' },
+  'climate':    { label: '🌡 المناخ',         bg: 'rgba(160,80,20,0.11)',  color: '#a05014', imgKey: 'climate' },
+  'energy':     { label: '⚡ الطاقة',         bg: 'rgba(31,107,82,0.13)', color: '#1f6b52', imgKey: 'energy' },
+  'regulation': { label: '📋 التنظيم',        bg: 'rgba(31,107,82,0.11)', color: '#2a6e54', imgKey: 'regulation' },
+  'green':      { label: '🌱 الاستدامة',      bg: 'rgba(31,107,82,0.13)', color: '#1f6b52', imgKey: 'green' },
+  'default':    { label: '🌍 البيئة',         bg: 'rgba(31,107,82,0.10)', color: '#1f6b52', imgKey: 'default' },
+};
+
+const FALLBACK_ARTICLES = [
+  { title: 'المملكة العربية السعودية توسّع شبكة رصد جودة الهواء في إطار رؤية 2030', description: 'كلّف المركز الوطني لرقابة الالتزام البيئي 28 محطة جديدة لرصد جودة الهواء المحيط في الجبيل وينبع والرياض والمنطقة الشرقية.', url: 'https://ncec.gov.sa', source: { name: 'المركز الوطني لرقابة الالتزام البيئي' }, publishedAt: new Date().toISOString(), image: null },
+  { title: 'مبادرة السعودية الخضراء تتخطى هدف زراعة مليار شجرة قبل الموعد المحدد', description: 'تجاوز برنامج التشجير السعودي هدفه للعام الأول بزرع الشتلات في مناطق التصحر في تبوك والقصيم والمنطقة الشرقية.', url: 'https://www.greeninitiatives.gov.sa', source: { name: 'مبادرة السعودية الخضراء' }, publishedAt: new Date(Date.now()-86400000).toISOString(), image: null },
+  { title: 'البحر الأحمر الجلوبال تحصل على الموافقة البيئية للمرحلة الثانية من التطوير', description: 'حصلت البحر الأحمر الجلوبال على موافقات تقييم الأثر البيئي للمرحلة الثانية متضمنةً بروتوكولات حماية مناطق المحميات البحرية.', url: 'https://www.redseaglobal.com', source: { name: 'البحر الأحمر الجلوبال' }, publishedAt: new Date(Date.now()-172800000).toISOString(), image: null },
+  { title: 'إرشادات جودة الهواء لمنظمة الصحة العالمية تدفع دول الخليج لمراجعة معايير الانبعاثات', description: 'تعمل الجهات التنظيمية الخليجية على مواءمة حدود الانبعاثات الوطنية مع معايير WHO المحدّثة، والمملكة والإمارات في طليعة مجموعات العمل الإقليمية.', url: 'https://www.arabnews.com', source: { name: 'عرب نيوز' }, publishedAt: new Date(Date.now()-259200000).toISOString(), image: null },
+  { title: 'نيوم تكشف عن محطة تحلية مياه صفرية الكربون تعمل بالطاقة الشمسية والرياح', description: 'أعلنت نيوم عن خطط لأكبر منشأة تحلية مياه تعمل بالطاقة المتجددة في العالم بطاقة 100 مليون لتر يومياً بدون بصمة كربونية.', url: 'https://www.neom.com', source: { name: 'نيوم' }, publishedAt: new Date(Date.now()-345600000).toISOString(), image: null },
+  { title: 'أرامكو تُفيد بتخفيض كثافة الكربون التشغيلية 23% قبل هدف 2030', description: 'يوثّق أحدث تقرير استدامة لأرامكو السعودية تقدماً ملحوظاً في خفض الانبعاثات مع وصول كثافة الميثان لأدنى مستوياتها التاريخية.', url: 'https://www.aramco.com/en/sustainability', source: { name: 'أرامكو السعودية' }, publishedAt: new Date(Date.now()-432000000).toISOString(), image: null },
+];
+
+let allArticles = [], activeFilter = 'all', refreshTimer = null, countdownTimer = null, nextRefresh = null;
+
+function getCategory(a) {
+  const t = ((a.title || '') + ' ' + (a.description || '')).toLowerCase();
+  if (t.includes('air') || t.includes('pm2.5') || t.includes('pm10') || t.includes('smog') || t.includes('emission') || t.includes('هواء') || t.includes('انبعاث')) return CATEGORIES['air'];
+  if (t.includes('water') || t.includes('desalin') || t.includes('coast') || t.includes('marine') || t.includes('ocean') || t.includes('مياه') || t.includes('بحر')) return CATEGORIES['water'];
+  if (t.includes('climate') || t.includes('carbon') || t.includes('co2') || t.includes('مناخ') || t.includes('كربون')) return CATEGORIES['climate'];
+  if (t.includes('solar') || t.includes('renewable') || t.includes('wind') || t.includes('energy') || t.includes('طاقة') || t.includes('شمسي')) return CATEGORIES['energy'];
+  if (t.includes('regulat') || t.includes('complia') || t.includes('law') || t.includes('تنظيم') || t.includes('امتثال')) return CATEGORIES['regulation'];
+  if (t.includes('green') || t.includes('sustainab') || t.includes('tree') || t.includes('أخضر') || t.includes('استدامة') || t.includes('شجر')) return CATEGORIES['green'];
+  return CATEGORIES['default'];
+}
+
+function getImage(article, index) {
+  if (article.image && article.image.startsWith('http')) return article.image;
+  const cat = getCategory(article);
+  const imgKey = cat.imgKey || 'default';
+  const pool = TOPIC_IMAGES[imgKey] || TOPIC_IMAGES['default'];
+  return pool[index % pool.length];
+}
+
+function getFallbackImage(article, index) {
+  const cat = getCategory(article);
+  const imgKey = cat.imgKey || 'default';
+  const pool = TOPIC_IMAGES[imgKey] || TOPIC_IMAGES['default'];
+  return pool[(index + 1) % pool.length];
+}
+
+function timeAgo(d) {
+  const s = Math.floor((Date.now() - new Date(d)) / 1000);
+  if (s < 60)    return 'منذ ' + s + ' ثانية';
+  if (s < 3600)  return 'منذ ' + Math.floor(s / 60) + ' دقيقة';
+  if (s < 86400) return 'منذ ' + Math.floor(s / 3600) + ' ساعة';
+  return 'منذ ' + Math.floor(s / 86400) + ' يوم';
+}
+
+function stripHtml(h) {
+  const d = document.createElement('div');
+  d.innerHTML = h;
+  return d.textContent || d.innerText || '';
+}
+
+function fetchWithTimeout(url, ms = 8000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), ms);
+  return fetch(url, { signal: controller.signal }).finally(() => clearTimeout(timer));
+}
+
+async function fetchNews() {
+  const q = 'Saudi Arabia environment OR "air quality" OR sustainability OR "green initiative" OR climate';
+  if (CONFIG.GNEWS_API_KEY && CONFIG.GNEWS_API_KEY !== 'YOUR_GNEWS_API_KEY') {
+    try {
+      const res = await fetchWithTimeout(
+        `https://gnews.io/api/v4/search?q=${encodeURIComponent(q)}&lang=en&country=sa&max=${CONFIG.ARTICLE_COUNT}&apikey=${CONFIG.GNEWS_API_KEY}`
+      );
+      if (res.ok) {
+        const data = await res.json();
+        if (data.articles?.length) {
+          return data.articles.map(a => ({
+            title: a.title, description: a.description,
+            url: a.url, source: { name: a.source?.name || 'أخبار' },
+            publishedAt: a.publishedAt, image: a.image || null,
+          }));
+        }
+      }
+    } catch (e) { console.warn('[AECON News] GNews failed:', e.message); }
+  }
+  try {
+    const rss = 'https://news.google.com/rss/search?q=Saudi+Arabia+environment+sustainability&hl=en-SA&gl=SA&ceid=SA:en';
+    const res = await fetchWithTimeout(
+      `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rss)}&count=${CONFIG.ARTICLE_COUNT}`
+    );
+    if (res.ok) {
+      const data = await res.json();
+      if (data.items?.length) {
+        return data.items.slice(0, CONFIG.ARTICLE_COUNT).map(i => ({
+          title: stripHtml(i.title), description: stripHtml(i.description || i.summary || '').slice(0, 260) + '...',
+          url: i.link, source: { name: i.author || 'Google News' },
+          publishedAt: i.pubDate || new Date().toISOString(), image: i.thumbnail || i.enclosure?.link || null,
+        }));
+      }
+    }
+  } catch (e) { console.warn('[AECON News] RSS failed:', e.message); }
+  return FALLBACK_ARTICLES;
+}
+
+function renderTicker(articles) {
+  const track = document.getElementById('ticker-track');
+  if (!track || !articles.length) return;
+  const items = [...articles, ...articles];
+  track.innerHTML = items.map(a =>
+    `<span class="inline-flex items-center gap-3 px-6" style="border-right:1px solid rgba(255,255,255,0.09);">
+      <span style="color:#a8f0c8;font-weight:700;font-size:0.68rem;">&#9654;</span>
+      <span style="font-family:'Cairo',sans-serif;font-size:0.73rem;color:rgba(255,255,255,0.85);">${a.title}</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:rgba(255,255,255,0.38);margin-right:4px;">${timeAgo(a.publishedAt)}</span>
+    </span>`
+  ).join('');
+}
+
+function filterArticles(a) {
+  if (activeFilter === 'all') return a;
+  return a.filter(x => ((x.title || '') + ' ' + (x.description || '')).toLowerCase().includes(activeFilter.toLowerCase()));
+}
+
+function renderCard(article, index) {
+  const cat      = getCategory(article);
+  const img      = getImage(article, index);
+  const fallback = getFallbackImage(article, index);
+  const ago      = timeAgo(article.publishedAt);
+  const featured = index === 0;
+
+  return `
+    <div class="news-card${featured ? ' featured' : ''}">
+      <div class="card-img-wrap">
+        <img src="${img}" alt="${(article.title || '').replace(/"/g, '')}" loading="lazy"
+             onerror="this.onerror=null;this.src='${fallback}'" />
+        <div class="card-img-overlay"></div>
+        <span class="card-badge" style="background:${cat.bg};color:${cat.color};">${cat.label}</span>
+        <span class="card-source">${article.source?.name || 'أخبار'}</span>
+      </div>
+      <div class="card-body">
+        <h3 class="card-title">${article.title}</h3>
+        <p class="card-desc">${article.description || 'اقرأ المقال الكامل لمعرفة تفاصيل هذا التطور البيئي.'}</p>
+        <div class="card-footer">
+          <span class="card-time">${ago}</span>
+          <a href="${article.url}" target="_blank" rel="noopener" class="read-more">
+            اقرأ المزيد
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="transform:scaleX(-1)">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>`;
+}
+
+function renderGrid() {
+  const grid = document.getElementById('news-grid');
+  if (!grid) return;
+  const filtered = filterArticles(allArticles);
+  if (!filtered.length) {
+    grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;">
+      <div style="font-size:2rem;margin-bottom:10px;">🔍</div>
+      <div style="font-family:'Cairo',sans-serif;font-size:1.1rem;color:var(--aecon-text);">لا توجد مقالات تطابق هذا التصفية</div>
+    </div>`;
+    return;
+  }
+  grid.innerHTML = filtered.map((a, i) => renderCard(a, i)).join('');
+  const sources = [...new Set(filtered.map(a => a.source?.name).filter(Boolean))];
+  const statCount   = document.getElementById('stat-count');
+  const statSources = document.getElementById('stat-sources');
+  if (statCount)   statCount.textContent   = filtered.length;
+  if (statSources) statSources.textContent = sources.length;
+}
+
+async function loadNews() {
+  const $sk = document.getElementById('skeleton-grid');
+  const $gr = document.getElementById('news-grid');
+  const $er = document.getElementById('news-error');
+  const $ic = document.getElementById('refresh-icon');
+  const $up = document.getElementById('last-updated');
+
+  if ($ic) $ic.style.animation = 'spin 1s linear infinite';
+  if ($sk) $sk.style.display = 'grid';
+  if ($gr) $gr.style.display = 'none';
+  if ($er) $er.style.display = 'none';
+
+  try {
+    const articles = await fetchNews();
+    allArticles = articles;
+    renderTicker(articles);
+    if ($sk) $sk.style.display = 'none';
+    if ($gr) $gr.style.display = 'grid';
+    renderGrid();
+    if ($up) {
+      const now = new Date();
+      $up.textContent = `آخر تحديث ${now.toLocaleTimeString('ar-SA', { hour: '2-digit', minute: '2-digit' })}`;
+    }
+  } catch (err) {
+    console.error('[AECON News]', err);
+    allArticles = FALLBACK_ARTICLES;
+    if ($sk) $sk.style.display = 'none';
+    if ($gr) $gr.style.display = 'grid';
+    renderGrid();
+    if ($er) $er.style.display = 'block';
+  } finally {
+    if ($ic) $ic.style.animation = '';
+  }
+
+  if (refreshTimer)   clearInterval(refreshTimer);
+  if (countdownTimer) clearInterval(countdownTimer);
+  nextRefresh  = Date.now() + CONFIG.REFRESH_MS;
+  refreshTimer = setInterval(() => loadNews(), CONFIG.REFRESH_MS);
+  countdownTimer = setInterval(() => {
+    const rem = Math.max(0, nextRefresh - Date.now());
+    const m   = Math.floor(rem / 60000);
+    const s   = Math.floor((rem % 60000) / 1000);
+    const el  = document.getElementById('next-refresh-label');
+    if (el) el.textContent = `التحديث القادم: ${m} د ${String(s).padStart(2, '0')} ث`;
+  }, 1000);
+}
+
+document.querySelectorAll('.filter-pill').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-pill').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.topic;
+    renderGrid();
+  });
+});
+
+const _sty = document.createElement('style');
+_sty.textContent = '@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}';
+document.head.appendChild(_sty);
+
+document.addEventListener('DOMContentLoaded', () => loadNews());
+</script>
+</body>
+</html>
