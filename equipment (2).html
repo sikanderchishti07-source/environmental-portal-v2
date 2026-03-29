@@ -1,0 +1,1492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AECON Equipment & Technology — Advanced instrumentation for air, water, soil and marine environmental monitoring across the Kingdom of Saudi Arabia." />
+  <title>Equipment & Technology | AECON Environmental Consultancy</title>
+
+  <!-- ── External Libraries ── -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <!-- ── Tailwind Config ── -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Plus Jakarta Sans','sans-serif'] },
+          colors: {
+            aecon: {
+              dark:    '#0f3d3e',
+              primary: '#1a5f5f',
+              accent:  '#2d8a8a',
+              light:   '#e8f4f4',
+              gold:    '#d4a574',
+              sage:    '#87a878'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    /* ═══════════════════════════════════════════════
+       GLOBAL / UTILITY
+    ═══════════════════════════════════════════════ */
+    :root {
+      --cat-air:    #2d8a8a;
+      --cat-water:  #1a5f5f;
+      --cat-soil:   #87a878;
+      --cat-marine: #0f3d3e;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f5f7f6; color: #1e3d32; overflow-x: hidden; }
+
+    .glass-card {
+      background: rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.25);
+    }
+
+    /* ═══════════════════════════════════════════════
+       HERO
+    ═══════════════════════════════════════════════ */
+    .eq-hero {
+      background: linear-gradient(135deg, #0f3d3e 0%, #1a5f5f 55%, #2d8a8a 100%);
+      padding: 140px 0 90px;
+      position: relative;
+      overflow: hidden;
+    }
+    .eq-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,.04) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    .eq-hero-pattern {
+      position: absolute; right: 0; top: 0; bottom: 0; width: 55%;
+      background: url("data:image/svg+xml,%3Csvg width='600' height='600' viewBox='0 0 600 600' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='rgba(255,255,255,.04)' stroke-width='1'%3E%3Ccircle cx='300' cy='300' r='280'/%3E%3Ccircle cx='300' cy='300' r='220'/%3E%3Ccircle cx='300' cy='300' r='160'/%3E%3Ccircle cx='300' cy='300' r='100'/%3E%3Cline x1='20' y1='300' x2='580' y2='300'/%3E%3Cline x1='300' y1='20' x2='300' y2='580'/%3E%3Cline x1='100' y1='100' x2='500' y2='500'/%3E%3Cline x1='500' y1='100' x2='100' y2='500'/%3E%3C/g%3E%3C/svg%3E") center center / 600px no-repeat;
+      opacity: .35;
+      pointer-events: none;
+    }
+    .hero-stat-card {
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.15);
+      backdrop-filter: blur(8px);
+      border-radius: 14px;
+      padding: 18px 22px;
+      text-align: center;
+    }
+    .hero-stat-card .hsc-val {
+      font-size: 1.9rem; font-weight: 800;
+      background: linear-gradient(135deg,#d4a574,#e8c9a0);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-stat-card .hsc-lbl {
+      font-family: 'DM Sans',sans-serif; font-size: .72rem; color: rgba(255,255,255,.55);
+      text-transform: uppercase; letter-spacing: .09em; margin-top: 4px;
+    }
+
+    /* ═══════════════════════════════════════════════
+       CATEGORY FILTER BAR
+    ═══════════════════════════════════════════════ */
+    .filter-bar {
+      background: #fff;
+      border-bottom: 1px solid rgba(15,61,62,.08);
+      position: sticky; top: 80px; z-index: 40;
+      padding: 16px 0;
+    }
+    .filter-bar-inner {
+      max-width: 1320px; margin: 0 auto;
+      padding: 0 clamp(16px,4vw,48px);
+      display: flex; flex-wrap: wrap; align-items: center;
+      gap: 12px; justify-content: space-between;
+    }
+    .cat-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+    .cat-tab {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 9px 20px; border-radius: 999px;
+      font-family: 'DM Sans',sans-serif; font-size: .82rem; font-weight: 600;
+      border: 1.5px solid rgba(15,61,62,.12);
+      background: #fff; color: #5a7a6a;
+      cursor: pointer; transition: all .22s ease;
+      white-space: nowrap;
+    }
+    .cat-tab .ct-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: currentColor; opacity: .5;
+      transition: opacity .22s;
+    }
+    .cat-tab:hover { border-color: #2d8a8a; color: #1a5f5f; background: rgba(45,138,138,.06); }
+    .cat-tab.active { color: #fff; border-color: transparent; }
+    .cat-tab[data-cat="all"].active    { background: #0f3d3e; }
+    .cat-tab[data-cat="air"].active    { background: var(--cat-air); }
+    .cat-tab[data-cat="water"].active  { background: var(--cat-water); }
+    .cat-tab[data-cat="soil"].active   { background: var(--cat-soil); }
+    .cat-tab[data-cat="marine"].active { background: var(--cat-marine); }
+    .cat-tab.active .ct-dot            { opacity: 1; background: rgba(255,255,255,.7); }
+
+    .search-wrap {
+      display: flex; align-items: center; gap: 10px;
+      background: #f5f7f6; border: 1.5px solid rgba(15,61,62,.12);
+      border-radius: 999px; padding: 8px 16px;
+      min-width: 220px;
+    }
+    .search-wrap i { color: #8aaa99; font-size: .82rem; }
+    .search-wrap input {
+      border: none; background: transparent; outline: none;
+      font-family: 'DM Sans',sans-serif; font-size: .84rem; color: #1e3d32;
+      width: 100%;
+    }
+    .search-wrap input::placeholder { color: #8aaa99; }
+
+    /* ═══════════════════════════════════════════════
+       EQUIPMENT GRID
+    ═══════════════════════════════════════════════ */
+    .eq-grid-section { padding: 56px 0 80px; }
+    .eq-grid {
+      max-width: 1320px; margin: 0 auto;
+      padding: 0 clamp(16px,4vw,48px);
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px,1fr));
+      gap: 24px;
+    }
+    @media (max-width: 700px) { .eq-grid { grid-template-columns: 1fr; } }
+
+    /* Category section label */
+    .cat-section-label {
+      max-width: 1320px; margin: 0 auto 24px;
+      padding: 0 clamp(16px,4vw,48px);
+      display: flex; align-items: center; gap: 14px;
+    }
+    .cat-section-label h3 {
+      font-family: 'Playfair Display',serif; font-size: 1.55rem; font-weight: 700;
+      color: #0f3d3e; letter-spacing: -.02em;
+    }
+    .cat-section-label .csl-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 12px; border-radius: 999px;
+      font-family: 'DM Sans',sans-serif; font-size: .68rem; font-weight: 700;
+      letter-spacing: .08em; text-transform: uppercase; color: #fff;
+    }
+    .cat-section-label .csl-line { flex: 1; height: 1px; background: rgba(15,61,62,.1); }
+
+    /* ── Equipment Card ── */
+    .eq-card {
+      background: #fff;
+      border-radius: 18px;
+      border: 1px solid rgba(15,61,62,.07);
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(15,61,62,.07);
+      transition: transform .32s cubic-bezier(.34,1.2,.64,1), box-shadow .32s ease, border-color .22s;
+      cursor: pointer;
+      position: relative;
+    }
+    .eq-card:hover {
+      transform: translateY(-6px) scale(1.012);
+      box-shadow: 0 18px 50px rgba(15,61,62,.14);
+      border-color: rgba(45,138,138,.3);
+    }
+
+    /* Card image */
+    .eq-card-img {
+      position: relative; height: 210px; overflow: hidden;
+      background: #e8f4f4;
+    }
+    .eq-card-img img {
+      width: 100%; height: 100%; object-fit: cover;
+      transition: transform .65s ease;
+      display: block;
+    }
+    .eq-card:hover .eq-card-img img { transform: scale(1.07); }
+    .eq-card-img-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(5,20,20,.12) 0%, rgba(5,20,20,.55) 100%);
+    }
+    .eq-card-cat-chip {
+      position: absolute; top: 14px; left: 14px;
+      font-family: 'DM Sans',sans-serif; font-size: .62rem; font-weight: 700;
+      letter-spacing: .1em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 999px; color: #fff;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.25);
+    }
+    .eq-card-num {
+      position: absolute; top: 14px; right: 14px;
+      width: 30px; height: 30px; border-radius: 50%;
+      background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'JetBrains Mono',monospace; font-size: .6rem;
+      color: rgba(255,255,255,.8); font-weight: 600;
+    }
+    .eq-card-brand {
+      position: absolute; bottom: 10px; right: 13px;
+      font-family: 'JetBrains Mono',monospace; font-size: .55rem;
+      color: rgba(255,255,255,.7); letter-spacing: .05em;
+    }
+
+    /* Card body */
+    .eq-card-body { padding: 20px 22px 22px; }
+    .eq-card-name {
+      font-family: 'Plus Jakarta Sans',sans-serif; font-size: 1.02rem; font-weight: 800;
+      color: #0f3d3e; line-height: 1.3; margin-bottom: 8px;
+      letter-spacing: -.015em;
+    }
+    .eq-card-desc {
+      font-family: 'DM Sans',sans-serif; font-size: .8rem;
+      color: #5a7a6a; line-height: 1.65; margin-bottom: 14px;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .eq-card-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 16px; }
+    .eq-card-tag {
+      padding: 2px 9px; border-radius: 999px;
+      font-family: 'DM Sans',sans-serif; font-size: .62rem; font-weight: 600;
+      letter-spacing: .04em; text-transform: uppercase;
+      background: #e8f4f4; color: #1a5f5f;
+      border: 1px solid rgba(26,95,95,.15);
+    }
+    .eq-card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 14px; border-top: 1px solid rgba(15,61,62,.07);
+    }
+    .eq-card-params { font-family: 'JetBrains Mono',monospace; font-size: .6rem; color: #8aaa99; letter-spacing: .04em; }
+    .eq-card-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 8px 16px; border-radius: 999px;
+      background: linear-gradient(135deg,#1a5f5f,#2d8a8a); color: #fff;
+      font-family: 'DM Sans',sans-serif; font-size: .75rem; font-weight: 700;
+      border: none; cursor: pointer; transition: all .2s ease;
+      box-shadow: 0 3px 12px rgba(26,95,95,.25);
+    }
+    .eq-card-btn:hover { background: linear-gradient(135deg,#0f3d3e,#1a5f5f); transform: translateX(2px); box-shadow: 0 5px 18px rgba(26,95,95,.35); }
+
+    /* Category colour bars */
+    .eq-card[data-cat="air"]    .eq-card-img-overlay { background: linear-gradient(180deg,rgba(45,138,138,.15) 0%,rgba(5,20,20,.62) 100%); }
+    .eq-card[data-cat="water"]  .eq-card-img-overlay { background: linear-gradient(180deg,rgba(26,95,95,.15) 0%,rgba(5,20,20,.62) 100%); }
+    .eq-card[data-cat="soil"]   .eq-card-img-overlay { background: linear-gradient(180deg,rgba(135,168,120,.15) 0%,rgba(5,20,20,.62) 100%); }
+    .eq-card[data-cat="marine"] .eq-card-img-overlay { background: linear-gradient(180deg,rgba(15,61,62,.25) 0%,rgba(5,20,20,.62) 100%); }
+
+    .eq-card[data-cat="air"]    .eq-card-cat-chip { background: rgba(45,138,138,.75); }
+    .eq-card[data-cat="water"]  .eq-card-cat-chip { background: rgba(26,95,95,.75); }
+    .eq-card[data-cat="soil"]   .eq-card-cat-chip { background: rgba(135,168,120,.8); }
+    .eq-card[data-cat="marine"] .eq-card-cat-chip { background: rgba(15,61,62,.8); }
+
+    /* Category accent stripe */
+    .eq-card::after {
+      content: ''; position: absolute; left: 0; bottom: 0;
+      width: 100%; height: 3px;
+      opacity: 0; transition: opacity .25s;
+    }
+    .eq-card:hover::after { opacity: 1; }
+    .eq-card[data-cat="air"]::after    { background: linear-gradient(90deg,#2d8a8a,#87a878); }
+    .eq-card[data-cat="water"]::after  { background: linear-gradient(90deg,#1a5f5f,#2d8a8a); }
+    .eq-card[data-cat="soil"]::after   { background: linear-gradient(90deg,#87a878,#d4a574); }
+    .eq-card[data-cat="marine"]::after { background: linear-gradient(90deg,#0f3d3e,#1a5f5f); }
+
+    /* ── Hidden card (filter) ── */
+    .eq-card.hidden { display: none; }
+
+    /* ═══════════════════════════════════════════════
+       NO-RESULTS PLACEHOLDER
+    ═══════════════════════════════════════════════ */
+    #noResults {
+      grid-column: 1/-1; text-align: center; padding: 80px 20px; display: none;
+    }
+    #noResults i { font-size: 3rem; color: #c5d8d4; margin-bottom: 16px; display: block; }
+    #noResults p { font-family: 'Playfair Display',serif; font-size: 1.2rem; color: #5a7a6a; }
+
+    /* ═══════════════════════════════════════════════
+       RESULT COUNT
+    ═══════════════════════════════════════════════ */
+    .result-count {
+      max-width: 1320px; margin: 0 auto;
+      padding: 18px clamp(16px,4vw,48px) 0;
+      font-family: 'JetBrains Mono',monospace;
+      font-size: .7rem; color: #8aaa99; letter-spacing: .05em;
+    }
+
+    /* ═══════════════════════════════════════════════
+       MARINE FEATURE BANNER
+    ═══════════════════════════════════════════════ */
+    .marine-banner {
+      background: linear-gradient(135deg,#0a2a2b 0%,#0f3d3e 50%,#124040 100%);
+      margin: 0 clamp(16px,4vw,48px) 48px;
+      max-width: 1320px;
+      margin-left: auto; margin-right: auto;
+      border-radius: 22px; padding: 44px 48px;
+      overflow: hidden; position: relative;
+    }
+    .marine-banner::before {
+      content: '';
+      position: absolute; right: 0; top: 0; bottom: 0; width: 45%;
+      background: url("data:image/svg+xml,%3Csvg width='400' height='400' viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0,200 C100,100 200,300 400,200' stroke='rgba(45,138,138,.15)' stroke-width='2' fill='none'/%3E%3Cpath d='M0,250 C100,150 250,350 400,250' stroke='rgba(45,138,138,.1)' stroke-width='1.5' fill='none'/%3E%3Cpath d='M0,150 C150,50 250,250 400,150' stroke='rgba(45,138,138,.08)' stroke-width='1' fill='none'/%3E%3C/svg%3E") center / cover no-repeat;
+      opacity: .8; pointer-events: none;
+    }
+    .marine-banner-params { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .marine-param {
+      display: inline-flex; align-items: center; gap: 7px;
+      padding: 6px 14px; border-radius: 999px;
+      background: rgba(45,138,138,.15); border: 1px solid rgba(45,138,138,.3);
+      font-family: 'DM Sans',sans-serif; font-size: .75rem; font-weight: 600;
+      color: rgba(255,255,255,.8);
+    }
+    .marine-param i { font-size: .65rem; color: #2d8a8a; }
+
+    /* ═══════════════════════════════════════════════
+       MODAL
+    ═══════════════════════════════════════════════ */
+    .eq-modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(5,20,20,.65); backdrop-filter: blur(6px);
+      z-index: 2000; display: none; align-items: center; justify-content: center;
+      padding: 20px;
+    }
+    .eq-modal-overlay.open { display: flex; }
+    .eq-modal {
+      background: #fff; border-radius: 24px;
+      max-width: 900px; width: 100%; max-height: 90vh;
+      overflow-y: auto; position: relative;
+      box-shadow: 0 40px 100px rgba(0,0,0,.35);
+      animation: modalSlide .38s cubic-bezier(.34,1.2,.64,1);
+    }
+    @keyframes modalSlide {
+      from { opacity:0; transform: translateY(28px) scale(.97); }
+      to   { opacity:1; transform: translateY(0) scale(1); }
+    }
+    .eq-modal-hero {
+      position: relative; height: 280px; overflow: hidden;
+      border-radius: 24px 24px 0 0;
+    }
+    .eq-modal-hero img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .eq-modal-hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg,rgba(5,20,20,.2) 0%,rgba(5,20,20,.7) 100%);
+    }
+    .eq-modal-hero-cat {
+      position: absolute; top: 20px; left: 22px;
+      font-family: 'DM Sans',sans-serif; font-size: .65rem; font-weight: 700;
+      letter-spacing: .12em; text-transform: uppercase; color: #fff;
+      padding: 5px 14px; border-radius: 999px;
+      backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,.25);
+    }
+    .eq-modal-close {
+      position: absolute; top: 16px; right: 16px;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(255,255,255,.15); border: 1px solid rgba(255,255,255,.3);
+      color: #fff; font-size: .9rem;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: background .2s; z-index: 10;
+    }
+    .eq-modal-close:hover { background: rgba(255,255,255,.28); }
+    .eq-modal-hero-title {
+      position: absolute; bottom: 22px; left: 22px; right: 70px;
+      font-family: 'Plus Jakarta Sans',sans-serif;
+      font-size: clamp(1.1rem,2vw,1.55rem); font-weight: 800;
+      color: #fff; letter-spacing: -.02em; line-height: 1.25;
+    }
+    .eq-modal-body { padding: 30px 34px 36px; }
+    .eq-modal-subtitle {
+      font-family: 'DM Sans',sans-serif; font-size: .8rem;
+      color: #8aaa99; font-weight: 600; letter-spacing: .05em;
+      text-transform: uppercase; margin-bottom: 14px;
+    }
+    .eq-modal-desc {
+      font-family: 'DM Sans',sans-serif; font-size: .88rem;
+      color: #3a5a4a; line-height: 1.8; margin-bottom: 26px;
+    }
+    .eq-modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 26px; }
+    @media (max-width: 600px) { .eq-modal-grid { grid-template-columns: 1fr; } }
+    .eq-modal-section-title {
+      font-family: 'Plus Jakarta Sans',sans-serif; font-size: .72rem; font-weight: 800;
+      color: #0f3d3e; letter-spacing: .1em; text-transform: uppercase;
+      margin-bottom: 12px; display: flex; align-items: center; gap: 8px;
+    }
+    .eq-modal-section-title::after {
+      content: ''; flex: 1; height: 1px; background: rgba(15,61,62,.1);
+    }
+    .eq-modal-feat-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 7px; }
+    .eq-modal-feat-list li {
+      display: flex; align-items: flex-start; gap: 9px;
+      font-family: 'DM Sans',sans-serif; font-size: .82rem; color: #3a5a4a;
+      line-height: 1.55;
+    }
+    .eq-modal-feat-list li .fl-check {
+      width: 18px; height: 18px; border-radius: 5px; flex-shrink: 0; margin-top: 1px;
+      background: linear-gradient(135deg,#1a5f5f,#2d8a8a);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .eq-modal-feat-list li .fl-check i { color: #fff; font-size: .44rem; }
+    .eq-modal-apps { display: flex; flex-wrap: wrap; gap: 7px; }
+    .eq-modal-app-chip {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 13px; border-radius: 999px;
+      background: #e8f4f4; color: #1a5f5f;
+      font-family: 'DM Sans',sans-serif; font-size: .74rem; font-weight: 600;
+      border: 1px solid rgba(26,95,95,.15);
+    }
+    .eq-modal-app-chip i { font-size: .65rem; }
+    .eq-modal-params-row {
+      display: grid; grid-template-columns: repeat(3,1fr); gap: 10px;
+      margin-bottom: 24px;
+    }
+    @media (max-width: 480px) { .eq-modal-params-row { grid-template-columns: 1fr 1fr; } }
+    .eq-modal-param-card {
+      background: #0f3d3e; border-radius: 12px; padding: 13px 14px; text-align: center;
+    }
+    .eq-modal-param-card .mpc-val {
+      font-family: 'Plus Jakarta Sans',sans-serif; font-size: .95rem; font-weight: 800;
+      color: #d4a574; line-height: 1; margin-bottom: 4px;
+    }
+    .eq-modal-param-card .mpc-lbl {
+      font-family: 'DM Sans',sans-serif; font-size: .58rem;
+      color: rgba(255,255,255,.4); text-transform: uppercase; letter-spacing: .07em;
+    }
+    .eq-modal-cta {
+      display: flex; gap: 10px; flex-wrap: wrap; margin-top: 24px;
+      padding-top: 22px; border-top: 1px solid rgba(15,61,62,.08);
+    }
+    .eq-modal-cta-primary {
+      flex: 1; min-width: 160px; padding: 12px 22px; border-radius: 999px;
+      background: linear-gradient(135deg,#1a5f5f,#2d8a8a); color: #fff;
+      font-family: 'DM Sans',sans-serif; font-size: .84rem; font-weight: 700;
+      border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+      gap: 7px; transition: all .2s ease;
+    }
+    .eq-modal-cta-primary:hover { background: linear-gradient(135deg,#0f3d3e,#1a5f5f); }
+    .eq-modal-cta-ghost {
+      padding: 12px 22px; border-radius: 999px;
+      background: transparent; color: #1a5f5f;
+      font-family: 'DM Sans',sans-serif; font-size: .84rem; font-weight: 700;
+      border: 2px solid rgba(26,95,95,.2); cursor: pointer;
+      display: flex; align-items: center; gap: 7px; transition: all .2s ease;
+    }
+    .eq-modal-cta-ghost:hover { background: rgba(26,95,95,.06); border-color: rgba(26,95,95,.4); }
+
+    /* ═══════════════════════════════════════════════
+       SCROLL REVEAL
+    ═══════════════════════════════════════════════ */
+    .sr { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+    .sr.visible { opacity: 1; transform: translateY(0); }
+
+    /* ═══════════════════════════════════════════════
+       NAVBAR (shared with main site)
+    ═══════════════════════════════════════════════ */
+    nav#navbar { position: fixed; width: 100%; z-index: 50; transition: all .3s; }
+    nav#navbar .glass-card { border-radius: 0; }
+
+    /* ═══════════════════════════════════════════════
+       FOOTER (shared with main site)
+    ═══════════════════════════════════════════════ */
+    .footer-top-rule { height: 1px; background: linear-gradient(90deg,transparent 0%,rgba(45,138,138,.5) 25%,rgba(212,165,116,.6) 55%,rgba(45,138,138,.5) 75%,transparent 100%); }
+    .footer-col-title { font-family:'Plus Jakarta Sans',sans-serif; font-size:.68rem; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:#d4a574; margin-bottom:16px; }
+
+    /* ═══════════════════════════════════════════════
+       SPINNER (loading state)
+    ═══════════════════════════════════════════════ */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .8s linear infinite; }
+
+    /* Responsive filter bar */
+    @media (max-width: 768px) {
+      .filter-bar-inner { flex-direction: column; align-items: stretch; gap: 10px; }
+      .cat-tabs { justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
+      .search-wrap { min-width: unset; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<nav id="navbar">
+  <div class="glass-card shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-20">
+        <a href="index.html" class="flex items-center space-x-3 text-decoration-none" style="text-decoration:none;">
+          <div class="w-12 h-12 bg-gradient-to-br from-aecon-dark to-aecon-accent rounded-lg flex items-center justify-center text-white font-bold text-xl shadow-lg">A</div>
+          <div>
+            <h1 class="text-2xl font-bold text-aecon-dark tracking-tight">AECON</h1>
+            <p class="text-xs text-aecon-accent font-medium">ALEMAD ALARABI</p>
+          </div>
+        </a>
+        <div class="hidden md:flex space-x-6">
+          <a href="index.html#overview"   class="text-gray-700 hover:text-aecon-primary font-medium transition-colors text-sm">Overview</a>
+          <a href="index.html#services"   class="text-gray-700 hover:text-aecon-primary font-medium transition-colors text-sm">Services</a>
+          <a href="equipment.html"        class="text-aecon-primary font-semibold transition-colors text-sm border-b-2 border-aecon-accent pb-0.5">Technology</a>
+          <a href="index.html#process"    class="text-gray-700 hover:text-aecon-primary font-medium transition-colors text-sm">Process</a>
+          <a href="index.html#clients"    class="text-gray-700 hover:text-aecon-primary font-medium transition-colors text-sm">Clients</a>
+          <a href="index.html#tools"      class="text-gray-700 hover:text-aecon-primary font-medium transition-colors text-sm">Tools</a>
+          <a href="Compliance Hub.html"   class="text-gray-700 hover:text-aecon-primary font-medium transition-colors text-sm">ComplianceHub</a>
+          <a href="aqi-map.html"          class="flex items-center gap-1.5 text-gray-700 hover:text-aecon-primary font-medium transition-colors text-sm">
+            <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse inline-block"></span>Live AQI
+          </a>
+        </div>
+        <div class="flex items-center gap-3">
+          <a href="index_arabic.html"
+             style="display:inline-flex;align-items:center;gap:6px;padding:6px 14px;border-radius:999px;border:1.5px solid #1a5f5f;color:#1a5f5f;font-size:12px;font-weight:600;text-decoration:none;background:transparent;transition:all .2s ease;"
+             onmouseover="this.style.background='#1a5f5f';this.style.color='white'"
+             onmouseout="this.style.background='transparent';this.style.color='#1a5f5f'">
+            🌐 العربية
+          </a>
+          <a href="index.html#contact"
+             class="hidden md:flex items-center gap-2 px-5 py-2.5 bg-aecon-dark text-white rounded-full font-semibold text-sm hover:bg-aecon-accent transition-all"
+             style="text-decoration:none;">
+            <i class="fas fa-paper-plane text-xs"></i> Get a Quote
+          </a>
+          <button class="md:hidden text-aecon-dark text-2xl" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="mobileMenu" class="hidden md:hidden glass-card border-t">
+    <div class="px-4 pt-2 pb-6 space-y-2">
+      <a href="index.html#overview"  class="block px-3 py-2 text-gray-700 hover:text-aecon-primary">Overview</a>
+      <a href="index.html#services"  class="block px-3 py-2 text-gray-700 hover:text-aecon-primary">Services</a>
+      <a href="equipment.html"       class="block px-3 py-2 text-aecon-primary font-bold">Technology</a>
+      <a href="index.html#clients"   class="block px-3 py-2 text-gray-700 hover:text-aecon-primary">Clients</a>
+      <a href="index.html#contact"   class="block px-3 py-2 text-aecon-primary font-bold">Contact Us</a>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="eq-hero">
+  <div class="eq-hero-pattern"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <!-- Breadcrumb -->
+    <div class="flex items-center gap-2 mb-10" style="font-family:'DM Sans',sans-serif;font-size:.72rem;color:rgba(255,255,255,.45);letter-spacing:.05em;">
+      <a href="index.html" style="color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='rgba(255,255,255,.8)'" onmouseout="this.style.color='rgba(255,255,255,.45)'">AECON</a>
+      <span>/</span>
+      <span style="color:rgba(255,255,255,.8);">Equipment &amp; Technology</span>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
+             style="background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.8);">
+          <span style="width:7px;height:7px;background:#4ade80;border-radius:50%;display:inline-block;animation:pulse 2s infinite;flex-shrink:0;"></span>
+          Advanced Instrumentation · ISO/IEC 17025 Accredited
+        </div>
+        <h1 style="font-family:'Playfair Display',serif;font-size:clamp(2.2rem,5vw,3.6rem);font-weight:900;color:#fff;line-height:1.12;letter-spacing:-.02em;margin-bottom:20px;">
+          Equipment &<br><span style="background:linear-gradient(135deg,#d4a574,#e8c9a0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Technology</span>
+        </h1>
+        <p style="font-family:'DM Sans',sans-serif;font-size:1rem;color:rgba(255,255,255,.7);line-height:1.8;max-width:480px;margin-bottom:32px;">
+          State-of-the-art instrumentation covering air, water, soil, and marine environmental monitoring. Calibrated to international standards — US EPA, ISO/IEC 17025, WHO, and NCEC.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href="#equipment-grid"
+             style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:999px;background:linear-gradient(135deg,#1a5f5f,#2d8a8a);color:#fff;font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:700;text-decoration:none;transition:all .22s;box-shadow:0 4px 18px rgba(45,138,138,.4);"
+             onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='translateY(0)'">
+            <i class="fas fa-microscope" style="font-size:.8rem;"></i> Explore Equipment
+          </a>
+          <a href="index.html#contact"
+             style="display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:999px;background:transparent;color:rgba(255,255,255,.85);font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:700;border:1.5px solid rgba(255,255,255,.25);text-decoration:none;transition:all .22s;"
+             onmouseover="this.style.background='rgba(255,255,255,.1)'" onmouseout="this.style.background='transparent'">
+            <i class="fas fa-envelope" style="font-size:.75rem;"></i> Request Specs
+          </a>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="hidden lg:grid grid-cols-2 gap-4">
+        <div class="hero-stat-card"><div class="hsc-val">31+</div><div class="hsc-lbl">Equipment Types</div></div>
+        <div class="hero-stat-card"><div class="hsc-val">4</div><div class="hsc-lbl">Monitoring Domains</div></div>
+        <div class="hero-stat-card"><div class="hsc-val">ISO 17025</div><div class="hsc-lbl">Accredited Lab</div></div>
+        <div class="hero-stat-card"><div class="hsc-val">US EPA</div><div class="hsc-lbl">Certified Methods</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     FILTER BAR
+     ============================================================ -->
+<div class="filter-bar" id="filterBar">
+  <div class="filter-bar-inner">
+    <div class="cat-tabs">
+      <button class="cat-tab active" data-cat="all">
+        <span class="ct-dot"></span>All Equipment
+        <span id="count-all" style="font-size:.6rem;font-family:'JetBrains Mono',monospace;opacity:.65;"></span>
+      </button>
+      <button class="cat-tab" data-cat="air">
+        <span class="ct-dot"></span>Air Monitoring
+        <span id="count-air" style="font-size:.6rem;font-family:'JetBrains Mono',monospace;opacity:.65;"></span>
+      </button>
+      <button class="cat-tab" data-cat="water">
+        <span class="ct-dot"></span>Water Testing
+        <span id="count-water" style="font-size:.6rem;font-family:'JetBrains Mono',monospace;opacity:.65;"></span>
+      </button>
+      <button class="cat-tab" data-cat="soil">
+        <span class="ct-dot"></span>Soil Analysis
+        <span id="count-soil" style="font-size:.6rem;font-family:'JetBrains Mono',monospace;opacity:.65;"></span>
+      </button>
+      <button class="cat-tab" data-cat="marine">
+        <span class="ct-dot"></span>Marine Monitoring
+        <span id="count-marine" style="font-size:.6rem;font-family:'JetBrains Mono',monospace;opacity:.65;"></span>
+      </button>
+    </div>
+    <div class="search-wrap">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Search equipment…" autocomplete="off" />
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     MARINE FEATURE BANNER
+     ============================================================ -->
+<div class="eq-grid-section" style="padding-top:48px;padding-bottom:0;">
+  <div style="max-width:1320px;margin:0 auto;padding:0 clamp(16px,4vw,48px) 36px;">
+    <div class="marine-banner sr">
+      <div style="position:relative;z-index:1;display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;">
+        <div>
+          <div style="display:inline-flex;align-items:center;gap:8px;padding:4px 14px;border-radius:999px;background:rgba(45,138,138,.2);border:1px solid rgba(45,138,138,.35);font-family:'DM Sans',sans-serif;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#7dd3d3;margin-bottom:14px;">
+            <i class="fas fa-anchor" style="font-size:.6rem;"></i> New · Marine Monitoring Capability
+          </div>
+          <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.4rem,2.5vw,2rem);font-weight:700;color:#fff;letter-spacing:-.02em;margin-bottom:10px;">
+            Offshore &amp; Coastal Environmental Monitoring
+          </h2>
+          <p style="font-family:'DM Sans',sans-serif;font-size:.85rem;color:rgba(255,255,255,.6);line-height:1.75;max-width:560px;">
+            From CTD profiling and multi-parameter sondes to oil-spill fluorometry and ADCP current measurement — AECON's marine monitoring toolkit covers offshore rigs, coastal development, port operations, and desalination plant impact assessments.
+          </p>
+          <div class="marine-banner-params">
+            <span class="marine-param"><i class="fas fa-water"></i>Salinity</span>
+            <span class="marine-param"><i class="fas fa-thermometer-half"></i>Temperature</span>
+            <span class="marine-param"><i class="fas fa-eye"></i>Turbidity</span>
+            <span class="marine-param"><i class="fas fa-lungs"></i>Dissolved O₂</span>
+            <span class="marine-param"><i class="fas fa-tachometer-alt"></i>Current Velocity</span>
+            <span class="marine-param"><i class="fas fa-oil-can"></i>Oil Detection</span>
+            <span class="marine-param"><i class="fas fa-layer-group"></i>Sediment Quality</span>
+          </div>
+        </div>
+        <div class="hidden md:flex flex-col items-center gap-3">
+          <div style="width:80px;height:80px;border-radius:50%;background:rgba(45,138,138,.2);border:2px solid rgba(45,138,138,.4);display:flex;align-items:center;justify-content:center;font-size:2.2rem;">🌊</div>
+          <a href="#" onclick="document.querySelector('[data-cat=\"marine\"]').click();return false;"
+             style="padding:8px 18px;border-radius:999px;background:linear-gradient(135deg,#1a5f5f,#2d8a8a);color:#fff;font-family:'DM Sans',sans-serif;font-size:.75rem;font-weight:700;text-decoration:none;white-space:nowrap;">
+            View Marine Gear
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     RESULT COUNT
+     ============================================================ -->
+<p class="result-count" id="resultCount">Loading equipment…</p>
+
+<!-- ============================================================
+     EQUIPMENT GRID
+     ============================================================ -->
+<div class="eq-grid-section" id="equipment-grid" style="padding-top:16px;">
+  <div class="eq-grid" id="eqGrid">
+    <div id="noResults">
+      <i class="fas fa-search"></i>
+      <p>No equipment found matching your search.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     ACCREDITATION STRIP
+     ============================================================ -->
+<section style="background:#fff;padding:48px 0;border-top:1px solid rgba(15,61,62,.07);border-bottom:1px solid rgba(15,61,62,.07);">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <p style="text-align:center;font-family:'DM Sans',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:#8aaa99;margin-bottom:28px;">
+      Accreditations &amp; Standards
+    </p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;">
+      <div style="display:flex;align-items:center;gap:9px;padding:10px 20px;border-radius:12px;background:#f5f7f6;border:1px solid rgba(15,61,62,.1);">
+        <i class="fas fa-award" style="color:#2d8a8a;font-size:.9rem;"></i>
+        <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:.8rem;font-weight:700;color:#0f3d3e;">ISO/IEC 17025</span>
+        <span style="font-family:'DM Sans',sans-serif;font-size:.72rem;color:#8aaa99;">Lab Accreditation</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:9px;padding:10px 20px;border-radius:12px;background:#f5f7f6;border:1px solid rgba(15,61,62,.1);">
+        <i class="fas fa-globe-americas" style="color:#2d8a8a;font-size:.9rem;"></i>
+        <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:.8rem;font-weight:700;color:#0f3d3e;">US EPA Methods</span>
+        <span style="font-family:'DM Sans',sans-serif;font-size:.72rem;color:#8aaa99;">1, 4, 5, 9, 17, 29</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:9px;padding:10px 20px;border-radius:12px;background:#f5f7f6;border:1px solid rgba(15,61,62,.1);">
+        <i class="fas fa-shield-alt" style="color:#2d8a8a;font-size:.9rem;"></i>
+        <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:.8rem;font-weight:700;color:#0f3d3e;">NCEC KSA</span>
+        <span style="font-family:'DM Sans',sans-serif;font-size:.72rem;color:#8aaa99;">Certified</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:9px;padding:10px 20px;border-radius:12px;background:#f5f7f6;border:1px solid rgba(15,61,62,.1);">
+        <i class="fas fa-leaf" style="color:#2d8a8a;font-size:.9rem;"></i>
+        <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:.8rem;font-weight:700;color:#0f3d3e;">ISO 14001</span>
+        <span style="font-family:'DM Sans',sans-serif;font-size:.72rem;color:#8aaa99;">Environmental Mgmt</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:9px;padding:10px 20px;border-radius:12px;background:#f5f7f6;border:1px solid rgba(15,61,62,.1);">
+        <i class="fas fa-anchor" style="color:#2d8a8a;font-size:.9rem;"></i>
+        <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:.8rem;font-weight:700;color:#0f3d3e;">MARPOL / IMO</span>
+        <span style="font-family:'DM Sans',sans-serif;font-size:.72rem;color:#8aaa99;">Marine Standards</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============================================================
+     FOOTER (simplified version consistent with main site)
+     ============================================================ -->
+<footer style="background:#0f3d3e;color:#fff;">
+  <div class="footer-top-rule"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div style="display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:48px;align-items:start;" class="footer-grid-resp">
+      <div>
+        <a href="index.html" style="display:inline-flex;align-items:center;gap:10px;text-decoration:none;margin-bottom:16px;">
+          <div style="width:40px;height:40px;background:linear-gradient(135deg,#1a5f5f,#2d8a8a);border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;color:#fff;">A</div>
+          <div>
+            <div style="font-size:1.1rem;font-weight:800;color:#fff;">AECON</div>
+            <div style="font-size:.55rem;color:#2d8a8a;text-transform:uppercase;letter-spacing:.14em;">Alemad Alarabi</div>
+          </div>
+        </a>
+        <p style="font-family:'DM Sans',sans-serif;font-size:.8rem;color:rgba(255,255,255,.42);line-height:1.75;margin-bottom:16px;">Leading environmental consultancy delivering precision air, water, soil &amp; marine monitoring across KSA and the Middle East.</p>
+        <div style="display:flex;gap:8px;">
+          <a href="#" style="width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);font-size:.78rem;text-decoration:none;transition:all .2s;" onmouseover="this.style.background='rgba(45,138,138,.25)';this.style.color='#7dd3d3'" onmouseout="this.style.background='rgba(255,255,255,.06)';this.style.color='rgba(255,255,255,.4)'"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" style="width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);font-size:.78rem;text-decoration:none;transition:all .2s;" onmouseover="this.style.background='rgba(45,138,138,.25)';this.style.color='#7dd3d3'" onmouseout="this.style.background='rgba(255,255,255,.06)';this.style.color='rgba(255,255,255,.4)'"><i class="fab fa-twitter"></i></a>
+          <a href="https://wa.me/966503361798" target="_blank" style="width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.4);font-size:.78rem;text-decoration:none;transition:all .2s;" onmouseover="this.style.background='rgba(37,211,102,.15)';this.style.color='#25D366'" onmouseout="this.style.background='rgba(255,255,255,.06)';this.style.color='rgba(255,255,255,.4)'"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div>
+        <h4 class="footer-col-title">Equipment</h4>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:2px;">
+          <li><a href="#" onclick="document.querySelector('[data-cat=\"air\"]').click();return false;" style="display:flex;align-items:center;gap:8px;padding:6px 0;font-family:'DM Sans',sans-serif;font-size:.82rem;color:rgba(255,255,255,.45);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04);transition:color .2s;" onmouseover="this.style.color='rgba(255,255,255,.85)'" onmouseout="this.style.color='rgba(255,255,255,.45)'"><i class="fas fa-chevron-right" style="font-size:.55rem;color:#2d8a8a;"></i>Air Monitoring</a></li>
+          <li><a href="#" onclick="document.querySelector('[data-cat=\"water\"]').click();return false;" style="display:flex;align-items:center;gap:8px;padding:6px 0;font-family:'DM Sans',sans-serif;font-size:.82rem;color:rgba(255,255,255,.45);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04);transition:color .2s;" onmouseover="this.style.color='rgba(255,255,255,.85)'" onmouseout="this.style.color='rgba(255,255,255,.45)'"><i class="fas fa-chevron-right" style="font-size:.55rem;color:#2d8a8a;"></i>Water Testing</a></li>
+          <li><a href="#" onclick="document.querySelector('[data-cat=\"soil\"]').click();return false;" style="display:flex;align-items:center;gap:8px;padding:6px 0;font-family:'DM Sans',sans-serif;font-size:.82rem;color:rgba(255,255,255,.45);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04);transition:color .2s;" onmouseover="this.style.color='rgba(255,255,255,.85)'" onmouseout="this.style.color='rgba(255,255,255,.45)'"><i class="fas fa-chevron-right" style="font-size:.55rem;color:#2d8a8a;"></i>Soil Analysis</a></li>
+          <li><a href="#" onclick="document.querySelector('[data-cat=\"marine\"]').click();return false;" style="display:flex;align-items:center;gap:8px;padding:6px 0;font-family:'DM Sans',sans-serif;font-size:.82rem;color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='rgba(255,255,255,.85)'" onmouseout="this.style.color='rgba(255,255,255,.45)'"><i class="fas fa-chevron-right" style="font-size:.55rem;color:#2d8a8a;"></i>Marine Monitoring</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-col-title">Services</h4>
+        <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:2px;">
+          <li><a href="index.html#services" style="display:flex;align-items:center;gap:8px;padding:6px 0;font-family:'DM Sans',sans-serif;font-size:.82rem;color:rgba(255,255,255,.45);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04);transition:color .2s;" onmouseover="this.style.color='rgba(255,255,255,.85)'" onmouseout="this.style.color='rgba(255,255,255,.45)'"><i class="fas fa-chevron-right" style="font-size:.55rem;color:#2d8a8a;"></i>Ambient Air Quality</a></li>
+          <li><a href="index.html#services" style="display:flex;align-items:center;gap:8px;padding:6px 0;font-family:'DM Sans',sans-serif;font-size:.82rem;color:rgba(255,255,255,.45);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04);transition:color .2s;" onmouseover="this.style.color='rgba(255,255,255,.85)'" onmouseout="this.style.color='rgba(255,255,255,.45)'"><i class="fas fa-chevron-right" style="font-size:.55rem;color:#2d8a8a;"></i>Stack Emission Testing</a></li>
+          <li><a href="index.html#services" style="display:flex;align-items:center;gap:8px;padding:6px 0;font-family:'DM Sans',sans-serif;font-size:.82rem;color:rgba(255,255,255,.45);text-decoration:none;border-bottom:1px solid rgba(255,255,255,.04);transition:color .2s;" onmouseover="this.style.color='rgba(255,255,255,.85)'" onmouseout="this.style.color='rgba(255,255,255,.45)'"><i class="fas fa-chevron-right" style="font-size:.55rem;color:#2d8a8a;"></i>EIA &amp; ESIA</a></li>
+          <li><a href="index.html#services" style="display:flex;align-items:center;gap:8px;padding:6px 0;font-family:'DM Sans',sans-serif;font-size:.82rem;color:rgba(255,255,255,.45);text-decoration:none;transition:color .2s;" onmouseover="this.style.color='rgba(255,255,255,.85)'" onmouseout="this.style.color='rgba(255,255,255,.45)'"><i class="fas fa-chevron-right" style="font-size:.55rem;color:#2d8a8a;"></i>Marine Monitoring</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4 class="footer-col-title">Contact</h4>
+        <div style="display:flex;flex-direction:column;gap:10px;font-family:'DM Sans',sans-serif;font-size:.8rem;color:rgba(255,255,255,.45);">
+          <div><i class="fas fa-map-marker-alt" style="color:#2d8a8a;width:14px;margin-right:8px;"></i>Riyadh 12284, KSA</div>
+          <div><i class="fas fa-envelope" style="color:#2d8a8a;width:14px;margin-right:8px;"></i><a href="/cdn-cgi/l/email-protection#65000b130c170a250400060a0b4816044b060a08" style="color:rgba(255,255,255,.45);text-decoration:none;" onmouseover="this.style.color='rgba(255,255,255,.85)'" onmouseout="this.style.color='rgba(255,255,255,.45)'"><span class="__cf_email__" data-cfemail="0c69627a657e634c6d696f6362217f6d226f6361">[email&#160;protected]</span></a></div>
+          <div><i class="fas fa-phone" style="color:#2d8a8a;width:14px;margin-right:8px;"></i><a href="tel:+966115124979" style="color:rgba(255,255,255,.45);text-decoration:none;" onmouseover="this.style.color='rgba(255,255,255,.85)'" onmouseout="this.style.color='rgba(255,255,255,.45)'">+966 11 512 4979</a></div>
+          <div><i class="fab fa-whatsapp" style="color:#25D366;width:14px;margin-right:8px;"></i><a href="https://wa.me/966503361798" target="_blank" style="color:rgba(255,255,255,.45);text-decoration:none;" onmouseover="this.style.color='rgba(255,255,255,.85)'" onmouseout="this.style.color='rgba(255,255,255,.45)'">+966 50 336 1798</a></div>
+        </div>
+      </div>
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.07);margin-top:36px;padding-top:20px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px;">
+      <p style="font-family:'DM Sans',sans-serif;font-size:.72rem;color:rgba(255,255,255,.22);">© 2025 AECON – ALEMAD ALARABI Environmental Consultancy. All rights reserved.</p>
+      <p style="font-family:'DM Sans',sans-serif;font-size:.65rem;color:rgba(255,255,255,.15);">Prepared by: <span style="color:rgba(45,138,138,.55);">Sikander Chishti</span>, Environmental Engineer</p>
+    </div>
+  </div>
+</footer>
+
+
+<!-- ============================================================
+     EQUIPMENT DETAIL MODAL
+     ============================================================ -->
+<div class="eq-modal-overlay" id="eqModalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="eq-modal" id="eqModal">
+    <div class="eq-modal-hero" id="modalHero">
+      <img id="modalImg" src="" alt="" loading="lazy" />
+      <div class="eq-modal-hero-overlay"></div>
+      <button class="eq-modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+      <div class="eq-modal-hero-cat" id="modalCat"></div>
+      <div class="eq-modal-hero-title" id="modalTitle"></div>
+    </div>
+    <div class="eq-modal-body">
+      <div class="eq-modal-subtitle" id="modalSubtitle"></div>
+      <p class="eq-modal-desc" id="modalDesc"></p>
+
+      <!-- Key parameters -->
+      <div class="eq-modal-params-row" id="modalParams"></div>
+
+      <div class="eq-modal-grid">
+        <!-- Features -->
+        <div>
+          <div class="eq-modal-section-title"><i class="fas fa-check-circle" style="color:#2d8a8a;font-size:.75rem;"></i>Key Features</div>
+          <ul class="eq-modal-feat-list" id="modalFeatures"></ul>
+        </div>
+        <!-- Applications -->
+        <div>
+          <div class="eq-modal-section-title"><i class="fas fa-industry" style="color:#2d8a8a;font-size:.75rem;"></i>Applications</div>
+          <div class="eq-modal-apps" id="modalApps"></div>
+          <div style="margin-top:18px;">
+            <div class="eq-modal-section-title"><i class="fas fa-tag" style="color:#2d8a8a;font-size:.75rem;"></i>Parameters / Tags</div>
+            <div style="display:flex;flex-wrap:wrap;gap:5px;" id="modalTags"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Industries -->
+      <div id="modalIndustriesWrap" style="margin-bottom:0;">
+        <div class="eq-modal-section-title"><i class="fas fa-building" style="color:#2d8a8a;font-size:.75rem;"></i>Industries Served</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;" id="modalIndustries"></div>
+      </div>
+
+      <div class="eq-modal-cta">
+        <button class="eq-modal-cta-primary" onclick="window.location='index.html#contact'">
+          <i class="fas fa-paper-plane" style="font-size:.78rem;"></i> Request a Quote
+        </button>
+        <button class="eq-modal-cta-ghost" onclick="window.open('https://wa.me/966503361798?text=Hi+AECON%2C+I+am+interested+in+equipment+specifications','_blank')">
+          <i class="fab fa-whatsapp" style="font-size:.82rem;color:#25D366;"></i> WhatsApp Us
+        </button>
+        <button class="eq-modal-cta-ghost" onclick="window.location='mailto:enviro@aecon-sa.com'">
+          <i class="fas fa-envelope" style="font-size:.78rem;"></i> Email Specs
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     JAVASCRIPT — DATA & LOGIC
+     ============================================================ -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ─── EQUIPMENT DATA ──────────────────────────────────────────────── */
+const EQUIPMENT = [
+
+  /* ═══ AIR MONITORING ═══ */
+  {
+    id: 1, cat: 'air', num: 'AIR-01',
+    name: 'BAM 1022 Beta Attenuation Monitor',
+    brand: 'Met One Instruments',
+    subtitle: 'Continuous PM2.5 & PM10 Mass Concentration',
+    img: 'https://images.unsplash.com/photo-1587613990897-7090c2fb3011?w=800&h=520&fit=crop&q=80',
+    desc: 'The BAM 1022 is a US EPA Federal Equivalent Method (FEM) monitor for continuous, real-time measurement of PM2.5 and PM10 particulate matter mass concentration. It uses beta ray attenuation through a collected filter-tape sample to determine precise mass per unit volume, transmitting data every hour to our SCADA monitoring centre.',
+    params: [{val:'µg/m³',lbl:'Unit'},{val:'FEM',lbl:'EPA Equiv.'},{val:'±5%',lbl:'Accuracy'},{val:'5 min',lbl:'Response'},{val:'1h',lbl:'Avg. Period'},{val:'24/7',lbl:'Operation'}],
+    features: ['US EPA FEM designation for PM2.5 & PM10','Beta ray attenuation with smart heater for RH control','Automatic filter tape advance and span check','Telemetric data output via RS-232, RS-485, TCP/IP','Integrated meteorological sensors (temperature, RH, pressure)','NCEC SAAQS & WHO AQG compliant reporting'],
+    apps: [{icon:'fas fa-industry',label:'Industrial Sites'},{icon:'fas fa-city',label:'Urban Monitoring'},{icon:'fas fa-hard-hat',label:'Construction Zones'},{icon:'fas fa-smog',label:'Ambient Compliance'}],
+    tags: ['PM2.5','PM10','FEM','Particulate','24/7 Monitoring','NCEC'],
+    industries: ['Cement','Power Generation','Oil & Gas','Urban Development','Petrochemical']
+  },
+  {
+    id: 2, cat: 'air', num: 'AIR-02',
+    name: 'Thermo 42i Series NOx Analyzer',
+    brand: 'Thermo Fisher Scientific',
+    subtitle: 'Chemiluminescence NO / NO₂ / NOx Analyzer',
+    img: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&h=520&fit=crop&q=80',
+    desc: 'The Thermo 42i uses the chemiluminescence principle to measure nitric oxide (NO), nitrogen dioxide (NO₂), and total nitrogen oxides (NOx) with exceptional sensitivity and selectivity. Widely deployed in NCEC-compliant ambient air quality monitoring stations and industrial fenceline networks across KSA.',
+    params: [{val:'0–20 ppm',lbl:'Range'},{icon:'',val:'0.4 ppb',lbl:'Detection Limit'},{val:'±1%',lbl:'Accuracy'},{val:'60 sec',lbl:'Response'},{val:'220V',lbl:'Power'},{val:'24/7',lbl:'Operation'}],
+    features: ['Chemiluminescence detection principle (NO + O₃ reaction)','Simultaneous NO, NO₂, and NOx measurement','Internal span gas generator with programmable zero/span','Analog & digital I/O with Modbus, RS-232 communication','Heated stainless steel sample manifold prevents condensation','US EPA RFNA-0702-060 approval'],
+    apps: [{icon:'fas fa-wind',label:'Ambient Air Quality'},{icon:'fas fa-smog',label:'Stack Fenceline'},{icon:'fas fa-road',label:'Traffic Corridors'},{icon:'fas fa-bolt',label:'Power Plants'}],
+    tags: ['NO₂','NOx','Chemiluminescence','Gas Analyzer','EPA Approved'],
+    industries: ['Power Generation','Transport','Petrochemical','Urban Infrastructure']
+  },
+  {
+    id: 3, cat: 'air', num: 'AIR-03',
+    name: 'Thermo 43i SO₂ Pulsed Fluorescence Analyzer',
+    brand: 'Thermo Fisher Scientific',
+    subtitle: 'Pulsed UV Fluorescence SO₂ Measurement',
+    img: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&h=520&fit=crop&q=80',
+    desc: 'Utilising UV pulsed fluorescence, the Thermo 43i provides precise sub-ppb sulfur dioxide measurement for ambient monitoring networks and industrial compliance programs. The instrument is compatible with standard data acquisition systems and is an EPA RFSA-0990-099 approved method.',
+    params: [{val:'0–20 ppm',lbl:'Range'},{val:'0.2 ppb',lbl:'Detection Limit'},{val:'±1%',lbl:'Linearity'},{val:'120 sec',lbl:'Response'},{val:'EPA',lbl:'Approved'},{val:'24/7',lbl:'Operation'}],
+    features: ['Pulsed UV fluorescence principle for SO₂ detection','Hydrocarbon scrubber eliminates interference','Zero/span automated valve with programmable schedule','Internal temperature control for stable operation','MODBUS RTU, 4–20 mA analog output','Compatible with NCEC air quality monitoring stations'],
+    apps: [{icon:'fas fa-industry',label:'Industrial Compliance'},{icon:'fas fa-city',label:'Urban Networks'},{icon:'fas fa-fire',label:'Refineries'},{icon:'fas fa-anchor',label:'Port Monitoring'}],
+    tags: ['SO₂','Fluorescence','Gas Analyzer','EPA Approved','NCEC'],
+    industries: ['Oil & Gas','Cement','Power Generation','Refining']
+  },
+  {
+    id: 4, cat: 'air', num: 'AIR-04',
+    name: 'Isokinetic Stack Sampling Train (EPA Method 5)',
+    brand: 'Apex Instruments / AECON Custom',
+    subtitle: 'Source Emission Particulate Sampling System',
+    img: 'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=800&h=520&fit=crop&q=80',
+    desc: 'AECON\'s isokinetic stack sampling trains are configured to US EPA Method 5, 5B, 17, and NCEC equivalent protocols for collection of particulate matter from stationary industrial sources. Each train includes a heated filter holder, impingers, control console, pitot tube assembly, and gravimetric analysis kit, enabling compliant determination of Total Suspended Particulate (TSP) emissions at the source.',
+    params: [{val:'EPA M5',lbl:'Method'},{val:'200°C',lbl:'Max Temp'},{val:'±5%',lbl:'Accuracy'},{val:'Isokin.',lbl:'Sampling'},{val:'NCEC',lbl:'Approved'},{val:'Stack',lbl:'Source'}],
+    features: ['Heated filter holder (up to 120°C) prevents condensation','Multi-stage impinger train for moisture & SO₃ capture','Inclined manometer + Type-S pitot tube for velocity profile','Programmable sampling console with elapsed-time display','S-type pitot calibrated coefficient ≥0.84','Compatible with EPA Methods 1–17 analytical protocols'],
+    apps: [{icon:'fas fa-industry',label:'Cement Kilns'},{icon:'fas fa-bolt',label:'Power Plants'},{icon:'fas fa-fire',label:'Incinerators'},{icon:'fas fa-oil-can',label:'Refineries'}],
+    tags: ['TSP','Stack Testing','EPA Method 5','Isokinetic','Source Emission','CEMS'],
+    industries: ['Cement','Petrochemical','Waste-to-Energy','Power Generation','Manufacturing']
+  },
+  {
+    id: 5, cat: 'air', num: 'AIR-05',
+    name: 'Automatic Weather Station (AWS)',
+    brand: 'Vaisala / Campbell Scientific',
+    subtitle: 'Meteorological Parameter Monitoring',
+    img: 'https://images.unsplash.com/photo-1504608524841-42584120d693?w=800&h=520&fit=crop&q=80',
+    desc: 'AECON deploys integrated automatic weather stations to support air dispersion modelling, stack dispersion calculations, and environmental baseline characterisation. The AWS measures wind speed, wind direction, ambient temperature, relative humidity, barometric pressure, and solar radiation — all data inputs critical for AERMOD and CALPUFF dispersion model simulations.',
+    params: [{val:'Wind',lbl:'Speed & Dir'},{val:'±0.3°C',lbl:'Temp. Acc.'},{val:'±2%',lbl:'RH Acc.'},{val:'10 min',lbl:'Data Interval'},{val:'Solar',lbl:'Radiation'},{val:'RS-485',lbl:'Comms'}],
+    features: ['Ultrasonic 2D wind speed and direction (±0.1 m/s)','Platinum RTD temperature/humidity probe with radiation shield','Tipping bucket rain gauge (0.2 mm resolution)','Pyranometer for global horizontal irradiance','Solar-powered with battery backup for remote deployment','Data logger with GSM/GPRS telemetric transmission'],
+    apps: [{icon:'fas fa-wind',label:'Dispersion Modelling'},{icon:'fas fa-mountain',label:'EIA Baseline'},{icon:'fas fa-industry',label:'Industrial Sites'},{icon:'fas fa-map-marked-alt',label:'Remote Stations'}],
+    tags: ['Meteorology','Wind Speed','Temperature','Humidity','AERMOD','Dispersion'],
+    industries: ['EIA / ESIA','Oil & Gas','Construction','Urban Development','Marine Coastal']
+  },
+  {
+    id: 6, cat: 'air', num: 'AIR-06',
+    name: 'PhotoVac TVOC / PID Photoionization Detector',
+    brand: 'PhotoVac / Honeywell Analytics',
+    subtitle: 'Portable Total Volatile Organic Compound Monitor',
+    img: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&h=520&fit=crop&q=80',
+    desc: 'Using an ultraviolet lamp to ionize organic molecules, the PID instrument provides rapid, real-time measurement of total VOC concentrations for indoor air quality surveys, fugitive emission screening, industrial hygiene assessments, and landfill gas monitoring. AECON uses calibrated instruments across benzene, toluene, BTEX, and broad VOC screening programs.',
+    params: [{val:'0–5000',lbl:'ppb Range'},{val:'<0.5 ppb',lbl:'Detection'},{val:'UV 10.6eV',lbl:'Lamp'},{val:'±5%',lbl:'Accuracy'},{val:'<3 sec',lbl:'Response'},{val:'Portable',lbl:'Type'}],
+    features: ['Photoionization detection — responds to hundreds of VOCs','Selectable lamp energies (9.8, 10.6, 11.7 eV)','Data logging with GPS tagging for spatial mapping','IP67 rated, intrinsically safe for hazardous areas','BTEX, isobutylene calibration options','Real-time Bluetooth data link to field tablet'],
+    apps: [{icon:'fas fa-building',label:'Indoor Air Quality'},{icon:'fas fa-oil-can',label:'Fugitive Emissions'},{icon:'fas fa-hard-hat',label:'Occupational Health'},{icon:'fas fa-recycle',label:'Landfill Gas'}],
+    tags: ['TVOC','VOC','BTEX','Indoor Air','Fugitive Emissions','Benzene'],
+    industries: ['Petrochemical','Indoor Environments','Construction','Waste Management']
+  },
+  {
+    id: 7, cat: 'air', num: 'AIR-07',
+    name: 'Thermo 49i UV Photometric O₃ Analyzer',
+    brand: 'Thermo Fisher Scientific',
+    subtitle: 'Ambient & High-Concentration Ozone Monitor',
+    img: 'https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800&h=520&fit=crop&q=80',
+    desc: 'The Thermo 49i measures ozone (O₃) by UV absorption at 254 nm against a reference cell. It delivers ppb-level sensitivity for ambient monitoring networks and also handles elevated concentrations for ozone generator compliance testing at water treatment plants and industrial disinfection facilities.',
+    params: [{val:'0–1000ppb',lbl:'Range'},{val:'1 ppb',lbl:'Detection'},{val:'±2%',lbl:'Accuracy'},{val:'20 sec',lbl:'Response'},{val:'EPA',lbl:'Approved'},{val:'24/7',lbl:'Operation'}],
+    features: ['Dual-beam UV photometric principle at 254 nm','Internal ozone scrubber for continuous zero baseline','Low power consumption — suitable for solar-powered stations','Modbus RTU / TCP/IP communication','EPA RFOA-0176-030 approved FRM method','Automatic temperature and pressure compensation'],
+    apps: [{icon:'fas fa-city',label:'Urban Networks'},{icon:'fas fa-leaf',label:'Photochemical Studies'},{icon:'fas fa-tint',label:'Water Treatment O₃'},{icon:'fas fa-smog',label:'Ambient Compliance'}],
+    tags: ['Ozone','O₃','UV Photometry','EPA FRM','NCEC','Ambient Monitoring'],
+    industries: ['Environmental Monitoring','Water Treatment','Urban Municipalities']
+  },
+  {
+    id: 8, cat: 'air', num: 'AIR-08',
+    name: 'TSI DustTrak DRX Aerosol Monitor',
+    brand: 'TSI Incorporated',
+    subtitle: 'Real-Time Particle Size & Mass Monitoring',
+    img: 'https://images.unsplash.com/photo-1569952266837-07ce4f964a5e?w=800&h=520&fit=crop&q=80',
+    desc: 'The DustTrak DRX provides simultaneous particle mass measurements across multiple size fractions (PM1, PM2.5, PM4, PM10, and Total) in real time using laser photometry. Ideal for construction site dust management, industrial hygiene surveys, and rapid impact screening before and during major site works.',
+    params: [{val:'0.001–400',lbl:'mg/m³ Range'},{val:'PM1–PM10',lbl:'Fractions'},{val:'785nm',lbl:'Laser'},{val:'1.7 L/min',lbl:'Flow Rate'},{val:'IP54',lbl:'Ingress'},{val:'Portable',lbl:'Type'}],
+    features: ['Simultaneous multi-fraction PM measurement (PM1/2.5/4/10)','Photometric detection with mass calibration factors','Built-in data logging with 1-second resolution','Bluetooth wireless connectivity to smartphone app','GPS-enabled for spatial dust mapping','Battery-operated — 8 hour continuous field use'],
+    apps: [{icon:'fas fa-hard-hat',label:'Construction Dust'},{icon:'fas fa-hammer',label:'Site Monitoring'},{icon:'fas fa-user-hard-hat',label:'Occupational Hygiene'},{icon:'fas fa-road',label:'Road Works'}],
+    tags: ['PM2.5','PM10','Dust','Real-Time','Construction','Occupational Hygiene'],
+    industries: ['Construction','Infrastructure','Mining','Manufacturing']
+  },
+
+  /* ═══ WATER TESTING ═══ */
+  {
+    id: 9, cat: 'water', num: 'H₂O-01',
+    name: 'PerkinElmer NexION 1000 ICP-MS',
+    brand: 'PerkinElmer',
+    subtitle: 'Ultra-Trace Heavy Metal & Multi-Element Analysis',
+    img: 'https://images.unsplash.com/photo-1579165466741-7f35e4755183?w=800&h=520&fit=crop&q=80',
+    desc: 'The NexION 1000 is a high-resolution Inductively Coupled Plasma Mass Spectrometer capable of detecting heavy metals and trace elements at parts-per-trillion (ppt) levels in water, soil, and tissue matrices. It is the primary instrument in AECON\'s ISO/IEC 17025-accredited laboratory for arsenic, lead, cadmium, mercury, chromium, nickel, and >70 other elemental analyses.',
+    params: [{val:'ppt',lbl:'Detection Limit'},{val:'>70',lbl:'Elements'},{val:'9 decades',lbl:'Dynamic Range'},{val:'ISO 17025',lbl:'Accredited'},{val:'±2%',lbl:'Precision'},{val:'Lab',lbl:'Type'}],
+    features: ['Triple-mode operation: Standard, DRC, Universal Cell','Discrete Dynode Detector with 9 decades dynamic range','Interference removal via Dynamic Reaction Cell (DRC)','Simultaneous multi-element quantification (up to 74 elements)','Full sweep from Li-7 to U-238 in <120 seconds','USEPA 200.8, ISO 17294-2 compliant methodology'],
+    apps: [{icon:'fas fa-tint',label:'Drinking Water'},{icon:'fas fa-water',label:'Wastewater'},{icon:'fas fa-anchor',label:'Marine Water'},{icon:'fas fa-layer-group',label:'Soil & Sediment'}],
+    tags: ['ICP-MS','Heavy Metals','Arsenic','Lead','Mercury','ISO 17025','Trace Analysis'],
+    industries: ['Water Utilities','Oil & Gas','Mining','Food & Beverage','Regulatory Compliance']
+  },
+  {
+    id: 10, cat: 'water', num: 'H₂O-02',
+    name: 'Agilent 8890 GC / 5977B MSD Gas Chromatograph–MS',
+    brand: 'Agilent Technologies',
+    subtitle: 'VOC, SVOC, PAH & BTEX Analysis System',
+    img: 'https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=800&h=520&fit=crop&q=80',
+    desc: 'AECON\'s GC-MS system enables comprehensive quantification of volatile organic compounds (VOCs), semi-volatile organics (SVOCs), polycyclic aromatic hydrocarbons (PAHs), petroleum hydrocarbons (TPH/BTEX), and pesticides in water and soil matrices to EPA 8260C and 8270D methods. Coupled with a purge-and-trap concentrator for ultra-trace VOC detection at sub-µg/L levels.',
+    params: [{val:'µg/L',lbl:'Level'},{val:'EPA 8260',lbl:'Method'},{val:'6-port',lbl:'Inlet'},{val:'EI/CI',lbl:'Ionization'},{val:'Quadrupole',lbl:'Analyser'},{val:'Lab',lbl:'Type'}],
+    features: ['Electron ionization (EI) and chemical ionization (CI) modes','Full-scan and SIM acquisition for targeted/untargeted work','Purge-and-trap (Tekmar Atomx XYZ) for trace VOC pre-concentration','Auto-sampler with 150-vial capacity for high-throughput batches','EPA Methods 8260C, 8270D, 8015D, TO-15 ready','GC-FID for TPH fractionation (C8–C40)'],
+    apps: [{icon:'fas fa-oil-can',label:'Oil & Fuel Contamination'},{icon:'fas fa-tint',label:'Groundwater'},{icon:'fas fa-layer-group',label:'Soil Remediation'},{icon:'fas fa-anchor',label:'Marine Sediment'}],
+    tags: ['VOC','SVOC','BTEX','PAH','TPH','GC-MS','EPA 8260','Organic Compounds'],
+    industries: ['Oil & Gas','Petrochemical','Contaminated Land','Environmental Forensics']
+  },
+  {
+    id: 11, cat: 'water', num: 'H₂O-03',
+    name: 'Thermo Scientific Dionex ICS-6000 Ion Chromatograph',
+    brand: 'Thermo Fisher Scientific',
+    subtitle: 'Anion & Cation Analysis in Water Matrices',
+    img: 'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=800&h=520&fit=crop&q=80',
+    desc: 'Ion chromatography enables the simultaneous determination of common anions (fluoride, chloride, nitrite, nitrate, sulfate, phosphate) and cations (sodium, potassium, calcium, magnesium) in drinking water, wastewater, and rainwater. AECON utilises the ICS-6000 for Saudi Aramco, NCEC, and WHO water quality compliance programs.',
+    params: [{val:'ppb',lbl:'Detection'},{val:'7 Anions',lbl:'Simultaneous'},{val:'USEPA',lbl:'300.1'},{val:'±1%',lbl:'Precision'},{val:'Suppress.',lbl:'Mode'},{val:'Lab',lbl:'Type'}],
+    features: ['Dual-channel simultaneous anion & cation analysis','Electrolytic suppressor eliminates background conductance','UV/Vis detector option for chromate and bromate','Automated eluent generation (KOH, MSA, carbonate)','EPA 300.0, 300.1, ISO 10304-1 compliant methods','Autosampler with 276-position AS-AP capable capacity'],
+    apps: [{icon:'fas fa-tint',label:'Drinking Water'},{icon:'fas fa-water',label:'Wastewater'},{icon:'fas fa-cloud-rain',label:'Rainwater Chemistry'},{icon:'fas fa-industry',label:'Process Water'}],
+    tags: ['Ion Chromatography','Nitrate','Sulfate','Fluoride','Chloride','Water Chemistry'],
+    industries: ['Water Utilities','Desalination','Food & Beverage','Power Generation']
+  },
+  {
+    id: 12, cat: 'water', num: 'H₂O-04',
+    name: 'Shimadzu TOC-L Total Organic Carbon Analyzer',
+    brand: 'Shimadzu Corporation',
+    subtitle: 'TOC, TN & DOC Analysis in Aqueous Samples',
+    img: 'https://images.unsplash.com/photo-1532187643603-ba119ca4109e?w=800&h=520&fit=crop&q=80',
+    desc: 'The Shimadzu TOC-L provides rapid, fully automated measurement of Total Organic Carbon (TOC), Total Nitrogen (TN), and Dissolved Organic Carbon (DOC) in drinking water, wastewater, and industrial effluents. AECON uses this analyser for NCEC effluent compliance reporting and organic loading assessments in industrial wastewater streams.',
+    params: [{val:'4 µg/L',lbl:'Detection'},{val:'0–4000',lbl:'mg/L Range'},{val:'NDIR',lbl:'Detection'},{val:'680°C',lbl:'Combustion'},{val:'6 min',lbl:'Cycle Time'},{val:'Lab',lbl:'Type'}],
+    features: ['680°C catalytic combustion oxidation for complete organic mineralisation','NDIR detector for CO₂ quantification with ±1.5% accuracy','Inline acidification and sparging for IC removal (TOCdiff)','Auto-dilution and auto-sampler (93 positions)','EPA 415.3 and ISO 8245 compliant measurement','Remote access and data export via LabSolutions TOC software'],
+    apps: [{icon:'fas fa-tint',label:'Drinking Water QA'},{icon:'fas fa-industry',label:'Effluent Compliance'},{icon:'fas fa-recycle',label:'Wastewater Treatment'},{icon:'fas fa-water',label:'Desalination Plants'}],
+    tags: ['TOC','DOC','Organic Carbon','Wastewater','Effluent','Drinking Water'],
+    industries: ['Water Treatment','Desalination','Industrial Effluent','Pharmaceutical']
+  },
+  {
+    id: 13, cat: 'water', num: 'H₂O-05',
+    name: 'HACH DR6000 UV-VIS Spectrophotometer',
+    brand: 'HACH Company',
+    subtitle: 'Water Quality Parameters by Spectrophotometry',
+    img: 'https://images.unsplash.com/photo-1559825481-12a05cc00344?w=800&h=520&fit=crop&q=80',
+    desc: 'The DR6000 delivers precise spectrophotometric measurement of over 250 water quality parameters including nutrients (nitrate, ammonia, phosphate), chemical oxygen demand (COD), turbidity, colour, chlorine, and dissolved metals. AECON field teams also use portable DR1900 and DR2800 units for on-site rapid assessment.',
+    params: [{val:'320–1100',lbl:'Wavelength nm'},{val:'250+',lbl:'Parameters'},{val:'±0.5%',lbl:'Accuracy'},{val:'0.1 nm',lbl:'Resolution'},{val:'COD/BOD',lbl:'Included'},{val:'Lab+Field',lbl:'Type'}],
+    features: ['190 pre-programmed testing methods for water analysis','UV/Vis dual-beam design for baseline drift elimination','COD vial digestion test kits (DRB200 reactor)','Turbidity module with nephelometric measurement','Color measurement to Hazen/Pt-Co standards','RFID reagent identification and LOT traceability'],
+    apps: [{icon:'fas fa-water',label:'Wastewater Treatment'},{icon:'fas fa-fish',label:'Aquaculture'},{icon:'fas fa-industry',label:'Industrial Effluent'},{icon:'fas fa-tint',label:'Drinking Water'}],
+    tags: ['COD','BOD','Turbidity','Nutrients','Ammonia','Spectrophotometry','Color'],
+    industries: ['Wastewater','Municipal Water','Aquaculture','Industrial Process']
+  },
+  {
+    id: 14, cat: 'water', num: 'H₂O-06',
+    name: 'YSI Pro Plus Portable Water Quality Meter',
+    brand: 'YSI / Xylem',
+    subtitle: 'Multi-Parameter In-Situ Water Quality',
+    img: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=800&h=520&fit=crop&q=80',
+    desc: 'The YSI Pro Plus enables simultaneous in-situ measurement of dissolved oxygen (DO), conductivity/salinity/TDS, pH, ORP, and temperature in field conditions. Used extensively by AECON for baseline surveys, operational monitoring of water bodies, and rapid assessment during emergency spill response operations.',
+    params: [{val:'DO/pH',lbl:'Primary Params'},{val:'±0.1 pH',lbl:'pH Acc.'},{val:'±0.2 mg/L',lbl:'DO Acc.'},{val:'IP67',lbl:'Rating'},{val:'100m',lbl:'Cable Length'},{val:'Field',lbl:'Type'}],
+    features: ['ISE pH electrode with internal reference for stable readings','Clark-type amperometric DO sensor with fast equilibration','Conductivity cell (0–100 mS/cm) with automatic salinity calc.','600-hour battery life with user-replaceable batteries','Internal data logger with 150,000 data set capacity','Compatible with YSI EXO sonde probes for marine deployments'],
+    apps: [{icon:'fas fa-tint',label:'River & Lake Surveys'},{icon:'fas fa-anchor',label:'Coastal Baseline'},{icon:'fas fa-industry',label:'Industrial Ponds'},{icon:'fas fa-exclamation-triangle',label:'Spill Response'}],
+    tags: ['DO','pH','Conductivity','Salinity','Field Monitoring','Portables'],
+    industries: ['Environmental Consulting','Water Utilities','Marine Coastal','Aquaculture']
+  },
+  {
+    id: 15, cat: 'water', num: 'H₂O-07',
+    name: 'ISCO 6712 Portable Water Sampler',
+    brand: 'Teledyne ISCO',
+    subtitle: 'Composite & Grab Automatic Water Sampling',
+    img: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=800&h=520&fit=crop&q=80',
+    desc: 'AECON uses the ISCO 6712 automatic sampler for unattended, programmed collection of discrete or composite water samples at fixed intervals or flow-proportional schedules. Deployed at industrial discharge points, wadi outfalls, and wastewater treatment plant effluent channels for 24-hour regulatory sampling programs.',
+    params: [{val:'24 Bottles',lbl:'Capacity'},{val:'Flow Prop.',lbl:'Mode'},{val:'1–9999 ml',lbl:'Volume'},{val:'PE',lbl:'Tubing'},{val:'8 m',lbl:'Lift Height'},{val:'Field',lbl:'Type'}],
+    features: ['24 individual 1-litre or 4×6-litre composite bottles','Flow-proportional sampling with external pulse input','Time-triggered or event-triggered collection modes','Peristaltic pump with tubing rinse between samples','IP67 weatherproof housing for outdoor deployment','Internal data logger records sample event time and flow'],
+    apps: [{icon:'fas fa-industry',label:'Effluent Compliance'},{icon:'fas fa-water',label:'Wadi & Runoff'},{icon:'fas fa-recycle',label:'WWTP Monitoring'},{icon:'fas fa-calendar-check',label:'24hr Composites'}],
+    tags: ['Auto Sampler','Composite','Flow-Proportional','Effluent','Discharge','24-Hour'],
+    industries: ['Industrial Effluent','Municipal Wastewater','Stormwater','Regulatory Compliance']
+  },
+  {
+    id: 16, cat: 'water', num: 'H₂O-08',
+    name: 'Agilent 5110 ICP-OES Spectrometer',
+    brand: 'Agilent Technologies',
+    subtitle: 'Multi-Element Water & Soil Digest Analysis',
+    img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=520&fit=crop&q=80',
+    desc: 'The Agilent 5110 Synchronous Vertical Dual View (SVDV) ICP-OES system provides simultaneous axial and radial plasma viewing for robust multi-element analysis of digested water, soil, and sludge samples. AECON uses this system for mid-to-high concentration element screening complementing the NexION 1000 ICP-MS at trace and ultra-trace levels.',
+    params: [{val:'ppb–%',lbl:'Range'},{val:'>70',lbl:'Elements'},{val:'SVDV',lbl:'View Mode'},{val:'<1%',lbl:'RSD'},{val:'ISO 17025',lbl:'Accredited'},{val:'Lab',lbl:'Type'}],
+    features: ['Synchronous Vertical Dual View (SVDV) for optimal matrix tolerance','Solid-state detector covering 167–785 nm simultaneously','Agilent Vapor Generation Accessory for Hg/As speciation','EPA 200.7, 200.9, ISO 11885 compliant','Auto-sampler with 156-position sample rack','Integrated OneNeb self-aspirating nebulizer'],
+    apps: [{icon:'fas fa-tint',label:'Water Quality'},{icon:'fas fa-layer-group',label:'Soil & Sediment'},{icon:'fas fa-recycle',label:'Sludge Analysis'},{icon:'fas fa-fish',label:'Tissue Analysis'}],
+    tags: ['ICP-OES','Multi-Element','Metals','Water','Soil','ISO 17025','Spectrometry'],
+    industries: ['Water Utilities','Mining','Agriculture','Pharmaceutical','Environmental Labs']
+  },
+
+  /* ═══ SOIL ANALYSIS ═══ */
+  {
+    id: 17, cat: 'soil', num: 'SOIL-01',
+    name: 'Olympus Vanta M-Series Portable XRF',
+    brand: 'Olympus Scientific Solutions',
+    subtitle: 'In-Situ Heavy Metal Screening in Soil',
+    img: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&h=520&fit=crop&q=80',
+    desc: 'The Vanta M portable XRF analyser enables rapid, non-destructive, in-situ screening of heavy metals in soil, sediment, and solid waste samples directly at the borehole or soil pit. AECON field teams use this instrument to guide sample selection for confirmatory laboratory ICP-MS analysis, significantly reducing project costs without sacrificing data quality.',
+    params: [{val:'In-Situ',lbl:'Mode'},{val:'36 Elements',lbl:'Detected'},{val:'2–5 sec',lbl:'Reading Time'},{val:'IP54',lbl:'Field Rating'},{val:'ppm',lbl:'Unit'},{val:'Portable',lbl:'Type'}],
+    features: ['Rhodium X-ray tube with 40 kV / 200 µA for optimal sensitivity','Silicon Drift Detector (SDD) for high count-rate capability','Test Mode & Geo Mode for regulatory screening benchmarks','Real-time results display via 5-inch LCD touchscreen','Bluetooth pairing with Vanta Sync app for GPS-tagged mapping','Battery pack allows >8 hours continuous field operation'],
+    apps: [{icon:'fas fa-search',label:'Contamination Screening'},{icon:'fas fa-hard-hat',label:'Phase II ESA'},{icon:'fas fa-recycle',label:'Waste Classification'},{icon:'fas fa-leaf',label:'Agricultural Soil'}],
+    tags: ['XRF','Heavy Metals','In-Situ','Lead','Arsenic','Soil Screening','Phase II'],
+    industries: ['Contaminated Land','Mining','Construction','Agriculture','Waste Management']
+  },
+  {
+    id: 18, cat: 'soil', num: 'SOIL-02',
+    name: 'Milestone ETHOS UP Microwave Digestion System',
+    brand: 'Milestone Srl',
+    subtitle: 'Acid Digestion for Metals in Soil & Solid Matrices',
+    img: 'https://images.unsplash.com/photo-1563207153-f403bf289096?w=800&h=520&fit=crop&q=80',
+    desc: 'The ETHOS UP closed-vessel microwave digestion system provides complete dissolution of soil, sediment, sludge, and solid waste samples for subsequent ICP-MS/OES multi-metal analysis. AECON\'s laboratory uses this system with EPA Method 3051A and 3052 protocols to achieve certified reference material recoveries >95% for all NCEC regulated metals.',
+    params: [{val:'EPA 3051A',lbl:'Method'},{val:'300°C',lbl:'Max Temp'},{val:'100 bar',lbl:'Max Pressure'},{val:'40 Vessels',lbl:'Capacity'},{val:'>95%',lbl:'Recovery'},{val:'Lab',lbl:'Type'}],
+    features: ['Microwave-assisted closed vessel digestion prevents metal losses','Independent vessel monitoring with pressure and temperature sensors','EPA 3051A, 3052, ISO 15587-1 and -2 compatible','SafeGrip EasyControl vessel design for operator safety','Fully programmable temperature ramp and hold profiles','Compatible with HF-resistant TFM vessels for silicate matrices'],
+    apps: [{icon:'fas fa-layer-group',label:'Soil & Sediment'},{icon:'fas fa-recycle',label:'Sludge'},{icon:'fas fa-trash',label:'Solid Waste'},{icon:'fas fa-industry',label:'Industrial Residues'}],
+    tags: ['Microwave Digestion','EPA 3051A','Sample Prep','Metals','Soil','ICP-MS'],
+    industries: ['Environmental Labs','Mining','Industrial Waste','Agriculture']
+  },
+  {
+    id: 19, cat: 'soil', num: 'SOIL-03',
+    name: 'Eijelkamp Undisturbed Core Sampler',
+    brand: 'Eijelkamp Agrisearch',
+    subtitle: 'Undisturbed Soil Core & Sediment Sampling',
+    img: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&h=520&fit=crop&q=80',
+    desc: 'AECON\'s geotechnical and environmental sampling teams use the Eijelkamp system to collect undisturbed soil cores for physical, chemical, and biological analysis. Core sampling preserves natural soil structure, enabling accurate assessment of contaminant vertical distribution, hydraulic conductivity, and sediment layering for brownfield redevelopment and land contamination investigations.',
+    params: [{val:'100 mm',lbl:'Core Diameter'},{val:'1m',lbl:'Core Length'},{val:'0–20 m',lbl:'Depth Range'},{val:'SS 316',lbl:'Material'},{val:'Undisturbed',lbl:'Collection'},{val:'Field',lbl:'Type'}],
+    features: ['Stainless steel split-core liner for minimal disturbance','Clear PVC liner option for visual logging without opening','Cone-tipped drive head for penetration in hard soils','Hand-operated cable drive and hydraulic push variants','Compliant with ISO 22475-1 soil sampling standard','Chain-of-custody labelling system with depth marking'],
+    apps: [{icon:'fas fa-layer-group',label:'Contaminated Land'},{icon:'fas fa-building',label:'Site Investigation'},{icon:'fas fa-recycle',label:'Brownfield Assessment'},{icon:'fas fa-anchor',label:'Coastal Sediment'}],
+    tags: ['Core Sampling','Soil Investigation','Undisturbed','Brownfield','Phase II ESA','Sediment'],
+    industries: ['Environmental Consulting','Construction','Land Development','Marine Coastal']
+  },
+  {
+    id: 20, cat: 'soil', num: 'SOIL-04',
+    name: 'Fritsch Analysette 22 Laser Particle Sizer',
+    brand: 'Fritsch GmbH',
+    subtitle: 'Particle Size Distribution Analysis',
+    img: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=520&fit=crop&q=80',
+    desc: 'Laser diffraction particle size analysis determines the grain size distribution of soil, sediment, and particulate matter samples in the range 0.01 µm to 3.8 mm. AECON\'s laboratory uses this instrument for soil classification, sedimentation studies, dust particle characterisation, and PM filter samples from ambient air monitoring networks.',
+    params: [{val:'0.01µm–3.8mm',lbl:'Range'},{val:'±1%',lbl:'Repeatability'},{val:'ISO 13320',lbl:'Standard'},{val:'Wet/Dry',lbl:'Dispersion'},{val:'<90 sec',lbl:'Cycle Time'},{val:'Lab',lbl:'Type'}],
+    features: ['Dual laser system (red 633nm + blue 405nm) for extended range','Wet dispersion module with ultrasonic de-agglomeration','Dry dispersion module for free-flowing powders/soils','ISO 13320:2020 compliant with Mie and Fraunhofer theory','Automatic measurement sequence with WINDOX5 software','WELAS digital particle counter option for gas-phase PM'],
+    apps: [{icon:'fas fa-layer-group',label:'Soil Classification'},{icon:'fas fa-water',label:'Sediment Transport'},{icon:'fas fa-wind',label:'Dust Characterisation'},{icon:'fas fa-industry',label:'Process QC'}],
+    tags: ['Particle Size','Grain Size','Laser Diffraction','Soil Classification','Sediment','Dust'],
+    industries: ['Environmental Labs','Construction','Mining','Industrial Process']
+  },
+  {
+    id: 21, cat: 'soil', num: 'SOIL-05',
+    name: 'PerkinElmer Clarus 690 GC-FID / TPH Analyzer',
+    brand: 'PerkinElmer',
+    subtitle: 'Total Petroleum Hydrocarbon (TPH) in Soil',
+    img: 'https://images.unsplash.com/photo-1517976384346-3136801d605d?w=800&h=520&fit=crop&q=80',
+    desc: 'Total Petroleum Hydrocarbon (TPH) analysis in contaminated soil and groundwater is performed using GC-FID fractionation across carbon ranges (C6–C10 aliphatic, C10–C40 heavy hydrocarbons). AECON uses EPA Method 8015D and the UK TPH CWG framework to provide forensic-quality hydrocarbon characterisation for oil-spill response and brownfield remediation projects.',
+    params: [{val:'EPA 8015D',lbl:'Method'},{val:'C6–C40',lbl:'Carbon Range'},{val:'FID',lbl:'Detector'},{val:'µg/kg',lbl:'Unit'},{val:'CWG',lbl:'Framework'},{val:'Lab',lbl:'Type'}],
+    features: ['Dual-FID system for simultaneous aliphatic and aromatic fractions','Purge-and-trap inlet for trace VOC (BTEX, C6–C10)','EPA 8015D, TPHCWG, and EN 14039 methods','Silica gel cleanup column for aromatic fraction separation','Certified reference material (CRM) verification each batch','Full LIMS integration with CoC and audit trail'],
+    apps: [{icon:'fas fa-oil-can',label:'Oil Contamination'},{icon:'fas fa-recycle',label:'Brownfield Sites'},{icon:'fas fa-industry',label:'Refinery Areas'},{icon:'fas fa-layer-group',label:'Fuel Spill Response'}],
+    tags: ['TPH','BTEX','GC-FID','Petroleum','Soil Contamination','EPA 8015D'],
+    industries: ['Oil & Gas','Petrochemical','Contaminated Land','Logistics']
+  },
+  {
+    id: 22, cat: 'soil', num: 'SOIL-06',
+    name: 'AMS PowerProbe Direct Push Drill Rig',
+    brand: 'AMS Inc.',
+    subtitle: 'Rapid Direct-Push Soil & Groundwater Sampling',
+    img: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=520&fit=crop&q=80',
+    desc: 'The AMS PowerProbe is a truck-mounted direct-push investigation system enabling rapid, low-impact installation of soil core samplers, groundwater monitoring wells, and in-situ sensors without the need for conventional rotary drilling. AECON mobilises this unit for Phase II Environmental Site Assessments (ESA), temporary well installation, and multi-level groundwater sampling programs.',
+    params: [{val:'0–25 m',lbl:'Depth Range'},{val:'<30 min',lbl:'Per Boring'},{val:'35 mm',lbl:'Rod Diameter'},{val:'Direct Push',lbl:'Method'},{val:'Low Impact',lbl:'Disturbance'},{val:'Mobile',lbl:'Type'}],
+    features: ['Hydraulic direct-push mechanism — no drilling vibration or cuttings','Simultaneous soil core and groundwater sample collection','Compatible with MIP, LIF, EC, CPT sensor strings','Vibration mode for difficult soils (sand/gravel)','GPS-georeferenced boring locations with site log app','Fully self-contained — no drill fluid or cuttings disposal'],
+    apps: [{icon:'fas fa-search',label:'Phase II ESA'},{icon:'fas fa-tint',label:'Groundwater Monitoring'},{icon:'fas fa-oil-can',label:'Spill Investigation'},{icon:'fas fa-building',label:'Pre-Development Surveys'}],
+    tags: ['Direct Push','Phase II','Groundwater','Soil Sampling','Well Installation','ESA'],
+    industries: ['Environmental Consulting','Construction','Oil & Gas','Land Development']
+  },
+  {
+    id: 23, cat: 'soil', num: 'SOIL-07',
+    name: 'Milestone DMA-80 Direct Mercury Analyzer',
+    brand: 'Milestone Srl',
+    subtitle: 'Total Mercury in Soil, Sediment & Waste',
+    img: 'https://images.unsplash.com/photo-1533106958155-d2d702b46d8a?w=800&h=520&fit=crop&q=80',
+    desc: 'The DMA-80 determines total mercury in solid matrices using thermal decomposition, amalgamation on a gold trap, and atomic absorption detection — EPA Method 7473 — without any sample digestion. AECON\'s mercury analysis capability covers soils near industrial sites, legacy contamination near chlor-alkali plants, and marine sediment surveys.',
+    params: [{val:'EPA 7473',lbl:'Method'},{val:'0.01 ng',lbl:'Detection'},{val:'0–1500 ng',lbl:'Dynamic Range'},{val:'Cold Vapor',lbl:'AAS'},{val:'No Prep',lbl:'Direct'},{val:'Lab',lbl:'Type'}],
+    features: ['No sample preparation — direct solid injection into furnace','Thermal decomposition at 750°C with gold amalgamation trap','Atomic absorption detector at 253.7 nm mercury wavelength','EPA Method 7473 and ASTM D7623 compliant','Measures 0.01 ng to 1500 ng total mercury','Automatic two-point calibration with CRM verification'],
+    apps: [{icon:'fas fa-layer-group',label:'Soil Contamination'},{icon:'fas fa-anchor',label:'Marine Sediment'},{icon:'fas fa-recycle',label:'Waste Assessment'},{icon:'fas fa-industry',label:'Industrial Legacy'}],
+    tags: ['Mercury','DMA','EPA 7473','Heavy Metals','Soil','Sediment','Direct Analysis'],
+    industries: ['Mining','Chlor-alkali','Environmental Forensics','Marine Monitoring']
+  },
+
+  /* ═══ MARINE MONITORING ═══ */
+  {
+    id: 24, cat: 'marine', num: 'MAR-01',
+    name: 'YSI EXO2 Multi-Parameter Sonde',
+    brand: 'YSI / Xylem',
+    subtitle: 'Coastal & Estuarine Water Quality Profiling',
+    img: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=520&fit=crop&q=80',
+    desc: 'The YSI EXO2 is AECON\'s primary multi-parameter sonde for marine, coastal, and estuarine water quality monitoring. With up to 7 simultaneous sensor ports, it measures conductivity/salinity, temperature, dissolved oxygen (optical), pH, ORP, turbidity, total dissolved gases, chlorophyll-a, blue-green algae, fDOM, and depth — enabling comprehensive characterisation of marine baseline conditions for EIA, ESIA, desalination plant impact assessments, and offshore platform environmental audits.',
+    params: [{val:'7',lbl:'Sensor Ports'},{val:'0–100 m',lbl:'Depth Rating'},{val:'Salinity',lbl:'Included'},{val:'Optical DO',lbl:'Blue DO'},{val:'Chlorophyll',lbl:'Fluorescence'},{val:'Deployed',lbl:'Type'}],
+    features: ['Up to 7 simultaneous calibrated smart sensors per deployment','Optical dissolved oxygen sensor (blue DO) — no membrane replacement','Anti-fouling central wiper with deployable brush action','Depth-rated to 100 m for continental shelf profiling','Internal memory: 10 years of data at 15-min intervals','Wireless data download via BlueTooth during recovery'],
+    apps: [{icon:'fas fa-anchor',label:'Port & Harbour'},{icon:'fas fa-tint',label:'Desalination Intake'},{icon:'fas fa-oil-can',label:'Offshore Platforms'},{icon:'fas fa-water',label:'Coastal Baseline'},{icon:'fas fa-fish',label:'Marine Ecology'}],
+    tags: ['Multi-Parameter','Salinity','Dissolved O₂','Turbidity','Chlorophyll','Marine','Coastal'],
+    industries: ['Marine EIA','Desalination','Offshore Oil & Gas','Port Operations','Coastal Development']
+  },
+  {
+    id: 25, cat: 'marine', num: 'MAR-02',
+    name: 'Sea-Bird SBE 37 MicroCAT CTD Profiler',
+    brand: 'Sea-Bird Scientific',
+    subtitle: 'Conductivity, Temperature & Depth Water Column Profiling',
+    img: 'https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=800&h=520&fit=crop&q=80',
+    desc: 'The Sea-Bird SBE 37 is a high-accuracy moored or profiling CTD sensor used for characterising the thermohaline structure of the water column. AECON deploys CTD systems during offshore EIA baseline surveys, thermal plume modelling for power station cooling water discharges, and desalination brine plume dispersion studies in the Red Sea and Arabian Gulf.',
+    params: [{val:'6800 m',lbl:'Depth Rating'},{val:'±0.001°C',lbl:'Temp Acc.'},{val:'±0.003',lbl:'PSU Acc.'},{val:'±0.1%',lbl:'Pressure Acc.'},{val:'RS-232',lbl:'Comms'},{val:'Moored/Profile',lbl:'Deployment'}],
+    features: ['Titanium housing rated to 6800 m depth (full ocean depth)','PROMPT™ pump-fed conductivity cell for flow-through accuracy','RS-232 serial & inductive modem communication','Internal memory for 1 year of hourly data at 1-sec sampling','Optional DO, pH, turbidity, and PAR sensors','Sea-Bird real-time data acquisition with SBEDataProcessing'],
+    apps: [{icon:'fas fa-anchor',label:'Offshore Platforms'},{icon:'fas fa-water',label:'Brine Plume Study'},{icon:'fas fa-thermometer-half',label:'Thermal Plume'},{icon:'fas fa-fish',label:'Deep Water EIA'},{icon:'fas fa-globe',label:'Oceanography'}],
+    tags: ['CTD','Conductivity','Temperature','Depth','Oceanography','Marine','Profiling'],
+    industries: ['Offshore Oil & Gas','Desalination','Power Station','Marine Research','Port Authorities']
+  },
+  {
+    id: 26, cat: 'marine', num: 'MAR-03',
+    name: 'Teledyne RD Instruments WorkHorse ADCP',
+    brand: 'Teledyne Marine',
+    subtitle: 'Acoustic Doppler Current Profiler — Water Current Measurement',
+    img: 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=800&h=520&fit=crop&q=80',
+    desc: 'The WorkHorse ADCP uses acoustic Doppler principles to measure water current velocity profiles at multiple depth cells simultaneously. AECON deploys ADCPs for hydrodynamic baseline characterisation of ports and harbours, tidal current modelling inputs for dredge plume and brine dispersion models, and sediment transport studies in support of coastal infrastructure EIA.',
+    params: [{val:'300/600kHz',lbl:'Frequency'},{val:'0.2–1 mm/s',lbl:'Vel. Accuracy'},{val:'120 m',lbl:'Range'},{val:'4 Beams',lbl:'Configuration'},{val:'ADCP',lbl:'Technology'},{val:'Moored',lbl:'Deployment'}],
+    features: ['4-beam Janus configuration for 3D current velocity profiling','Selectable cell sizes from 0.25 m to 8 m vertical resolution','Vessel-mounted, bottom-mounted, or buoy-deployed options','Real-time data via RS-232/RS-422 or wireless acoustic modem','Compass-tilt compensated data for accurate directional info','Compatible with hydrodynamic models (Delft3D, MIKE 21)'],
+    apps: [{icon:'fas fa-anchor',label:'Port & Harbour'},{icon:'fas fa-water',label:'Tidal Currents'},{icon:'fas fa-ship',label:'Shipping Lanes'},{icon:'fas fa-layer-group',label:'Sediment Transport'},{icon:'fas fa-oil-can',label:'Offshore Survey'}],
+    tags: ['ADCP','Current Velocity','Tidal','Hydrodynamics','Sediment Transport','Marine'],
+    industries: ['Port Authorities','Marine Construction','Coastal Engineering','Offshore Oil & Gas','Dredging']
+  },
+  {
+    id: 27, cat: 'marine', num: 'MAR-04',
+    name: 'Turner Designs CYCLOPS-7 Oil Fluorometer',
+    brand: 'Turner Designs',
+    subtitle: 'In-Situ Marine Oil Spill Detection & Quantification',
+    img: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&h=520&fit=crop&q=80',
+    desc: 'The CYCLOPS-7 fluorometric sensor detects and quantifies petroleum hydrocarbons and refined fuels dissolved in seawater through UV-excited fluorescence. AECON integrates this sensor into monitoring buoys and YSI EXO sonde deployments around port operations, refinery cooling water intakes, and offshore platform exclusion zones for real-time oil-spill early warning.',
+    params: [{val:'0–500 ppb',lbl:'Range'},{val:'0.05 ppb',lbl:'Detection'},{val:'UV 370nm',lbl:'Excitation'},{val:'590 nm',lbl:'Emission'},{val:'RS-232',lbl:'Output'},{val:'Submersible',lbl:'Type'}],
+    features: ['UV fluorescence detection specific to crude and refined petroleum','Ultra-low detection limit: 0.05 ppb crude oil equivalent','Titanium housing — pressure rated to 600 m depth','Real-time analog (0–5V) and RS-232 digital output','Directional response eliminates biofouling signal spikes','Integration with AECON\'s real-time environmental dashboard'],
+    apps: [{icon:'fas fa-oil-can',label:'Oil Spill Detection'},{icon:'fas fa-anchor',label:'Port Monitoring'},{icon:'fas fa-industry',label:'Refinery Intakes'},{icon:'fas fa-exclamation-triangle',label:'Emergency Response'}],
+    tags: ['Oil Fluorometer','Oil Spill','Petroleum','Fluorescence','Marine','Early Warning'],
+    industries: ['Offshore Oil & Gas','Port Operations','Refining','Marine Emergency Response']
+  },
+  {
+    id: 28, cat: 'marine', num: 'MAR-05',
+    name: 'Van Veen Stainless Steel Grab Sampler',
+    brand: 'Eijelkamp / Hydro-Bios',
+    subtitle: 'Marine Sediment Collection for Chemical Analysis',
+    img: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&h=520&fit=crop&q=80',
+    desc: 'AECON uses Van Veen grab samplers to collect undisturbed surface sediment samples (0–15 cm) from the marine bed for physical, chemical, and biological analysis. Used in EIA baseline surveys, compliance monitoring around discharge points, and post-construction monitoring programs for coastal and offshore development projects in the Red Sea and Arabian Gulf.',
+    params: [{val:'0–0.5 m',lbl:'Penetration'},{val:'20L',lbl:'Bucket Volume'},{val:'SS 316L',lbl:'Material'},{val:'INOX',lbl:'Construction'},{val:'Benthic',lbl:'Method'},{val:'Vessel',lbl:'Platform'}],
+    features: ['Heavy-duty SS 316L jaws with locking mechanism for sealed closure','Clear inspection windows for visual assessment before opening','Messenger-triggered closure for precise depth targeting','Optional sieving basket (500 µm) for benthic fauna retention','Compatible with both winch wire and hand-line deployment','Sample divider tray for sub-sampling to COC containers'],
+    apps: [{icon:'fas fa-anchor',label:'Marine EIA'},{icon:'fas fa-fish',label:'Benthic Ecology'},{icon:'fas fa-layer-group',label:'Sediment Chemistry'},{icon:'fas fa-water',label:'Dredge Compliance'},{icon:'fas fa-industry',label:'Discharge Monitoring'}],
+    tags: ['Sediment Grab','Benthic','Marine Sediment','Heavy Metals','Ecology','EIA Baseline'],
+    industries: ['Marine EIA','Port & Harbour','Dredging','Coastal Development','Oil & Gas']
+  },
+  {
+    id: 29, cat: 'marine', num: 'MAR-06',
+    name: 'WetLabs ECO-Triplet Optical Sensor Package',
+    brand: 'Sea-Bird Scientific / WetLabs',
+    subtitle: 'Chlorophyll-a, CDOM & Turbidity — Marine Optical',
+    img: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&h=520&fit=crop&q=80',
+    desc: 'The ECO-Triplet integrates three optical sensors in a single submersible housing — simultaneously measuring chlorophyll-a fluorescence, coloured dissolved organic matter (CDOM), and optical backscattering turbidity. AECON deploys ECO-Triplet packages on moored buoy systems for long-term monitoring of algal bloom events, turbidity plumes from dredging activities, and coral reef water quality around Red Sea development projects.',
+    params: [{val:'3 Channels',lbl:'Simultaneous'},{val:'Chl-a',lbl:'Fluorescence'},{val:'CDOM/fDOM',lbl:'Detection'},{val:'700 m',lbl:'Depth Rating'},{val:'Low Power',lbl:'<150mW'},{val:'Moored',lbl:'Deployment'}],
+    features: ['Simultaneous chlorophyll-a, CDOM, and optical turbidity (660nm)','700 m depth-rated titanium housing','Internal memory: 1 million samples at user-defined interval','RS-232 and analog output for integration with data loggers','Wiper option for biofouling mitigation in long-term deployments','Anti-fouling copper shutter mechanism for optical windows'],
+    apps: [{icon:'fas fa-fish',label:'Coral Reef Monitoring'},{icon:'fas fa-water',label:'Algal Bloom Early Warning'},{icon:'fas fa-hard-hat',label:'Dredge Turbidity'},{icon:'fas fa-anchor',label:'Marine Protected Areas'},{icon:'fas fa-tint',label:'Desalination Intake'}],
+    tags: ['Chlorophyll','CDOM','Turbidity','Optical','Algal Bloom','Coral Reef','Marine'],
+    industries: ['Marine Conservation','Coastal Development','Desalination','Port & Dredging','Marine Research']
+  },
+  {
+    id: 30, cat: 'marine', num: 'MAR-07',
+    name: 'NovaMet SeaBuoy Environmental Monitoring Buoy',
+    brand: 'AECON Integrated System',
+    subtitle: 'Offshore Real-Time Environmental Data Buoy',
+    img: 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=800&h=520&fit=crop&q=80',
+    desc: 'AECON designs and deploys integrated environmental monitoring buoys for offshore and coastal applications, housing multi-parameter water quality sensors, meteorological stations, and wireless data transmission systems. These buoys provide continuous, real-time environmental data streams to AECON\'s web-based monitoring dashboard — enabling 24/7 compliance surveillance for offshore installations, wind farm environmental permits, and coastal sanctuary management.',
+    params: [{val:'1.2 m',lbl:'Diameter'},{val:'4G/Satellite',lbl:'Telemetry'},{val:'Solar',lbl:'Power'},{val:'1 year',lbl:'Autonomy'},{val:'24/7',lbl:'Monitoring'},{val:'Offshore',lbl:'Type'}],
+    features: ['Integrated sensor payload: CTD, DO, turbidity, Chl-a, oil fluorometer','Vaisala WXT536 meteorological station on superstructure mast','4G cellular + Iridium satellite dual-mode telemetry','Solar PV + lithium battery system for 12+ month autonomy','Real-time dashboard with configurable alarm thresholds','Anti-corrosion HDPE floatation collar with mooring chain system'],
+    apps: [{icon:'fas fa-anchor',label:'Offshore Platforms'},{icon:'fas fa-wind',label:'Wind Farm Permits'},{icon:'fas fa-fish',label:'Marine Sanctuaries'},{icon:'fas fa-oil-can',label:'Pipeline Crossings'},{icon:'fas fa-globe',label:'Long-Term Compliance'}],
+    tags: ['Monitoring Buoy','Offshore','Real-Time','Satellite Telemetry','Solar','24/7'],
+    industries: ['Offshore Oil & Gas','Renewable Energy','Marine Protected Areas','Port Authorities','NEOM Coastal']
+  },
+  {
+    id: 31, cat: 'marine', num: 'MAR-08',
+    name: 'Prevue Manta Trawl — Marine Debris & Microplastic Sampler',
+    brand: 'KC Denmark / AECON',
+    subtitle: 'Surface Microplastic & Marine Debris Collection',
+    img: 'https://images.unsplash.com/photo-1541919329513-35f7af297129?w=800&h=520&fit=crop&q=80',
+    desc: 'Marine microplastic and floating debris assessment is increasingly required for EIAs near coastal infrastructure developments. AECON deploys manta trawls and neuston nets during vessel-based surveys to collect surface-layer samples for subsequent laboratory quantification and characterisation of microplastic particles (>333 µm), plastic fragments, fibres, pellets, and films in compliance with MSFD and regional marine strategy frameworks.',
+    params: [{val:'333 µm',lbl:'Mesh Size'},{val:'60 cm',lbl:'Trawl Width'},{val:'Surface',lbl:'Sampling Layer'},{val:'1–3 knots',lbl:'Trawl Speed'},{val:'COC',lbl:'Chain of Custody'},{val:'Vessel',lbl:'Platform'}],
+    features: ['333 µm stainless steel mesh cod-end for standard size threshold','Flow-through cod-end container with preserved sample jar','GPS track-recording of trawl route for spatial density maps','Paired neuston net for vertical sub-surface comparison','Sample processing using NaCl density separation','MSFD Descriptor 10 & GESAMP microplastic protocol compliant'],
+    apps: [{icon:'fas fa-water',label:'Marine EIA'},{icon:'fas fa-anchor',label:'Coastal Surveys'},{icon:'fas fa-globe',label:'MSFD Compliance'},{icon:'fas fa-fish',label:'Biodiversity Studies'},{icon:'fas fa-hard-hat',label:'Construction Impact'}],
+    tags: ['Microplastics','Marine Debris','Surface Sampling','MSFD','Plastic','Manta Trawl'],
+    industries: ['Marine EIA','Coastal Development','Marine Research','Red Sea Coral','NEOM']
+  }
+];
+
+
+/* ─── RENDER CARDS ──────────────────────────────────────────────── */
+function renderCards(data) {
+  const grid = document.getElementById('eqGrid');
+  const existing = grid.querySelectorAll('.eq-card');
+  existing.forEach(c => c.remove());
+
+  const catColors = {
+    air:    { bg: 'rgba(45,138,138,.08)', color: '#1a5f5f', label: '💨 Air Monitoring' },
+    water:  { bg: 'rgba(26,95,95,.08)',   color: '#1a5f5f', label: '💧 Water Testing'  },
+    soil:   { bg: 'rgba(135,168,120,.1)', color: '#5a7867', label: '🪨 Soil Analysis'  },
+    marine: { bg: 'rgba(15,61,62,.08)',   color: '#0f3d3e', label: '🌊 Marine'          }
+  };
+
+  data.forEach((eq, i) => {
+    const card = document.createElement('div');
+    card.className = 'eq-card';
+    card.dataset.cat = eq.cat;
+    card.dataset.name = eq.name.toLowerCase();
+    card.dataset.tags = (eq.tags || []).join(' ').toLowerCase();
+    card.dataset.id = eq.id;
+
+    const cc = catColors[eq.cat] || catColors.air;
+    const catLabel = cc.label;
+    const tagsHtml = (eq.tags || []).slice(0,4).map(t => `<span class="eq-card-tag">${t}</span>`).join('');
+    const paramsLabel = (eq.params || []).slice(0,2).map(p => `${p.val} ${p.lbl}`).join(' · ');
+
+    card.innerHTML = `
+      <div class="eq-card-img">
+        <img src="${eq.img}" alt="${eq.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&h=520&fit=crop'" />
+        <div class="eq-card-img-overlay"></div>
+        <span class="eq-card-cat-chip">${catLabel}</span>
+        <span class="eq-card-num">${eq.num}</span>
+        <span class="eq-card-brand">${eq.brand}</span>
+      </div>
+      <div class="eq-card-body">
+        <div class="eq-card-name">${eq.name}</div>
+        <p class="eq-card-desc">${eq.desc.substring(0,160)}…</p>
+        <div class="eq-card-tags">${tagsHtml}</div>
+        <div class="eq-card-footer">
+          <span class="eq-card-params">${paramsLabel}</span>
+          <button class="eq-card-btn" onclick="openModal(${eq.id})">
+            <i class="fas fa-info-circle" style="font-size:.7rem;"></i> Details
+          </button>
+        </div>
+      </div>`;
+
+    card.addEventListener('click', (e) => {
+      if (!e.target.closest('.eq-card-btn')) openModal(eq.id);
+    });
+
+    grid.appendChild(card);
+  });
+
+  updateCounts(data);
+  updateResultCount(data.length);
+}
+
+
+/* ─── FILTER ──────────────────────────────────────────────────────── */
+let activeFilter = 'all';
+let searchTerm   = '';
+
+function applyFilter() {
+  const cards = document.querySelectorAll('.eq-card');
+  let visible = 0;
+  cards.forEach(card => {
+    const matchCat  = activeFilter === 'all' || card.dataset.cat === activeFilter;
+    const matchName = card.dataset.name.includes(searchTerm);
+    const matchTag  = card.dataset.tags.includes(searchTerm);
+    const show = matchCat && (searchTerm === '' || matchName || matchTag);
+    card.classList.toggle('hidden', !show);
+    if (show) visible++;
+  });
+  document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+  updateResultCount(visible);
+}
+
+function updateCounts(data) {
+  const cats = ['all','air','water','soil','marine'];
+  cats.forEach(c => {
+    const el = document.getElementById('count-' + c);
+    if (!el) return;
+    const n = c === 'all' ? data.length : data.filter(e => e.cat === c).length;
+    el.textContent = n;
+  });
+}
+
+function updateResultCount(n) {
+  const el = document.getElementById('resultCount');
+  if (el) el.textContent = `Showing ${n} of ${EQUIPMENT.length} equipment items`;
+}
+
+// Category tab clicks
+document.querySelectorAll('.cat-tab').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeFilter = btn.dataset.cat;
+    applyFilter();
+  });
+});
+
+// Search input
+document.getElementById('searchInput').addEventListener('input', e => {
+  searchTerm = e.target.value.trim().toLowerCase();
+  applyFilter();
+});
+
+
+/* ─── MODAL ──────────────────────────────────────────────────────── */
+function openModal(id) {
+  const eq = EQUIPMENT.find(e => e.id === id);
+  if (!eq) return;
+
+  const catNames = { air:'Air Monitoring', water:'Water Testing', soil:'Soil Analysis', marine:'Marine Monitoring' };
+  const catColors = { air:'#2d8a8a', water:'#1a5f5f', soil:'#87a878', marine:'#0f3d3e' };
+
+  // Hero
+  document.getElementById('modalImg').src = eq.img;
+  document.getElementById('modalImg').alt = eq.name;
+  document.getElementById('modalTitle').textContent = eq.name;
+  document.getElementById('modalSubtitle').textContent = `${eq.num} · ${eq.brand} · ${eq.subtitle}`;
+
+  // Category chip
+  const catEl = document.getElementById('modalCat');
+  catEl.textContent = catNames[eq.cat];
+  catEl.style.background = (catColors[eq.cat] || '#1a5f5f') + 'AA';
+
+  // Description
+  document.getElementById('modalDesc').textContent = eq.desc;
+
+  // Params row
+  const paramsEl = document.getElementById('modalParams');
+  paramsEl.innerHTML = (eq.params || []).map(p => `
+    <div class="eq-modal-param-card">
+      <div class="mpc-val">${p.val}</div>
+      <div class="mpc-lbl">${p.lbl}</div>
+    </div>`).join('');
+
+  // Features
+  document.getElementById('modalFeatures').innerHTML = (eq.features || []).map(f => `
+    <li>
+      <div class="fl-check"><i class="fas fa-check"></i></div>
+      <span>${f}</span>
+    </li>`).join('');
+
+  // Applications
+  document.getElementById('modalApps').innerHTML = (eq.apps || []).map(a => `
+    <div class="eq-modal-app-chip">
+      <i class="${a.icon}"></i> ${a.label}
+    </div>`).join('');
+
+  // Tags
+  document.getElementById('modalTags').innerHTML = (eq.tags || []).map(t => `
+    <span class="eq-card-tag">${t}</span>`).join('');
+
+  // Industries
+  document.getElementById('modalIndustries').innerHTML = (eq.industries || []).map(ind => `
+    <span style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:8px;background:#0f3d3e;font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.65);">
+      <i class="fas fa-industry" style="font-size:.6rem;color:#2d8a8a;"></i>${ind}
+    </span>`).join('');
+
+  document.getElementById('eqModalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('eqModalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+
+/* ─── SCROLL REVEAL ──────────────────────────────────────────────── */
+const srObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); srObs.unobserve(e.target); } });
+}, { threshold: 0.06 });
+document.querySelectorAll('.sr').forEach(el => srObs.observe(el));
+
+
+/* ─── NAVBAR SCROLL SHADOW ──────────────────────────────────────── */
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').querySelector('.glass-card')
+    .classList.toggle('shadow-lg', window.scrollY > 50);
+}, { passive: true });
+
+
+/* ─── INIT ─────────────────────────────────────────────────────── */
+renderCards(EQUIPMENT);
+
+// Update counts for all cats
+const allCounts = { all: EQUIPMENT.length };
+['air','water','soil','marine'].forEach(c => {
+  allCounts[c] = EQUIPMENT.filter(e => e.cat === c).length;
+});
+Object.keys(allCounts).forEach(c => {
+  const el = document.getElementById('count-' + c);
+  if (el) el.textContent = allCounts[c];
+});
+updateResultCount(EQUIPMENT.length);
+</script>
+
+<style>
+/* Responsive footer grid */
+@media (max-width: 900px) {
+  .footer-grid-resp { grid-template-columns: 1fr 1fr !important; gap: 32px !important; }
+}
+@
