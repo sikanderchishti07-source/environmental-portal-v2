@@ -586,11 +586,12 @@
 
 /* ─── DROPDOWN ─── */
 .nav-dropdown {
-  position: absolute; top: calc(100% + 8px); left: 50%;
+  position: absolute; top: 100%; left: 50%;
   transform: translateX(-50%) translateY(-6px);
   opacity: 0; visibility: hidden; pointer-events: none;
   transition: opacity .22s ease, transform .22s ease;
   z-index: 200;
+  padding-top: 8px;
 }
 .nav-item:hover .nav-dropdown {
   opacity: 1; visibility: visible; pointer-events: all;
