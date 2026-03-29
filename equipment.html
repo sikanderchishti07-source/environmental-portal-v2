@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="AECON Equipment & Technology — Advanced instrumentation for air, water, soil and marine environmental monitoring across the Kingdom of Saudi Arabia." />
   <title>Equipment & Technology | AECON Environmental Consultancy</title>
-
+ 
   <!-- ── External Libraries ── -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-
+ 
   <!-- ── Tailwind Config ── -->
   <script>
     tailwind.config = {
@@ -32,7 +32,7 @@
       }
     };
   </script>
-
+ 
   <style>
     /* ═══════════════════════════════════════════════
        GLOBAL / UTILITY
@@ -46,13 +46,13 @@
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body { font-family: 'Plus Jakarta Sans', sans-serif; background: #f5f7f6; color: #1e3d32; overflow-x: hidden; }
-
+ 
     .glass-card {
       background: rgba(255,255,255,.92);
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255,255,255,.25);
     }
-
+ 
     /* ═══════════════════════════════════════════════
        HERO
     ═══════════════════════════════════════════════ */
@@ -91,7 +91,7 @@
       font-family: 'DM Sans',sans-serif; font-size: .72rem; color: rgba(255,255,255,.55);
       text-transform: uppercase; letter-spacing: .09em; margin-top: 4px;
     }
-
+ 
     /* ═══════════════════════════════════════════════
        CATEGORY FILTER BAR
     ═══════════════════════════════════════════════ */
@@ -130,7 +130,7 @@
     .cat-tab[data-cat="soil"].active   { background: var(--cat-soil); }
     .cat-tab[data-cat="marine"].active { background: var(--cat-marine); }
     .cat-tab.active .ct-dot            { opacity: 1; background: rgba(255,255,255,.7); }
-
+ 
     .search-wrap {
       display: flex; align-items: center; gap: 10px;
       background: #f5f7f6; border: 1.5px solid rgba(15,61,62,.12);
@@ -144,7 +144,7 @@
       width: 100%;
     }
     .search-wrap input::placeholder { color: #8aaa99; }
-
+ 
     /* ═══════════════════════════════════════════════
        EQUIPMENT GRID
     ═══════════════════════════════════════════════ */
@@ -157,7 +157,7 @@
       gap: 24px;
     }
     @media (max-width: 700px) { .eq-grid { grid-template-columns: 1fr; } }
-
+ 
     /* Category section label */
     .cat-section-label {
       max-width: 1320px; margin: 0 auto 24px;
@@ -175,7 +175,7 @@
       letter-spacing: .08em; text-transform: uppercase; color: #fff;
     }
     .cat-section-label .csl-line { flex: 1; height: 1px; background: rgba(15,61,62,.1); }
-
+ 
     /* ── Equipment Card ── */
     .eq-card {
       background: #fff;
@@ -192,7 +192,7 @@
       box-shadow: 0 18px 50px rgba(15,61,62,.14);
       border-color: rgba(45,138,138,.3);
     }
-
+ 
     /* Card image */
     .eq-card-img {
       position: relative; height: 210px; overflow: hidden;
@@ -229,7 +229,7 @@
       font-family: 'JetBrains Mono',monospace; font-size: .55rem;
       color: rgba(255,255,255,.7); letter-spacing: .05em;
     }
-
+ 
     /* Card body */
     .eq-card-body { padding: 20px 22px 22px; }
     .eq-card-name {
@@ -264,18 +264,18 @@
       box-shadow: 0 3px 12px rgba(26,95,95,.25);
     }
     .eq-card-btn:hover { background: linear-gradient(135deg,#0f3d3e,#1a5f5f); transform: translateX(2px); box-shadow: 0 5px 18px rgba(26,95,95,.35); }
-
+ 
     /* Category colour bars */
     .eq-card[data-cat="air"]    .eq-card-img-overlay { background: linear-gradient(180deg,rgba(45,138,138,.15) 0%,rgba(5,20,20,.62) 100%); }
     .eq-card[data-cat="water"]  .eq-card-img-overlay { background: linear-gradient(180deg,rgba(26,95,95,.15) 0%,rgba(5,20,20,.62) 100%); }
     .eq-card[data-cat="soil"]   .eq-card-img-overlay { background: linear-gradient(180deg,rgba(135,168,120,.15) 0%,rgba(5,20,20,.62) 100%); }
     .eq-card[data-cat="marine"] .eq-card-img-overlay { background: linear-gradient(180deg,rgba(15,61,62,.25) 0%,rgba(5,20,20,.62) 100%); }
-
+ 
     .eq-card[data-cat="air"]    .eq-card-cat-chip { background: rgba(45,138,138,.75); }
     .eq-card[data-cat="water"]  .eq-card-cat-chip { background: rgba(26,95,95,.75); }
     .eq-card[data-cat="soil"]   .eq-card-cat-chip { background: rgba(135,168,120,.8); }
     .eq-card[data-cat="marine"] .eq-card-cat-chip { background: rgba(15,61,62,.8); }
-
+ 
     /* Category accent stripe */
     .eq-card::after {
       content: ''; position: absolute; left: 0; bottom: 0;
@@ -287,10 +287,10 @@
     .eq-card[data-cat="water"]::after  { background: linear-gradient(90deg,#1a5f5f,#2d8a8a); }
     .eq-card[data-cat="soil"]::after   { background: linear-gradient(90deg,#87a878,#d4a574); }
     .eq-card[data-cat="marine"]::after { background: linear-gradient(90deg,#0f3d3e,#1a5f5f); }
-
+ 
     /* ── Hidden card (filter) ── */
     .eq-card.hidden { display: none; }
-
+ 
     /* ═══════════════════════════════════════════════
        NO-RESULTS PLACEHOLDER
     ═══════════════════════════════════════════════ */
@@ -299,7 +299,7 @@
     }
     #noResults i { font-size: 3rem; color: #c5d8d4; margin-bottom: 16px; display: block; }
     #noResults p { font-family: 'Playfair Display',serif; font-size: 1.2rem; color: #5a7a6a; }
-
+ 
     /* ═══════════════════════════════════════════════
        RESULT COUNT
     ═══════════════════════════════════════════════ */
@@ -309,7 +309,7 @@
       font-family: 'JetBrains Mono',monospace;
       font-size: .7rem; color: #8aaa99; letter-spacing: .05em;
     }
-
+ 
     /* ═══════════════════════════════════════════════
        MARINE FEATURE BANNER
     ═══════════════════════════════════════════════ */
@@ -336,7 +336,7 @@
       color: rgba(255,255,255,.8);
     }
     .marine-param i { font-size: .65rem; color: #2d8a8a; }
-
+ 
     /* ═══════════════════════════════════════════════
        MODAL
     ═══════════════════════════════════════════════ */
@@ -468,42 +468,145 @@
       display: flex; align-items: center; gap: 7px; transition: all .2s ease;
     }
     .eq-modal-cta-ghost:hover { background: rgba(26,95,95,.06); border-color: rgba(26,95,95,.4); }
-
+ 
     /* ═══════════════════════════════════════════════
        SCROLL REVEAL
     ═══════════════════════════════════════════════ */
     .sr { opacity: 0; transform: translateY(28px); transition: opacity .7s ease, transform .7s ease; }
     .sr.visible { opacity: 1; transform: translateY(0); }
-
+ 
     /* ═══════════════════════════════════════════════
        NAVBAR (shared with main site)
     ═══════════════════════════════════════════════ */
     nav#navbar { position: fixed; width: 100%; z-index: 50; transition: all .3s; }
     nav#navbar .glass-card { border-radius: 0; }
-
+ 
     /* ═══════════════════════════════════════════════
        FOOTER (shared with main site)
     ═══════════════════════════════════════════════ */
     .footer-top-rule { height: 1px; background: linear-gradient(90deg,transparent 0%,rgba(45,138,138,.5) 25%,rgba(212,165,116,.6) 55%,rgba(45,138,138,.5) 75%,transparent 100%); }
     .footer-col-title { font-family:'Plus Jakarta Sans',sans-serif; font-size:.68rem; font-weight:700; letter-spacing:.13em; text-transform:uppercase; color:#d4a574; margin-bottom:16px; }
-
+ 
     /* ═══════════════════════════════════════════════
        SPINNER (loading state)
     ═══════════════════════════════════════════════ */
     @keyframes spin { to { transform: rotate(360deg); } }
     .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .8s linear infinite; }
-
+ 
     /* Responsive filter bar */
     @media (max-width: 768px) {
       .filter-bar-inner { flex-direction: column; align-items: stretch; gap: 10px; }
       .cat-tabs { justify-content: flex-start; overflow-x: auto; flex-wrap: nowrap; padding-bottom: 4px; }
       .search-wrap { min-width: unset; }
     }
+  
+    /* ── Icon Badge on card image ── */
+    .eq-card-icon-badge {
+      position: absolute; bottom: 14px; left: 14px;
+      width: 40px; height: 40px; border-radius: 12px;
+      background: var(--icon-color, #2d8a8a);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: #fff;
+      box-shadow: 0 4px 16px rgba(0,0,0,.35);
+      border: 2px solid rgba(255,255,255,.25);
+      backdrop-filter: blur(4px);
+      transition: transform .3s ease, box-shadow .3s ease;
+      z-index: 5;
+    }
+    .eq-card:hover .eq-card-icon-badge {
+      transform: scale(1.12) translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,.4);
+    }
+ 
+    /* ── Image shimmer placeholder ── */
+    .eq-img-shimmer {
+      position: absolute; inset: 0;
+      background: linear-gradient(90deg,#dde8e8 25%,#c8dddd 50%,#dde8e8 75%);
+      background-size: 200% 100%;
+      animation: eq-shimmer 1.5s infinite;
+      z-index: 1;
+    }
+    @keyframes eq-shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .eq-card-img img { position: relative; z-index: 2; }
+    .eq-card-img-overlay { z-index: 3; }
+    .eq-card-cat-chip,
+    .eq-card-num,
+    .eq-card-icon-badge,
+    .eq-card-brand { z-index: 4; }
+ 
+    /* ── Card subtitle line ── */
+    .eq-card-subtitle {
+      font-family: 'DM Sans', sans-serif;
+      font-size: .72rem; font-weight: 600;
+      color: #8aaa99; letter-spacing: .03em;
+      margin-bottom: 8px; margin-top: -4px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+ 
+    /* ── Card number badge refined ── */
+    .eq-card-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .58rem; font-weight: 600;
+      color: rgba(255,255,255,.85);
+      background: rgba(0,0,0,.3);
+      backdrop-filter: blur(6px);
+      padding: 3px 9px; border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.2);
+      letter-spacing: .06em;
+    }
+ 
+    /* ── Card hover: stronger lift with glow ── */
+    .eq-card:hover {
+      transform: translateY(-8px) scale(1.013);
+      box-shadow: 0 22px 55px rgba(15,61,62,.16), 0 0 0 1px rgba(45,138,138,.18);
+    }
+ 
+    /* ── Accent border per category ── */
+    .eq-card[data-cat="air"]    { border-top: 3px solid rgba(45,138,138,.35); }
+    .eq-card[data-cat="water"]  { border-top: 3px solid rgba(26,95,95,.35);   }
+    .eq-card[data-cat="soil"]   { border-top: 3px solid rgba(135,168,120,.4); }
+    .eq-card[data-cat="marine"] { border-top: 3px solid rgba(15,61,62,.35);   }
+    .eq-card:hover[data-cat="air"]    { border-top-color: #2d8a8a; }
+    .eq-card:hover[data-cat="water"]  { border-top-color: #1a5f5f; }
+    .eq-card:hover[data-cat="soil"]   { border-top-color: #87a878; }
+    .eq-card:hover[data-cat="marine"] { border-top-color: #0f3d3e; }
+ 
+    /* ── Card image zoom: smoother ── */
+    .eq-card-img { overflow: hidden; }
+    .eq-card-img img { transition: transform .75s cubic-bezier(.25,.46,.45,.94); }
+    .eq-card:hover .eq-card-img img { transform: scale(1.08); }
+ 
+    /* ── "View Details" button polish ── */
+    .eq-card-btn {
+      letter-spacing: .02em;
+      padding: 8px 18px;
+      font-size: .74rem;
+    }
+    .eq-card-btn:hover { letter-spacing: .04em; }
+ 
+    /* ── Card body desc – clamp tighter ── */
+    .eq-card-desc { -webkit-line-clamp: 2; margin-bottom: 10px; }
+ 
+    /* ── Tag pill hover ── */
+    .eq-card-tag { transition: background .2s, color .2s; cursor: default; }
+    .eq-card-tag:hover { background: #d0eaea; color: #0f3d3e; }
+ 
+    /* ── Modal hero image quality ── */
+    .eq-modal-hero img { object-position: center 30%; }
+ 
+    /* ── Responsive icon badge ── */
+    @media (max-width: 480px) {
+      .eq-card-icon-badge { width: 34px; height: 34px; font-size: .85rem; }
+    }
+ 
   </style>
 </head>
-
+ 
 <body>
-
+ 
 <!-- ============================================================
      NAVIGATION
      ============================================================ -->
@@ -559,8 +662,8 @@
     </div>
   </div>
 </nav>
-
-
+ 
+ 
 <!-- ============================================================
      HERO
      ============================================================ -->
@@ -573,7 +676,7 @@
       <span>/</span>
       <span style="color:rgba(255,255,255,.8);">Equipment &amp; Technology</span>
     </div>
-
+ 
     <div class="grid lg:grid-cols-2 gap-12 items-center">
       <div>
         <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-6"
@@ -600,7 +703,7 @@
           </a>
         </div>
       </div>
-
+ 
       <!-- Stats -->
       <div class="hidden lg:grid grid-cols-2 gap-4">
         <div class="hero-stat-card"><div class="hsc-val">31+</div><div class="hsc-lbl">Equipment Types</div></div>
@@ -611,8 +714,8 @@
     </div>
   </div>
 </section>
-
-
+ 
+ 
 <!-- ============================================================
      FILTER BAR
      ============================================================ -->
@@ -646,8 +749,8 @@
     </div>
   </div>
 </div>
-
-
+ 
+ 
 <!-- ============================================================
      MARINE FEATURE BANNER
      ============================================================ -->
@@ -686,13 +789,13 @@
     </div>
   </div>
 </div>
-
-
+ 
+ 
 <!-- ============================================================
      RESULT COUNT
      ============================================================ -->
 <p class="result-count" id="resultCount">Loading equipment…</p>
-
+ 
 <!-- ============================================================
      EQUIPMENT GRID
      ============================================================ -->
@@ -704,8 +807,8 @@
     </div>
   </div>
 </div>
-
-
+ 
+ 
 <!-- ============================================================
      ACCREDITATION STRIP
      ============================================================ -->
@@ -743,8 +846,8 @@
     </div>
   </div>
 </section>
-
-
+ 
+ 
 <!-- ============================================================
      FOOTER (simplified version consistent with main site)
      ============================================================ -->
@@ -801,8 +904,8 @@
     </div>
   </div>
 </footer>
-
-
+ 
+ 
 <!-- ============================================================
      EQUIPMENT DETAIL MODAL
      ============================================================ -->
@@ -818,10 +921,10 @@
     <div class="eq-modal-body">
       <div class="eq-modal-subtitle" id="modalSubtitle"></div>
       <p class="eq-modal-desc" id="modalDesc"></p>
-
+ 
       <!-- Key parameters -->
       <div class="eq-modal-params-row" id="modalParams"></div>
-
+ 
       <div class="eq-modal-grid">
         <!-- Features -->
         <div>
@@ -838,13 +941,13 @@
           </div>
         </div>
       </div>
-
+ 
       <!-- Industries -->
       <div id="modalIndustriesWrap" style="margin-bottom:0;">
         <div class="eq-modal-section-title"><i class="fas fa-building" style="color:#2d8a8a;font-size:.75rem;"></i>Industries Served</div>
         <div style="display:flex;flex-wrap:wrap;gap:6px;" id="modalIndustries"></div>
       </div>
-
+ 
       <div class="eq-modal-cta">
         <button class="eq-modal-cta-primary" onclick="window.location='index.html#contact'">
           <i class="fas fa-paper-plane" style="font-size:.78rem;"></i> Request a Quote
@@ -859,22 +962,23 @@
     </div>
   </div>
 </div>
-
-
+ 
+ 
 <!-- ============================================================
      JAVASCRIPT — DATA & LOGIC
      ============================================================ -->
 <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 /* ─── EQUIPMENT DATA ──────────────────────────────────────────────── */
 const EQUIPMENT = [
-
+ 
   /* ═══ AIR MONITORING ═══ */
   {
     id: 1, cat: 'air', num: 'AIR-01',
     name: 'BAM 1022 Beta Attenuation Monitor',
     brand: 'Met One Instruments',
+    icon: 'fas fa-broadcast-tower', iconColor: '#2d8a8a',
     subtitle: 'Continuous PM2.5 & PM10 Mass Concentration',
-    img: 'https://images.unsplash.com/photo-1587613990897-7090c2fb3011?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'The BAM 1022 is a US EPA Federal Equivalent Method (FEM) monitor for continuous, real-time measurement of PM2.5 and PM10 particulate matter mass concentration. It uses beta ray attenuation through a collected filter-tape sample to determine precise mass per unit volume, transmitting data every hour to our SCADA monitoring centre.',
     params: [{val:'µg/m³',lbl:'Unit'},{val:'FEM',lbl:'EPA Equiv.'},{val:'±5%',lbl:'Accuracy'},{val:'5 min',lbl:'Response'},{val:'1h',lbl:'Avg. Period'},{val:'24/7',lbl:'Operation'}],
     features: ['US EPA FEM designation for PM2.5 & PM10','Beta ray attenuation with smart heater for RH control','Automatic filter tape advance and span check','Telemetric data output via RS-232, RS-485, TCP/IP','Integrated meteorological sensors (temperature, RH, pressure)','NCEC SAAQS & WHO AQG compliant reporting'],
@@ -886,8 +990,9 @@ const EQUIPMENT = [
     id: 2, cat: 'air', num: 'AIR-02',
     name: 'Thermo 42i Series NOx Analyzer',
     brand: 'Thermo Fisher Scientific',
+    icon: 'fas fa-atom', iconColor: '#2d8a8a',
     subtitle: 'Chemiluminescence NO / NO₂ / NOx Analyzer',
-    img: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'The Thermo 42i uses the chemiluminescence principle to measure nitric oxide (NO), nitrogen dioxide (NO₂), and total nitrogen oxides (NOx) with exceptional sensitivity and selectivity. Widely deployed in NCEC-compliant ambient air quality monitoring stations and industrial fenceline networks across KSA.',
     params: [{val:'0–20 ppm',lbl:'Range'},{icon:'',val:'0.4 ppb',lbl:'Detection Limit'},{val:'±1%',lbl:'Accuracy'},{val:'60 sec',lbl:'Response'},{val:'220V',lbl:'Power'},{val:'24/7',lbl:'Operation'}],
     features: ['Chemiluminescence detection principle (NO + O₃ reaction)','Simultaneous NO, NO₂, and NOx measurement','Internal span gas generator with programmable zero/span','Analog & digital I/O with Modbus, RS-232 communication','Heated stainless steel sample manifold prevents condensation','US EPA RFNA-0702-060 approval'],
@@ -899,8 +1004,9 @@ const EQUIPMENT = [
     id: 3, cat: 'air', num: 'AIR-03',
     name: 'Thermo 43i SO₂ Pulsed Fluorescence Analyzer',
     brand: 'Thermo Fisher Scientific',
+    icon: 'fas fa-wind', iconColor: '#2d8a8a',
     subtitle: 'Pulsed UV Fluorescence SO₂ Measurement',
-    img: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'Utilising UV pulsed fluorescence, the Thermo 43i provides precise sub-ppb sulfur dioxide measurement for ambient monitoring networks and industrial compliance programs. The instrument is compatible with standard data acquisition systems and is an EPA RFSA-0990-099 approved method.',
     params: [{val:'0–20 ppm',lbl:'Range'},{val:'0.2 ppb',lbl:'Detection Limit'},{val:'±1%',lbl:'Linearity'},{val:'120 sec',lbl:'Response'},{val:'EPA',lbl:'Approved'},{val:'24/7',lbl:'Operation'}],
     features: ['Pulsed UV fluorescence principle for SO₂ detection','Hydrocarbon scrubber eliminates interference','Zero/span automated valve with programmable schedule','Internal temperature control for stable operation','MODBUS RTU, 4–20 mA analog output','Compatible with NCEC air quality monitoring stations'],
@@ -912,8 +1018,9 @@ const EQUIPMENT = [
     id: 4, cat: 'air', num: 'AIR-04',
     name: 'Isokinetic Stack Sampling Train (EPA Method 5)',
     brand: 'Apex Instruments / AECON Custom',
+    icon: 'fas fa-industry', iconColor: '#2d8a8a',
     subtitle: 'Source Emission Particulate Sampling System',
-    img: 'https://images.unsplash.com/photo-1565008447742-97f6f38c985c?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'AECON\'s isokinetic stack sampling trains are configured to US EPA Method 5, 5B, 17, and NCEC equivalent protocols for collection of particulate matter from stationary industrial sources. Each train includes a heated filter holder, impingers, control console, pitot tube assembly, and gravimetric analysis kit, enabling compliant determination of Total Suspended Particulate (TSP) emissions at the source.',
     params: [{val:'EPA M5',lbl:'Method'},{val:'200°C',lbl:'Max Temp'},{val:'±5%',lbl:'Accuracy'},{val:'Isokin.',lbl:'Sampling'},{val:'NCEC',lbl:'Approved'},{val:'Stack',lbl:'Source'}],
     features: ['Heated filter holder (up to 120°C) prevents condensation','Multi-stage impinger train for moisture & SO₃ capture','Inclined manometer + Type-S pitot tube for velocity profile','Programmable sampling console with elapsed-time display','S-type pitot calibrated coefficient ≥0.84','Compatible with EPA Methods 1–17 analytical protocols'],
@@ -925,8 +1032,9 @@ const EQUIPMENT = [
     id: 5, cat: 'air', num: 'AIR-05',
     name: 'Automatic Weather Station (AWS)',
     brand: 'Vaisala / Campbell Scientific',
+    icon: 'fas fa-cloud-sun', iconColor: '#2d8a8a',
     subtitle: 'Meteorological Parameter Monitoring',
-    img: 'https://images.unsplash.com/photo-1504608524841-42584120d693?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1504608524841-42584120d693?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'AECON deploys integrated automatic weather stations to support air dispersion modelling, stack dispersion calculations, and environmental baseline characterisation. The AWS measures wind speed, wind direction, ambient temperature, relative humidity, barometric pressure, and solar radiation — all data inputs critical for AERMOD and CALPUFF dispersion model simulations.',
     params: [{val:'Wind',lbl:'Speed & Dir'},{val:'±0.3°C',lbl:'Temp. Acc.'},{val:'±2%',lbl:'RH Acc.'},{val:'10 min',lbl:'Data Interval'},{val:'Solar',lbl:'Radiation'},{val:'RS-485',lbl:'Comms'}],
     features: ['Ultrasonic 2D wind speed and direction (±0.1 m/s)','Platinum RTD temperature/humidity probe with radiation shield','Tipping bucket rain gauge (0.2 mm resolution)','Pyranometer for global horizontal irradiance','Solar-powered with battery backup for remote deployment','Data logger with GSM/GPRS telemetric transmission'],
@@ -938,8 +1046,9 @@ const EQUIPMENT = [
     id: 6, cat: 'air', num: 'AIR-06',
     name: 'PhotoVac TVOC / PID Photoionization Detector',
     brand: 'PhotoVac / Honeywell Analytics',
+    icon: 'fas fa-search', iconColor: '#2d8a8a',
     subtitle: 'Portable Total Volatile Organic Compound Monitor',
-    img: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'Using an ultraviolet lamp to ionize organic molecules, the PID instrument provides rapid, real-time measurement of total VOC concentrations for indoor air quality surveys, fugitive emission screening, industrial hygiene assessments, and landfill gas monitoring. AECON uses calibrated instruments across benzene, toluene, BTEX, and broad VOC screening programs.',
     params: [{val:'0–5000',lbl:'ppb Range'},{val:'<0.5 ppb',lbl:'Detection'},{val:'UV 10.6eV',lbl:'Lamp'},{val:'±5%',lbl:'Accuracy'},{val:'<3 sec',lbl:'Response'},{val:'Portable',lbl:'Type'}],
     features: ['Photoionization detection — responds to hundreds of VOCs','Selectable lamp energies (9.8, 10.6, 11.7 eV)','Data logging with GPS tagging for spatial mapping','IP67 rated, intrinsically safe for hazardous areas','BTEX, isobutylene calibration options','Real-time Bluetooth data link to field tablet'],
@@ -951,8 +1060,9 @@ const EQUIPMENT = [
     id: 7, cat: 'air', num: 'AIR-07',
     name: 'Thermo 49i UV Photometric O₃ Analyzer',
     brand: 'Thermo Fisher Scientific',
+    icon: 'fas fa-sun', iconColor: '#2d8a8a',
     subtitle: 'Ambient & High-Concentration Ozone Monitor',
-    img: 'https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1527689368864-3a821dbccc34?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'The Thermo 49i measures ozone (O₃) by UV absorption at 254 nm against a reference cell. It delivers ppb-level sensitivity for ambient monitoring networks and also handles elevated concentrations for ozone generator compliance testing at water treatment plants and industrial disinfection facilities.',
     params: [{val:'0–1000ppb',lbl:'Range'},{val:'1 ppb',lbl:'Detection'},{val:'±2%',lbl:'Accuracy'},{val:'20 sec',lbl:'Response'},{val:'EPA',lbl:'Approved'},{val:'24/7',lbl:'Operation'}],
     features: ['Dual-beam UV photometric principle at 254 nm','Internal ozone scrubber for continuous zero baseline','Low power consumption — suitable for solar-powered stations','Modbus RTU / TCP/IP communication','EPA RFOA-0176-030 approved FRM method','Automatic temperature and pressure compensation'],
@@ -964,8 +1074,9 @@ const EQUIPMENT = [
     id: 8, cat: 'air', num: 'AIR-08',
     name: 'TSI DustTrak DRX Aerosol Monitor',
     brand: 'TSI Incorporated',
+    icon: 'fas fa-smog', iconColor: '#2d8a8a',
     subtitle: 'Real-Time Particle Size & Mass Monitoring',
-    img: 'https://images.unsplash.com/photo-1569952266837-07ce4f964a5e?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1569952266837-07ce4f964a5e?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'The DustTrak DRX provides simultaneous particle mass measurements across multiple size fractions (PM1, PM2.5, PM4, PM10, and Total) in real time using laser photometry. Ideal for construction site dust management, industrial hygiene surveys, and rapid impact screening before and during major site works.',
     params: [{val:'0.001–400',lbl:'mg/m³ Range'},{val:'PM1–PM10',lbl:'Fractions'},{val:'785nm',lbl:'Laser'},{val:'1.7 L/min',lbl:'Flow Rate'},{val:'IP54',lbl:'Ingress'},{val:'Portable',lbl:'Type'}],
     features: ['Simultaneous multi-fraction PM measurement (PM1/2.5/4/10)','Photometric detection with mass calibration factors','Built-in data logging with 1-second resolution','Bluetooth wireless connectivity to smartphone app','GPS-enabled for spatial dust mapping','Battery-operated — 8 hour continuous field use'],
@@ -973,14 +1084,15 @@ const EQUIPMENT = [
     tags: ['PM2.5','PM10','Dust','Real-Time','Construction','Occupational Hygiene'],
     industries: ['Construction','Infrastructure','Mining','Manufacturing']
   },
-
+ 
   /* ═══ WATER TESTING ═══ */
   {
     id: 9, cat: 'water', num: 'H₂O-01',
     name: 'PerkinElmer NexION 1000 ICP-MS',
     brand: 'PerkinElmer',
+    icon: 'fas fa-microscope', iconColor: '#1a5f5f',
     subtitle: 'Ultra-Trace Heavy Metal & Multi-Element Analysis',
-    img: 'https://images.unsplash.com/photo-1579165466741-7f35e4755183?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1579165466741-7f35e4755183?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'The NexION 1000 is a high-resolution Inductively Coupled Plasma Mass Spectrometer capable of detecting heavy metals and trace elements at parts-per-trillion (ppt) levels in water, soil, and tissue matrices. It is the primary instrument in AECON\'s ISO/IEC 17025-accredited laboratory for arsenic, lead, cadmium, mercury, chromium, nickel, and >70 other elemental analyses.',
     params: [{val:'ppt',lbl:'Detection Limit'},{val:'>70',lbl:'Elements'},{val:'9 decades',lbl:'Dynamic Range'},{val:'ISO 17025',lbl:'Accredited'},{val:'±2%',lbl:'Precision'},{val:'Lab',lbl:'Type'}],
     features: ['Triple-mode operation: Standard, DRC, Universal Cell','Discrete Dynode Detector with 9 decades dynamic range','Interference removal via Dynamic Reaction Cell (DRC)','Simultaneous multi-element quantification (up to 74 elements)','Full sweep from Li-7 to U-238 in <120 seconds','USEPA 200.8, ISO 17294-2 compliant methodology'],
@@ -992,8 +1104,9 @@ const EQUIPMENT = [
     id: 10, cat: 'water', num: 'H₂O-02',
     name: 'Agilent 8890 GC / 5977B MSD Gas Chromatograph–MS',
     brand: 'Agilent Technologies',
+    icon: 'fas fa-vial', iconColor: '#1a5f5f',
     subtitle: 'VOC, SVOC, PAH & BTEX Analysis System',
-    img: 'https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'AECON\'s GC-MS system enables comprehensive quantification of volatile organic compounds (VOCs), semi-volatile organics (SVOCs), polycyclic aromatic hydrocarbons (PAHs), petroleum hydrocarbons (TPH/BTEX), and pesticides in water and soil matrices to EPA 8260C and 8270D methods. Coupled with a purge-and-trap concentrator for ultra-trace VOC detection at sub-µg/L levels.',
     params: [{val:'µg/L',lbl:'Level'},{val:'EPA 8260',lbl:'Method'},{val:'6-port',lbl:'Inlet'},{val:'EI/CI',lbl:'Ionization'},{val:'Quadrupole',lbl:'Analyser'},{val:'Lab',lbl:'Type'}],
     features: ['Electron ionization (EI) and chemical ionization (CI) modes','Full-scan and SIM acquisition for targeted/untargeted work','Purge-and-trap (Tekmar Atomx XYZ) for trace VOC pre-concentration','Auto-sampler with 150-vial capacity for high-throughput batches','EPA Methods 8260C, 8270D, 8015D, TO-15 ready','GC-FID for TPH fractionation (C8–C40)'],
@@ -1005,8 +1118,9 @@ const EQUIPMENT = [
     id: 11, cat: 'water', num: 'H₂O-03',
     name: 'Thermo Scientific Dionex ICS-6000 Ion Chromatograph',
     brand: 'Thermo Fisher Scientific',
+    icon: 'fas fa-flask', iconColor: '#1a5f5f',
     subtitle: 'Anion & Cation Analysis in Water Matrices',
-    img: 'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1576086213369-97a306d36557?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'Ion chromatography enables the simultaneous determination of common anions (fluoride, chloride, nitrite, nitrate, sulfate, phosphate) and cations (sodium, potassium, calcium, magnesium) in drinking water, wastewater, and rainwater. AECON utilises the ICS-6000 for Saudi Aramco, NCEC, and WHO water quality compliance programs.',
     params: [{val:'ppb',lbl:'Detection'},{val:'7 Anions',lbl:'Simultaneous'},{val:'USEPA',lbl:'300.1'},{val:'±1%',lbl:'Precision'},{val:'Suppress.',lbl:'Mode'},{val:'Lab',lbl:'Type'}],
     features: ['Dual-channel simultaneous anion & cation analysis','Electrolytic suppressor eliminates background conductance','UV/Vis detector option for chromate and bromate','Automated eluent generation (KOH, MSA, carbonate)','EPA 300.0, 300.1, ISO 10304-1 compliant methods','Autosampler with 276-position AS-AP capable capacity'],
@@ -1018,8 +1132,9 @@ const EQUIPMENT = [
     id: 12, cat: 'water', num: 'H₂O-04',
     name: 'Shimadzu TOC-L Total Organic Carbon Analyzer',
     brand: 'Shimadzu Corporation',
+    icon: 'fas fa-fire', iconColor: '#1a5f5f',
     subtitle: 'TOC, TN & DOC Analysis in Aqueous Samples',
-    img: 'https://images.unsplash.com/photo-1532187643603-ba119ca4109e?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1532187643603-ba119ca4109e?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'The Shimadzu TOC-L provides rapid, fully automated measurement of Total Organic Carbon (TOC), Total Nitrogen (TN), and Dissolved Organic Carbon (DOC) in drinking water, wastewater, and industrial effluents. AECON uses this analyser for NCEC effluent compliance reporting and organic loading assessments in industrial wastewater streams.',
     params: [{val:'4 µg/L',lbl:'Detection'},{val:'0–4000',lbl:'mg/L Range'},{val:'NDIR',lbl:'Detection'},{val:'680°C',lbl:'Combustion'},{val:'6 min',lbl:'Cycle Time'},{val:'Lab',lbl:'Type'}],
     features: ['680°C catalytic combustion oxidation for complete organic mineralisation','NDIR detector for CO₂ quantification with ±1.5% accuracy','Inline acidification and sparging for IC removal (TOCdiff)','Auto-dilution and auto-sampler (93 positions)','EPA 415.3 and ISO 8245 compliant measurement','Remote access and data export via LabSolutions TOC software'],
@@ -1031,8 +1146,9 @@ const EQUIPMENT = [
     id: 13, cat: 'water', num: 'H₂O-05',
     name: 'HACH DR6000 UV-VIS Spectrophotometer',
     brand: 'HACH Company',
+    icon: 'fas fa-eye', iconColor: '#1a5f5f',
     subtitle: 'Water Quality Parameters by Spectrophotometry',
-    img: 'https://images.unsplash.com/photo-1559825481-12a05cc00344?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1559825481-12a05cc00344?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'The DR6000 delivers precise spectrophotometric measurement of over 250 water quality parameters including nutrients (nitrate, ammonia, phosphate), chemical oxygen demand (COD), turbidity, colour, chlorine, and dissolved metals. AECON field teams also use portable DR1900 and DR2800 units for on-site rapid assessment.',
     params: [{val:'320–1100',lbl:'Wavelength nm'},{val:'250+',lbl:'Parameters'},{val:'±0.5%',lbl:'Accuracy'},{val:'0.1 nm',lbl:'Resolution'},{val:'COD/BOD',lbl:'Included'},{val:'Lab+Field',lbl:'Type'}],
     features: ['190 pre-programmed testing methods for water analysis','UV/Vis dual-beam design for baseline drift elimination','COD vial digestion test kits (DRB200 reactor)','Turbidity module with nephelometric measurement','Color measurement to Hazen/Pt-Co standards','RFID reagent identification and LOT traceability'],
@@ -1044,8 +1160,9 @@ const EQUIPMENT = [
     id: 14, cat: 'water', num: 'H₂O-06',
     name: 'YSI Pro Plus Portable Water Quality Meter',
     brand: 'YSI / Xylem',
+    icon: 'fas fa-satellite-dish', iconColor: '#1a5f5f',
     subtitle: 'Multi-Parameter In-Situ Water Quality',
-    img: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1505118380757-91f5f5632de0?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'The YSI Pro Plus enables simultaneous in-situ measurement of dissolved oxygen (DO), conductivity/salinity/TDS, pH, ORP, and temperature in field conditions. Used extensively by AECON for baseline surveys, operational monitoring of water bodies, and rapid assessment during emergency spill response operations.',
     params: [{val:'DO/pH',lbl:'Primary Params'},{val:'±0.1 pH',lbl:'pH Acc.'},{val:'±0.2 mg/L',lbl:'DO Acc.'},{val:'IP67',lbl:'Rating'},{val:'100m',lbl:'Cable Length'},{val:'Field',lbl:'Type'}],
     features: ['ISE pH electrode with internal reference for stable readings','Clark-type amperometric DO sensor with fast equilibration','Conductivity cell (0–100 mS/cm) with automatic salinity calc.','600-hour battery life with user-replaceable batteries','Internal data logger with 150,000 data set capacity','Compatible with YSI EXO sonde probes for marine deployments'],
@@ -1057,8 +1174,9 @@ const EQUIPMENT = [
     id: 15, cat: 'water', num: 'H₂O-07',
     name: 'ISCO 6712 Portable Water Sampler',
     brand: 'Teledyne ISCO',
+    icon: 'fas fa-fill-drip', iconColor: '#1a5f5f',
     subtitle: 'Composite & Grab Automatic Water Sampling',
-    img: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'AECON uses the ISCO 6712 automatic sampler for unattended, programmed collection of discrete or composite water samples at fixed intervals or flow-proportional schedules. Deployed at industrial discharge points, wadi outfalls, and wastewater treatment plant effluent channels for 24-hour regulatory sampling programs.',
     params: [{val:'24 Bottles',lbl:'Capacity'},{val:'Flow Prop.',lbl:'Mode'},{val:'1–9999 ml',lbl:'Volume'},{val:'PE',lbl:'Tubing'},{val:'8 m',lbl:'Lift Height'},{val:'Field',lbl:'Type'}],
     features: ['24 individual 1-litre or 4×6-litre composite bottles','Flow-proportional sampling with external pulse input','Time-triggered or event-triggered collection modes','Peristaltic pump with tubing rinse between samples','IP67 weatherproof housing for outdoor deployment','Internal data logger records sample event time and flow'],
@@ -1070,8 +1188,9 @@ const EQUIPMENT = [
     id: 16, cat: 'water', num: 'H₂O-08',
     name: 'Agilent 5110 ICP-OES Spectrometer',
     brand: 'Agilent Technologies',
+    icon: 'fas fa-chart-bar', iconColor: '#1a5f5f',
     subtitle: 'Multi-Element Water & Soil Digest Analysis',
-    img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'The Agilent 5110 Synchronous Vertical Dual View (SVDV) ICP-OES system provides simultaneous axial and radial plasma viewing for robust multi-element analysis of digested water, soil, and sludge samples. AECON uses this system for mid-to-high concentration element screening complementing the NexION 1000 ICP-MS at trace and ultra-trace levels.',
     params: [{val:'ppb–%',lbl:'Range'},{val:'>70',lbl:'Elements'},{val:'SVDV',lbl:'View Mode'},{val:'<1%',lbl:'RSD'},{val:'ISO 17025',lbl:'Accredited'},{val:'Lab',lbl:'Type'}],
     features: ['Synchronous Vertical Dual View (SVDV) for optimal matrix tolerance','Solid-state detector covering 167–785 nm simultaneously','Agilent Vapor Generation Accessory for Hg/As speciation','EPA 200.7, 200.9, ISO 11885 compliant','Auto-sampler with 156-position sample rack','Integrated OneNeb self-aspirating nebulizer'],
@@ -1079,14 +1198,15 @@ const EQUIPMENT = [
     tags: ['ICP-OES','Multi-Element','Metals','Water','Soil','ISO 17025','Spectrometry'],
     industries: ['Water Utilities','Mining','Agriculture','Pharmaceutical','Environmental Labs']
   },
-
+ 
   /* ═══ SOIL ANALYSIS ═══ */
   {
     id: 17, cat: 'soil', num: 'SOIL-01',
     name: 'Olympus Vanta M-Series Portable XRF',
     brand: 'Olympus Scientific Solutions',
+    icon: 'fas fa-crosshairs', iconColor: '#87a878',
     subtitle: 'In-Situ Heavy Metal Screening in Soil',
-    img: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'The Vanta M portable XRF analyser enables rapid, non-destructive, in-situ screening of heavy metals in soil, sediment, and solid waste samples directly at the borehole or soil pit. AECON field teams use this instrument to guide sample selection for confirmatory laboratory ICP-MS analysis, significantly reducing project costs without sacrificing data quality.',
     params: [{val:'In-Situ',lbl:'Mode'},{val:'36 Elements',lbl:'Detected'},{val:'2–5 sec',lbl:'Reading Time'},{val:'IP54',lbl:'Field Rating'},{val:'ppm',lbl:'Unit'},{val:'Portable',lbl:'Type'}],
     features: ['Rhodium X-ray tube with 40 kV / 200 µA for optimal sensitivity','Silicon Drift Detector (SDD) for high count-rate capability','Test Mode & Geo Mode for regulatory screening benchmarks','Real-time results display via 5-inch LCD touchscreen','Bluetooth pairing with Vanta Sync app for GPS-tagged mapping','Battery pack allows >8 hours continuous field operation'],
@@ -1098,8 +1218,9 @@ const EQUIPMENT = [
     id: 18, cat: 'soil', num: 'SOIL-02',
     name: 'Milestone ETHOS UP Microwave Digestion System',
     brand: 'Milestone Srl',
+    icon: 'fas fa-radiation', iconColor: '#87a878',
     subtitle: 'Acid Digestion for Metals in Soil & Solid Matrices',
-    img: 'https://images.unsplash.com/photo-1563207153-f403bf289096?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1563207153-f403bf289096?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'The ETHOS UP closed-vessel microwave digestion system provides complete dissolution of soil, sediment, sludge, and solid waste samples for subsequent ICP-MS/OES multi-metal analysis. AECON\'s laboratory uses this system with EPA Method 3051A and 3052 protocols to achieve certified reference material recoveries >95% for all NCEC regulated metals.',
     params: [{val:'EPA 3051A',lbl:'Method'},{val:'300°C',lbl:'Max Temp'},{val:'100 bar',lbl:'Max Pressure'},{val:'40 Vessels',lbl:'Capacity'},{val:'>95%',lbl:'Recovery'},{val:'Lab',lbl:'Type'}],
     features: ['Microwave-assisted closed vessel digestion prevents metal losses','Independent vessel monitoring with pressure and temperature sensors','EPA 3051A, 3052, ISO 15587-1 and -2 compatible','SafeGrip EasyControl vessel design for operator safety','Fully programmable temperature ramp and hold profiles','Compatible with HF-resistant TFM vessels for silicate matrices'],
@@ -1111,8 +1232,9 @@ const EQUIPMENT = [
     id: 19, cat: 'soil', num: 'SOIL-03',
     name: 'Eijelkamp Undisturbed Core Sampler',
     brand: 'Eijelkamp Agrisearch',
+    icon: 'fas fa-layer-group', iconColor: '#87a878',
     subtitle: 'Undisturbed Soil Core & Sediment Sampling',
-    img: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'AECON\'s geotechnical and environmental sampling teams use the Eijelkamp system to collect undisturbed soil cores for physical, chemical, and biological analysis. Core sampling preserves natural soil structure, enabling accurate assessment of contaminant vertical distribution, hydraulic conductivity, and sediment layering for brownfield redevelopment and land contamination investigations.',
     params: [{val:'100 mm',lbl:'Core Diameter'},{val:'1m',lbl:'Core Length'},{val:'0–20 m',lbl:'Depth Range'},{val:'SS 316',lbl:'Material'},{val:'Undisturbed',lbl:'Collection'},{val:'Field',lbl:'Type'}],
     features: ['Stainless steel split-core liner for minimal disturbance','Clear PVC liner option for visual logging without opening','Cone-tipped drive head for penetration in hard soils','Hand-operated cable drive and hydraulic push variants','Compliant with ISO 22475-1 soil sampling standard','Chain-of-custody labelling system with depth marking'],
@@ -1124,8 +1246,9 @@ const EQUIPMENT = [
     id: 20, cat: 'soil', num: 'SOIL-04',
     name: 'Fritsch Analysette 22 Laser Particle Sizer',
     brand: 'Fritsch GmbH',
+    icon: 'fas fa-grip-dots-vertical', iconColor: '#87a878',
     subtitle: 'Particle Size Distribution Analysis',
-    img: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'Laser diffraction particle size analysis determines the grain size distribution of soil, sediment, and particulate matter samples in the range 0.01 µm to 3.8 mm. AECON\'s laboratory uses this instrument for soil classification, sedimentation studies, dust particle characterisation, and PM filter samples from ambient air monitoring networks.',
     params: [{val:'0.01µm–3.8mm',lbl:'Range'},{val:'±1%',lbl:'Repeatability'},{val:'ISO 13320',lbl:'Standard'},{val:'Wet/Dry',lbl:'Dispersion'},{val:'<90 sec',lbl:'Cycle Time'},{val:'Lab',lbl:'Type'}],
     features: ['Dual laser system (red 633nm + blue 405nm) for extended range','Wet dispersion module with ultrasonic de-agglomeration','Dry dispersion module for free-flowing powders/soils','ISO 13320:2020 compliant with Mie and Fraunhofer theory','Automatic measurement sequence with WINDOX5 software','WELAS digital particle counter option for gas-phase PM'],
@@ -1137,8 +1260,9 @@ const EQUIPMENT = [
     id: 21, cat: 'soil', num: 'SOIL-05',
     name: 'PerkinElmer Clarus 690 GC-FID / TPH Analyzer',
     brand: 'PerkinElmer',
+    icon: 'fas fa-oil-can', iconColor: '#87a878',
     subtitle: 'Total Petroleum Hydrocarbon (TPH) in Soil',
-    img: 'https://images.unsplash.com/photo-1517976384346-3136801d605d?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1517976384346-3136801d605d?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'Total Petroleum Hydrocarbon (TPH) analysis in contaminated soil and groundwater is performed using GC-FID fractionation across carbon ranges (C6–C10 aliphatic, C10–C40 heavy hydrocarbons). AECON uses EPA Method 8015D and the UK TPH CWG framework to provide forensic-quality hydrocarbon characterisation for oil-spill response and brownfield remediation projects.',
     params: [{val:'EPA 8015D',lbl:'Method'},{val:'C6–C40',lbl:'Carbon Range'},{val:'FID',lbl:'Detector'},{val:'µg/kg',lbl:'Unit'},{val:'CWG',lbl:'Framework'},{val:'Lab',lbl:'Type'}],
     features: ['Dual-FID system for simultaneous aliphatic and aromatic fractions','Purge-and-trap inlet for trace VOC (BTEX, C6–C10)','EPA 8015D, TPHCWG, and EN 14039 methods','Silica gel cleanup column for aromatic fraction separation','Certified reference material (CRM) verification each batch','Full LIMS integration with CoC and audit trail'],
@@ -1150,8 +1274,9 @@ const EQUIPMENT = [
     id: 22, cat: 'soil', num: 'SOIL-06',
     name: 'AMS PowerProbe Direct Push Drill Rig',
     brand: 'AMS Inc.',
+    icon: 'fas fa-arrow-circle-down', iconColor: '#87a878',
     subtitle: 'Rapid Direct-Push Soil & Groundwater Sampling',
-    img: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'The AMS PowerProbe is a truck-mounted direct-push investigation system enabling rapid, low-impact installation of soil core samplers, groundwater monitoring wells, and in-situ sensors without the need for conventional rotary drilling. AECON mobilises this unit for Phase II Environmental Site Assessments (ESA), temporary well installation, and multi-level groundwater sampling programs.',
     params: [{val:'0–25 m',lbl:'Depth Range'},{val:'<30 min',lbl:'Per Boring'},{val:'35 mm',lbl:'Rod Diameter'},{val:'Direct Push',lbl:'Method'},{val:'Low Impact',lbl:'Disturbance'},{val:'Mobile',lbl:'Type'}],
     features: ['Hydraulic direct-push mechanism — no drilling vibration or cuttings','Simultaneous soil core and groundwater sample collection','Compatible with MIP, LIF, EC, CPT sensor strings','Vibration mode for difficult soils (sand/gravel)','GPS-georeferenced boring locations with site log app','Fully self-contained — no drill fluid or cuttings disposal'],
@@ -1163,8 +1288,9 @@ const EQUIPMENT = [
     id: 23, cat: 'soil', num: 'SOIL-07',
     name: 'Milestone DMA-80 Direct Mercury Analyzer',
     brand: 'Milestone Srl',
+    icon: 'fas fa-flask', iconColor: '#87a878',
     subtitle: 'Total Mercury in Soil, Sediment & Waste',
-    img: 'https://images.unsplash.com/photo-1533106958155-d2d702b46d8a?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1624996379697-f01d168b1a52?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'The DMA-80 determines total mercury in solid matrices using thermal decomposition, amalgamation on a gold trap, and atomic absorption detection — EPA Method 7473 — without any sample digestion. AECON\'s mercury analysis capability covers soils near industrial sites, legacy contamination near chlor-alkali plants, and marine sediment surveys.',
     params: [{val:'EPA 7473',lbl:'Method'},{val:'0.01 ng',lbl:'Detection'},{val:'0–1500 ng',lbl:'Dynamic Range'},{val:'Cold Vapor',lbl:'AAS'},{val:'No Prep',lbl:'Direct'},{val:'Lab',lbl:'Type'}],
     features: ['No sample preparation — direct solid injection into furnace','Thermal decomposition at 750°C with gold amalgamation trap','Atomic absorption detector at 253.7 nm mercury wavelength','EPA Method 7473 and ASTM D7623 compliant','Measures 0.01 ng to 1500 ng total mercury','Automatic two-point calibration with CRM verification'],
@@ -1172,14 +1298,15 @@ const EQUIPMENT = [
     tags: ['Mercury','DMA','EPA 7473','Heavy Metals','Soil','Sediment','Direct Analysis'],
     industries: ['Mining','Chlor-alkali','Environmental Forensics','Marine Monitoring']
   },
-
+ 
   /* ═══ MARINE MONITORING ═══ */
   {
     id: 24, cat: 'marine', num: 'MAR-01',
     name: 'YSI EXO2 Multi-Parameter Sonde',
     brand: 'YSI / Xylem',
+    icon: 'fas fa-water', iconColor: '#0f3d3e',
     subtitle: 'Coastal & Estuarine Water Quality Profiling',
-    img: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'The YSI EXO2 is AECON\'s primary multi-parameter sonde for marine, coastal, and estuarine water quality monitoring. With up to 7 simultaneous sensor ports, it measures conductivity/salinity, temperature, dissolved oxygen (optical), pH, ORP, turbidity, total dissolved gases, chlorophyll-a, blue-green algae, fDOM, and depth — enabling comprehensive characterisation of marine baseline conditions for EIA, ESIA, desalination plant impact assessments, and offshore platform environmental audits.',
     params: [{val:'7',lbl:'Sensor Ports'},{val:'0–100 m',lbl:'Depth Rating'},{val:'Salinity',lbl:'Included'},{val:'Optical DO',lbl:'Blue DO'},{val:'Chlorophyll',lbl:'Fluorescence'},{val:'Deployed',lbl:'Type'}],
     features: ['Up to 7 simultaneous calibrated smart sensors per deployment','Optical dissolved oxygen sensor (blue DO) — no membrane replacement','Anti-fouling central wiper with deployable brush action','Depth-rated to 100 m for continental shelf profiling','Internal memory: 10 years of data at 15-min intervals','Wireless data download via BlueTooth during recovery'],
@@ -1191,8 +1318,9 @@ const EQUIPMENT = [
     id: 25, cat: 'marine', num: 'MAR-02',
     name: 'Sea-Bird SBE 37 MicroCAT CTD Profiler',
     brand: 'Sea-Bird Scientific',
+    icon: 'fas fa-thermometer-half', iconColor: '#0f3d3e',
     subtitle: 'Conductivity, Temperature & Depth Water Column Profiling',
-    img: 'https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1497436072909-60f360e1d4b1?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'The Sea-Bird SBE 37 is a high-accuracy moored or profiling CTD sensor used for characterising the thermohaline structure of the water column. AECON deploys CTD systems during offshore EIA baseline surveys, thermal plume modelling for power station cooling water discharges, and desalination brine plume dispersion studies in the Red Sea and Arabian Gulf.',
     params: [{val:'6800 m',lbl:'Depth Rating'},{val:'±0.001°C',lbl:'Temp Acc.'},{val:'±0.003',lbl:'PSU Acc.'},{val:'±0.1%',lbl:'Pressure Acc.'},{val:'RS-232',lbl:'Comms'},{val:'Moored/Profile',lbl:'Deployment'}],
     features: ['Titanium housing rated to 6800 m depth (full ocean depth)','PROMPT™ pump-fed conductivity cell for flow-through accuracy','RS-232 serial & inductive modem communication','Internal memory for 1 year of hourly data at 1-sec sampling','Optional DO, pH, turbidity, and PAR sensors','Sea-Bird real-time data acquisition with SBEDataProcessing'],
@@ -1204,8 +1332,9 @@ const EQUIPMENT = [
     id: 26, cat: 'marine', num: 'MAR-03',
     name: 'Teledyne RD Instruments WorkHorse ADCP',
     brand: 'Teledyne Marine',
+    icon: 'fas fa-tachometer-alt', iconColor: '#0f3d3e',
     subtitle: 'Acoustic Doppler Current Profiler — Water Current Measurement',
-    img: 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'The WorkHorse ADCP uses acoustic Doppler principles to measure water current velocity profiles at multiple depth cells simultaneously. AECON deploys ADCPs for hydrodynamic baseline characterisation of ports and harbours, tidal current modelling inputs for dredge plume and brine dispersion models, and sediment transport studies in support of coastal infrastructure EIA.',
     params: [{val:'300/600kHz',lbl:'Frequency'},{val:'0.2–1 mm/s',lbl:'Vel. Accuracy'},{val:'120 m',lbl:'Range'},{val:'4 Beams',lbl:'Configuration'},{val:'ADCP',lbl:'Technology'},{val:'Moored',lbl:'Deployment'}],
     features: ['4-beam Janus configuration for 3D current velocity profiling','Selectable cell sizes from 0.25 m to 8 m vertical resolution','Vessel-mounted, bottom-mounted, or buoy-deployed options','Real-time data via RS-232/RS-422 or wireless acoustic modem','Compass-tilt compensated data for accurate directional info','Compatible with hydrodynamic models (Delft3D, MIKE 21)'],
@@ -1217,8 +1346,9 @@ const EQUIPMENT = [
     id: 27, cat: 'marine', num: 'MAR-04',
     name: 'Turner Designs CYCLOPS-7 Oil Fluorometer',
     brand: 'Turner Designs',
+    icon: 'fas fa-eye-dropper', iconColor: '#0f3d3e',
     subtitle: 'In-Situ Marine Oil Spill Detection & Quantification',
-    img: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'The CYCLOPS-7 fluorometric sensor detects and quantifies petroleum hydrocarbons and refined fuels dissolved in seawater through UV-excited fluorescence. AECON integrates this sensor into monitoring buoys and YSI EXO sonde deployments around port operations, refinery cooling water intakes, and offshore platform exclusion zones for real-time oil-spill early warning.',
     params: [{val:'0–500 ppb',lbl:'Range'},{val:'0.05 ppb',lbl:'Detection'},{val:'UV 370nm',lbl:'Excitation'},{val:'590 nm',lbl:'Emission'},{val:'RS-232',lbl:'Output'},{val:'Submersible',lbl:'Type'}],
     features: ['UV fluorescence detection specific to crude and refined petroleum','Ultra-low detection limit: 0.05 ppb crude oil equivalent','Titanium housing — pressure rated to 600 m depth','Real-time analog (0–5V) and RS-232 digital output','Directional response eliminates biofouling signal spikes','Integration with AECON\'s real-time environmental dashboard'],
@@ -1230,8 +1360,9 @@ const EQUIPMENT = [
     id: 28, cat: 'marine', num: 'MAR-05',
     name: 'Van Veen Stainless Steel Grab Sampler',
     brand: 'Eijelkamp / Hydro-Bios',
+    icon: 'fas fa-grip-lines', iconColor: '#0f3d3e',
     subtitle: 'Marine Sediment Collection for Chemical Analysis',
-    img: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'AECON uses Van Veen grab samplers to collect undisturbed surface sediment samples (0–15 cm) from the marine bed for physical, chemical, and biological analysis. Used in EIA baseline surveys, compliance monitoring around discharge points, and post-construction monitoring programs for coastal and offshore development projects in the Red Sea and Arabian Gulf.',
     params: [{val:'0–0.5 m',lbl:'Penetration'},{val:'20L',lbl:'Bucket Volume'},{val:'SS 316L',lbl:'Material'},{val:'INOX',lbl:'Construction'},{val:'Benthic',lbl:'Method'},{val:'Vessel',lbl:'Platform'}],
     features: ['Heavy-duty SS 316L jaws with locking mechanism for sealed closure','Clear inspection windows for visual assessment before opening','Messenger-triggered closure for precise depth targeting','Optional sieving basket (500 µm) for benthic fauna retention','Compatible with both winch wire and hand-line deployment','Sample divider tray for sub-sampling to COC containers'],
@@ -1243,8 +1374,9 @@ const EQUIPMENT = [
     id: 29, cat: 'marine', num: 'MAR-06',
     name: 'WetLabs ECO-Triplet Optical Sensor Package',
     brand: 'Sea-Bird Scientific / WetLabs',
+    icon: 'fas fa-eye', iconColor: '#0f3d3e',
     subtitle: 'Chlorophyll-a, CDOM & Turbidity — Marine Optical',
-    img: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'The ECO-Triplet integrates three optical sensors in a single submersible housing — simultaneously measuring chlorophyll-a fluorescence, coloured dissolved organic matter (CDOM), and optical backscattering turbidity. AECON deploys ECO-Triplet packages on moored buoy systems for long-term monitoring of algal bloom events, turbidity plumes from dredging activities, and coral reef water quality around Red Sea development projects.',
     params: [{val:'3 Channels',lbl:'Simultaneous'},{val:'Chl-a',lbl:'Fluorescence'},{val:'CDOM/fDOM',lbl:'Detection'},{val:'700 m',lbl:'Depth Rating'},{val:'Low Power',lbl:'<150mW'},{val:'Moored',lbl:'Deployment'}],
     features: ['Simultaneous chlorophyll-a, CDOM, and optical turbidity (660nm)','700 m depth-rated titanium housing','Internal memory: 1 million samples at user-defined interval','RS-232 and analog output for integration with data loggers','Wiper option for biofouling mitigation in long-term deployments','Anti-fouling copper shutter mechanism for optical windows'],
@@ -1256,8 +1388,9 @@ const EQUIPMENT = [
     id: 30, cat: 'marine', num: 'MAR-07',
     name: 'NovaMet SeaBuoy Environmental Monitoring Buoy',
     brand: 'AECON Integrated System',
+    icon: 'fas fa-signal', iconColor: '#0f3d3e',
     subtitle: 'Offshore Real-Time Environmental Data Buoy',
-    img: 'https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1533106958155-d2d702b46d8a?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'AECON designs and deploys integrated environmental monitoring buoys for offshore and coastal applications, housing multi-parameter water quality sensors, meteorological stations, and wireless data transmission systems. These buoys provide continuous, real-time environmental data streams to AECON\'s web-based monitoring dashboard — enabling 24/7 compliance surveillance for offshore installations, wind farm environmental permits, and coastal sanctuary management.',
     params: [{val:'1.2 m',lbl:'Diameter'},{val:'4G/Satellite',lbl:'Telemetry'},{val:'Solar',lbl:'Power'},{val:'1 year',lbl:'Autonomy'},{val:'24/7',lbl:'Monitoring'},{val:'Offshore',lbl:'Type'}],
     features: ['Integrated sensor payload: CTD, DO, turbidity, Chl-a, oil fluorometer','Vaisala WXT536 meteorological station on superstructure mast','4G cellular + Iridium satellite dual-mode telemetry','Solar PV + lithium battery system for 12+ month autonomy','Real-time dashboard with configurable alarm thresholds','Anti-corrosion HDPE floatation collar with mooring chain system'],
@@ -1269,8 +1402,9 @@ const EQUIPMENT = [
     id: 31, cat: 'marine', num: 'MAR-08',
     name: 'Prevue Manta Trawl — Marine Debris & Microplastic Sampler',
     brand: 'KC Denmark / AECON',
+    icon: 'fas fa-fish', iconColor: '#0f3d3e',
     subtitle: 'Surface Microplastic & Marine Debris Collection',
-    img: 'https://images.unsplash.com/photo-1541919329513-35f7af297129?w=800&h=520&fit=crop&q=80',
+    img: 'https://images.unsplash.com/photo-1541919329513-35f7af297129?w=900&h=600&fit=crop&crop=center&q=88',
     desc: 'Marine microplastic and floating debris assessment is increasingly required for EIAs near coastal infrastructure developments. AECON deploys manta trawls and neuston nets during vessel-based surveys to collect surface-layer samples for subsequent laboratory quantification and characterisation of microplastic particles (>333 µm), plastic fragments, fibres, pellets, and films in compliance with MSFD and regional marine strategy frameworks.',
     params: [{val:'333 µm',lbl:'Mesh Size'},{val:'60 cm',lbl:'Trawl Width'},{val:'Surface',lbl:'Sampling Layer'},{val:'1–3 knots',lbl:'Trawl Speed'},{val:'COC',lbl:'Chain of Custody'},{val:'Vessel',lbl:'Platform'}],
     features: ['333 µm stainless steel mesh cod-end for standard size threshold','Flow-through cod-end container with preserved sample jar','GPS track-recording of trawl route for spatial density maps','Paired neuston net for vertical sub-surface comparison','Sample processing using NaCl density separation','MSFD Descriptor 10 & GESAMP microplastic protocol compliant'],
@@ -1279,70 +1413,89 @@ const EQUIPMENT = [
     industries: ['Marine EIA','Coastal Development','Marine Research','Red Sea Coral','NEOM']
   }
 ];
-
-
+ 
+ 
 /* ─── RENDER CARDS ──────────────────────────────────────────────── */
 function renderCards(data) {
   const grid = document.getElementById('eqGrid');
   const existing = grid.querySelectorAll('.eq-card');
   existing.forEach(c => c.remove());
-
-  const catColors = {
-    air:    { bg: 'rgba(45,138,138,.08)', color: '#1a5f5f', label: '💨 Air Monitoring' },
-    water:  { bg: 'rgba(26,95,95,.08)',   color: '#1a5f5f', label: '💧 Water Testing'  },
-    soil:   { bg: 'rgba(135,168,120,.1)', color: '#5a7867', label: '🪨 Soil Analysis'  },
-    marine: { bg: 'rgba(15,61,62,.08)',   color: '#0f3d3e', label: '🌊 Marine'          }
+ 
+  const catMeta = {
+    air:    { chip: '💨 Air Monitoring',  chipBg: 'rgba(45,138,138,.78)'  },
+    water:  { chip: '💧 Water Testing',   chipBg: 'rgba(26,95,95,.78)'    },
+    soil:   { chip: '🪨 Soil Analysis',   chipBg: 'rgba(135,168,120,.82)' },
+    marine: { chip: '🌊 Marine',          chipBg: 'rgba(15,61,62,.82)'    }
   };
-
-  data.forEach((eq, i) => {
+ 
+  data.forEach((eq) => {
     const card = document.createElement('div');
     card.className = 'eq-card';
-    card.dataset.cat = eq.cat;
+    card.dataset.cat  = eq.cat;
     card.dataset.name = eq.name.toLowerCase();
     card.dataset.tags = (eq.tags || []).join(' ').toLowerCase();
-    card.dataset.id = eq.id;
-
-    const cc = catColors[eq.cat] || catColors.air;
-    const catLabel = cc.label;
-    const tagsHtml = (eq.tags || []).slice(0,4).map(t => `<span class="eq-card-tag">${t}</span>`).join('');
+    card.dataset.id   = eq.id;
+ 
+    const meta        = catMeta[eq.cat] || catMeta.air;
+    const tagsHtml    = (eq.tags || []).slice(0,4).map(t => `<span class="eq-card-tag">${t}</span>`).join('');
     const paramsLabel = (eq.params || []).slice(0,2).map(p => `${p.val} ${p.lbl}`).join(' · ');
-
+    const iconClass   = eq.icon || 'fas fa-microscope';
+    const iconColor   = eq.iconColor || '#2d8a8a';
+ 
     card.innerHTML = `
       <div class="eq-card-img">
-        <img src="${eq.img}" alt="${eq.name}" loading="lazy" onerror="this.src='https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=800&h=520&fit=crop'" />
+        <!-- shimmer placeholder while image loads -->
+        <div class="eq-img-shimmer"></div>
+        <img src="${eq.img}"
+             alt="${eq.name}"
+             loading="lazy"
+             onload="this.previousElementSibling.style.display='none'"
+             onerror="this.previousElementSibling.style.display='none';this.src='https://images.unsplash.com/photo-1576086213369-97a306d36557?w=900&h=600&fit=crop&crop=center&q=88'" />
         <div class="eq-card-img-overlay"></div>
-        <span class="eq-card-cat-chip">${catLabel}</span>
+ 
+        <!-- category chip top-left -->
+        <span class="eq-card-cat-chip">${meta.chip}</span>
+ 
+        <!-- equipment number top-right -->
         <span class="eq-card-num">${eq.num}</span>
+ 
+        <!-- ICON BADGE — bottom-left, key visual identity element -->
+        <div class="eq-card-icon-badge" style="--icon-color:${iconColor};">
+          <i class="${iconClass}"></i>
+        </div>
+ 
+        <!-- brand watermark bottom-right -->
         <span class="eq-card-brand">${eq.brand}</span>
       </div>
+ 
       <div class="eq-card-body">
         <div class="eq-card-name">${eq.name}</div>
-        <p class="eq-card-desc">${eq.desc.substring(0,160)}…</p>
+        <div class="eq-card-subtitle">${eq.subtitle}</div>
+        <p class="eq-card-desc">${eq.desc.substring(0,155)}…</p>
         <div class="eq-card-tags">${tagsHtml}</div>
         <div class="eq-card-footer">
           <span class="eq-card-params">${paramsLabel}</span>
           <button class="eq-card-btn" onclick="openModal(${eq.id})">
-            <i class="fas fa-info-circle" style="font-size:.7rem;"></i> Details
+            <i class="fas fa-info-circle" style="font-size:.68rem;"></i> View Details
           </button>
         </div>
       </div>`;
-
+ 
     card.addEventListener('click', (e) => {
       if (!e.target.closest('.eq-card-btn')) openModal(eq.id);
     });
-
+ 
     grid.appendChild(card);
   });
-
+ 
   updateCounts(data);
   updateResultCount(data.length);
 }
-
-
+ 
 /* ─── FILTER ──────────────────────────────────────────────────────── */
 let activeFilter = 'all';
 let searchTerm   = '';
-
+ 
 function applyFilter() {
   const cards = document.querySelectorAll('.eq-card');
   let visible = 0;
@@ -1357,7 +1510,7 @@ function applyFilter() {
   document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
   updateResultCount(visible);
 }
-
+ 
 function updateCounts(data) {
   const cats = ['all','air','water','soil','marine'];
   cats.forEach(c => {
@@ -1367,12 +1520,19 @@ function updateCounts(data) {
     el.textContent = n;
   });
 }
-
+ 
 function updateResultCount(n) {
   const el = document.getElementById('resultCount');
-  if (el) el.textContent = `Showing ${n} of ${EQUIPMENT.length} equipment items`;
+  const total = EQUIPMENT.length;
+  if (el) {
+    el.textContent = n === total
+      ? `All ${total} instruments across 4 monitoring domains`
+      : `Showing ${n} of ${total} equipment items`;
+  }
 }
-
+ 
+ 
+ 
 // Category tab clicks
 document.querySelectorAll('.cat-tab').forEach(btn => {
   btn.addEventListener('click', () => {
@@ -1382,111 +1542,128 @@ document.querySelectorAll('.cat-tab').forEach(btn => {
     applyFilter();
   });
 });
-
+ 
 // Search input
 document.getElementById('searchInput').addEventListener('input', e => {
   searchTerm = e.target.value.trim().toLowerCase();
   applyFilter();
 });
-
-
+ 
+ 
 /* ─── MODAL ──────────────────────────────────────────────────────── */
 function openModal(id) {
   const eq = EQUIPMENT.find(e => e.id === id);
   if (!eq) return;
-
-  const catNames = { air:'Air Monitoring', water:'Water Testing', soil:'Soil Analysis', marine:'Marine Monitoring' };
+ 
+  const catNames  = { air:'💨 Air Monitoring', water:'💧 Water Testing', soil:'🪨 Soil Analysis', marine:'🌊 Marine Monitoring' };
   const catColors = { air:'#2d8a8a', water:'#1a5f5f', soil:'#87a878', marine:'#0f3d3e' };
-
-  // Hero
-  document.getElementById('modalImg').src = eq.img;
-  document.getElementById('modalImg').alt = eq.name;
-  document.getElementById('modalTitle').textContent = eq.name;
-  document.getElementById('modalSubtitle').textContent = `${eq.num} · ${eq.brand} · ${eq.subtitle}`;
-
-  // Category chip
+  const catAccent = catColors[eq.cat] || '#1a5f5f';
+ 
+  /* Hero image + title */
+  const imgEl = document.getElementById('modalImg');
+  imgEl.src = eq.img;
+  imgEl.alt = eq.name;
+ 
+  document.getElementById('modalTitle').innerHTML =
+    `<span style="display:inline-flex;align-items:center;gap:10px;">
+       <span style="width:36px;height:36px;border-radius:10px;background:${catAccent};display:inline-flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;">
+         <i class="${eq.icon || 'fas fa-microscope'}" style="color:#fff;"></i>
+       </span>
+       ${eq.name}
+     </span>`;
+ 
+  /* Subtitle row: num · brand · subtitle */
+  document.getElementById('modalSubtitle').innerHTML =
+    `<span style="color:${catAccent};font-weight:700;">${eq.num}</span>
+     &nbsp;·&nbsp; ${eq.brand}
+     &nbsp;·&nbsp; ${eq.subtitle}`;
+ 
+  /* Category chip */
   const catEl = document.getElementById('modalCat');
-  catEl.textContent = catNames[eq.cat];
-  catEl.style.background = (catColors[eq.cat] || '#1a5f5f') + 'AA';
-
-  // Description
+  catEl.textContent  = catNames[eq.cat] || eq.cat;
+  catEl.style.background = catAccent + 'CC';
+  catEl.style.border = '1px solid rgba(255,255,255,.3)';
+ 
+  /* Description */
   document.getElementById('modalDesc').textContent = eq.desc;
-
-  // Params row
-  const paramsEl = document.getElementById('modalParams');
-  paramsEl.innerHTML = (eq.params || []).map(p => `
-    <div class="eq-modal-param-card">
-      <div class="mpc-val">${p.val}</div>
-      <div class="mpc-lbl">${p.lbl}</div>
-    </div>`).join('');
-
-  // Features
-  document.getElementById('modalFeatures').innerHTML = (eq.features || []).map(f => `
-    <li>
-      <div class="fl-check"><i class="fas fa-check"></i></div>
-      <span>${f}</span>
-    </li>`).join('');
-
-  // Applications
-  document.getElementById('modalApps').innerHTML = (eq.apps || []).map(a => `
-    <div class="eq-modal-app-chip">
-      <i class="${a.icon}"></i> ${a.label}
-    </div>`).join('');
-
-  // Tags
-  document.getElementById('modalTags').innerHTML = (eq.tags || []).map(t => `
-    <span class="eq-card-tag">${t}</span>`).join('');
-
-  // Industries
-  document.getElementById('modalIndustries').innerHTML = (eq.industries || []).map(ind => `
-    <span style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:8px;background:#0f3d3e;font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:600;color:rgba(255,255,255,.65);">
-      <i class="fas fa-industry" style="font-size:.6rem;color:#2d8a8a;"></i>${ind}
-    </span>`).join('');
-
+ 
+  /* Params — full width row */
+  document.getElementById('modalParams').innerHTML =
+    (eq.params || []).map(p => `
+      <div class="eq-modal-param-card">
+        <div class="mpc-val">${p.val}</div>
+        <div class="mpc-lbl">${p.lbl}</div>
+      </div>`).join('');
+ 
+  /* Features */
+  document.getElementById('modalFeatures').innerHTML =
+    (eq.features || []).map(f => `
+      <li>
+        <div class="fl-check"><i class="fas fa-check"></i></div>
+        <span>${f}</span>
+      </li>`).join('');
+ 
+  /* Applications */
+  document.getElementById('modalApps').innerHTML =
+    (eq.apps || []).map(a => `
+      <div class="eq-modal-app-chip">
+        <i class="${a.icon}"></i> ${a.label}
+      </div>`).join('');
+ 
+  /* Tags */
+  document.getElementById('modalTags').innerHTML =
+    (eq.tags || []).map(t => `<span class="eq-card-tag">${t}</span>`).join('');
+ 
+  /* Industries */
+  document.getElementById('modalIndustries').innerHTML =
+    (eq.industries || []).map(ind => `
+      <span style="display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:8px;
+                   background:${catAccent}22;border:1px solid ${catAccent}44;
+                   font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:600;color:${catAccent};">
+        <i class="fas fa-check-circle" style="font-size:.6rem;"></i>${ind}
+      </span>`).join('');
+ 
+  /* Open */
   document.getElementById('eqModalOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
 }
-
+ 
 function closeModal() {
   document.getElementById('eqModalOverlay').classList.remove('open');
   document.body.style.overflow = '';
 }
-
+ 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-
+ 
+ 
 /* ─── SCROLL REVEAL ──────────────────────────────────────────────── */
 const srObs = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); srObs.unobserve(e.target); } });
 }, { threshold: 0.06 });
 document.querySelectorAll('.sr').forEach(el => srObs.observe(el));
-
-
+ 
+ 
 /* ─── NAVBAR SCROLL SHADOW ──────────────────────────────────────── */
 window.addEventListener('scroll', () => {
   document.getElementById('navbar').querySelector('.glass-card')
     .classList.toggle('shadow-lg', window.scrollY > 50);
 }, { passive: true });
-
-
+ 
+ 
 /* ─── INIT ─────────────────────────────────────────────────────── */
 renderCards(EQUIPMENT);
-
-// Update counts for all cats
-const allCounts = { all: EQUIPMENT.length };
-['air','water','soil','marine'].forEach(c => {
-  allCounts[c] = EQUIPMENT.filter(e => e.cat === c).length;
-});
-Object.keys(allCounts).forEach(c => {
-  const el = document.getElementById('count-' + c);
-  if (el) el.textContent = allCounts[c];
-});
 updateResultCount(EQUIPMENT.length);
 </script>
-
+ 
 <style>
 /* Responsive footer grid */
 @media (max-width: 900px) {
   .footer-grid-resp { grid-template-columns: 1fr 1fr !important; gap: 32px !important; }
 }
-@
+@media (max-width: 500px) {
+  .footer-grid-resp { grid-template-columns: 1fr !important; }
+}
+</style>
+ 
+</body>
+</html>
