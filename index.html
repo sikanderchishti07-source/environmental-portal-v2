@@ -2187,12 +2187,14 @@
   function closeModal(id)        { document.getElementById(id).classList.remove('active'); }
 
   // ── Client portal ────────────────────────────────────────────────────────────
-  function openPortal() {
-    document.getElementById('portalModal').classList.add('active');
-    document.getElementById('portalLogin').classList.remove('hidden');
-    document.getElementById('portalDashboard').classList.add('hidden');
-  }
- async function doLogin() {
+  // ── Client portal ────────────────────────────────────────────────────────────
+function openPortal() {
+  document.getElementById('portalModal').classList.add('active');
+  document.getElementById('portalLogin').classList.remove('hidden');
+  document.getElementById('portalDashboard').classList.add('hidden');
+}
+
+async function doLogin() {
   const clientId = document.getElementById('portalClientId').value.trim().toUpperCase();
   
   if (!clientId) {
@@ -2220,6 +2222,9 @@
       document.getElementById('portalLogin').classList.add('hidden');
       document.getElementById('portalDashboard').classList.remove('hidden');
       
+      // Update dashboard title with real client name
+      updateDashboardWithClient(result.client);
+      
       // Load real reports
       loadClientReports(clientId);
     } else {
@@ -2230,7 +2235,8 @@
     alert('Connection error. Please try again later.');
   }
 }
-  async function loadClientReports(clientId) {
+
+async function loadClientReports(clientId) {
   try {
     const response = await fetch(`https://aecon-backend.onrender.com/api/reports/${clientId}`);
     const reports = await response.json();
@@ -2243,25 +2249,24 @@
   }
 }
 
+function updateDashboardWithClient(client) {
+  // Update welcome message with real client name
+  const welcomeEl = document.querySelector('#section-overview h2');
+  if (welcomeEl) {
+    welcomeEl.textContent = `Welcome back, ${client.companyName}`;
+  }
+}
+
 function displayReports(reports) {
   // Update your dashboard with real report data
-  // This will replace the demo report cards with actual data
   console.log('Reports loaded:', reports);
+  
+  // Update project count
+  const projectCount = document.querySelector('#section-overview .text-3xl');
+  if (projectCount) {
+    projectCount.textContent = reports.length;
+  }
 }
-  function doLogout() {
-    document.getElementById('portalDashboard').classList.add('hidden');
-    document.getElementById('portalLogin').classList.remove('hidden');
-  }
-  function showPortalSection(name, el) {
-    document.querySelectorAll('.portal-section').forEach(s => s.classList.add('hidden'));
-    document.getElementById('section-' + name).classList.remove('hidden');
-    document.querySelectorAll('.portal-sidebar-item').forEach(i => i.classList.remove('active'));
-    if (el) el.classList.add('active');
-  }
-  function fakeDownload() {
-    alert('In production, this would download the document from secure file storage.');
-  }
-
   // ── Calculator ───────────────────────────────────────────────────────────────
   function openCalculator(tab) {
     document.getElementById('calcModal').classList.add('active');
