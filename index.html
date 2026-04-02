@@ -2197,6 +2197,12 @@
   }
   
   try {
+    // Show loading state
+    const button = event.target;
+    const originalText = button.textContent;
+    button.textContent = 'Connecting...';
+    button.disabled = true;
+    
     // Validate Client ID with your live backend
     const response = await fetch('https://aecon-backend.onrender.com/api/clients/validate', {
       method: 'POST',
@@ -2206,7 +2212,9 @@
       body: JSON.stringify({ clientId: clientId })
     });
     
+    console.log('Response status:', response.status); // Debug line
     const result = await response.json();
+    console.log('Response data:', result); // Debug line
     
     if (response.ok && result.valid) {
       // Store client info for dashboard
@@ -2216,35 +2224,26 @@
       document.getElementById('portalLogin').classList.add('hidden');
       document.getElementById('portalDashboard').classList.remove('hidden');
       
+      // Update dashboard title with real client name
+      updateDashboardWithClient(result.client);
+      
       // Load real reports
       loadClientReports(clientId);
     } else {
-      alert('Invalid Client ID. Please check and try again.');
+      alert('Invalid Client ID: ' + clientId + '\nPlease check and try again.');
     }
   } catch (error) {
     console.error('Login error:', error);
-    alert('Connection error. Please try again later.');
+    alert('Connection error: ' + error.message);
+  } finally {
+    // Reset button
+    const button = document.querySelector('#portalLogin button');
+    if (button) {
+      button.textContent = 'Access Portal';
+      button.disabled = false;
+    }
   }
 }
-  async function loadClientReports(clientId) {
-  try {
-    const response = await fetch(`https://aecon-backend.onrender.com/api/reports/${clientId}`);
-    const reports = await response.json();
-    
-    // Update dashboard with real data
-    displayReports(reports);
-    
-  } catch (error) {
-    console.error('Error loading reports:', error);
-  }
-}
-
-function displayReports(reports) {
-  // Update your dashboard with real report data
-  // This will replace the demo report cards with actual data
-  console.log('Reports loaded:', reports);
-}
-
   // ── Calculator ───────────────────────────────────────────────────────────────
   function openCalculator(tab) {
     document.getElementById('calcModal').classList.add('active');
