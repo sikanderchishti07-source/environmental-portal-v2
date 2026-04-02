@@ -2183,12 +2183,14 @@
   function closeModal(id)        { document.getElementById(id).classList.remove('active'); }
 
   // ── Client portal ────────────────────────────────────────────────────────────
-  function openPortal() {
-    document.getElementById('portalModal').classList.add('active');
-    document.getElementById('portalLogin').classList.remove('hidden');
-    document.getElementById('portalDashboard').classList.add('hidden');
-  }
- async function doLogin() {
+  // ── Client portal ────────────────────────────────────────────────────────────
+function openPortal() {
+  document.getElementById('portalModal').classList.add('active');
+  document.getElementById('portalLogin').classList.remove('hidden');
+  document.getElementById('portalDashboard').classList.add('hidden');
+}
+
+async function doLogin() {
   const clientId = document.getElementById('portalClientId').value.trim().toUpperCase();
   
   if (!clientId) {
@@ -2198,7 +2200,7 @@
   
   try {
     // Show loading state
-    const button = event.target;
+    const button = document.querySelector('#portalLogin button');
     const originalText = button.textContent;
     button.textContent = 'Connecting...';
     button.disabled = true;
@@ -2212,9 +2214,9 @@
       body: JSON.stringify({ clientId: clientId })
     });
     
-    console.log('Response status:', response.status); // Debug line
+    console.log('Response status:', response.status);
     const result = await response.json();
-    console.log('Response data:', result); // Debug line
+    console.log('Response data:', result);
     
     if (response.ok && result.valid) {
       // Store client info for dashboard
@@ -2224,13 +2226,13 @@
       document.getElementById('portalLogin').classList.add('hidden');
       document.getElementById('portalDashboard').classList.remove('hidden');
       
-      // Update dashboard title with real client name
+      // Update dashboard with client info
       updateDashboardWithClient(result.client);
       
       // Load real reports
       loadClientReports(clientId);
     } else {
-      alert('Invalid Client ID: ' + clientId + '\nPlease check and try again.');
+      alert('Client ID not found: ' + clientId + '\nPlease check and try again.');
     }
   } catch (error) {
     console.error('Login error:', error);
@@ -2243,6 +2245,64 @@
       button.disabled = false;
     }
   }
+}
+
+function updateDashboardWithClient(client) {
+  // Update welcome message with real client name
+  const welcomeEl = document.querySelector('#section-overview h2');
+  if (welcomeEl) {
+    welcomeEl.textContent = `Welcome back, ${client.companyName || client.clientId}`;
+  }
+  
+  // Update last login
+  const lastLoginEl = document.querySelector('#section-overview p');
+  if (lastLoginEl && lastLoginEl.textContent.includes('Last login:')) {
+    lastLoginEl.textContent = `Last login: ${new Date().toLocaleDateString()}`;
+  }
+}
+
+async function loadClientReports(clientId) {
+  try {
+    const response = await fetch(`https://aecon-backend.onrender.com/api/reports/${clientId}`);
+    
+    if (response.ok) {
+      const reports = await response.json();
+      console.log('Reports loaded:', reports);
+      
+      // Update dashboard with real data
+      displayReports(reports);
+    } else {
+      console.log('No reports found for client:', clientId);
+      // Show empty state or demo data
+      displayReports([]);
+    }
+    
+  } catch (error) {
+    console.error('Error loading reports:', error);
+    // Fall back to demo data if there's an error
+    displayReports([]);
+  }
+}
+
+function displayReports(reports) {
+  // Update report count in overview
+  const reportCountEl = document.querySelector('#section-overview .bg-blue-50 .text-3xl');
+  if (reportCountEl) {
+    reportCountEl.textContent = reports.length;
+  }
+  
+  // Update project count
+  const projectCountEl = document.querySelector('#section-overview .bg-aecon-light .text-3xl');
+  if (projectCountEl) {
+    projectCountEl.textContent = Math.max(1, Math.ceil(reports.length / 3)); // Rough project estimate
+  }
+  
+  console.log(`Loaded ${reports.length} reports for client dashboard`);
+}
+
+function doLogout() {
+  document.getElementById('portalDashboard').classList.add('hidden');
+  document.getElementById('portalLogin').classList.remove('hidden');
 }
   // ── Calculator ───────────────────────────────────────────────────────────────
   function openCalculator(tab) {
