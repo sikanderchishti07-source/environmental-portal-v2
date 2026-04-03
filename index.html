@@ -2240,16 +2240,17 @@ async function doLogin() {
     console.log('Response:', result); // Debug line
     
     if (response.ok && result.valid) {
-      // SUCCESS - Show dashboard
-      console.log('Login successful, showing dashboard'); // Debug line
-      document.getElementById('portalLogin').classList.add('hidden');
-      document.getElementById('portalDashboard').classList.remove('hidden');
-      
-      // Update welcome message
-      const welcomeEl = document.querySelector('#section-overview h2');
-      if (welcomeEl) {
-        welcomeEl.textContent = `Welcome back, ${result.client.companyName || clientId}`;
-      }
+  // SUCCESS - Show dashboard  
+  console.log('Login successful, showing dashboard');
+  document.getElementById('portalLogin').classList.add('hidden');
+  document.getElementById('portalDashboard').classList.remove('hidden');
+  
+  // Update welcome message
+  const welcomeEl = document.querySelector('#section-overview h2');
+  if (welcomeEl) {
+    welcomeEl.textContent = `Welcome back, ${result.client.companyName || clientId}`;
+  }
+}
       
     } else {
       alert('Client ID not found: ' + clientId);
