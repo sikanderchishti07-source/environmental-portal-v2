@@ -1879,31 +1879,51 @@
      MODAL — CLIENT PORTAL
      Demo login: any email + password "demo123"
      ============================================================ -->
+
 <div id="portalModal" class="modal-overlay" onclick="closeOnOverlay(event,'portalModal')">
   <div class="modal-box w-full max-w-5xl mx-4">
+    
     <!-- Login screen -->
     <div id="portalLogin" class="p-10">
       <div class="flex justify-between items-center mb-8">
-        <div class="flex items-center gap-3"><div class="w-12 h-12 bg-gradient-to-br from-aecon-dark to-aecon-accent rounded-xl flex items-center justify-center text-white font-bold text-xl">A</div><div><h2 class="text-2xl font-bold text-aecon-dark">Client Portal</h2><p class="text-sm text-gray-500">Secure access to your project documents</p></div></div>
-        <button onclick="closeModal('portalModal')" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200"><i class="fas fa-times text-gray-500"></i></button>
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-gradient-to-br from-aecon-dark to-aecon-accent rounded-xl flex items-center justify-center text-white font-bold text-xl">A</div>
+          <div>
+            <h2 class="text-2xl font-bold text-aecon-dark">Client Portal</h2>
+            <p class="text-sm text-gray-500">Secure access to your project documents</p>
+          </div>
+        </div>
+        <button onclick="closeModal('portalModal')" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200">
+          <i class="fas fa-times text-gray-500"></i>
+        </button>
       </div>
       <div class="max-w-md mx-auto">
         <div class="bg-aecon-light rounded-2xl p-8">
           <h3 class="text-xl font-bold text-aecon-dark mb-6 text-center">Sign In to Your Account</h3>
-         <div class="space-y-4">
-  <div>
-    <label class="block text-sm font-medium text-gray-700 mb-1">Client ID</label>
-    <input type="text" id="portalClientId" placeholder="DIR-SAS-001" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-aecon-primary outline-none bg-white" />
-    <p class="text-xs text-gray-500 mt-1">Enter your unique Client ID (e.g., DIR-SAS-001)</p>
-  </div>
-  <button onclick="doLogin()" class="w-full py-3 bg-aecon-dark text-white rounded-xl font-bold hover:bg-aecon-accent transition-all">Access Portal</button>
-</div>
-    <!-- Dashboard (revealed after login) -->
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">Client ID</label>
+              <input type="text" id="portalClientId" placeholder="DIR-SAS-001" class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:border-aecon-primary outline-none bg-white" />
+              <p class="text-xs text-gray-500 mt-1">Enter your unique Client ID (e.g., DIR-SAS-001)</p>
+            </div>
+            <button onclick="doLogin()" class="w-full py-3 bg-aecon-dark text-white rounded-xl font-bold hover:bg-aecon-accent transition-all">Access Portal</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Dashboard (moved outside login div) -->
     <div id="portalDashboard" class="hidden">
       <div class="flex h-[640px]">
         <!-- Sidebar -->
         <div class="w-60 bg-gray-50 border-r p-5 flex flex-col gap-1 flex-shrink-0">
-          <div class="flex items-center gap-3 mb-6"><div class="w-10 h-10 bg-gradient-to-br from-aecon-dark to-aecon-accent rounded-lg flex items-center justify-center text-white font-bold">A</div><div><p class="font-bold text-sm text-aecon-dark">AECON Portal</p><p class="text-xs text-gray-400">Client Dashboard</p></div></div>
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-10 h-10 bg-gradient-to-br from-aecon-dark to-aecon-accent rounded-lg flex items-center justify-center text-white font-bold">A</div>
+            <div>
+              <p class="font-bold text-sm text-aecon-dark">AECON Portal</p>
+              <p class="text-xs text-gray-400">Client Dashboard</p>
+            </div>
+          </div>
           <div class="portal-sidebar-item active" onclick="showPortalSection('overview',this)"><i class="fas fa-th-large w-4"></i> Overview</div>
           <div class="portal-sidebar-item" onclick="showPortalSection('projects',this)"><i class="fas fa-tasks w-4"></i> Projects</div>
           <div class="portal-sidebar-item" onclick="showPortalSection('reports',this)"><i class="fas fa-file-pdf w-4"></i> Reports</div>
@@ -1912,7 +1932,10 @@
         </div>
         <!-- Main content -->
         <div class="flex-1 overflow-y-auto p-7">
-          <button onclick="closeModal('portalModal')" class="absolute top-5 right-5 w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 z-10"><i class="fas fa-times text-gray-500"></i></button>
+          <button onclick="closeModal('portalModal')" class="absolute top-5 right-5 w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200 z-10">
+            <i class="fas fa-times text-gray-500"></i>
+          </button>
+          
           <!-- Overview -->
           <div id="section-overview" class="portal-section">
             <h2 class="text-2xl font-bold text-aecon-dark mb-1">Welcome back, Riyadh Cement Co.</h2>
@@ -1929,6 +1952,7 @@
               <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-xl"><div class="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center"><i class="fas fa-bell text-amber-600 text-xs"></i></div><div class="flex-1"><p class="text-sm font-medium text-gray-800">NCEC permit renewal due in 45 days</p><p class="text-xs text-gray-400">Reminder</p></div></div>
             </div>
           </div>
+          
           <!-- Projects -->
           <div id="section-projects" class="portal-section hidden">
             <h2 class="text-2xl font-bold text-aecon-dark mb-6">Project Tracker</h2>
@@ -1938,6 +1962,7 @@
               <div class="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm"><div class="flex justify-between items-start mb-3"><div><h4 class="font-bold text-aecon-dark">Environmental Management Plan Update</h4><p class="text-xs text-gray-400">Started Mar 2025 · AECON Ref: EMP-2025-007</p></div><span class="status-badge status-review">In Review</span></div><div class="progress-bar mb-1"><div class="progress-fill" style="width:40%"></div></div><div class="flex justify-between text-xs text-gray-400"><span>40% Complete</span><span>Est. Completion: May 2025</span></div></div>
             </div>
           </div>
+          
           <!-- Reports -->
           <div id="section-reports" class="portal-section hidden">
             <h2 class="text-2xl font-bold text-aecon-dark mb-6">Downloadable Reports</h2>
@@ -1948,6 +1973,7 @@
               <div class="flex items-center gap-4 p-4 bg-white border border-gray-100 rounded-xl shadow-sm hover:shadow-md transition-all"><div class="w-10 h-10 bg-red-100 rounded-xl flex items-center justify-center"><i class="fas fa-file-pdf text-red-500"></i></div><div class="flex-1"><p class="font-semibold text-gray-800 text-sm">Q3 2024 Ambient Air Quality Report</p><p class="text-xs text-gray-400">PDF · 2.9 MB · Issued: Oct 2024 · Previous Version</p></div><button onclick="fakeDownload()" class="px-4 py-2 bg-gray-100 text-gray-600 text-xs rounded-lg hover:bg-gray-200 transition-all font-medium"><i class="fas fa-download mr-1"></i> Archive</button></div>
             </div>
           </div>
+          
           <!-- Compliance -->
           <div id="section-compliance" class="portal-section hidden">
             <h2 class="text-2xl font-bold text-aecon-dark mb-6">Compliance Documents</h2>
@@ -1963,10 +1989,9 @@
         </div>
       </div>
     </div>
+    
   </div>
 </div>
-
-
 <!-- ============================================================
      MODAL — ENVIRONMENTAL CALCULATOR
      Two tabs: Compliance Checker + Carbon Footprint
