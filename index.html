@@ -2239,7 +2239,7 @@ async function doLogin() {
     const result = await response.json();
     console.log('Response:', result); // Debug line
     
-    if (response.ok && result.valid) {
+  if (response.ok && result.valid) {
   // SUCCESS - Show dashboard  
   console.log('Login successful, showing dashboard');
   document.getElementById('portalLogin').classList.add('hidden');
@@ -2250,12 +2250,9 @@ async function doLogin() {
   if (welcomeEl) {
     welcomeEl.textContent = `Welcome back, ${result.client.companyName || clientId}`;
   }
+} else {  // ← Fixed: proper spacing
+  alert('Client ID not found: ' + clientId);
 }
-      
-     else {
-      alert('Client ID not found: ' + clientId);
-    }
-    
   } catch (error) {
     console.error('Login error:', error);
     alert('Connection error: ' + error.message);
