@@ -1,29 +1,25 @@
 const express    = require('express');
 const router     = express.Router();
 const multer     = require('multer');
-const path       = require('path');
-const fs         = require('fs');
 const Report     = require('../models/Report');
 const Client     = require('../models/Client');
 const adminAuth  = require('../middleware/adminAuth');
 
-// ── File upload config ───────────────────────────────────────
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const dir = path.join(__dirname, '..', 'uploads', req.params.clientId || 'general');
-    fs.mkdirSync(dir, { recursive: true });
-    cb(null, dir);
-  },
-  filename: (req, file, cb) => {
-    const ext  = path.extname(file.originalname);
-    const base = path.basename(file.originalname, ext).replace(/\s+/g, '_');
-    cb(null, `${Date.now()}-${base}${ext}`);
-  }
+// ── Cloudinary config ────────────────────────────────────────
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key:    process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET
 });
+
+// ── File upload config (memory storage for Cloudinary) ───────
+const storage = multer.memoryStorage();
 
 const fileFilter = (req, file, cb) => {
   const allowed = /pdf|jpg|jpeg|png|gif|webp/;
-  const ext     = path.extname(file.originalname).toLowerCase().slice(1);
+  const ext     = file.originalname.split('.').pop().toLowerCase();
   if (allowed.test(ext)) cb(null, true);
   else cb(new Error(`File type .${ext} is not allowed.`));
 };
@@ -33,6 +29,23 @@ const upload = multer({
   fileFilter,
   limits: { fileSize: 50 * 1024 * 1024 }  // 50 MB max per file
 });
+
+// ── Helper: Upload buffer to Cloudinary ──────────────────────
+function uploadToCloudinary(fileBuffer, folder, resourceType = 'auto') {
+  return new Promise((resolve, reject) => {
+    const uploadStream = cloudinary.uploader.upload_stream(
+      { 
+        folder: `aecon/${folder}`,
+        resource_type: resourceType
+      },
+      (error, result) => {
+        if (error) reject(error);
+        else resolve(result.secure_url);
+      }
+    );
+    uploadStream.end(fileBuffer);
+  });
+}
 
 
 // ════════════════════════════════════════════════════════════
@@ -78,16 +91,7 @@ router.get('/:clientId', async (req, res) => {
 /**
  * POST /api/reports/:clientId
  * Admin uploads a new report with optional file attachments.
- *
- * Form fields (multipart/form-data):
- *   reportTitle, reportType, serviceDate, reportDate,
- *   location, projectRef, summary, complianceStandard,
- *   overallStatus, isPublished
- *   measurements[pm25], measurements[pm10], etc.
- *
- * Files (optional):
- *   pdfReport (single), stationImages (multi),
- *   noiseImages (multi), coordinateImages (multi)
+ * Files are uploaded to Cloudinary.
  */
 router.post('/:clientId', adminAuth, upload.fields([
   { name: 'pdfReport',        maxCount: 1 },
@@ -127,18 +131,50 @@ router.post('/:clientId', adminAuth, upload.fields([
       }
     });
 
-    // Build file paths (relative to /uploads/)
+    // Upload files to Cloudinary
     const files = {};
-    if (req.files?.pdfReport?.[0])
-      files.pdfReport = `/uploads/${clientId}/${req.files.pdfReport[0].filename}`;
-    if (req.files?.stationImages)
-      files.stationImages = req.files.stationImages.map(f => `/uploads/${clientId}/${f.filename}`);
-    if (req.files?.noiseImages)
-      files.noiseImages = req.files.noiseImages.map(f => `/uploads/${clientId}/${f.filename}`);
-    if (req.files?.coordinateImages)
-      files.coordinateImages = req.files.coordinateImages.map(f => `/uploads/${clientId}/${f.filename}`);
-    if (req.files?.otherFiles)
-      files.otherFiles = req.files.otherFiles.map(f => `/uploads/${clientId}/${f.filename}`);
+    
+    // Upload PDF
+    if (req.files?.pdfReport?.[0]) {
+      console.log('Uploading PDF to Cloudinary...');
+      files.pdfReport = await uploadToCloudinary(
+        req.files.pdfReport[0].buffer, 
+        `${clientId}/reports`,
+        'raw'
+      );
+    }
+    
+    // Upload station images
+    if (req.files?.stationImages) {
+      console.log('Uploading station images to Cloudinary...');
+      files.stationImages = await Promise.all(
+        req.files.stationImages.map(f => uploadToCloudinary(f.buffer, `${clientId}/images`))
+      );
+    }
+    
+    // Upload noise images
+    if (req.files?.noiseImages) {
+      console.log('Uploading noise images to Cloudinary...');
+      files.noiseImages = await Promise.all(
+        req.files.noiseImages.map(f => uploadToCloudinary(f.buffer, `${clientId}/images`))
+      );
+    }
+    
+    // Upload coordinate images
+    if (req.files?.coordinateImages) {
+      console.log('Uploading coordinate images to Cloudinary...');
+      files.coordinateImages = await Promise.all(
+        req.files.coordinateImages.map(f => uploadToCloudinary(f.buffer, `${clientId}/images`))
+      );
+    }
+    
+    // Upload other files
+    if (req.files?.otherFiles) {
+      console.log('Uploading other files to Cloudinary...');
+      files.otherFiles = await Promise.all(
+        req.files.otherFiles.map(f => uploadToCloudinary(f.buffer, `${clientId}/other`, 'raw'))
+      );
+    }
 
     const report = await Report.create({
       clientId,
@@ -157,6 +193,7 @@ router.post('/:clientId', adminAuth, upload.fields([
       uploadedBy:          'admin'
     });
 
+    console.log('Report created with Cloudinary URLs:', files);
     return res.status(201).json({ message: 'Report created successfully.', report });
   } catch (err) {
     console.error('[POST /reports/:clientId]', err);
