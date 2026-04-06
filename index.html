@@ -2194,24 +2194,17 @@
   });
 
   // ── Modal helpers ────────────────────────────────────────────────────────────
- 
-  function closeModal(id) {
-  var modal = document.getElementById(id);
-  modal.classList.remove('active');
-  modal.style.display = 'none';
-}
+  function closeOnOverlay(e, id) { if (e.target === document.getElementById(id)) closeModal(id); }
+  function closeModal(id)        { var m = document.getElementById(id); m.classList.remove('active'); m.style.display = 'none'; }
 
   // ── Client portal ────────────────────────────────────────────────────────────
 // ── Client portal ────────────────────────────────────────────────────────────
 function openPortal() {
   var modal = document.getElementById('portalModal');
-  if (!modal) { console.error('portalModal not found'); return; }
   modal.classList.add('active');
   modal.style.display = 'flex';
-  var login = document.getElementById('portalLogin');
-  if (login) login.style.display = 'block';
-  var dash = document.getElementById('portalDashboard');
-  if (dash) { dash.classList.add('hidden'); dash.style.display = 'none'; }
+  document.getElementById('portalLogin').style.display = 'block';
+  document.getElementById('portalDashboard').style.display = 'none';
 }
 
 async function doLogin() {
@@ -2242,8 +2235,8 @@ async function doLogin() {
     // SUCCESS - Show dashboard  
     console.log('Login successful, showing dashboard');
     document.getElementById('portalLogin').style.display = 'none';
-document.getElementById('portalDashboard').classList.remove('hidden');  // ADD THIS LINE
-document.getElementById('portalDashboard').style.display = 'block';
+    document.getElementById('portalDashboard').classList.remove('hidden');
+    document.getElementById('portalDashboard').style.display = 'block';
   
     // Update welcome message
     const welcomeEl = document.querySelector('#section-overview h2');
