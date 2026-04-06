@@ -2199,16 +2199,25 @@
 
   // ── Modal helpers ────────────────────────────────────────────────────────────
   function closeOnOverlay(e, id) { if (e.target === document.getElementById(id)) closeModal(id); }
-  function closeModal(id)        { var m = document.getElementById(id); m.classList.remove('active'); m.style.display = 'none'; }
+  function closeModal(id) { 
+    var m = document.getElementById(id); 
+    m.classList.remove('active'); 
+    m.setAttribute('style', 'display:none !important;');
+    // Reset dashboard state when closing portal modal
+    if (id === 'portalModal') {
+      document.getElementById('portalDashboard').setAttribute('style', 'display:none !important;');
+      document.getElementById('portalLogin').style.display = 'block';
+    }
+  }
 
   // ── Client portal ────────────────────────────────────────────────────────────
 // ── Client portal ────────────────────────────────────────────────────────────
 function openPortal() {
   var modal = document.getElementById('portalModal');
   modal.classList.add('active');
-  modal.style.display = 'flex';
+  modal.setAttribute('style', 'display:flex !important;');
   document.getElementById('portalLogin').style.display = 'block';
-  document.getElementById('portalDashboard').style.display = 'none';
+  document.getElementById('portalDashboard').setAttribute('style', 'display:none !important;');
 }
 
 async function doLogin() {
@@ -2255,11 +2264,15 @@ async function doLogin() {
       console.log('Login successful, showing dashboard');
       document.getElementById('portalLogin').style.display = 'none';
       var dashboard = document.getElementById('portalDashboard');
-      dashboard.classList.remove('hidden');
-      dashboard.classList.add('show');
-      dashboard.style.display = 'block';
-      dashboard.style.visibility = 'visible';
-      dashboard.style.opacity = '1';
+      // CRITICAL: Remove ALL classes to avoid Tailwind conflicts
+      dashboard.className = '';
+      dashboard.setAttribute('style', 'display:block !important; visibility:visible !important; opacity:1 !important;');
+      
+      // Also ensure inner flex container is visible
+      var innerDiv = dashboard.querySelector('div');
+      if (innerDiv) {
+        innerDiv.setAttribute('style', 'display:flex !important; height:640px;');
+      }
     
       // Update welcome message
       var welcomeEl = document.querySelector('#section-overview h2');
@@ -2281,11 +2294,13 @@ async function doLogin() {
       console.log('Backend failed but allowing demo client');
       document.getElementById('portalLogin').style.display = 'none';
       var dashboard = document.getElementById('portalDashboard');
-      dashboard.classList.remove('hidden');
-      dashboard.classList.add('show');
-      dashboard.style.display = 'block';
-      dashboard.style.visibility = 'visible';
-      dashboard.style.opacity = '1';
+      // CRITICAL: Remove ALL classes to avoid Tailwind conflicts
+      dashboard.className = '';
+      dashboard.setAttribute('style', 'display:block !important; visibility:visible !important; opacity:1 !important;');
+      var innerDiv = dashboard.querySelector('div');
+      if (innerDiv) {
+        innerDiv.setAttribute('style', 'display:flex !important; height:640px;');
+      }
     } else {
       alert('Connection error. Try demo ID: DIR-SAS-001');
     }
@@ -2299,9 +2314,7 @@ async function doLogin() {
 
 function doLogout() {
   var dashboard = document.getElementById('portalDashboard');
-  dashboard.classList.remove('show');
-  dashboard.classList.add('hidden');
-  dashboard.style.display = 'none';
+  dashboard.setAttribute('style', 'display:none !important;');
   document.getElementById('portalLogin').style.display = 'block';
   document.getElementById('portalClientId').value = '';
   showPortalSection('overview', document.querySelector('.portal-sidebar-item'));
