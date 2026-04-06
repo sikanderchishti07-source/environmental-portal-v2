@@ -2317,8 +2317,10 @@ function showDashboardUI(companyName, clientId) {
 
 // Load all real data from backend
 async function loadDashboardData(clientId) {
+  var backendUrl = 'https://aecon-backend.onrender.com';
+  
   try {
-    var res = await fetch('https://aecon-backend.onrender.com/api/reports/' + clientId);
+    var res = await fetch(backendUrl + '/api/reports/' + clientId);
     var data = await res.json();
     var reports = data.reports || [];
     
@@ -2337,10 +2339,14 @@ async function loadDashboardData(clientId) {
         var recentHtml = '';
         var recentReports = reports.slice(0, 3);
         recentReports.forEach(function(r) {
+          var title = r.reportTitle || r.title || 'Report';
+          var type = r.reportType || '';
+          var loc = r.location || '';
+          
           recentHtml += '<div style="background:#f9fafb; padding:16px; border-radius:12px; margin-bottom:8px; display:flex; align-items:center; gap:12px;">' +
             '<div style="width:32px; height:32px; background:#dbeafe; border-radius:50%; display:flex; align-items:center; justify-content:center;"><i class="fas fa-file-pdf" style="color:#2563eb; font-size:12px;"></i></div>' +
-            '<div><p style="font-size:14px; font-weight:500; color:#1f2937;">' + (r.title || 'Report') + '</p>' +
-            '<p style="font-size:12px; color:#9ca3af;">' + (r.reportType || '') + ' - ' + (r.location || '') + '</p></div>' +
+            '<div><p style="font-size:14px; font-weight:500; color:#1f2937;">' + title + '</p>' +
+            '<p style="font-size:12px; color:#9ca3af;">' + type + ' - ' + loc + '</p></div>' +
           '</div>';
         });
         recentEl.innerHTML = recentHtml;
@@ -2355,19 +2361,48 @@ async function loadDashboardData(clientId) {
       } else {
         var html = '';
         reports.forEach(function(r) {
-          var fileUrl = r.fileUrl || '';
-          var downloadBtn = fileUrl ? 
-            '<a href="' + fileUrl + '" target="_blank" style="background:#0f3d3e; color:white; border:none; padding:8px 16px; border-radius:8px; font-size:12px; cursor:pointer; text-decoration:none; display:inline-block;"><i class="fas fa-download" style="margin-right:4px;"></i> Download</a>' :
-            '<span style="color:#9ca3af; font-size:12px;">No file</span>';
+          var title = r.reportTitle || r.title || 'Untitled Report';
+          var type = r.reportType || 'Report';
+          var loc = r.location || '';
+          var date = r.issueDate || r.reportDate || '';
           
-          html += '<div style="background:white; border:1px solid #e5e7eb; border-radius:12px; padding:16px; margin-bottom:12px; display:flex; align-items:center; gap:16px; box-shadow:0 1px 3px rgba(0,0,0,0.1);">' +
-            '<div style="width:40px; height:40px; background:#fee2e2; border-radius:12px; display:flex; align-items:center; justify-content:center;"><i class="fas fa-file-pdf" style="color:#ef4444;"></i></div>' +
-            '<div style="flex:1;">' +
-              '<p style="font-weight:600; color:#1f2937; font-size:14px;">' + (r.title || 'Untitled Report') + '</p>' +
-              '<p style="font-size:12px; color:#9ca3af;">' + (r.reportType || 'Report') + ' · ' + (r.location || '') + ' · ' + (r.issueDate || '') + '</p>' +
-            '</div>' +
-            downloadBtn +
-          '</div>';
+          // Get PDF file URL from files object
+          var pdfPath = (r.files && r.files.pdfReport) ? r.files.pdfReport : '';
+          var fileUrl = pdfPath ? backendUrl + pdfPath : '';
+          
+          // Get images if available
+          var images = [];
+          if (r.files) {
+            if (r.files.stationImages) images = images.concat(r.files.stationImages);
+            if (r.files.noiseImages) images = images.concat(r.files.noiseImages);
+            if (r.files.coordinateImages) images = images.concat(r.files.coordinateImages);
+          }
+          
+          var downloadBtn = fileUrl ? 
+            '<a href="' + fileUrl + '" target="_blank" style="background:#0f3d3e; color:white; border:none; padding:8px 16px; border-radius:8px; font-size:12px; cursor:pointer; text-decoration:none; display:inline-block;"><i class="fas fa-download" style="margin-right:4px;"></i> Download PDF</a>' :
+            '<span style="color:#9ca3af; font-size:12px;">No PDF</span>';
+          
+          html += '<div style="background:white; border:1px solid #e5e7eb; border-radius:12px; padding:16px; margin-bottom:12px; box-shadow:0 1px 3px rgba(0,0,0,0.1);">' +
+            '<div style="display:flex; align-items:center; gap:16px; margin-bottom:12px;">' +
+              '<div style="width:40px; height:40px; background:#fee2e2; border-radius:12px; display:flex; align-items:center; justify-content:center;"><i class="fas fa-file-pdf" style="color:#ef4444;"></i></div>' +
+              '<div style="flex:1;">' +
+                '<p style="font-weight:600; color:#1f2937; font-size:14px;">' + title + '</p>' +
+                '<p style="font-size:12px; color:#9ca3af;">' + type + ' · ' + loc + ' · ' + date + '</p>' +
+              '</div>' +
+              downloadBtn +
+            '</div>';
+          
+          // Show images if available
+          if (images.length > 0) {
+            html += '<div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:12px;">';
+            images.forEach(function(imgPath) {
+              var imgUrl = backendUrl + imgPath;
+              html += '<a href="' + imgUrl + '" target="_blank"><img src="' + imgUrl + '" style="width:80px; height:60px; object-fit:cover; border-radius:8px; border:1px solid #e5e7eb;" /></a>';
+            });
+            html += '</div>';
+          }
+          
+          html += '</div>';
         });
         reportsEl.innerHTML = html;
       }
