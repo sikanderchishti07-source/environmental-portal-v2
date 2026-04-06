@@ -24,6 +24,7 @@ app.use(cors({
     'http://localhost:3000',
     'http://localhost:5500',
     'http://127.0.0.1:5500'
+    'https://environmental-portal-v2.vercel.app',
   ],
   methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   allowedHeaders: ['Content-Type', 'x-admin-key']
