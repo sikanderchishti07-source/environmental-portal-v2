@@ -2195,14 +2195,21 @@
 
   // ── Modal helpers ────────────────────────────────────────────────────────────
   function closeOnOverlay(e, id) { if (e.target === document.getElementById(id)) closeModal(id); }
-  function closeModal(id)        { document.getElementById(id).classList.remove('active'); }
+  function closeModal(id) {
+  var modal = document.getElementById(id);
+  modal.classList.remove('active');
+  modal.style.display = 'none';
+}
 
   // ── Client portal ────────────────────────────────────────────────────────────
 // ── Client portal ────────────────────────────────────────────────────────────
 function openPortal() {
-  document.getElementById('portalModal').classList.add('active');
-  document.getElementById('portalLogin').classList.remove('hidden');
+  var modal = document.getElementById('portalModal');
+  modal.classList.add('active');
+  modal.style.display = 'flex';  // ADD THIS LINE
+  document.getElementById('portalLogin').style.display = 'block';
   document.getElementById('portalDashboard').classList.add('hidden');
+  document.getElementById('portalDashboard').style.display = 'none';
 }
 
 async function doLogin() {
