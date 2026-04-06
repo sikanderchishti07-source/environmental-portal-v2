@@ -2409,7 +2409,7 @@ function doLogout() {
 
 async function loadClientReports(clientId) {
   try {
-    var res = await fetch('https://aecon-backend.onrender.com/api/clients/' + clientId + '/reports');
+    var res = await fetch('https://aecon-backend.onrender.com/api/reports/' + clientId);
     var data = await res.json();
     var reports = data.reports || [];
     console.log('Reports loaded:', reports.length);
