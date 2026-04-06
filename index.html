@@ -2233,7 +2233,8 @@ async function doLogin() {
     // SUCCESS - Show dashboard  
     console.log('Login successful, showing dashboard');
     document.getElementById('portalLogin').style.display = 'none';
-    document.getElementById('portalDashboard').style.display = 'block';
+document.getElementById('portalDashboard').classList.remove('hidden');  // ADD THIS LINE
+document.getElementById('portalDashboard').style.display = 'block';
   
     // Update welcome message
     const welcomeEl = document.querySelector('#section-overview h2');
