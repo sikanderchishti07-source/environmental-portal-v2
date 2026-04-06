@@ -27,17 +27,14 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage,
   fileFilter,
-  limits: { fileSize: 50 * 1024 * 1024 }  // 50 MB max per file
+  limits: { fileSize: 50 * 1024 * 1024 }
 });
 
 // ── Helper: Upload buffer to Cloudinary ──────────────────────
 function uploadToCloudinary(fileBuffer, folder, resourceType = 'auto') {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
-      { 
-        folder: `aecon/${folder}`,
-        resource_type: resourceType
-      },
+      { folder: `aecon/${folder}`, resource_type: resourceType },
       (error, result) => {
         if (error) reject(error);
         else resolve(result.secure_url);
@@ -47,150 +44,91 @@ function uploadToCloudinary(fileBuffer, folder, resourceType = 'auto') {
   });
 }
 
-
 // ════════════════════════════════════════════════════════════
-//  PUBLIC ROUTES (called by the frontend dashboard)
+//  PUBLIC ROUTES
 // ════════════════════════════════════════════════════════════
 
-/**
- * GET /api/reports/:clientId
- * Returns all PUBLISHED reports for a client, sorted newest first.
- * No admin key needed — the clientId acts as the access token.
- */
 router.get('/:clientId', async (req, res) => {
   try {
     const clientId = req.params.clientId.toUpperCase();
-
-    // Verify client exists
     const client = await Client.findOne({ clientId, isActive: true });
-    if (!client) {
-      return res.status(404).json({ error: 'Invalid Client ID.' });
-    }
+    if (!client) return res.status(404).json({ error: 'Invalid Client ID.' });
 
     const reports = await Report.find({ clientId, isPublished: true })
       .sort({ serviceDate: -1 })
       .select('-__v -uploadedBy');
 
-    return res.json({
-      clientId,
-      companyName: client.companyName,
-      count: reports.length,
-      reports
-    });
+    return res.json({ clientId, companyName: client.companyName, count: reports.length, reports });
   } catch (err) {
     console.error('[GET /reports/:clientId]', err);
     return res.status(500).json({ error: 'Server error.' });
   }
 });
 
-
 // ════════════════════════════════════════════════════════════
 //  ADMIN ROUTES
 // ════════════════════════════════════════════════════════════
 
-/**
- * POST /api/reports/:clientId
- * Admin uploads a new report with optional file attachments.
- * Files are uploaded to Cloudinary.
- */
 router.post('/:clientId', adminAuth, upload.fields([
-  { name: 'pdfReport',        maxCount: 1 },
-  { name: 'stationImages',    maxCount: 10 },
-  { name: 'noiseImages',      maxCount: 10 },
+  { name: 'pdfReport', maxCount: 1 },
+  { name: 'stationImages', maxCount: 10 },
+  { name: 'noiseImages', maxCount: 10 },
   { name: 'coordinateImages', maxCount: 10 },
-  { name: 'otherFiles',       maxCount: 5 }
+  { name: 'otherFiles', maxCount: 5 }
 ]), async (req, res) => {
   try {
     const clientId = req.params.clientId.toUpperCase();
-
-    // Verify client exists
     const client = await Client.findOne({ clientId, isActive: true });
-    if (!client) {
-      return res.status(404).json({ error: 'Client ID not found.' });
-    }
+    if (!client) return res.status(404).json({ error: 'Client ID not found.' });
 
-    const {
-      reportTitle, reportType, serviceDate, reportDate,
-      location, projectRef, summary, complianceStandard,
-      overallStatus, isPublished
-    } = req.body;
+    const { reportTitle, reportType, serviceDate, reportDate, location, projectRef, summary, complianceStandard, overallStatus, isPublished } = req.body;
 
     if (!reportTitle || !reportType || !serviceDate || !reportDate || !location) {
       return res.status(400).json({ error: 'reportTitle, reportType, serviceDate, reportDate, and location are required.' });
     }
 
-    // Parse measurements
     const m = req.body.measurements || {};
     const measurements = {};
     ['pm25', 'pm10', 'no2', 'so2', 'co', 'noise'].forEach(key => {
       if (m[key] !== undefined) {
-        measurements[key] = {
-          value:  parseFloat(m[key]),
-          status: m[`${key}_status`] || 'pending'
-        };
+        measurements[key] = { value: parseFloat(m[key]), status: m[`${key}_status`] || 'pending' };
       }
     });
 
     // Upload files to Cloudinary
     const files = {};
     
-    // Upload PDF
     if (req.files?.pdfReport?.[0]) {
       console.log('Uploading PDF to Cloudinary...');
-      files.pdfReport = await uploadToCloudinary(
-        req.files.pdfReport[0].buffer, 
-        `${clientId}/reports`,
-        'raw'
-      );
+      files.pdfReport = await uploadToCloudinary(req.files.pdfReport[0].buffer, `${clientId}/reports`, 'raw');
     }
-    
-    // Upload station images
     if (req.files?.stationImages) {
-      console.log('Uploading station images to Cloudinary...');
-      files.stationImages = await Promise.all(
-        req.files.stationImages.map(f => uploadToCloudinary(f.buffer, `${clientId}/images`))
-      );
+      console.log('Uploading station images...');
+      files.stationImages = await Promise.all(req.files.stationImages.map(f => uploadToCloudinary(f.buffer, `${clientId}/images`)));
     }
-    
-    // Upload noise images
     if (req.files?.noiseImages) {
-      console.log('Uploading noise images to Cloudinary...');
-      files.noiseImages = await Promise.all(
-        req.files.noiseImages.map(f => uploadToCloudinary(f.buffer, `${clientId}/images`))
-      );
+      console.log('Uploading noise images...');
+      files.noiseImages = await Promise.all(req.files.noiseImages.map(f => uploadToCloudinary(f.buffer, `${clientId}/images`)));
     }
-    
-    // Upload coordinate images
     if (req.files?.coordinateImages) {
-      console.log('Uploading coordinate images to Cloudinary...');
-      files.coordinateImages = await Promise.all(
-        req.files.coordinateImages.map(f => uploadToCloudinary(f.buffer, `${clientId}/images`))
-      );
+      console.log('Uploading coordinate images...');
+      files.coordinateImages = await Promise.all(req.files.coordinateImages.map(f => uploadToCloudinary(f.buffer, `${clientId}/images`)));
     }
-    
-    // Upload other files
     if (req.files?.otherFiles) {
-      console.log('Uploading other files to Cloudinary...');
-      files.otherFiles = await Promise.all(
-        req.files.otherFiles.map(f => uploadToCloudinary(f.buffer, `${clientId}/other`, 'raw'))
-      );
+      console.log('Uploading other files...');
+      files.otherFiles = await Promise.all(req.files.otherFiles.map(f => uploadToCloudinary(f.buffer, `${clientId}/other`, 'raw')));
     }
 
     const report = await Report.create({
-      clientId,
-      reportTitle,
-      reportType,
-      serviceDate:         new Date(serviceDate),
-      reportDate:          new Date(reportDate),
-      location,
-      projectRef,
-      summary,
-      complianceStandard:  complianceStandard || 'NCEC SAAQS',
-      overallStatus:       overallStatus || 'pending',
-      measurements,
-      files,
-      isPublished:         isPublished === 'true' || isPublished === true,
-      uploadedBy:          'admin'
+      clientId, reportTitle, reportType,
+      serviceDate: new Date(serviceDate),
+      reportDate: new Date(reportDate),
+      location, projectRef, summary,
+      complianceStandard: complianceStandard || 'NCEC SAAQS',
+      overallStatus: overallStatus || 'pending',
+      measurements, files,
+      isPublished: isPublished === 'true' || isPublished === true,
+      uploadedBy: 'admin'
     });
 
     console.log('Report created with Cloudinary URLs:', files);
@@ -201,10 +139,6 @@ router.post('/:clientId', adminAuth, upload.fields([
   }
 });
 
-/**
- * GET /api/reports/admin/all
- * List ALL reports across all clients (admin only).
- */
 router.get('/admin/all', adminAuth, async (req, res) => {
   try {
     const reports = await Report.find({}).sort({ createdAt: -1 }).select('-__v');
@@ -214,17 +148,9 @@ router.get('/admin/all', adminAuth, async (req, res) => {
   }
 });
 
-/**
- * PATCH /api/reports/admin/:reportId
- * Update report metadata or toggle isPublished.
- */
 router.patch('/admin/:reportId', adminAuth, async (req, res) => {
   try {
-    const report = await Report.findByIdAndUpdate(
-      req.params.reportId,
-      { $set: req.body },
-      { new: true, runValidators: true }
-    );
+    const report = await Report.findByIdAndUpdate(req.params.reportId, { $set: req.body }, { new: true, runValidators: true });
     if (!report) return res.status(404).json({ error: 'Report not found.' });
     return res.json({ message: 'Updated.', report });
   } catch (err) {
@@ -232,10 +158,6 @@ router.patch('/admin/:reportId', adminAuth, async (req, res) => {
   }
 });
 
-/**
- * DELETE /api/reports/admin/:reportId
- * Permanently delete a report and its files.
- */
 router.delete('/admin/:reportId', adminAuth, async (req, res) => {
   try {
     const report = await Report.findByIdAndDelete(req.params.reportId);
