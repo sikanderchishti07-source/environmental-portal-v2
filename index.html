@@ -2205,11 +2205,13 @@
 // ── Client portal ────────────────────────────────────────────────────────────
 function openPortal() {
   var modal = document.getElementById('portalModal');
+  if (!modal) { console.error('portalModal not found'); return; }
   modal.classList.add('active');
-  modal.style.display = 'flex';  // ADD THIS LINE
-  document.getElementById('portalLogin').style.display = 'block';
-  document.getElementById('portalDashboard').classList.add('hidden');
-  document.getElementById('portalDashboard').style.display = 'none';
+  modal.style.display = 'flex';
+  var login = document.getElementById('portalLogin');
+  if (login) login.style.display = 'block';
+  var dash = document.getElementById('portalDashboard');
+  if (dash) { dash.classList.add('hidden'); dash.style.display = 'none'; }
 }
 
 async function doLogin() {
