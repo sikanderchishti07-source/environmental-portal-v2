@@ -3449,7 +3449,7 @@ function fakeDownload() {
       modal.style.display = 'flex';
       var tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
-      var dateInput = document.getElementById('bookingDate');
+      var dateInput = document.getElementById('bkDate');
       if (dateInput) dateInput.min = tomorrow.toISOString().split('T')[0];
     }
   }
@@ -3462,16 +3462,16 @@ function fakeDownload() {
     btn.disabled = true;
 
     var formData = {
-      companyName: document.getElementById('bookingCompany').value.trim(),
-      contactName: document.getElementById('bookingContact').value.trim(),
-      contactEmail: document.getElementById('bookingEmail').value.trim(),
-      contactPhone: document.getElementById('bookingPhone').value.trim(),
-      serviceType: document.getElementById('bookingService').value,
-      siteLocation: document.getElementById('bookingLocation').value.trim(),
-      city: document.getElementById('bookingCity').value,
-      preferredDate: document.getElementById('bookingDate').value,
-      preferredTime: document.getElementById('bookingTime').value,
-      serviceDescription: document.getElementById('bookingDescription').value.trim()
+      companyName: document.getElementById('bkCompanyName').value.trim(),
+      contactName: document.getElementById('bkContactName').value.trim(),
+      contactEmail: document.getElementById('bkEmail').value.trim(),
+      contactPhone: document.getElementById('bkPhone').value.trim(),
+      serviceType: document.getElementById('bkServiceType').value,
+      siteLocation: document.getElementById('bkLocation').value.trim(),
+      city: document.getElementById('bkCity').value,
+      preferredDate: document.getElementById('bkDate').value,
+      preferredTime: document.getElementById('bkTime').value,
+      serviceDescription: (document.getElementById('bkDescription') ? document.getElementById('bkDescription').value.trim() : '')
     };
 
     try {
@@ -3483,11 +3483,11 @@ function fakeDownload() {
       var result = await response.json();
 
       if (response.ok && result.success) {
-        var formEl = document.getElementById('bookingFormContent');
+        var formEl = document.getElementById('bookingFormContainer');
         var successEl = document.getElementById('bookingSuccess');
         var refEl = document.getElementById('bookingRefNumber');
         if (formEl) formEl.style.display = 'none';
-        if (successEl) successEl.style.display = 'block';
+        if (successEl) { successEl.classList.remove('hidden'); successEl.style.display = 'block'; }
         if (refEl) refEl.textContent = result.booking.bookingRef;
       } else {
         alert('Booking failed: ' + (result.error || 'Please try again'));
@@ -3503,11 +3503,11 @@ function fakeDownload() {
   }
 
   function resetBookingForm() {
-    var formEl = document.getElementById('bookingFormContent');
+    var formEl = document.getElementById('bookingFormContainer');
     var successEl = document.getElementById('bookingSuccess');
     var form = document.getElementById('bookingForm');
     if (formEl) formEl.style.display = 'block';
-    if (successEl) successEl.style.display = 'none';
+    if (successEl) { successEl.style.display = 'none'; successEl.classList.add('hidden'); }
     if (form) form.reset();
     closeModal('bookingModal');
   }
