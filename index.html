@@ -679,6 +679,41 @@
 }
 .nav-portal-btn:hover { background: linear-gradient(135deg, #1a5f5f, #2d8a8a); box-shadow: 0 6px 20px rgba(15,61,62,.35); transform: translateY(-1px); }
 .nav-portal-btn i { font-size: .75rem; }
+.nav-book-btn {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #0f3d3e, #1a5f5f);
+  color: #fff; border-radius: 9px; border: none;
+  font-size: .78rem; font-weight: 700; cursor: pointer;
+  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(15,61,62,.25);
+  transition: all .22s ease;
+}
+.nav-book-btn:hover { background: linear-gradient(135deg, #1a5f5f, #2d8a8a); box-shadow: 0 6px 20px rgba(15,61,62,.35); transform: translateY(-2px) scale(1.02); }
+.nav-book-btn:active { transform: scale(0.98); }
+.nav-book-btn i { font-size: .72rem; }
+
+/* Book Inspection Button - Minimal & Professional */
+.nav-book-btn {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #0f3d3e 0%, #1a5f5f 100%);
+  border: none;
+  font-size: .75rem; font-weight: 600; color: white;
+  cursor: pointer;
+  transition: all .25s cubic-bezier(.4,0,.2,1);
+  box-shadow: 0 2px 8px rgba(15,61,62,.2);
+}
+.nav-book-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(15,61,62,.35);
+  background: linear-gradient(135deg, #1a5f5f 0%, #2d8a8a 100%);
+}
+.nav-book-btn:active { transform: translateY(0) scale(.98); }
+.nav-book-btn i { font-size: .7rem; }
+.nav-book-btn span { letter-spacing: .3px; }
+
 .nav-contact-btn {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 8px 14px;
@@ -832,6 +867,7 @@
     <a href="index_arabic.html" class="drawer-link"><div class="drawer-link-icon">🌐</div>العربية (Arabic)</a>
   </div>
   <div class="drawer-footer">
+    <button onclick="openBookingModal();closeNavDrawer();" class="drawer-portal-btn" style="background:linear-gradient(135deg,#0f3d3e,#1a5f5f);"><i class="fas fa-calendar-check"></i> Inspection Request</button>
     <button onclick="openPortal();closeNavDrawer();" class="drawer-portal-btn"><i class="fas fa-user-circle"></i> Client Portal</button>
     <a href="https://wa.me/966503361798?text=Hi+AECON" target="_blank" class="drawer-wa-btn"><i class="fab fa-whatsapp"></i> WhatsApp Us</a>
   </div>
@@ -853,7 +889,7 @@
         <span class="nav-strip-divider"></span>
         <span>NCEC Certified</span>
         <span class="nav-strip-divider"></span>
-        <a href="mailto:enviro@aecon-sa.com"><i class="fas fa-envelope" style="font-size:.6rem;margin-right:4px;"></i>enviro@aecon-sa.com</a>
+        <a href="/cdn-cgi/l/email-protection#cda8a3bba4bfa28daca8aea2a3e0beace3aea2a0"><i class="fas fa-envelope" style="font-size:.6rem;margin-right:4px;"></i><span class="__cf_email__" data-cfemail="bbded5cdd2c9d4fbdaded8d4d596c8da95d8d4d6">[email&#160;protected]</span></a>
       </div>
     </div>
   </div>
@@ -998,6 +1034,7 @@
           <a href="index_arabic.html" class="nav-lang-btn">🌐 <span>العربية</span></a>
           <a href="#contact" class="nav-contact-btn"><i class="fas fa-phone" style="font-size:.7rem;"></i> Get a Quote</a>
           <button onclick="openPortal()" class="nav-portal-btn"><i class="fas fa-user-circle"></i> Client Portal</button>
+          <button onclick="openBookingModal()" class="nav-book-btn"><i class="fas fa-calendar-check"></i><span>Inspection Request</span></button>
           <button class="nav-hamburger" id="navHamburger" onclick="toggleNavDrawer()" aria-label="Menu">
             <span></span><span></span><span></span>
           </button>
@@ -1008,7 +1045,7 @@
   </div>
 </nav>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 (function(){
   // Scrolled state
   var nav = document.getElementById('navbar');
@@ -1679,7 +1716,7 @@
         <p class="text-gray-600 text-lg mb-8">Ready to support your environmental monitoring and compliance requirements.</p>
         <div class="space-y-6">
           <div class="flex items-start space-x-4"><div class="w-12 h-12 bg-aecon-light rounded-xl flex items-center justify-center text-aecon-primary flex-shrink-0"><i class="fas fa-map-marker-alt text-xl"></i></div><div><h4 class="font-bold text-aecon-dark mb-1">Head Office</h4><p class="text-gray-600">3083 North Ring Rd, 8241 Al Muruj District<br>Riyadh 12284, Kingdom of Saudi Arabia</p></div></div>
-          <div class="flex items-start space-x-4"><div class="w-12 h-12 bg-aecon-light rounded-xl flex items-center justify-center text-aecon-primary flex-shrink-0"><i class="fas fa-envelope text-xl"></i></div><div><h4 class="font-bold text-aecon-dark mb-1">Email</h4><p class="text-gray-600"><a href="mailto:enviro@aecon-sa.com" class="hover:text-aecon-primary transition-colors">enviro@aecon-sa.com</a></p></div></div>
+          <div class="flex items-start space-x-4"><div class="w-12 h-12 bg-aecon-light rounded-xl flex items-center justify-center text-aecon-primary flex-shrink-0"><i class="fas fa-envelope text-xl"></i></div><div><h4 class="font-bold text-aecon-dark mb-1">Email</h4><p class="text-gray-600"><a href="/cdn-cgi/l/email-protection#43262d352a312c032226202c2d6e30226d202c2e" class="hover:text-aecon-primary transition-colors"><span class="__cf_email__" data-cfemail="24414a524d564b644541474b4a0957450a474b49">[email&#160;protected]</span></a></p></div></div>
           <div class="flex items-start space-x-4"><div class="w-12 h-12 bg-aecon-light rounded-xl flex items-center justify-center text-aecon-primary flex-shrink-0"><i class="fas fa-phone text-xl"></i></div><div><h4 class="font-bold text-aecon-dark mb-1">Phone</h4><p class="text-gray-600">+966 50 336 1798</p></div></div>
           <div class="flex items-start space-x-4"><div class="w-12 h-12 bg-aecon-light rounded-xl flex items-center justify-center text-aecon-primary flex-shrink-0"><i class="fas fa-globe text-xl"></i></div><div><h4 class="font-bold text-aecon-dark mb-1">Website</h4><p class="text-gray-600">www.aecon-sa.com</p></div></div>
         </div>
@@ -1827,7 +1864,7 @@
         </div>
         <div class="footer-contact-row">
           <div class="footer-contact-icon-box"><i class="fas fa-envelope"></i></div>
-          <div><div class="footer-contact-label">Email</div><div class="footer-contact-value"><a href="mailto:enviro@aecon-sa.com">enviro@aecon-sa.com</a></div></div>
+          <div><div class="footer-contact-label">Email</div><div class="footer-contact-value"><a href="/cdn-cgi/l/email-protection#6a0f041c0318052a0b0f09050447190b44090507"><span class="__cf_email__" data-cfemail="d6b3b8a0bfa4b996b7b3b5b9b8fba5b7f8b5b9bb">[email&#160;protected]</span></a></div></div>
         </div>
         <div class="footer-contact-row">
           <div class="footer-contact-icon-box"><i class="fas fa-phone"></i></div>
@@ -2034,6 +2071,144 @@
   </div>
 </div>
 
+<!-- ============================================================
+     BOOKING MODAL
+     ============================================================ -->
+<div id="bookingModal" class="modal-overlay" onclick="closeOnOverlay(event,'bookingModal')">
+  <div class="modal-box w-full max-w-2xl mx-4">
+    <div class="p-6 border-b border-gray-100">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 bg-gradient-to-br from-aecon-dark to-aecon-accent rounded-xl flex items-center justify-center">
+            <i class="fas fa-calendar-check text-white text-xl"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-aecon-dark">Book Site Inspection</h2>
+            <p class="text-sm text-gray-500">Schedule an environmental monitoring visit</p>
+          </div>
+        </div>
+        <button onclick="closeModal('bookingModal')" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center hover:bg-gray-200">
+          <i class="fas fa-times text-gray-500"></i>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Booking Form -->
+    <div id="bookingFormContainer" class="p-6">
+      <form id="bookingForm" onsubmit="submitBooking(event)">
+        <!-- Company & Contact -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Company Name *</label>
+            <input type="text" id="bkCompanyName" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-aecon-accent focus:border-transparent" placeholder="Your company name">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Contact Person *</label>
+            <input type="text" id="bkContactName" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-aecon-accent focus:border-transparent" placeholder="Full name">
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Email *</label>
+            <input type="email" id="bkEmail" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-aecon-accent focus:border-transparent" placeholder="email@company.com">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Phone *</label>
+            <input type="tel" id="bkPhone" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-aecon-accent focus:border-transparent" placeholder="+966 50 XXX XXXX">
+          </div>
+        </div>
+        
+        <!-- Service Type -->
+        <div class="mb-4">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Service Type *</label>
+          <select id="bkServiceType" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-aecon-accent focus:border-transparent bg-white">
+            <option value="">Select a service...</option>
+            <option value="ambient_air">🌬️ Ambient Air Quality Monitoring</option>
+            <option value="indoor_air">🏢 Indoor Air Quality Assessment</option>
+            <option value="noise">🔊 Noise Level Monitoring</option>
+            <option value="water">💧 Water Quality Testing</option>
+            <option value="soil">🌱 Soil Contamination Analysis</option>
+            <option value="stack_emission">🏭 Stack Emission Testing</option>
+            <option value="environmental_audit">📋 Environmental Audit</option>
+            <option value="other">📝 Other Service</option>
+          </select>
+        </div>
+        
+        <!-- Location -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Site Location *</label>
+            <input type="text" id="bkLocation" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-aecon-accent focus:border-transparent" placeholder="Site address or area">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">City *</label>
+            <select id="bkCity" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-aecon-accent focus:border-transparent bg-white">
+              <option value="">Select city...</option>
+              <option value="Riyadh">Riyadh</option>
+              <option value="Jeddah">Jeddah</option>
+              <option value="Dammam">Dammam</option>
+              <option value="Makkah">Makkah</option>
+              <option value="Madinah">Madinah</option>
+              <option value="Khobar">Khobar</option>
+              <option value="Dhahran">Dhahran</option>
+              <option value="Jubail">Jubail</option>
+              <option value="Yanbu">Yanbu</option>
+              <option value="Tabuk">Tabuk</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Date & Time -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Preferred Date *</label>
+            <input type="date" id="bkDate" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-aecon-accent focus:border-transparent">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Preferred Time *</label>
+            <select id="bkTime" required class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-aecon-accent focus:border-transparent bg-white">
+              <option value="">Select time...</option>
+              <option value="morning">🌅 Morning (8 AM - 12 PM)</option>
+              <option value="afternoon">☀️ Afternoon (12 PM - 5 PM)</option>
+              <option value="evening">🌆 Evening (5 PM - 8 PM)</option>
+              <option value="flexible">🔄 Flexible</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Description -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-gray-700 mb-1">Additional Details (Optional)</label>
+          <textarea id="bkDescription" rows="3" class="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-aecon-accent focus:border-transparent" placeholder="Any specific requirements or notes..."></textarea>
+        </div>
+        
+        <!-- Submit -->
+        <button type="submit" id="bkSubmitBtn" class="w-full py-4 bg-gradient-to-r from-aecon-dark to-aecon-accent text-white rounded-xl font-bold text-lg hover:shadow-lg transition-all flex items-center justify-center gap-2">
+          <i class="fas fa-paper-plane"></i> Submit Booking Request
+        </button>
+      </form>
+    </div>
+    
+    <!-- Success State -->
+    <div id="bookingSuccess" class="hidden p-8 text-center">
+      <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <i class="fas fa-check text-green-500 text-3xl"></i>
+      </div>
+      <h3 class="text-2xl font-bold text-aecon-dark mb-2">Booking Submitted!</h3>
+      <p class="text-gray-600 mb-4">Your reference number:</p>
+      <div class="bg-gray-100 rounded-xl py-3 px-6 inline-block mb-6">
+        <span id="bookingRefNumber" class="text-xl font-mono font-bold text-aecon-dark">BK2604-0001</span>
+      </div>
+      <p class="text-sm text-gray-500 mb-6">We will contact you within 24 hours to confirm your appointment.</p>
+      <button onclick="resetBookingForm()" class="px-8 py-3 bg-aecon-dark text-white rounded-xl font-semibold hover:bg-aecon-accent transition-all">
+        Book Another Inspection
+      </button>
+    </div>
+  </div>
+</div>
+
 
 <!-- ============================================================
      AQI LIVE WIDGET (bottom-left)
@@ -2130,7 +2305,7 @@
       <div class="ep-hint">Our team typically responds within 2 hours during business hours.</div>
       <div class="ep-options">
         <a href="https://wa.me/966503361798?text=Hi+AECON%2C+I+have+an+environmental+query" target="_blank" class="ep-option whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp — fastest response</a>
-        <a href="mailto:enviro@aecon-sa.com" class="ep-option email"><i class="fas fa-envelope"></i> Email us directly</a>
+        <a href="/cdn-cgi/l/email-protection#2b4e455d4259446b4a4e48444506584a05484446" class="ep-option email"><i class="fas fa-envelope"></i> Email us directly</a>
         <a href="tel:+966503361798" class="ep-option call"><i class="fas fa-phone"></i> Call +966 50 336 1798</a>
       </div>
       <div class="ep-divider">or send a quick message</div>
@@ -2148,7 +2323,7 @@
      JAVASCRIPT — CORE SITE
      All scripts placed at end of body so DOM is fully parsed.
      ============================================================ -->
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // ── Animated particles (hero background) ────────────────────────────────────
   (function createParticles() {
     const container = document.getElementById('particles');
@@ -2208,6 +2383,75 @@
     var m = document.getElementById(id); 
     m.classList.remove('active'); 
     m.setAttribute('style', 'display:none !important;');
+  }
+
+  // ── Booking Modal Functions ────────────────────────────────────────────────
+  function openBookingModal() {
+    var modal = document.getElementById('bookingModal');
+    modal.classList.add('active');
+    modal.setAttribute('style', 'display:flex !important;');
+    
+    // Set minimum date to tomorrow
+    var tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    document.getElementById('bkDate').min = tomorrow.toISOString().split('T')[0];
+    
+    // Reset form
+    document.getElementById('bookingForm').reset();
+    document.getElementById('bookingFormContainer').classList.remove('hidden');
+    document.getElementById('bookingSuccess').classList.add('hidden');
+  }
+
+  function submitBooking(e) {
+    e.preventDefault();
+    
+    var submitBtn = document.getElementById('bkSubmitBtn');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+    
+    var bookingData = {
+      companyName: document.getElementById('bkCompanyName').value,
+      contactName: document.getElementById('bkContactName').value,
+      contactEmail: document.getElementById('bkEmail').value,
+      contactPhone: document.getElementById('bkPhone').value,
+      serviceType: document.getElementById('bkServiceType').value,
+      siteLocation: document.getElementById('bkLocation').value,
+      city: document.getElementById('bkCity').value,
+      preferredDate: document.getElementById('bkDate').value,
+      preferredTime: document.getElementById('bkTime').value,
+      serviceDescription: document.getElementById('bkDescription').value
+    };
+    
+    fetch('https://aecon-backend.onrender.com/api/bookings', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(bookingData)
+    })
+    .then(function(response) { return response.json(); })
+    .then(function(data) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Booking Request';
+      
+      if (data.success) {
+        document.getElementById('bookingRefNumber').textContent = data.booking.bookingRef;
+        document.getElementById('bookingFormContainer').classList.add('hidden');
+        document.getElementById('bookingSuccess').classList.remove('hidden');
+      } else {
+        alert('Error: ' + (data.error || 'Could not submit booking. Please try again.'));
+      }
+    })
+    .catch(function(err) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Booking Request';
+      alert('Network error. Please check your connection and try again.');
+      console.error('Booking error:', err);
+    });
+  }
+
+  function resetBookingForm() {
+    document.getElementById('bookingForm').reset();
+    document.getElementById('bookingFormContainer').classList.remove('hidden');
+    document.getElementById('bookingSuccess').classList.add('hidden');
   }
 
   // ── Client portal ────────────────────────────────────────────────────────────
@@ -3181,4 +3425,116 @@ function fakeDownload() {
       { name: 'Veolia',            url: 'https://upload.wikimedia.org/wikipedia/commons/0/06/Veolia_logo.svg' },
       { name: 'SGS',               url: 'https://upload.wikimedia.org/wikipedia/en/9/92/SGS_logo.svg' },
       { name: 'Bureau Veritas',    url: 'https://upload.wikimedia.org/wikipedia/en/b/b3/Bureau_Veritas_logo.svg' },
-      { name: 'Intertek',          url: 'ht
+      { name: 'Intertek',          url: 'https://upload.wikimedia.org/wikipedia/commons/4/48/Intertek_logo.svg' }
+    ];
+    var track = document.getElementById('logoTrack');
+    if (!track) return;
+    var html = '';
+    for (var cycle = 0; cycle < 2; cycle++) {
+      LOGOS.forEach(function (l) {
+        html += '<div class="logo-item" title="' + l.name + '">' +
+          '<img src="' + l.url + '" alt="' + l.name + '" loading="lazy" ' +
+          'onerror="this.parentElement.innerHTML=\'<span style=\\\'font-size:11px;font-weight:700;color:#1f6b52;white-space:nowrap;\\\'>' + l.name + '</span>\'">' +
+          '</div>';
+      });
+    }
+    track.innerHTML = html;
+  })();
+
+  // ── Booking modal functions ─────────────────────────────────────────────────
+  function openBookingModal() {
+    var modal = document.getElementById('bookingModal');
+    if (modal) {
+      modal.classList.add('active');
+      modal.style.display = 'flex';
+      var tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      var dateInput = document.getElementById('bookingDate');
+      if (dateInput) dateInput.min = tomorrow.toISOString().split('T')[0];
+    }
+  }
+
+  async function submitBooking(event) {
+    event.preventDefault();
+    var btn = event.target.querySelector('button[type="submit"]');
+    var originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+    btn.disabled = true;
+
+    var formData = {
+      companyName: document.getElementById('bookingCompany').value.trim(),
+      contactName: document.getElementById('bookingContact').value.trim(),
+      contactEmail: document.getElementById('bookingEmail').value.trim(),
+      contactPhone: document.getElementById('bookingPhone').value.trim(),
+      serviceType: document.getElementById('bookingService').value,
+      siteLocation: document.getElementById('bookingLocation').value.trim(),
+      city: document.getElementById('bookingCity').value,
+      preferredDate: document.getElementById('bookingDate').value,
+      preferredTime: document.getElementById('bookingTime').value,
+      serviceDescription: document.getElementById('bookingDescription').value.trim()
+    };
+
+    try {
+      var response = await fetch('https://aecon-backend.onrender.com/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+      var result = await response.json();
+
+      if (response.ok && result.success) {
+        var formEl = document.getElementById('bookingFormContent');
+        var successEl = document.getElementById('bookingSuccess');
+        var refEl = document.getElementById('bookingRefNumber');
+        if (formEl) formEl.style.display = 'none';
+        if (successEl) successEl.style.display = 'block';
+        if (refEl) refEl.textContent = result.booking.bookingRef;
+      } else {
+        alert('Booking failed: ' + (result.error || 'Please try again'));
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    } catch (error) {
+      console.error('Booking error:', error);
+      alert('Connection error. Please try again later.');
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+    }
+  }
+
+  function resetBookingForm() {
+    var formEl = document.getElementById('bookingFormContent');
+    var successEl = document.getElementById('bookingSuccess');
+    var form = document.getElementById('bookingForm');
+    if (formEl) formEl.style.display = 'block';
+    if (successEl) successEl.style.display = 'none';
+    if (form) form.reset();
+    closeModal('bookingModal');
+  }
+
+  // ── Calculator modal opener ─────────────────────────────────────────────────
+  function openCalculator(tab) {
+    var modal = document.getElementById('calcModal');
+    modal.classList.add('active');
+    modal.style.display = 'flex';
+    if (tab) switchCalcTab(tab);
+  }
+
+  function switchCalcTab(tab) {
+    document.getElementById('calc-compliance').classList.toggle('hidden', tab !== 'compliance');
+    document.getElementById('calc-carbon').classList.toggle('hidden', tab !== 'carbon');
+    document.getElementById('calcTab-compliance').classList.toggle('calc-tab-active', tab === 'compliance');
+    document.getElementById('calcTab-carbon').classList.toggle('calc-tab-active', tab === 'carbon');
+    if (tab === 'compliance') {
+      document.getElementById('calcTab-compliance').classList.add('calc-tab-active');
+      document.getElementById('calcTab-carbon').classList.remove('calc-tab-active');
+      document.getElementById('calcTab-carbon').classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+    } else {
+      document.getElementById('calcTab-carbon').classList.add('calc-tab-active');
+      document.getElementById('calcTab-compliance').classList.remove('calc-tab-active');
+      document.getElementById('calcTab-compliance').classList.add('bg-gray-100', 'text-gray-700', 'hover:bg-gray-200');
+    }
+  }
+</script>
+</body>
+</html>
