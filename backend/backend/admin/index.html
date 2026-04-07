@@ -1,518 +1,1385 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>AECON Admin Panel</title>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-<style>
-  :root{
-    --bg:#f0f4f1;--card:#fff;--dark:#0f3d3e;--teal:#1a5f5f;
-    --accent:#2d8a8a;--gold:#d4a574;--border:rgba(15,61,62,.1);
-    --muted:#5a7a6a;--success:#16a34a;--danger:#dc2626;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:#1e3d32;min-height:100vh}
-
-  /* Layout */
-  .shell{display:flex;min-height:100vh}
-  .sidebar{width:240px;background:var(--dark);flex-shrink:0;display:flex;flex-direction:column;padding:20px 12px}
-  .main{flex:1;padding:32px;overflow-y:auto}
-
-  /* Sidebar */
-  .logo{display:flex;align-items:center;gap:10px;padding:8px 10px;margin-bottom:28px}
-  .logo-box{width:38px;height:38px;background:linear-gradient(135deg,#1a5f5f,#2d8a8a);border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:1.1rem}
-  .logo-text{color:#fff;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:.95rem}
-  .logo-sub{font-size:.55rem;color:rgba(255,255,255,.45);letter-spacing:.12em;text-transform:uppercase;display:block}
-  .nav-label{font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:14px 12px 6px;font-family:'DM Sans',sans-serif}
-  .nav-btn{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border-radius:10px;border:none;background:none;color:rgba(255,255,255,.55);font-size:.82rem;font-weight:600;cursor:pointer;text-align:left;transition:all .2s;margin-bottom:2px}
-  .nav-btn:hover,.nav-btn.active{background:rgba(45,138,138,.2);color:#fff}
-  .nav-btn.active{background:rgba(45,138,138,.25)}
-  .nav-btn i{width:16px;text-align:center;font-size:.8rem}
-  .api-key-wrap{margin-top:auto;padding:12px;background:rgba(255,255,255,.06);border-radius:12px;border:1px solid rgba(255,255,255,.1)}
-  .api-key-label{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:6px;display:block}
-  .api-key-input{width:100%;padding:7px 10px;border-radius:7px;border:1px solid rgba(255,255,255,.15);background:rgba(0,0,0,.25);color:#fff;font-family:'JetBrains Mono',monospace;font-size:.72rem;outline:none}
-  .api-key-input:focus{border-color:rgba(45,138,138,.5)}
-
-  /* Page header */
-  .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px}
-  .page-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.5rem;font-weight:800;color:var(--dark)}
-  .page-sub{font-size:.8rem;color:var(--muted);margin-top:2px}
-
-  /* Section panels */
-  .panel{display:none}
-  .panel.active{display:block}
-
-  /* Cards */
-  .card{background:var(--card);border-radius:16px;padding:24px;border:1px solid var(--border);margin-bottom:20px}
-  .card-title{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:.95rem;color:var(--dark);margin-bottom:16px;display:flex;align-items:center;gap:8px}
-  .card-title i{color:var(--accent)}
-
-  /* Form */
-  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-  .form-grid.cols-3{grid-template-columns:1fr 1fr 1fr}
-  .form-grid.full{grid-template-columns:1fr}
-  .form-group{display:flex;flex-direction:column;gap:5px}
-  .form-group.span-2{grid-column:span 2}
-  .form-group.span-3{grid-column:span 3}
-  label{font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
-  input,select,textarea{padding:10px 12px;border-radius:10px;border:1.5px solid rgba(15,61,62,.15);background:#fafcfb;font-family:'DM Sans',sans-serif;font-size:.83rem;color:#1e3d32;outline:none;transition:border-color .2s}
-  input:focus,select:focus,textarea:focus{border-color:var(--teal)}
-  textarea{resize:vertical;min-height:80px}
-  .file-input{border-style:dashed;cursor:pointer}
-
-  /* Buttons */
-  .btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:999px;border:none;font-family:'Plus Jakarta Sans',sans-serif;font-size:.8rem;font-weight:700;cursor:pointer;transition:all .2s}
-  .btn-primary{background:linear-gradient(135deg,var(--teal),var(--accent));color:#fff;box-shadow:0 4px 14px rgba(26,95,95,.25)}
-  .btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(26,95,95,.4)}
-  .btn-danger{background:#fee2e2;color:var(--danger)}
-  .btn-danger:hover{background:var(--danger);color:#fff}
-  .btn-sm{padding:7px 14px;font-size:.72rem}
-
-  /* Stats row */
-  .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:24px}
-  .stat-card{background:var(--card);border-radius:14px;padding:18px 20px;border:1px solid var(--border)}
-  .stat-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:1.8rem;font-weight:800;color:var(--dark);line-height:1}
-  .stat-lbl{font-size:.7rem;color:var(--muted);margin-top:4px;letter-spacing:.04em}
-
-  /* Table */
-  .table-wrap{overflow-x:auto}
-  table{width:100%;border-collapse:collapse;font-size:.8rem}
-  th{padding:10px 14px;text-align:left;font-size:.62rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1.5px solid var(--border)}
-  td{padding:11px 14px;border-bottom:1px solid rgba(15,61,62,.06);vertical-align:middle}
-  tr:hover td{background:rgba(232,244,244,.4)}
-  .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:999px;font-size:.67rem;font-weight:700}
-  .badge-green{background:#d1fae5;color:#065f46}
-  .badge-amber{background:#fef3c7;color:#92400e}
-  .badge-red{background:#fee2e2;color:#991b1b}
-  .badge-blue{background:#dbeafe;color:#1e40af}
-  .badge-gray{background:#f3f4f6;color:#4b5563}
-  .client-id{font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:600;color:var(--teal);background:rgba(45,138,138,.08);padding:3px 8px;border-radius:6px}
-
-  /* Toast */
-  #toast{position:fixed;top:20px;right:20px;padding:12px 20px;border-radius:12px;color:#fff;font-weight:600;font-size:.83rem;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none}
-  #toast.show{opacity:1}
-  #toast.success{background:#16a34a}
-  #toast.error{background:#dc2626}
-
-  /* Spinner */
-  .spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
-  @keyframes spin{to{transform:rotate(360deg)}}
-
-  @media(max-width:768px){
-    .shell{flex-direction:column}
-    .sidebar{width:100%;padding:14px;flex-direction:row;flex-wrap:wrap;gap:8px}
-    .stats-row{grid-template-columns:1fr 1fr}
-    .form-grid{grid-template-columns:1fr}
-    .form-group.span-2,.form-group.span-3{grid-column:span 1}
-  }
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AECON Admin Panel</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --aecon-dark: #0d5c63;
+      --aecon-accent: #44a1a0;
+      --aecon-gold: #d4a84b;
+      --sidebar-width: 260px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f0f4f8;
+      min-height: 100vh;
+      display: flex;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+      width: var(--sidebar-width);
+      background: linear-gradient(180deg, var(--aecon-dark) 0%, #0a4a50 100%);
+      min-height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      padding: 20px 0;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 20px 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      margin-bottom: 20px;
+    }
+    .sidebar-brand-icon {
+      width: 45px;
+      height: 45px;
+      background: linear-gradient(135deg, var(--aecon-gold), #b8922f);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      color: white;
+    }
+    .sidebar-brand-text {
+      color: white;
+      font-weight: 700;
+      font-size: 16px;
+    }
+    .sidebar-brand-sub {
+      color: rgba(255,255,255,0.6);
+      font-size: 11px;
+      font-weight: 400;
+    }
+    .nav-group {
+      padding: 0 12px;
+      margin-bottom: 16px;
+    }
+    .nav-group-title {
+      color: rgba(255,255,255,0.4);
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0 12px;
+      margin-bottom: 8px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.1); color: white; }
+    .nav-item.active { background: rgba(255,255,255,0.15); color: white; }
+    .nav-item i { width: 20px; text-align: center; }
+    
+    /* API Key */
+    .api-key-box {
+      margin-top: auto;
+      padding: 16px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+    .api-key-box label {
+      color: rgba(255,255,255,0.6);
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      display: block;
+      margin-bottom: 8px;
+    }
+    .api-key-box input {
+      width: 100%;
+      padding: 10px 12px;
+      background: rgba(0,0,0,0.2);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      color: white;
+      font-family: monospace;
+      font-size: 12px;
+    }
+    .api-key-box input::placeholder { color: rgba(255,255,255,0.3); }
+    
+    /* Main Content */
+    .main {
+      margin-left: var(--sidebar-width);
+      flex: 1;
+      padding: 24px 32px;
+    }
+    .section { display: none; }
+    .section.active { display: block; }
+    
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+    .section-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--aecon-dark);
+    }
+    .section-subtitle {
+      color: #64748b;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+    
+    /* Cards */
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      margin-bottom: 24px;
+    }
+    .card-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--aecon-dark);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    /* Stats Grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .stat-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--aecon-dark);
+    }
+    .stat-label {
+      color: #64748b;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+    
+    /* Forms */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+    .form-group { margin-bottom: 16px; }
+    .form-group.full { grid-column: span 2; }
+    .form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 6px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 14px;
+      font-family: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--aecon-accent);
+      box-shadow: 0 0 0 3px rgba(68, 161, 160, 0.1);
+    }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--aecon-dark), var(--aecon-accent));
+      color: white;
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(13,92,99,0.3); }
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #475569;
+    }
+    .btn-secondary:hover { background: #e2e8f0; }
+    .btn-sm { padding: 6px 12px; font-size: 12px; }
+    .btn-success { background: #10b981; color: white; }
+    .btn-warning { background: #f59e0b; color: white; }
+    .btn-danger { background: #ef4444; color: white; }
+    
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    th, td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid #e2e8f0;
+    }
+    th {
+      background: #f8fafc;
+      font-weight: 600;
+      color: #475569;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #f8fafc; }
+    
+    /* Status Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .badge-pending { background: #fef3c7; color: #92400e; }
+    .badge-confirmed { background: #dbeafe; color: #1e40af; }
+    .badge-completed { background: #d1fae5; color: #065f46; }
+    .badge-cancelled { background: #fee2e2; color: #991b1b; }
+    .badge-published { background: #d1fae5; color: #065f46; }
+    .badge-draft { background: #f3f4f6; color: #6b7280; }
+    
+    /* Action buttons */
+    .action-btn {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-right: 4px;
+    }
+    .action-btn:hover { transform: scale(1.05); }
+    
+    /* Quick Guide */
+    .guide-list {
+      list-style: none;
+      padding: 0;
+    }
+    .guide-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid #f1f5f9;
+      font-size: 13px;
+      color: #475569;
+    }
+    .guide-list li:last-child { border-bottom: none; }
+    .guide-list code {
+      background: #f1f5f9;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--aecon-dark);
+    }
+    
+    /* Booking filters */
+    .filter-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 8px 16px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover { border-color: var(--aecon-accent); }
+    .filter-btn.active {
+      background: var(--aecon-dark);
+      color: white;
+      border-color: var(--aecon-dark);
+    }
+    .filter-btn .count {
+      background: rgba(0,0,0,0.1);
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      margin-left: 6px;
+    }
+    .filter-btn.active .count { background: rgba(255,255,255,0.2); }
+    
+    /* Booking detail modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-box {
+      background: white;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-header h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--aecon-dark);
+    }
+    .modal-close {
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: #f1f5f9;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .modal-body { padding: 24px; }
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+    
+    .detail-row {
+      display: flex;
+      padding: 12px 0;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .detail-row:last-child { border-bottom: none; }
+    .detail-label {
+      width: 140px;
+      font-size: 13px;
+      color: #64748b;
+      flex-shrink: 0;
+    }
+    .detail-value {
+      font-size: 14px;
+      color: #1e293b;
+      font-weight: 500;
+    }
+    
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: #64748b;
+    }
+    .empty-state i {
+      font-size: 48px;
+      color: #cbd5e1;
+      margin-bottom: 16px;
+    }
+    
+    /* Toast notifications */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      padding: 14px 20px;
+      background: var(--aecon-dark);
+      color: white;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 500;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s;
+      z-index: 2000;
+    }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.success { background: #10b981; }
+    .toast.error { background: #ef4444; }
+  </style>
 </head>
 <body>
 
-<div id="toast"></div>
-
-<div class="shell">
-  <!-- ── Sidebar ── -->
-  <aside class="sidebar">
-    <div class="logo">
-      <div class="logo-box">A</div>
-      <div class="logo-text">AECON <span class="logo-sub">Admin Panel</span></div>
+<!-- Sidebar -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <div class="sidebar-brand-icon">A</div>
+    <div>
+      <div class="sidebar-brand-text">AECON Admin Panel</div>
+      <div class="sidebar-brand-sub">Management Console</div>
     </div>
-
-    <span class="nav-label">Management</span>
-    <button class="nav-btn active" onclick="showPanel('dashboard',this)"><i class="fas fa-th-large"></i> Dashboard</button>
-    <button class="nav-btn" onclick="showPanel('create-client',this)"><i class="fas fa-user-plus"></i> New Client</button>
-    <button class="nav-btn" onclick="showPanel('clients-list',this);loadClients()"><i class="fas fa-users"></i> All Clients</button>
-
-    <span class="nav-label">Reports</span>
-    <button class="nav-btn" onclick="showPanel('upload-report',this)"><i class="fas fa-upload"></i> Upload Report</button>
-    <button class="nav-btn" onclick="showPanel('reports-list',this);loadReports()"><i class="fas fa-file-pdf"></i> All Reports</button>
-
-    <div class="api-key-wrap">
-      <span class="api-key-label">Admin API Key</span>
-      <input type="password" id="adminKey" class="api-key-input" placeholder="Paste your admin key…" value=""/>
+  </div>
+  
+  <div class="nav-group">
+    <div class="nav-group-title">Management</div>
+    <div class="nav-item active" onclick="showSection('dashboard')">
+      <i class="fas fa-chart-pie"></i> Dashboard
     </div>
-  </aside>
+    <div class="nav-item" onclick="showSection('newClient')">
+      <i class="fas fa-user-plus"></i> New Client
+    </div>
+    <div class="nav-item" onclick="showSection('allClients')">
+      <i class="fas fa-users"></i> All Clients
+    </div>
+  </div>
+  
+  <div class="nav-group">
+    <div class="nav-group-title">Reports</div>
+    <div class="nav-item" onclick="showSection('uploadReport')">
+      <i class="fas fa-cloud-upload-alt"></i> Upload Report
+    </div>
+    <div class="nav-item" onclick="showSection('allReports')">
+      <i class="fas fa-file-alt"></i> All Reports
+    </div>
+  </div>
+  
+  <div class="nav-group">
+    <div class="nav-group-title">Bookings</div>
+    <div class="nav-item" onclick="showSection('bookings')">
+      <i class="fas fa-calendar-check"></i> Inspection Requests
+      <span id="pendingBadge" class="badge badge-pending" style="margin-left:auto; display:none;">0</span>
+    </div>
+  </div>
+  
+  <div class="api-key-box">
+    <label><i class="fas fa-key"></i> Admin API Key</label>
+    <input type="password" id="adminKey" placeholder="Enter your API key">
+  </div>
+</aside>
 
-  <!-- ── Main ── -->
-  <main class="main">
+<!-- Main Content -->
+<main class="main">
 
-    <!-- Dashboard -->
-    <div id="panel-dashboard" class="panel active">
-      <div class="page-header">
-        <div><div class="page-title">Dashboard</div><div class="page-sub">AECON Client Portal — Admin Overview</div></div>
-        <button class="btn btn-primary btn-sm" onclick="loadStats()"><i class="fas fa-sync-alt"></i> Refresh</button>
+  <!-- Dashboard Section -->
+  <section id="section-dashboard" class="section active">
+    <div class="section-header">
+      <div>
+        <h1 class="section-title">Dashboard</h1>
+        <p class="section-subtitle">AECON Client Portal — Admin Overview</p>
       </div>
-      <div class="stats-row">
-        <div class="stat-card"><div class="stat-val" id="stat-clients">—</div><div class="stat-lbl">Total Clients</div></div>
-        <div class="stat-card"><div class="stat-val" id="stat-reports">—</div><div class="stat-lbl">Total Reports</div></div>
-        <div class="stat-card"><div class="stat-val" id="stat-published">—</div><div class="stat-lbl">Published</div></div>
-        <div class="stat-card"><div class="stat-val" id="stat-pending">—</div><div class="stat-lbl">Draft / Pending</div></div>
+      <button class="btn btn-secondary" onclick="loadDashboardStats()">
+        <i class="fas fa-sync-alt"></i> Refresh
+      </button>
+    </div>
+    
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-value" id="statClients">—</div>
+        <div class="stat-label">Total Clients</div>
       </div>
-      <div class="card">
-        <div class="card-title"><i class="fas fa-info-circle"></i> Quick Guide</div>
-        <ol style="font-size:.82rem;color:var(--muted);line-height:2;padding-left:18px">
-          <li>Paste your <strong>Admin API Key</strong> in the sidebar before doing anything.</li>
-          <li>Create a <strong>New Client</strong> — the system auto-generates a permanent unique ID (e.g. <code style="font-family:monospace;color:var(--teal)">DIR-SAS-001</code>). Give this ID to the client.</li>
-          <li><strong>Upload Reports</strong> linked to that Client ID, 3–4 days after site work.</li>
-          <li>Set <strong>isPublished = true</strong> to make the report visible in the client portal.</li>
-          <li>Clients enter their ID on your website to see all their reports.</li>
-        </ol>
+      <div class="stat-card">
+        <div class="stat-value" id="statReports">—</div>
+        <div class="stat-label">Total Reports</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statPublished">—</div>
+        <div class="stat-label">Published</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statPending">—</div>
+        <div class="stat-label">Pending Bookings</div>
       </div>
     </div>
+    
+    <div class="card">
+      <h3 class="card-title"><i class="fas fa-info-circle"></i> Quick Guide</h3>
+      <ol class="guide-list">
+        <li><strong>1.</strong> Paste your <strong>Admin API Key</strong> in the sidebar before doing anything.</li>
+        <li><strong>2.</strong> Create a <strong>New Client</strong> — the system auto-generates a permanent unique ID (e.g. <code>DIR-SAS-001</code>). Give this ID to the client.</li>
+        <li><strong>3.</strong> <strong>Upload Reports</strong> linked to that Client ID, 3–4 days after site work.</li>
+        <li><strong>4.</strong> Set <strong>isPublished = true</strong> to make the report visible in the client portal.</li>
+        <li><strong>5.</strong> Clients enter their ID on your website to see all their reports.</li>
+        <li><strong>6.</strong> Check <strong>Inspection Requests</strong> to view and manage booking submissions.</li>
+      </ol>
+    </div>
+  </section>
 
-    <!-- Create Client -->
-    <div id="panel-create-client" class="panel">
-      <div class="page-header">
-        <div><div class="page-title">New Client</div><div class="page-sub">System auto-generates a permanent unique Client ID</div></div>
+  <!-- New Client Section -->
+  <section id="section-newClient" class="section">
+    <div class="section-header">
+      <div>
+        <h1 class="section-title">New Client</h1>
+        <p class="section-subtitle">System auto-generates a permanent unique Client ID</p>
       </div>
-      <div class="card">
-        <div class="card-title"><i class="fas fa-user-plus"></i> Client Details</div>
+    </div>
+    
+    <div class="card">
+      <h3 class="card-title"><i class="fas fa-building"></i> Client Details</h3>
+      <form id="newClientForm" onsubmit="createClient(event)">
         <div class="form-grid">
-          <div class="form-group"><label>Company Name *</label><input type="text" id="cc-company" placeholder="e.g. Saudi Sasco"/></div>
-          <div class="form-group"><label>Location *</label><input type="text" id="cc-location" placeholder="e.g. Diriyah, Riyadh"/></div>
-          <div class="form-group"><label>Contact Name *</label><input type="text" id="cc-contact" placeholder="Project Manager Name"/></div>
-          <div class="form-group"><label>Contact Email *</label><input type="email" id="cc-email" placeholder="pm@company.com"/></div>
-          <div class="form-group"><label>Contact Phone</label><input type="tel" id="cc-phone" placeholder="+966 5x xxx xxxx"/></div>
-          <div class="form-group"><label>Industry</label>
-            <select id="cc-industry">
-              <option value="cement">Cement / Concrete</option>
-              <option value="power">Power Generation</option>
-              <option value="oil_gas">Oil & Gas / Petrochemical</option>
-              <option value="construction">Construction</option>
-              <option value="food">Food & Beverage</option>
-              <option value="pharma">Pharmaceutical</option>
-              <option value="government">Government</option>
-              <option value="mega_dev">Mega Development</option>
-              <option value="other" selected>Other</option>
+          <div class="form-group">
+            <label>Company Name *</label>
+            <input type="text" id="ncCompany" required placeholder="e.g. Saudi Cement Company">
+          </div>
+          <div class="form-group">
+            <label>Location *</label>
+            <input type="text" id="ncLocation" required placeholder="e.g. Riyadh">
+          </div>
+          <div class="form-group">
+            <label>Contact Name *</label>
+            <input type="text" id="ncContact" required placeholder="e.g. Ahmed Al-Rashid">
+          </div>
+          <div class="form-group">
+            <label>Contact Email *</label>
+            <input type="email" id="ncEmail" required placeholder="e.g. ahmed@company.com">
+          </div>
+          <div class="form-group">
+            <label>Contact Phone</label>
+            <input type="tel" id="ncPhone" placeholder="e.g. +966 50 123 4567">
+          </div>
+          <div class="form-group">
+            <label>Industry</label>
+            <select id="ncIndustry">
+              <option value="">Select industry...</option>
+              <option value="Cement / Concrete">Cement / Concrete</option>
+              <option value="Power Generation">Power Generation</option>
+              <option value="Oil & Gas / Petrochemical">Oil & Gas / Petrochemical</option>
+              <option value="Construction">Construction</option>
+              <option value="Food & Beverage">Food & Beverage</option>
+              <option value="Pharmaceutical">Pharmaceutical</option>
+              <option value="Government">Government</option>
+              <option value="Mega Development">Mega Development</option>
+              <option value="Other">Other</option>
             </select>
           </div>
-          <div class="form-group span-2"><label>Internal Notes</label><textarea id="cc-notes" placeholder="Optional internal notes about this client…"></textarea></div>
+          <div class="form-group full">
+            <label>Internal Notes</label>
+            <textarea id="ncNotes" placeholder="Any internal notes..."></textarea>
+          </div>
         </div>
-        <div style="margin-top:20px;display:flex;align-items:center;gap:12px">
-          <button class="btn btn-primary" id="cc-submit" onclick="createClient()"><i class="fas fa-plus-circle"></i> Create Client & Generate ID</button>
-          <span id="cc-result" style="font-family:'JetBrains Mono',monospace;font-size:.9rem;font-weight:700;color:var(--teal)"></span>
-        </div>
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-plus"></i> Create Client & Generate ID
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- All Clients Section -->
+  <section id="section-allClients" class="section">
+    <div class="section-header">
+      <div>
+        <h1 class="section-title">All Clients</h1>
+        <p class="section-subtitle">Every client with their permanent ID</p>
+      </div>
+      <button class="btn btn-secondary" onclick="loadClients()">
+        <i class="fas fa-sync-alt"></i> Refresh
+      </button>
+    </div>
+    
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Client ID</th>
+              <th>Company</th>
+              <th>Location</th>
+              <th>Industry</th>
+              <th>Contact</th>
+              <th>Created</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="clientsTable">
+            <tr><td colspan="7" class="empty-state"><i class="fas fa-users"></i><br>Loading...</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
+  </section>
 
-    <!-- Clients List -->
-    <div id="panel-clients-list" class="panel">
-      <div class="page-header">
-        <div><div class="page-title">All Clients</div><div class="page-sub">Every client with their permanent ID</div></div>
-        <button class="btn btn-primary btn-sm" onclick="loadClients()"><i class="fas fa-sync-alt"></i> Refresh</button>
-      </div>
-      <div class="card">
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Client ID</th><th>Company</th><th>Location</th><th>Industry</th><th>Status</th><th>Created</th><th>Actions</th></tr></thead>
-            <tbody id="clients-tbody"><tr><td colspan="7" style="text-align:center;color:var(--muted);padding:30px">Loading…</td></tr></tbody>
-          </table>
-        </div>
+  <!-- Upload Report Section -->
+  <section id="section-uploadReport" class="section">
+    <div class="section-header">
+      <div>
+        <h1 class="section-title">Upload Report</h1>
+        <p class="section-subtitle">Link a report to a Client ID</p>
       </div>
     </div>
-
-    <!-- Upload Report -->
-    <div id="panel-upload-report" class="panel">
-      <div class="page-header">
-        <div><div class="page-title">Upload Report</div><div class="page-sub">Link a report to a Client ID</div></div>
-      </div>
-      <div class="card">
-        <div class="card-title"><i class="fas fa-file-upload"></i> Report Details</div>
+    
+    <div class="card">
+      <h3 class="card-title"><i class="fas fa-file-upload"></i> Report Details</h3>
+      <form id="uploadReportForm" onsubmit="uploadReport(event)" enctype="multipart/form-data">
         <div class="form-grid">
-          <div class="form-group"><label>Client ID *</label><input type="text" id="ur-clientid" placeholder="e.g. DIR-SAS-001" style="text-transform:uppercase"/></div>
-          <div class="form-group"><label>Report Type *</label>
-            <select id="ur-type">
-              <option value="ambient_air">Ambient Air Quality</option>
-              <option value="stack_emission">Stack Emission Testing</option>
-              <option value="indoor_air">Indoor Air Quality</option>
-              <option value="eia">Environmental Impact Assessment</option>
-              <option value="water_soil">Water & Soil Analysis</option>
-              <option value="emp">Environmental Management Plan</option>
-              <option value="noise">Noise Monitoring</option>
-              <option value="other">Other</option>
+          <div class="form-group">
+            <label>Client ID *</label>
+            <input type="text" id="urClientId" required placeholder="e.g. RIY-SAB-001">
+          </div>
+          <div class="form-group">
+            <label>Report Type *</label>
+            <select id="urType" required>
+              <option value="">Select type...</option>
+              <option value="Ambient Air Quality">Ambient Air Quality</option>
+              <option value="Stack Emission Testing">Stack Emission Testing</option>
+              <option value="Indoor Air Quality">Indoor Air Quality</option>
+              <option value="Environmental Impact Assessment">Environmental Impact Assessment</option>
+              <option value="Water & Soil Analysis">Water & Soil Analysis</option>
+              <option value="Environmental Management Plan">Environmental Management Plan</option>
+              <option value="Noise Monitoring">Noise Monitoring</option>
+              <option value="Other">Other</option>
             </select>
           </div>
-          <div class="form-group span-2"><label>Report Title *</label><input type="text" id="ur-title" placeholder="e.g. Q1 2025 Ambient Air Quality Monitoring Report — Diriyah Site"/></div>
-          <div class="form-group"><label>Service Date (field work) *</label><input type="date" id="ur-service-date"/></div>
-          <div class="form-group"><label>Report Issue Date *</label><input type="date" id="ur-report-date"/></div>
-          <div class="form-group"><label>Location *</label><input type="text" id="ur-location" placeholder="e.g. Diriyah, Riyadh"/></div>
-          <div class="form-group"><label>Project Reference</label><input type="text" id="ur-ref" placeholder="e.g. AQ-2025-001"/></div>
-          <div class="form-group"><label>Compliance Standard</label><input type="text" id="ur-standard" value="NCEC SAAQS"/></div>
-          <div class="form-group"><label>Overall Status</label>
-            <select id="ur-status">
-              <option value="compliant">Compliant ✅</option>
-              <option value="exceedance">Exceedance ⚠️</option>
-              <option value="marginal">Marginal 🟡</option>
-              <option value="pending" selected>Pending Review</option>
+          <div class="form-group full">
+            <label>Report Title *</label>
+            <input type="text" id="urTitle" required placeholder="e.g. Q1 2026 Air Quality Assessment">
+          </div>
+          <div class="form-group">
+            <label>Service Date (field work) *</label>
+            <input type="date" id="urServiceDate" required>
+          </div>
+          <div class="form-group">
+            <label>Report Issue Date *</label>
+            <input type="date" id="urReportDate" required>
+          </div>
+          <div class="form-group">
+            <label>Location *</label>
+            <input type="text" id="urLocation" required placeholder="e.g. Main Plant, Riyadh">
+          </div>
+          <div class="form-group">
+            <label>Project Reference</label>
+            <input type="text" id="urProjectRef" placeholder="e.g. AECON-2026-001">
+          </div>
+          <div class="form-group">
+            <label>Compliance Standard</label>
+            <input type="text" id="urStandard" placeholder="e.g. PME / NCM / WHO">
+          </div>
+          <div class="form-group">
+            <label>Overall Status</label>
+            <select id="urStatus">
+              <option value="Compliant">Compliant ✅</option>
+              <option value="Exceedance">Exceedance ⚠️</option>
+              <option value="Marginal">Marginal 🟡</option>
+              <option value="Pending Review">Pending Review</option>
             </select>
           </div>
-          <div class="form-group span-2"><label>Executive Summary</label><textarea id="ur-summary" placeholder="Brief summary of findings and compliance status…" rows="3"></textarea></div>
+          <div class="form-group full">
+            <label>Executive Summary</label>
+            <textarea id="urSummary" placeholder="Brief summary of findings..."></textarea>
+          </div>
         </div>
-
-        <!-- Measurements -->
-        <div style="margin:20px 0 10px;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Key Measurements (optional)</div>
-        <div class="form-grid cols-3">
-          <div class="form-group"><label>PM2.5 (µg/m³)</label><input type="number" id="m-pm25" placeholder="e.g. 12.4" step="0.1"/></div>
-          <div class="form-group"><label>PM10 (µg/m³)</label><input type="number" id="m-pm10" placeholder="e.g. 35.2" step="0.1"/></div>
-          <div class="form-group"><label>NO₂ (µg/m³)</label><input type="number" id="m-no2" placeholder="e.g. 28.1" step="0.1"/></div>
-          <div class="form-group"><label>SO₂ (µg/m³)</label><input type="number" id="m-so2" placeholder="e.g. 8.6" step="0.1"/></div>
-          <div class="form-group"><label>CO (µg/m³)</label><input type="number" id="m-co" placeholder="e.g. 150" step="0.1"/></div>
-          <div class="form-group"><label>Noise dB(A)</label><input type="number" id="m-noise" placeholder="e.g. 52.3" step="0.1"/></div>
-        </div>
-
-        <!-- Files -->
-        <div style="margin:20px 0 10px;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">File Attachments</div>
+        
+        <h3 class="card-title" style="margin-top:24px;"><i class="fas fa-calculator"></i> Key Measurements (optional)</h3>
         <div class="form-grid">
-          <div class="form-group"><label>Final PDF Report</label><input type="file" id="f-pdf" class="file-input" accept=".pdf"/></div>
-          <div class="form-group"><label>Station Images</label><input type="file" id="f-station" class="file-input" accept="image/*" multiple/></div>
-          <div class="form-group"><label>Noise Monitoring Images</label><input type="file" id="f-noise" class="file-input" accept="image/*" multiple/></div>
-          <div class="form-group"><label>Coordinate / Map Images</label><input type="file" id="f-coords" class="file-input" accept="image/*" multiple/></div>
+          <div class="form-group"><label>PM2.5 (µg/m³)</label><input type="number" step="0.01" id="urPM25"></div>
+          <div class="form-group"><label>PM10 (µg/m³)</label><input type="number" step="0.01" id="urPM10"></div>
+          <div class="form-group"><label>NO₂ (µg/m³)</label><input type="number" step="0.01" id="urNO2"></div>
+          <div class="form-group"><label>SO₂ (µg/m³)</label><input type="number" step="0.01" id="urSO2"></div>
+          <div class="form-group"><label>CO (µg/m³)</label><input type="number" step="0.01" id="urCO"></div>
+          <div class="form-group"><label>Noise dB(A)</label><input type="number" step="0.1" id="urNoise"></div>
         </div>
-
-        <div style="margin-top:20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-          <label style="display:flex;align-items:center;gap:8px;font-size:.82rem;font-weight:600;text-transform:none;letter-spacing:0">
-            <input type="checkbox" id="ur-publish" style="width:16px;height:16px;accent-color:var(--teal)"/>
-            Publish immediately (visible to client)
+        
+        <h3 class="card-title" style="margin-top:24px;"><i class="fas fa-paperclip"></i> File Attachments</h3>
+        <div class="form-grid">
+          <div class="form-group"><label>Final PDF Report</label><input type="file" id="urPdf" accept=".pdf"></div>
+          <div class="form-group"><label>Station Images</label><input type="file" id="urStationImg" accept="image/*" multiple></div>
+          <div class="form-group"><label>Noise Monitoring Images</label><input type="file" id="urNoiseImg" accept="image/*" multiple></div>
+          <div class="form-group"><label>Coordinate / Map Images</label><input type="file" id="urMapImg" accept="image/*" multiple></div>
+        </div>
+        
+        <div class="form-group" style="margin-top:20px;">
+          <label style="display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="checkbox" id="urPublish" style="width:18px;height:18px;">
+            <span>Publish immediately (visible to client)</span>
           </label>
-          <button class="btn btn-primary" id="ur-submit" onclick="uploadReport()"><i class="fas fa-upload"></i> Upload Report</button>
-          <span id="ur-result" style="font-size:.82rem;font-weight:600;color:var(--success)"></span>
         </div>
+        
+        <button type="submit" class="btn btn-primary" style="margin-top:16px;">
+          <i class="fas fa-cloud-upload-alt"></i> Upload Report
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- All Reports Section -->
+  <section id="section-allReports" class="section">
+    <div class="section-header">
+      <div>
+        <h1 class="section-title">All Reports</h1>
+        <p class="section-subtitle">Manage uploaded reports</p>
+      </div>
+      <button class="btn btn-secondary" onclick="loadReports()">
+        <i class="fas fa-sync-alt"></i> Refresh
+      </button>
+    </div>
+    
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Client ID</th>
+              <th>Title</th>
+              <th>Type</th>
+              <th>Service Date</th>
+              <th>Status</th>
+              <th>Published</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="reportsTable">
+            <tr><td colspan="7" class="empty-state"><i class="fas fa-file-alt"></i><br>Loading...</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
+  </section>
 
-    <!-- Reports List -->
-    <div id="panel-reports-list" class="panel">
-      <div class="page-header">
-        <div><div class="page-title">All Reports</div><div class="page-sub">Manage uploaded reports</div></div>
-        <button class="btn btn-primary btn-sm" onclick="loadReports()"><i class="fas fa-sync-alt"></i> Refresh</button>
+  <!-- Bookings Section -->
+  <section id="section-bookings" class="section">
+    <div class="section-header">
+      <div>
+        <h1 class="section-title">Inspection Requests</h1>
+        <p class="section-subtitle">Manage booking requests from clients</p>
       </div>
-      <div class="card">
-        <div class="table-wrap">
-          <table>
-            <thead><tr><th>Client ID</th><th>Title</th><th>Type</th><th>Service Date</th><th>Status</th><th>Published</th><th>Actions</th></tr></thead>
-            <tbody id="reports-tbody"><tr><td colspan="7" style="text-align:center;color:var(--muted);padding:30px">Loading…</td></tr></tbody>
-          </table>
-        </div>
+      <button class="btn btn-secondary" onclick="loadBookings()">
+        <i class="fas fa-sync-alt"></i> Refresh
+      </button>
+    </div>
+    
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterBookings('all')" data-filter="all">
+        All <span class="count" id="countAll">0</span>
+      </button>
+      <button class="filter-btn" onclick="filterBookings('pending')" data-filter="pending">
+        <i class="fas fa-clock"></i> Pending <span class="count" id="countPending">0</span>
+      </button>
+      <button class="filter-btn" onclick="filterBookings('confirmed')" data-filter="confirmed">
+        <i class="fas fa-check"></i> Confirmed <span class="count" id="countConfirmed">0</span>
+      </button>
+      <button class="filter-btn" onclick="filterBookings('completed')" data-filter="completed">
+        <i class="fas fa-check-double"></i> Completed <span class="count" id="countCompleted">0</span>
+      </button>
+      <button class="filter-btn" onclick="filterBookings('cancelled')" data-filter="cancelled">
+        <i class="fas fa-times"></i> Cancelled <span class="count" id="countCancelled">0</span>
+      </button>
+    </div>
+    
+    <div class="card">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Ref #</th>
+              <th>Company</th>
+              <th>Contact</th>
+              <th>Service</th>
+              <th>Date & Time</th>
+              <th>City</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="bookingsTable">
+            <tr><td colspan="8" class="empty-state"><i class="fas fa-calendar-check"></i><br>Loading...</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
+  </section>
 
-  </main>
+</main>
+
+<!-- Booking Detail Modal -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3><i class="fas fa-calendar-check"></i> Booking Details</h3>
+      <button class="modal-close" onclick="closeBookingModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body" id="bookingModalBody">
+      <!-- Filled by JS -->
+    </div>
+    <div class="modal-footer" id="bookingModalFooter">
+      <!-- Filled by JS -->
+    </div>
+  </div>
 </div>
 
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
 <script>
-const API = window.location.origin;  // same server
+const API_BASE = '';  // Same origin
+let allBookings = [];
+let currentFilter = 'all';
 
-function key() { return document.getElementById('adminKey').value.trim(); }
-
-function showPanel(id, btn) {
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('panel-' + id).classList.add('active');
-  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-  if (btn) btn.classList.add('active');
+// ── Navigation ─────────────────────────────────────────────
+function showSection(name) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  
+  document.getElementById('section-' + name).classList.add('active');
+  event.currentTarget.classList.add('active');
+  
+  // Auto-load data
+  if (name === 'allClients') loadClients();
+  if (name === 'allReports') loadReports();
+  if (name === 'bookings') loadBookings();
+  if (name === 'dashboard') loadDashboardStats();
 }
 
-function toast(msg, type='success') {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'show ' + type;
-  setTimeout(() => t.className = '', 3500);
+// ── Toast ───────────────────────────────────────────────────
+function showToast(msg, type = 'success') {
+  const toast = document.getElementById('toast');
+  toast.textContent = msg;
+  toast.className = 'toast ' + type + ' show';
+  setTimeout(() => toast.classList.remove('show'), 3000);
 }
 
-async function apiGet(path) {
-  const r = await fetch(API + path, { headers: { 'x-admin-key': key() } });
-  return r.json();
+// ── Get API Key ─────────────────────────────────────────────
+function getKey() {
+  return document.getElementById('adminKey').value.trim();
 }
 
-// ── Dashboard stats ─────────────────────────────────────────
-async function loadStats() {
-  if (!key()) return;
+// ── Dashboard Stats ─────────────────────────────────────────
+async function loadDashboardStats() {
   try {
-    const [cd, rd] = await Promise.all([apiGet('/api/clients'), apiGet('/api/reports/admin/all')]);
-    document.getElementById('stat-clients').textContent   = cd.count ?? '—';
-    document.getElementById('stat-reports').textContent   = rd.count ?? '—';
-    const pub  = (rd.reports||[]).filter(r => r.isPublished).length;
-    const draft = (rd.reports||[]).filter(r => !r.isPublished).length;
-    document.getElementById('stat-published').textContent = pub;
-    document.getElementById('stat-pending').textContent   = draft;
-  } catch(e) { toast('Could not load stats — check API key', 'error'); }
-}
-
-// ── Create Client ─────────────────────────────────────────────
-async function createClient() {
-  const btn = document.getElementById('cc-submit');
-  btn.innerHTML = '<span class="spinner"></span> Creating…';
-  btn.disabled = true;
-
-  const body = {
-    companyName:  document.getElementById('cc-company').value.trim(),
-    contactName:  document.getElementById('cc-contact').value.trim(),
-    contactEmail: document.getElementById('cc-email').value.trim(),
-    contactPhone: document.getElementById('cc-phone').value.trim(),
-    location:     document.getElementById('cc-location').value.trim(),
-    industry:     document.getElementById('cc-industry').value,
-    notes:        document.getElementById('cc-notes').value.trim()
-  };
-
-  try {
-    const r = await fetch(API + '/api/clients', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'x-admin-key': key() },
-      body: JSON.stringify(body)
+    // Clients count
+    const clientsRes = await fetch(API_BASE + '/api/clients/admin/all', {
+      headers: { 'x-admin-key': getKey() }
     });
-    const data = await r.json();
-    if (!r.ok) { toast(data.error || 'Error creating client', 'error'); return; }
-
-    document.getElementById('cc-result').textContent = '✅ ID Generated: ' + data.client.clientId;
-    toast(`Client created! ID: ${data.client.clientId}`, 'success');
-    // Clear form
-    ['cc-company','cc-contact','cc-email','cc-phone','cc-location','cc-notes'].forEach(id => {
-      document.getElementById(id).value = '';
-    });
-  } catch(e) {
-    toast('Network error — is the server running?', 'error');
-  } finally {
-    btn.innerHTML = '<i class="fas fa-plus-circle"></i> Create Client & Generate ID';
-    btn.disabled = false;
+    const clients = await clientsRes.json();
+    document.getElementById('statClients').textContent = Array.isArray(clients) ? clients.length : '—';
+    
+    // Bookings count
+    const bookingsRes = await fetch(API_BASE + '/api/bookings/admin/all');
+    const bookings = await bookingsRes.json();
+    const pendingCount = Array.isArray(bookings) ? bookings.filter(b => b.status === 'pending').length : 0;
+    document.getElementById('statPending').textContent = pendingCount;
+    
+    // Update pending badge
+    const badge = document.getElementById('pendingBadge');
+    if (pendingCount > 0) {
+      badge.textContent = pendingCount;
+      badge.style.display = 'inline-flex';
+    } else {
+      badge.style.display = 'none';
+    }
+  } catch (err) {
+    console.error('Stats error:', err);
   }
 }
 
-// ── Clients list ─────────────────────────────────────────────
+// ── Clients ─────────────────────────────────────────────────
 async function loadClients() {
-  const tbody = document.getElementById('clients-tbody');
-  tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--muted)"><span class="spinner" style="border-color:rgba(26,95,95,.3);border-top-color:var(--teal)"></span></td></tr>';
+  const tbody = document.getElementById('clientsTable');
+  tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><i class="fas fa-spinner fa-spin"></i><br>Loading...</td></tr>';
+  
   try {
-    const data = await apiGet('/api/clients');
-    if (!data.clients?.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--muted)">No clients yet.</td></tr>'; return; }
-    tbody.innerHTML = data.clients.map(c => `
-      <tr>
-        <td><span class="client-id">${c.clientId}</span></td>
-        <td style="font-weight:600">${c.companyName}</td>
-        <td style="color:var(--muted)">${c.location}</td>
-        <td><span class="badge badge-blue">${c.industry}</span></td>
-        <td><span class="badge ${c.isActive ? 'badge-green' : 'badge-red'}">${c.isActive ? 'Active' : 'Inactive'}</span></td>
-        <td style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--muted)">${new Date(c.createdAt).toLocaleDateString()}</td>
-        <td>
-          <button class="btn btn-danger btn-sm" onclick="deactivateClient('${c.clientId}')">Deactivate</button>
-        </td>
-      </tr>`).join('');
-  } catch(e) { toast('Failed to load clients', 'error'); }
-}
-
-async function deactivateClient(id) {
-  if (!confirm(`Deactivate client ${id}? They will no longer be able to log in.`)) return;
-  const r = await fetch(API + '/api/clients/' + id, { method: 'DELETE', headers: { 'x-admin-key': key() } });
-  const d = await r.json();
-  toast(d.message || d.error, r.ok ? 'success' : 'error');
-  if (r.ok) loadClients();
-}
-
-// ── Upload Report ─────────────────────────────────────────────
-async function uploadReport() {
-  const btn = document.getElementById('ur-submit');
-  btn.innerHTML = '<span class="spinner"></span> Uploading…';
-  btn.disabled = true;
-
-  const clientId = document.getElementById('ur-clientid').value.trim().toUpperCase();
-  if (!clientId) { toast('Client ID is required', 'error'); btn.innerHTML = '<i class="fas fa-upload"></i> Upload Report'; btn.disabled=false; return; }
-
-  const fd = new FormData();
-  fd.append('reportTitle',    document.getElementById('ur-title').value.trim());
-  fd.append('reportType',     document.getElementById('ur-type').value);
-  fd.append('serviceDate',    document.getElementById('ur-service-date').value);
-  fd.append('reportDate',     document.getElementById('ur-report-date').value);
-  fd.append('location',       document.getElementById('ur-location').value.trim());
-  fd.append('projectRef',     document.getElementById('ur-ref').value.trim());
-  fd.append('complianceStandard', document.getElementById('ur-standard').value.trim());
-  fd.append('overallStatus',  document.getElementById('ur-status').value);
-  fd.append('summary',        document.getElementById('ur-summary').value.trim());
-  fd.append('isPublished',    document.getElementById('ur-publish').checked);
-
-  // Measurements
-  ['pm25','pm10','no2','so2','co','noise'].forEach(k => {
-    const v = document.getElementById('m-' + k).value;
-    if (v) fd.append(`measurements[${k}]`, v);
-  });
-
-  // Files
-  const pdfFile = document.getElementById('f-pdf').files[0];
-  if (pdfFile) fd.append('pdfReport', pdfFile);
-  [...(document.getElementById('f-station').files||[])].forEach(f => fd.append('stationImages', f));
-  [...(document.getElementById('f-noise').files||[])].forEach(f => fd.append('noiseImages', f));
-  [...(document.getElementById('f-coords').files||[])].forEach(f => fd.append('coordinateImages', f));
-
-  try {
-    const r = await fetch(`${API}/api/reports/${clientId}`, {
-      method: 'POST',
-      headers: { 'x-admin-key': key() },
-      body: fd
+    const res = await fetch(API_BASE + '/api/clients/admin/all', {
+      headers: { 'x-admin-key': getKey() }
     });
-    const data = await r.json();
-    if (!r.ok) { toast(data.error || 'Upload failed', 'error'); return; }
-    toast('Report uploaded successfully!', 'success');
-    document.getElementById('ur-result').textContent = '✅ Report ID: ' + data.report._id;
-  } catch(e) {
-    toast('Upload failed — check server connection', 'error');
-  } finally {
-    btn.innerHTML = '<i class="fas fa-upload"></i> Upload Report';
-    btn.disabled = false;
+    const clients = await res.json();
+    
+    if (!Array.isArray(clients) || clients.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><i class="fas fa-users"></i><br>No clients found</td></tr>';
+      return;
+    }
+    
+    tbody.innerHTML = clients.map(c => `
+      <tr>
+        <td><code style="background:#f1f5f9;padding:4px 8px;border-radius:4px;font-weight:600;">${c.clientId}</code></td>
+        <td>${c.companyName || '—'}</td>
+        <td>${c.location || '—'}</td>
+        <td>${c.industry || '—'}</td>
+        <td>${c.contactName || '—'}<br><small style="color:#64748b;">${c.contactEmail || ''}</small></td>
+        <td>${c.createdAt ? new Date(c.createdAt).toLocaleDateString() : '—'}</td>
+        <td>
+          <button class="action-btn btn-danger" onclick="deleteClient('${c._id}')"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>
+    `).join('');
+  } catch (err) {
+    tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><i class="fas fa-exclamation-triangle"></i><br>Error loading clients</td></tr>';
   }
 }
 
-// ── Reports list ─────────────────────────────────────────────
-const REPORT_LABELS = {
-  ambient_air:'Ambient Air',stack_emission:'Stack Emission',indoor_air:'Indoor Air',
-  eia:'EIA',water_soil:'Water & Soil',emp:'EMP',noise:'Noise',other:'Other'
-};
-async function loadReports() {
-  const tbody = document.getElementById('reports-tbody');
-  tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--muted)"><span class="spinner" style="border-color:rgba(26,95,95,.3);border-top-color:var(--teal)"></span></td></tr>';
+async function createClient(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type="submit"]');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
+  
   try {
-    const data = await apiGet('/api/reports/admin/all');
-    if (!data.reports?.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:30px;color:var(--muted)">No reports yet.</td></tr>'; return; }
-    tbody.innerHTML = data.reports.map(r => `
-      <tr>
-        <td><span class="client-id">${r.clientId}</span></td>
-        <td style="font-weight:600;max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.reportTitle}">${r.reportTitle}</td>
-        <td><span class="badge badge-blue">${REPORT_LABELS[r.reportType]||r.reportType}</span></td>
-        <td style="font-family:'JetBrains Mono',monospace;font-size:.72rem">${new Date(r.serviceDate).toLocaleDateString()}</td>
-        <td><span class="badge ${r.overallStatus==='compliant'?'badge-green':r.overallStatus==='exceedance'?'badge-red':'badge-amber'}">${r.overallStatus}</span></td>
-        <td>
-          <button onclick="togglePublish('${r._id}', ${r.isPublished})" style="width:42px;height:24px;border-radius:999px;border:none;cursor:pointer;font-size:.7rem;transition:all .2s;background:${r.isPublished?'#16a34a':'#d1d5db'};color:${r.isPublished?'#fff':'#6b7280'};font-weight:700">
-            ${r.isPublished?'ON':'OFF'}
-          </button>
-        </td>
-        <td>
-          <button class="btn btn-danger btn-sm" onclick="deleteReport('${r._id}')"><i class="fas fa-trash"></i></button>
-        </td>
-      </tr>`).join('');
-  } catch(e) { toast('Failed to load reports', 'error'); }
+    const res = await fetch(API_BASE + '/api/clients', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-admin-key': getKey() },
+      body: JSON.stringify({
+        companyName: document.getElementById('ncCompany').value,
+        location: document.getElementById('ncLocation').value,
+        contactName: document.getElementById('ncContact').value,
+        contactEmail: document.getElementById('ncEmail').value,
+        contactPhone: document.getElementById('ncPhone').value,
+        industry: document.getElementById('ncIndustry').value,
+        notes: document.getElementById('ncNotes').value
+      })
+    });
+    const data = await res.json();
+    
+    if (data.clientId) {
+      showToast('Client created! ID: ' + data.clientId);
+      e.target.reset();
+    } else {
+      showToast(data.error || 'Failed to create client', 'error');
+    }
+  } catch (err) {
+    showToast('Network error', 'error');
+  }
+  
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fas fa-plus"></i> Create Client & Generate ID';
 }
 
-async function togglePublish(id, current) {
-  const r = await fetch(`${API}/api/reports/admin/${id}`, {
-    method: 'PATCH',
-    headers: { 'Content-Type': 'application/json', 'x-admin-key': key() },
-    body: JSON.stringify({ isPublished: !current })
+async function deleteClient(id) {
+  if (!confirm('Delete this client?')) return;
+  try {
+    await fetch(API_BASE + '/api/clients/admin/' + id, {
+      method: 'DELETE',
+      headers: { 'x-admin-key': getKey() }
+    });
+    showToast('Client deleted');
+    loadClients();
+  } catch (err) {
+    showToast('Error deleting client', 'error');
+  }
+}
+
+// ── Reports ─────────────────────────────────────────────────
+async function loadReports() {
+  const tbody = document.getElementById('reportsTable');
+  tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><i class="fas fa-spinner fa-spin"></i><br>Loading...</td></tr>';
+  
+  try {
+    const res = await fetch(API_BASE + '/api/reports/admin/all', {
+      headers: { 'x-admin-key': getKey() }
+    });
+    const reports = await res.json();
+    
+    document.getElementById('statReports').textContent = Array.isArray(reports) ? reports.length : '—';
+    document.getElementById('statPublished').textContent = Array.isArray(reports) ? reports.filter(r => r.isPublished).length : '—';
+    
+    if (!Array.isArray(reports) || reports.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><i class="fas fa-file-alt"></i><br>No reports found</td></tr>';
+      return;
+    }
+    
+    tbody.innerHTML = reports.map(r => `
+      <tr>
+        <td><code>${r.clientId}</code></td>
+        <td>${r.reportTitle || '—'}</td>
+        <td>${r.reportType || '—'}</td>
+        <td>${r.serviceDate ? new Date(r.serviceDate).toLocaleDateString() : '—'}</td>
+        <td>${r.overallStatus || '—'}</td>
+        <td>${r.isPublished ? '<span class="badge badge-published">Published</span>' : '<span class="badge badge-draft">Draft</span>'}</td>
+        <td>
+          <button class="action-btn btn-${r.isPublished ? 'warning' : 'success'}" onclick="togglePublish('${r._id}', ${!r.isPublished})">
+            <i class="fas fa-${r.isPublished ? 'eye-slash' : 'eye'}"></i>
+          </button>
+          <button class="action-btn btn-danger" onclick="deleteReport('${r._id}')"><i class="fas fa-trash"></i></button>
+        </td>
+      </tr>
+    `).join('');
+  } catch (err) {
+    tbody.innerHTML = '<tr><td colspan="7" class="empty-state"><i class="fas fa-exclamation-triangle"></i><br>Error loading reports</td></tr>';
+  }
+}
+
+async function uploadReport(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type="submit"]');
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uploading...';
+  
+  const formData = new FormData();
+  formData.append('clientId', document.getElementById('urClientId').value);
+  formData.append('reportType', document.getElementById('urType').value);
+  formData.append('reportTitle', document.getElementById('urTitle').value);
+  formData.append('serviceDate', document.getElementById('urServiceDate').value);
+  formData.append('reportDate', document.getElementById('urReportDate').value);
+  formData.append('location', document.getElementById('urLocation').value);
+  formData.append('projectRef', document.getElementById('urProjectRef').value);
+  formData.append('complianceStandard', document.getElementById('urStandard').value);
+  formData.append('overallStatus', document.getElementById('urStatus').value);
+  formData.append('summary', document.getElementById('urSummary').value);
+  formData.append('isPublished', document.getElementById('urPublish').checked);
+  
+  // Measurements
+  const measurements = {};
+  ['PM25', 'PM10', 'NO2', 'SO2', 'CO', 'Noise'].forEach(k => {
+    const val = document.getElementById('ur' + k).value;
+    if (val) measurements[k.toLowerCase()] = parseFloat(val);
   });
-  const d = await r.json();
-  toast(d.message || d.error, r.ok ? 'success' : 'error');
-  if (r.ok) loadReports();
+  formData.append('measurements', JSON.stringify(measurements));
+  
+  // Files
+  const pdf = document.getElementById('urPdf').files[0];
+  if (pdf) formData.append('pdfReport', pdf);
+  
+  Array.from(document.getElementById('urStationImg').files).forEach(f => formData.append('stationImages', f));
+  Array.from(document.getElementById('urNoiseImg').files).forEach(f => formData.append('noiseImages', f));
+  Array.from(document.getElementById('urMapImg').files).forEach(f => formData.append('coordinateImages', f));
+  
+  try {
+    const res = await fetch(API_BASE + '/api/reports', {
+      method: 'POST',
+      headers: { 'x-admin-key': getKey() },
+      body: formData
+    });
+    const data = await res.json();
+    
+    if (data.success || data._id) {
+      showToast('Report uploaded successfully!');
+      e.target.reset();
+    } else {
+      showToast(data.error || 'Upload failed', 'error');
+    }
+  } catch (err) {
+    showToast('Network error', 'error');
+  }
+  
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> Upload Report';
+}
+
+async function togglePublish(id, publish) {
+  try {
+    await fetch(API_BASE + '/api/reports/admin/' + id, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'x-admin-key': getKey() },
+      body: JSON.stringify({ isPublished: publish })
+    });
+    showToast(publish ? 'Report published' : 'Report unpublished');
+    loadReports();
+  } catch (err) {
+    showToast('Error updating report', 'error');
+  }
 }
 
 async function deleteReport(id) {
-  if (!confirm('Permanently delete this report?')) return;
-  const r = await fetch(`${API}/api/reports/admin/${id}`, { method: 'DELETE', headers: { 'x-admin-key': key() } });
-  const d = await r.json();
-  toast(d.message || d.error, r.ok ? 'success' : 'error');
-  if (r.ok) loadReports();
+  if (!confirm('Delete this report?')) return;
+  try {
+    await fetch(API_BASE + '/api/reports/admin/' + id, {
+      method: 'DELETE',
+      headers: { 'x-admin-key': getKey() }
+    });
+    showToast('Report deleted');
+    loadReports();
+  } catch (err) {
+    showToast('Error deleting report', 'error');
+  }
 }
 
-// Load stats on page load
-window.addEventListener('load', () => setTimeout(loadStats, 500));
-document.getElementById('adminKey').addEventListener('change', loadStats);
+// ── BOOKINGS ────────────────────────────────────────────────
+async function loadBookings() {
+  const tbody = document.getElementById('bookingsTable');
+  tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><i class="fas fa-spinner fa-spin"></i><br>Loading...</td></tr>';
+  
+  try {
+    const res = await fetch(API_BASE + '/api/bookings/admin/all');
+    const bookings = await res.json();
+    
+    if (!Array.isArray(bookings)) {
+      tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><i class="fas fa-exclamation-triangle"></i><br>Error loading bookings</td></tr>';
+      return;
+    }
+    
+    allBookings = bookings;
+    updateBookingCounts();
+    renderBookings();
+    
+    // Update pending badge
+    const pendingCount = bookings.filter(b => b.status === 'pending').length;
+    const badge = document.getElementById('pendingBadge');
+    if (pendingCount > 0) {
+      badge.textContent = pendingCount;
+      badge.style.display = 'inline-flex';
+    } else {
+      badge.style.display = 'none';
+    }
+  } catch (err) {
+    console.error('Bookings error:', err);
+    tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><i class="fas fa-exclamation-triangle"></i><br>Error loading bookings</td></tr>';
+  }
+}
+
+function updateBookingCounts() {
+  document.getElementById('countAll').textContent = allBookings.length;
+  document.getElementById('countPending').textContent = allBookings.filter(b => b.status === 'pending').length;
+  document.getElementById('countConfirmed').textContent = allBookings.filter(b => b.status === 'confirmed').length;
+  document.getElementById('countCompleted').textContent = allBookings.filter(b => b.status === 'completed').length;
+  document.getElementById('countCancelled').textContent = allBookings.filter(b => b.status === 'cancelled').length;
+}
+
+function filterBookings(filter) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.filter === filter);
+  });
+  renderBookings();
+}
+
+function renderBookings() {
+  const tbody = document.getElementById('bookingsTable');
+  let filtered = allBookings;
+  
+  if (currentFilter !== 'all') {
+    filtered = allBookings.filter(b => b.status === currentFilter);
+  }
+  
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="8" class="empty-state"><i class="fas fa-calendar-check"></i><br>No bookings found</td></tr>';
+    return;
+  }
+  
+  // Sort by date (newest first)
+  filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  
+  const serviceLabels = {
+    'ambient_air': '🌬️ Ambient Air',
+    'indoor_air': '🏢 Indoor Air',
+    'noise': '🔊 Noise',
+    'water': '💧 Water',
+    'soil': '🌱 Soil',
+    'stack_emission': '🏭 Stack Emission',
+    'environmental_audit': '📋 Audit',
+    'other': '📝 Other'
+  };
+  
+  const timeLabels = {
+    'morning': '🌅 Morning',
+    'afternoon': '☀️ Afternoon',
+    'evening': '🌆 Evening',
+    'flexible': '🔄 Flexible'
+  };
+  
+  tbody.innerHTML = filtered.map(b => `
+    <tr>
+      <td><code style="background:#f1f5f9;padding:4px 8px;border-radius:4px;font-weight:600;">${b.bookingRef || '—'}</code></td>
+      <td><strong>${b.companyName || '—'}</strong></td>
+      <td>
+        ${b.contactName || '—'}<br>
+        <small style="color:#64748b;">${b.contactEmail || ''}</small>
+      </td>
+      <td>${serviceLabels[b.serviceType] || b.serviceType || '—'}</td>
+      <td>
+        ${b.preferredDate ? new Date(b.preferredDate).toLocaleDateString('en-GB', {day:'numeric',month:'short',year:'numeric'}) : '—'}<br>
+        <small style="color:#64748b;">${timeLabels[b.preferredTime] || b.preferredTime || ''}</small>
+      </td>
+      <td>${b.city || '—'}</td>
+      <td><span class="badge badge-${b.status}">${b.status ? b.status.charAt(0).toUpperCase() + b.status.slice(1) : 'Pending'}</span></td>
+      <td>
+        <button class="action-btn" style="background:#e0f2fe;color:#0369a1;" onclick="viewBooking('${b._id}')" title="View Details">
+          <i class="fas fa-eye"></i>
+        </button>
+        ${b.contactPhone ? `<a href="https://wa.me/${b.contactPhone.replace(/[^0-9]/g,'')}" target="_blank" class="action-btn" style="background:#dcfce7;color:#166534;" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>` : ''}
+        ${b.contactEmail ? `<a href="mailto:${b.contactEmail}" class="action-btn" style="background:#fef3c7;color:#92400e;" title="Email"><i class="fas fa-envelope"></i></a>` : ''}
+      </td>
+    </tr>
+  `).join('');
+}
+
+function viewBooking(id) {
+  const booking = allBookings.find(b => b._id === id);
+  if (!booking) return;
+  
+  const serviceLabels = {
+    'ambient_air': '🌬️ Ambient Air Quality Monitoring',
+    'indoor_air': '🏢 Indoor Air Quality Assessment',
+    'noise': '🔊 Noise Level Monitoring',
+    'water': '💧 Water Quality Testing',
+    'soil': '🌱 Soil Contamination Analysis',
+    'stack_emission': '🏭 Stack Emission Testing',
+    'environmental_audit': '📋 Environmental Audit',
+    'other': '📝 Other Service'
+  };
+  
+  const timeLabels = {
+    'morning': '🌅 Morning (8 AM - 12 PM)',
+    'afternoon': '☀️ Afternoon (12 PM - 5 PM)',
+    'evening': '🌆 Evening (5 PM - 8 PM)',
+    'flexible': '🔄 Flexible'
+  };
+  
+  document.getElementById('bookingModalBody').innerHTML = `
+    <div class="detail-row">
+      <div class="detail-label">Reference</div>
+      <div class="detail-value"><code style="background:#f1f5f9;padding:4px 8px;border-radius:4px;">${booking.bookingRef || '—'}</code></div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-label">Status</div>
+      <div class="detail-value"><span class="badge badge-${booking.status}">${booking.status ? booking.status.charAt(0).toUpperCase() + booking.status.slice(1) : 'Pending'}</span></div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-label">Company</div>
+      <div class="detail-value">${booking.companyName || '—'}</div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-label">Contact Person</div>
+      <div class="detail-value">${booking.contactName || '—'}</div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-label">Email</div>
+      <div class="detail-value"><a href="mailto:${booking.contactEmail}">${booking.contactEmail || '—'}</a></div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-label">Phone</div>
+      <div class="detail-value"><a href="tel:${booking.contactPhone}">${booking.contactPhone || '—'}</a></div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-label">Service Type</div>
+      <div class="detail-value">${serviceLabels[booking.serviceType] || booking.serviceType || '—'}</div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-label">Location</div>
+      <div class="detail-value">${booking.siteLocation || '—'}, ${booking.city || '—'}</div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-label">Preferred Date</div>
+      <div class="detail-value">${booking.preferredDate ? new Date(booking.preferredDate).toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', year:'numeric'}) : '—'}</div>
+    </div>
+    <div class="detail-row">
+      <div class="detail-label">Preferred Time</div>
+      <div class="detail-value">${timeLabels[booking.preferredTime] || booking.preferredTime || '—'}</div>
+    </div>
+    ${booking.serviceDescription ? `
+    <div class="detail-row">
+      <div class="detail-label">Description</div>
+      <div class="detail-value">${booking.serviceDescription}</div>
+    </div>` : ''}
+    <div class="detail-row">
+      <div class="detail-label">Submitted</div>
+      <div class="detail-value">${booking.createdAt ? new Date(booking.createdAt).toLocaleString() : '—'}</div>
+    </div>
+  `;
+  
+  document.getElementById('bookingModalFooter').innerHTML = `
+    ${booking.status === 'pending' ? `
+      <button class="btn btn-success" onclick="updateBookingStatus('${booking._id}', 'confirmed')">
+        <i class="fas fa-check"></i> Confirm
+      </button>
+    ` : ''}
+    ${booking.status === 'confirmed' ? `
+      <button class="btn btn-primary" onclick="updateBookingStatus('${booking._id}', 'completed')">
+        <i class="fas fa-check-double"></i> Mark Completed
+      </button>
+    ` : ''}
+    ${booking.status !== 'cancelled' && booking.status !== 'completed' ? `
+      <button class="btn btn-danger" onclick="updateBookingStatus('${booking._id}', 'cancelled')">
+        <i class="fas fa-times"></i> Cancel
+      </button>
+    ` : ''}
+    ${booking.contactPhone ? `
+      <a href="https://wa.me/${booking.contactPhone.replace(/[^0-9]/g,'')}" target="_blank" class="btn btn-success">
+        <i class="fab fa-whatsapp"></i> WhatsApp
+      </a>
+    ` : ''}
+    <button class="btn btn-secondary" onclick="closeBookingModal()">Close</button>
+  `;
+  
+  document.getElementById('bookingModal').classList.add('active');
+}
+
+function closeBookingModal() {
+  document.getElementById('bookingModal').classList.remove('active');
+}
+
+async function updateBookingStatus(id, status) {
+  try {
+    const res = await fetch(API_BASE + '/api/bookings/admin/' + id, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ status })
+    });
+    const data = await res.json();
+    
+    if (data.success) {
+      showToast('Booking ' + status);
+      closeBookingModal();
+      loadBookings();
+    } else {
+      showToast(data.error || 'Update failed', 'error');
+    }
+  } catch (err) {
+    showToast('Network error', 'error');
+  }
+}
+
+// ── Init ────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  loadDashboardStats();
+  loadBookings(); // Preload bookings for badge
+});
+
+// Close modal on overlay click
+document.getElementById('bookingModal').addEventListener('click', function(e) {
+  if (e.target === this) closeBookingModal();
+});
 </script>
+
 </body>
 </html>
