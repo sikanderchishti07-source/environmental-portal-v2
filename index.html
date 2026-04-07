@@ -2436,15 +2436,24 @@ async function loadDashboardData(clientId) {
             date = d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
           }
           
-          // Get PDF file URL - now it's the full Cloudinary URL
-          var pdfUrl = (r.files && r.files.pdfReport) ? r.files.pdfReport : '';
+          // Helper function to get correct URL (handles both old local paths and new Cloudinary URLs)
+          function getFileUrl(path) {
+            if (!path) return '';
+            // If already a full URL (Cloudinary), use as-is
+            if (path.startsWith('http')) return path;
+            // If old local path, prepend backend URL
+            return backendUrl + path;
+          }
           
-          // Get images if available - now they are full Cloudinary URLs
+          // Get PDF file URL
+          var pdfUrl = (r.files && r.files.pdfReport) ? getFileUrl(r.files.pdfReport) : '';
+          
+          // Get images if available
           var images = [];
           if (r.files) {
-            if (r.files.stationImages) images = images.concat(r.files.stationImages);
-            if (r.files.noiseImages) images = images.concat(r.files.noiseImages);
-            if (r.files.coordinateImages) images = images.concat(r.files.coordinateImages);
+            if (r.files.stationImages) images = images.concat(r.files.stationImages.map(getFileUrl));
+            if (r.files.noiseImages) images = images.concat(r.files.noiseImages.map(getFileUrl));
+            if (r.files.coordinateImages) images = images.concat(r.files.coordinateImages.map(getFileUrl));
           }
           
           var downloadBtn = pdfUrl ? 
