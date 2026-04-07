@@ -2338,7 +2338,8 @@ function showDashboardUI(companyName, clientId) {
         '<div id="dash-overview">' +
           // Welcome Banner
           '<div style="background:linear-gradient(135deg, #0f3d3e 0%, #1a5c5e 50%, #0f3d3e 100%); border-radius:20px; padding:32px 36px; margin-bottom:28px; position:relative; overflow:hidden; box-shadow:0 10px 40px rgba(15,61,62,0.3);">' +
-            '<div style="position:absolute; top:0; right:0; width:300px; height:100%; background:url(\'data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><circle cx=\"80\" cy=\"20\" r=\"40\" fill=\"rgba(255,255,255,0.05)\"/><circle cx=\"100\" cy=\"80\" r=\"30\" fill=\"rgba(255,255,255,0.03)\"/></svg>\') no-repeat right center; background-size:cover;"></div>' +
+            '<div style="position:absolute; top:-50px; right:-50px; width:200px; height:200px; background:rgba(255,255,255,0.05); border-radius:50%;"></div>' +
+            '<div style="position:absolute; bottom:-30px; right:80px; width:120px; height:120px; background:rgba(255,255,255,0.03); border-radius:50%;"></div>' +
             '<div style="position:relative; z-index:1;">' +
               '<div style="display:flex; align-items:center; gap:8px; margin-bottom:12px;"><div style="width:8px; height:8px; background:#10b981; border-radius:50%;"></div><span style="font-size:12px; color:rgba(255,255,255,0.7); text-transform:uppercase; letter-spacing:1px; font-weight:600;">Welcome Back</span></div>' +
               '<h2 style="font-size:28px; font-weight:700; color:white; margin:0 0 8px 0; letter-spacing:-0.5px;">Hello, ' + companyName + '! 👋</h2>' +
@@ -2497,8 +2498,9 @@ async function loadDashboardData(clientId) {
           
           html += '<div style="background:white; border-radius:20px; overflow:hidden; box-shadow:0 1px 3px rgba(0,0,0,0.08); border:1px solid #e2e8f0;">' +
             // Card Header
-            '<div style="background:linear-gradient(135deg, #0f3d3e 0%, #1a5c5e 100%); padding:24px 28px; color:white; position:relative;">' +
-              '<div style="position:absolute; top:0; right:0; width:120px; height:100%; background:url(\'data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><circle cx=\"90\" cy=\"10\" r=\"30\" fill=\"rgba(255,255,255,0.06)\"/></svg>\') no-repeat right top;"></div>' +
+            '<div style="background:linear-gradient(135deg, #0f3d3e 0%, #1a5c5e 100%); padding:24px 28px; color:white; position:relative; overflow:hidden;">' +
+              '<div style="position:absolute; top:-20px; right:-20px; width:100px; height:100px; background:rgba(255,255,255,0.06); border-radius:50%;"></div>' +
+              '<div style="position:absolute; bottom:-40px; right:60px; width:80px; height:80px; background:rgba(255,255,255,0.04); border-radius:50%;"></div>' +
               '<div style="display:flex; align-items:flex-start; justify-content:space-between; position:relative;">' +
                 '<div style="flex:1;">' +
                   '<div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">' +
